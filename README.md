@@ -1,1 +1,1 @@
-netflix clone with user authorization
+netflix clone with user authentication
