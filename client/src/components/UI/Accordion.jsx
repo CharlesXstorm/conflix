@@ -2,25 +2,26 @@
 import { useEffect, useState } from "react";
 
 const Accordion = ({ header, body, id, clickedId, setClickedId }) => {
-  const [height, setHeight] = useState("h-0");
+  const [height, setHeight] = useState("grid-rows-[0fr]");
   const [padding, setPadding] = useState("py-0");
+  const [bg, setBg] = useState("bg-[rgb(50,50,50)]");
   const [btn, setBtn] = useState("add");
   const [isClicked, setIsClicked] = useState(false);
 
-  console.log(clickedId,clickedId===id);
-
-  const open = () => {
+  const close = () => {
+    setBg("bg-[rgb(50,50,50)]")
     setBtn("add");
-    setHeight("h-0");
+    setHeight("grid-rows-[0fr]");
     setPadding("py-0");
     setIsClicked(false);
     return;
   };
 
-  const close = () => {
+  const open = () => {
+    setBg("bg-[rgb(80,80,80)]")
     setBtn("close");
     setPadding("py-5");
-    setHeight("h-fit");
+    setHeight("grid-rows-[1fr]");
     setIsClicked(true);
     return;
   };
@@ -29,10 +30,10 @@ const Accordion = ({ header, body, id, clickedId, setClickedId }) => {
     setClickedId(id);
     switch (isClicked) {
       case true:
-        open();
+        close();
         break;
       case false:
-        close();
+        open();
         break;
       default:
         return;
@@ -40,14 +41,14 @@ const Accordion = ({ header, body, id, clickedId, setClickedId }) => {
   };
 
   useEffect(() => {
-    clickedId !== id ? open() : null;
+    clickedId !== id ? close() : null;
   }, [clickedId,id]);
 
   return (
-    <div className="flex flex-col justify-center item-center px-[5em] mb-[1em]">
+    <div className="flex flex-col justify-center item-center px-[1em] md:px-[5em] xl:px-[10em] mb-[1em] w-[100%]">
       {
         //accordion heading
-        <div className="flex flex-row item-center justify-between p-5 bg-gray-500 text-white">
+        <div className={`flex ${bg} flex-row item-center justify-between p-5  text-white transition-all duration-500 ease-in-out`}>
           <p className="text-center">{header}</p>
           <button className="flex" onClick={handleClick}>
             <span className="material-symbols-outlined">{btn}</span>
@@ -57,9 +58,9 @@ const Accordion = ({ header, body, id, clickedId, setClickedId }) => {
       {
         //accordion body
         <div
-          className={`${height} ${padding} px-5 flex transition-all duration-500 ease-in-out bg-gray-600 text-white overflow-hidden `}
+          className={`grid ${height} ${padding} transition-all duration-500 ease-in-out px-5 bg-[rgb(50,50,50)] text-white`}
         >
-          <p>{body}</p>
+          <p className="overflow-hidden">{body}</p>
         </div>
       }
     </div>

@@ -1,16 +1,17 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
 
 import Button from "./Button";
 
-const Input = () => {
+const Input = ({placeholder,button,style,type}) => {
   return (
-    <div className="relative flex-col lg:flex-row gap-[1em] lg:gap-[0.2em] px-[4em] flex justify-center items-center">
+    <div className={`relative flex-col lg:flex-row flex ${style.align} items-center`}>
       <input
-        type="input"
-        className="p-2 px-4 bg-[rgb(0,0,0,0.5)] border rounded border-[rgb(255,255,255,0.5)] text-white md:w-[50%] lg:w-[30%] xl:w-[20%]"
-        placeholder="Email address"
+        type={type}
+        className={`${style.padding} bg-[rgb(55,65,81,0.5)] border rounded border-[rgb(255,255,255,0.5)] text-white ${style.width}`} 
+        placeholder={placeholder}
       />
-      <Button
+      {button && <Button
         name="Get Started"
         bgColor="bg-red-600"
         color="text-white"
@@ -19,7 +20,7 @@ const Input = () => {
         width="w-fit"
         align="self-center"
         span={{ have: true, name: "arrow_forward_ios" }}
-      />
+      />}
     </div>
   );
 };

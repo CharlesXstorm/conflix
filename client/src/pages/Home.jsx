@@ -8,6 +8,7 @@ import HomeDetail from "../components/HomeDetail";
 import HomeNav from "../components/HomeNav";
 import Input from "../components/UI/Input";
 import Accordion from "../components/UI/Accordion.jsx";
+import Footer from "../components/Footer.jsx";
 
 const details = [
   {
@@ -140,7 +141,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] h-[content] lg:h-[90vh] margin-auto pb-[2em] ">
+      <div className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] h-[content] lg:h-[90vh] margin-auto pb-[2em] ">
         <div className="w-full h-full absolute bg-[rgb(0,0,0,0.4)] top-0 left-0"></div>
         <HomeNav />
         <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] font-[roboto] w-[80%] m-[auto] z-1 relative">
@@ -155,7 +156,16 @@ const Home = () => {
             membership{" "}
           </p>
         </div>
-        <Input />
+        <Input
+          type="text"
+          button={true}
+          placeholder="Email address"
+          style={{
+            align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
+            width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
+            padding: "p-2 px-4 "
+          }}
+        />
       </div>
 
       {
@@ -176,8 +186,8 @@ const Home = () => {
 
       {
         //frequently asked questions
-        <div className="flex flex-col items-center justify-center mt-[4em]">
-          <p className="text-white text-[2em] xl:text-[3em] font-bold py-3 pt-4 lg:pt-0">
+        <div className="flex flex-col items-center justify-center mt-[2em] lg:mt-[4em]">
+          <p className="text-white text-[2em] xl:text-[3em] text-center font-bold py-3 pt-4 lg:pt-0">
             Frequently Asked Questions
           </p>
           {
@@ -192,6 +202,32 @@ const Home = () => {
                 setClickedId={setClickedId}
               />
             ))
+          }
+
+          {
+            //get started
+            <div className="w-[100%] margin-auto pb-[2em] lg:pb-[3em] ">
+              <div className="mt-[2em] font-[roboto] w-[80%] m-[auto]">
+                <p className="text-white xl:text-[1.5em] text-center  tracking-normal p-[1em]">
+                  Ready to watch? Enter your email to create or restart your
+                  membership{" "}
+                </p>
+              </div>
+              <Input
+                type="text"
+                button={true}
+                placeholder="Email address"
+                style={{
+                  align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
+                  width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
+                  padding: "p-2 px-4 "
+                }}
+              />
+            </div>
+          }
+          {
+            //footer
+            <Footer border="border-t-[0.5em]"/>
           }
         </div>
       }

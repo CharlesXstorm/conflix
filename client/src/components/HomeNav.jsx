@@ -4,7 +4,7 @@ import Button from "./UI/Button";
 
 const HomeNav = () => {
   return (
-    <div className="relative flex flex-row justify-between p-5 px-10 lg:px-[10em]">
+    <div className="relative flex flex-row justify-between p-5 pt-8 px-10 lg:px-[10em]">
       <div className="font-netflix text-red-600 w-[auto]">
         <svg
           version="1.1"
