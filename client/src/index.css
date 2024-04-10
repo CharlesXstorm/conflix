@@ -19,7 +19,7 @@ body {
 html {
   /* font-family: "Inter", sans-serif; */
   font-family: "oleo";
-
+}
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;
