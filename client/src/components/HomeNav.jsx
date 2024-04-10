@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
 
 import Button from "./UI/Button";
 
-const HomeNav = () => {
+const HomeNav = ({button, buttonText, buttonColor,size,to}) => {
   return (
     <div className="relative flex flex-row justify-between p-5 pt-8 px-10 lg:px-[10em]">
-      <div className="font-netflix text-red-600 w-[auto]">
+      <div className="text-red-600 w-[auto]">
         <svg
           version="1.1"
           id="conflix"
@@ -17,7 +18,7 @@ const HomeNav = () => {
           viewBox="0 0 1000 287.991"
           enableBackground="new 0 0 1000 287.991"
           xmlSpace="preserve"
-          className="w-[5em] lg:w-[6em]"
+          className="w-[5em] lg:w-[8em] xl:w-[10em]"
         >
           <g>
             <path
@@ -86,11 +87,13 @@ const HomeNav = () => {
       <div>
         <Button
           name="Sign In"
-          bgColor="bg-red-600"
-          color="text-white"
-          size="text-sm"
+          to={to}
+          bgColor={buttonColor}
+          color={buttonText}
+          size={size}
           padding="p-1"
           span={{ have: false }}
+          button={button}
         />
       </div>
     </div>

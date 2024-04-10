@@ -21,6 +21,10 @@ html {
   font-family: "oleo";
 }
 
+#loginPass::-ms-reveal {
+  filter: invert(100%);
+}
+
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;

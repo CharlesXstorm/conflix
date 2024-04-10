@@ -143,7 +143,13 @@ const Home = () => {
     <>
       <div className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] h-[content] lg:h-[90vh] margin-auto pb-[2em] ">
         <div className="w-full h-full absolute bg-[rgb(0,0,0,0.4)] top-0 left-0"></div>
-        <HomeNav />
+        <HomeNav
+          button="link"
+          to="/login"
+          buttonColor="bg-red-600"
+          buttonText="text-white"
+          size="text-md"
+        />
         <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] font-[roboto] w-[80%] m-[auto] z-1 relative">
           <p className="text-white font-bold text-[1.8em] xl:text-[3em] text-center tracking-normal">
             Unlimited movies, TV shows, and more{" "}
@@ -158,13 +164,10 @@ const Home = () => {
         </div>
         <Input
           type="text"
-          button={true}
+          button="button"
           placeholder="Email address"
-          style={{
-            align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
-            width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
-            padding: "p-2 px-4 "
-          }}
+          style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"
+          align="justify-center gap-[1em] px-[4em] lg:gap-[0.2em]"
         />
       </div>
 
@@ -215,19 +218,16 @@ const Home = () => {
               </div>
               <Input
                 type="text"
-                button={true}
+                button="button"
                 placeholder="Email address"
-                style={{
-                  align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
-                  width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
-                  padding: "p-2 px-4 "
-                }}
+                style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"
+                align="justify-center gap-[1em] px-[4em] lg:gap-[0.2em]"
               />
             </div>
           }
           {
             //footer
-            <Footer border="border-t-[0.5em]"/>
+            <Footer border="border-t-[0.5em]" />
           }
         </div>
       }
