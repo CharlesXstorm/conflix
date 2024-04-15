@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import dvWidthReducer from "./slice";
+import dvWidthReducer from "./dvWidthSlice";
+import profileReducer from "./profileSlice";
 
 export default configureStore({
   reducer: {
-    dvWidth: dvWidthReducer
+    dvWidth: dvWidthReducer,
+    profile: profileReducer
   }
 });

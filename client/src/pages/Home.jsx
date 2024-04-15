@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getWidth } from "../utils/slice.js";
+import { getWidth } from "../utils/dvWidthSlice.js";
 
 import HomeDetail from "../components/HomeDetail";
 import HomeNav from "../components/HomeNav";
