@@ -43,7 +43,7 @@ const ManageProfiles = () => {
           document.getElementById("portal")
         )}
 
-      <ManageProfilesSetting data={profile} />
+      {profileClick && < ManageProfilesSetting data={profile} />}
     </div>
   );
 };

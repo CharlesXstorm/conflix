@@ -45,7 +45,7 @@ const Browse = () => {
         document.getElementById("portal")
       )}
 
-      <BrowseMovies data={profile}/>
+      {profileClick && <BrowseMovies data={profile}/>}
     </div>
   )
 }
