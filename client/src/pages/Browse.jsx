@@ -1,4 +1,5 @@
-import {useState} from 'react'
+/* eslint-disable react/prop-types */
+// import {useState} from 'react'
 import ReactDOM from 'react-dom'
 import BrowseHome from "./BrowseHome"
 import BrowseMovies from './BrowseMovies';
@@ -31,8 +32,8 @@ const profile = [
   }
 ];
 
-const Browse = () => {
-  const [profileClick, setProfileClick] = useState(false)
+const Browse = ({profileClick, setProfileClick}) => {
+  // const [profileClick, setProfileClick] = useState(false)
 
   // const onProfileClick = false
 

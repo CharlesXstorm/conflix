@@ -1,6 +1,10 @@
 // import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 // import "./App.css";
+import { useEffect, useState } from "react";
+import { useDispatch} from "react-redux";
+import { getWidth } from "./utils/dvWidthSlice.js";
+
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Shared/Signup";
@@ -12,6 +16,23 @@ import ManageProfiles from "./pages/ManageProfiles";
 import BrowseShared from "./pages/Shared/BrowseShared";
 
 function App() {
+  const [profileClick, setProfileClick] = useState(false)
+  const dispatch = useDispatch();
+
+  const handleEvent = () => {
+    dispatch(getWidth(window.innerWidth));
+  };
+
+  useEffect(() => {
+    window.addEventListener("load", handleEvent);
+    window.addEventListener("resize", handleEvent);
+
+    return () => {
+      window.addEventListener("load", handleEvent);
+      window.addEventListener("resize", handleEvent);
+    };
+  }, []);
+ 
   return (
     <Routes>
       <Route index element={<Home />} />
@@ -20,8 +41,8 @@ function App() {
         <Route index element={<Registration />} />
         <Route path="regform" element={<Regform />} />
       </Route>
-      <Route path="browse" element={<BrowseShared />}>
-        <Route index element={<Browse />} />
+      <Route path="browse" element={<BrowseShared profileClick={profileClick}/>}>
+        <Route index element={<Browse profileClick={profileClick} setProfileClick={setProfileClick}/>} />
       </Route>
       <Route path="ManageProfiles" element={<ManageProfiles />} />
     </Routes>

@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getWidth } from "../utils/dvWidthSlice.js";
+import {useSelector } from "react-redux";
 
 import HomeDetail from "../components/HomeDetail";
 import HomeNav from "../components/HomeNav";
@@ -121,23 +119,8 @@ const accordion = [
 const Home = () => {
   const [clickedId, setClickedId] = useState(null);
   const { isMobile, isTablet } = useSelector((state) => state.dvWidth);
-  const dispatch = useDispatch();
-
-  const handleEvent = () => {
-    dispatch(getWidth(window.innerWidth));
-  };
 
   const isOdd = (item) => !(item.id % 2 == 0);
-
-  useEffect(() => {
-    window.addEventListener("load", handleEvent);
-    window.addEventListener("resize", handleEvent);
-
-    return () => {
-      window.addEventListener("load", handleEvent);
-      window.addEventListener("resize", handleEvent);
-    };
-  }, []);
 
   return (
     <>

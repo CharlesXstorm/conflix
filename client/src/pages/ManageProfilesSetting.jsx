@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 
-const ManageProfilesSetting = () => {
+const ManageProfilesSetting = ({setProfileClick}) => {
   const { profile } = useSelector((state) => state.profile);
   const [userName, setUserName] = useState(profile.name);
   const inputRef = useRef();
@@ -14,6 +15,7 @@ const ManageProfilesSetting = () => {
 
   const saveHandler =()=>{
     console.log("post data")
+    setProfileClick((prev)=> !prev)
   }
 
   const deleteHandler =()=>{
@@ -47,24 +49,24 @@ const ManageProfilesSetting = () => {
                 <select
                   id="lang"
                   name="language"
-                  className="bg-[transparent] border p-1 mt-1"
+                  className="bg-[transparent] border p-1 xl:p-2 mt-1"
                 >
                   <option
                     value="english"
-                    className="text-sm xl:text-lg p-1 text-white bg-[rgb(0,0,0)]"
+                    className="text-sm p-1 text-white bg-[rgb(0,0,0)]"
                     defaultValue
                   >
                     English
                   </option>
                   <option
                     value="french"
-                    className="text-sm xl:text-lg p-1 border text-white bg-[rgb(0,0,0)]"
+                    className="text-sm p-1 border text-white bg-[rgb(0,0,0)]"
                   >
                     French
                   </option>
                   <option
                     value="french"
-                    className="text-sm xl:text-lg p-1 text-white bg-[rgb(0,0,0)]"
+                    className="text-sm p-1 text-white bg-[rgb(0,0,0)]"
                   >
                     Mandarin
                   </option>
@@ -110,7 +112,7 @@ const ManageProfilesSetting = () => {
               }
 
               {
-                !(profile.name === "kids") &&
+                (profile.name === "kids") &&
                 <div className="flex text-sm mt-2 gap-2">
                 <div className="bg-[rgb(60,60,60)] w-fit p-1 px-2 text-[10px] xl:text-[12px] mt-2">kids</div>
                 <div className="bg-[rgb(60,60,60)] w-fit p-1 px-2 text-[10px] xl:text-[12px] mt-2">10+</div>
@@ -118,7 +120,7 @@ const ManageProfilesSetting = () => {
               }
 
               <p className="text-[10px] xl:text-[12px] pt-2 pb-4">
-                Show titles for all maturity ratings for this profile.
+                {`${profile.name === "kids"?"Only show titles rated 10+ and below for this profile":"Show titles for all maturity ratings for this profile."}`}
               </p>
               <div className="bg-[rgb(0,0,0)] border border-[rgb(120,120,120)] px-4 w-fit p-1 text-sm text-[rgb(120,120,120)]">
                 Edit
@@ -163,7 +165,7 @@ const ManageProfilesSetting = () => {
 
           <Button
           name="Cancel"
-          button="link"
+          button="button"
           bgColor="bg-[transparent] border border-[rgb(120,120,120)]"
           color="text-[rgb(120,120,120)]"
           // size={"text-[1em]"}
@@ -171,7 +173,8 @@ const ManageProfilesSetting = () => {
           width="w-fit text-[1em]"
           align="self-center justify-center mt-3"
           span={{ have: false }}
-          to="/browse"
+          onClick={()=>setProfileClick((prev)=> !prev)}
+          // to="/browse"
         />
 
           <Button

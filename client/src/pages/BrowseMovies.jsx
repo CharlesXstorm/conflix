@@ -5,7 +5,13 @@ const BrowseMovies = () => {
 const {profile} = useSelector((state)=> state.profile)
     console.log(profile)
   return (
-    <div>BrowseMovies</div>
+    <div className="relative">
+
+      <div id="hero" className="absolute top-0 left-0 w-[100%]">
+      <img src='/images/angAvatar.jpg' />
+      </div>
+
+    </div>
   )
 }
 
