@@ -6,17 +6,18 @@ export const dvWidthSlice = createSlice({
   initialState: {
     isMobile: false,
     isTablet: false,
-    isPC: false
+    isPC: false,
+    dvWidth: 0,
   },
   reducers: {
     getWidth: (state, action) => {
       switch (action.payload > 0) {
         case action.payload <= 500:
-          return { isMobile: true, isTablet: false, isPC: false };
+          return { isMobile: true, isTablet: false, isPC: false, dvWidth:action.payload };
         case action.payload > 500 && action.payload < 1024:
-          return { isMobile: false, isTablet: true, isPC: false };
+          return { isMobile: false, isTablet: true, isPC: false, dvWidth:action.payload };
         case action.payload >= 1024:
-          return { isMobile: false, isTablet: false, isPC: true };
+          return { isMobile: false, isTablet: false, isPC: true, dvWidth:action.payload };
         default:
           return;
       }

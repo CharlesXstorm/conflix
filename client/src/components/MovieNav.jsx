@@ -27,8 +27,8 @@ const MovieNav = () => {
   // console.log(profile)
   // console.log(isPC)
   return (
-    <div className="text-white font-[roboto] fixed z-10 border top-0 right-0 left-0 flex flex-row justify-between pb-5 pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8)20%,rgb(0,0,0,0))] ">
-      <div className="border border-red-500 flex flex-row justify-between items-center gap-10 w-[auto] ">
+    <div className="text-white font-[roboto] fixed z-10 top-0 right-0 left-0 flex flex-row justify-between pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
+      <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] ">
         <svg
           version="1.1"
           id="conflix"
@@ -40,7 +40,7 @@ const MovieNav = () => {
           viewBox="0 0 1000 287.991"
           enableBackground="new 0 0 1000 287.991"
           xmlSpace="preserve"
-          className="w-[4em] xl:w-[6em]"
+          className="w-[5em] xl:w-[6em]"
         >
           <g>
             <path
@@ -116,7 +116,7 @@ const MovieNav = () => {
       </div>
 
       <div className="">
-        <div className=" flex gap-4 justify-end items-center border">
+        <div className=" flex gap-4 justify-end items-center ">
 
           {
             ////search group
@@ -127,10 +127,10 @@ const MovieNav = () => {
           }
 
           {isPC &&
-            <span className="align-center border">{profile.name}</span>
+            <span className="align-center">{profile.name}</span>
           }
           <span className="material-symbols-outlined align-center">notifications</span>
-          <img src={profile.img} className="w-[2em]" />
+          <img src={profile.img} className="w-[2.5em]" />
         </div>
       </div>
     </div>
