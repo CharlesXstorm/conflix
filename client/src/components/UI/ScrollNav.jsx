@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 //next button
@@ -21,9 +21,9 @@ const Prev = () => {
 };
 
 //scroll items
-const ScrollItem = ({ src, bg }) => {
+const ScrollItem = ({ src, bg,id }) => {
   return (
-    <div className="relative overflow-hidden rounded-md h-[100%] bg-[orange] flex-none w-[calc(100%/4)] lg:w-[calc((100%/6)-1%)]">
+    <div id={id} className="relative overflow-hidden rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]">
       <div className="absolute top-[10px] left-[10px]">
         <img src={src} className="w-[5%]" />
       </div>
@@ -34,8 +34,9 @@ const ScrollItem = ({ src, bg }) => {
   );
 };
 
-const Span = ({ bgSpan }) => {
-  return <span className={`${bgSpan} rounded w-[1em] h-[3px]`}></span>;
+//scroll indicator
+const Span = ({ id, bgSpan }) => {
+  return <span className={`${bgSpan[id]||"bg-[rgb(60,60,60)]"} rounded w-[1em] h-[3px] transition-all duration-[0.4s] ease-in-out`}></span>;
 };
 
 //data
@@ -111,31 +112,58 @@ const genre = [
 //scroll component
 const ScrollNav = () => {
   const [list, setList] = useState([...genre[0].movies]);
-  const [bgSpan, setBgSpan] = useState("bg-[rgb(160,160,160)]");
+  const [children, setChildren] = useState([]);
+  const [bgSpan, setBgSpan] = useState(null);
   const scrollRef = useRef();
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
 
-  const scrollChildren = list
-    .map((obj, index) =>
-      index * 1 < list.length / `${isPC ? 6 : 4}` ? `${isPC && index===0? 5 : isPC? index+6 : !isPC && index===0? 3 : !isPC && index+4 }` : null
-    )
-    .join("")
-    .split("");
 
-  console.log (scrollChildren)
+  useEffect(() => {
+    const scrollChildren = [];
 
-  // console.log(
-  //   list
-  //     .map((obj, index) =>
-  //       index * 1 < list.length / `${isPC ? 6 : 4}` ? index : null
-  //     )
-  //     .join("")
-  //     .split("")
-  // );
+    list.forEach((item, index) =>
+      index * 1 < list.length / `${isPC ? 6 : 4}`
+        ? `${
+            isPC && index === 0
+              ? scrollChildren.push(5)
+              : isPC
+              ? scrollChildren.push(scrollChildren[index - 1] + 6)
+              : !isPC && index === 0
+              ? scrollChildren.push(3)
+              : scrollChildren.push(scrollChildren[index - 1] + 4)
+          }`
+        : null
+    );
+
+    setChildren([...scrollChildren]);
+    setBgSpan({ [scrollChildren[0]]: "bg-[rgb(160,160,160)]" });
+
+  }, []);
+
+  console.log(bgSpan);
 
   const scrollHandler = () => {
-    var nthChild = scrollRef.current.children[3].getBoundingClientRect();
-    console.log(nthChild.right * 1 > 0 ? "inView" : "out of view");
+    // var nthChild = scrollRef.current.children[7].getBoundingClientRect();
+    // console.log(
+    //   nthChild.right * 1 > 0 && nthChild.right * 1 < dvWidth * 1
+    //     ? "inView"
+    //     : "out of view"
+    // );
+
+    children.forEach((item) => {
+      var nthChild = document.getElementById(item).getBoundingClientRect().right * 1  ;
+
+      nthChild > 0 && nthChild < dvWidth * 1 ? setBgSpan((prev)=> ({...prev, [item]:"bg-[rgb(160,160,160)]"})) : setBgSpan((prev)=> ({...prev, [item]:"bg-[rgb(60,60,60)]"}))
+    });
+
+    // console.log(document.getElementById(0))
+
+    //update scroll indicator style
+    // children.forEach((item) => {
+    //   var nthChild = scrollRef.current.children[item].getBoundingClientRect().right * 1  ;
+
+    //   nthChild > 0 && nthChild < dvWidth * 1 ? setBgSpan((prev)=> ({...prev, [item]:"bg-[rgb(160,160,160)]"})) : setBgSpan((prev)=> ({...prev, [item]:"bg-[rgb(60,60,60)]"}))
+    // });
 
     // var lastChild =
     //   scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
@@ -156,17 +184,13 @@ const ScrollNav = () => {
           {genre[0].title}
         </p>
         <div className="flex flex-row gap-2 px-5 items-end py-2">
-          {list
-            .map((obj, index) =>
-              index * 1 < list.length / `${isPC ? 6 : 4}` ? index : null
-            )
-            .join("")
-            .split("")
-            .map((item) => (
-              <Span key={item} id={item} bgSpan={bgSpan} />
-            ))}
-          {/* <span className='bg-[rgb(160,160,160)] rounded w-[1em] h-[3px] '></span>
-        <span className='bg-[rgb(60,60,60)] rounded w-[1em] h-[3px] '></span> */}
+          {
+            //scroll indicator
+          children.map((item) => (
+            <Span key={item} id={item} bgSpan={bgSpan} />
+          ))
+          }
+          
         </div>
       </div>
 
@@ -181,7 +205,7 @@ const ScrollNav = () => {
           className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
         >
           {list.map((item) => (
-            <ScrollItem key={item.id} src={item.logo} bg={item.bg} />
+            <ScrollItem key={item.id} id={item.id} src={item.logo} bg={item.bg} />
           ))}
         </div>
       </div>

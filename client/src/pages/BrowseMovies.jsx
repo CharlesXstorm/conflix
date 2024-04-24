@@ -4,7 +4,7 @@ import ScrollNav from "../components/UI/ScrollNav";
 
 const BrowseMovies = () => {
   const { profile } = useSelector((state) => state.profile);
-  console.log(profile);
+  // console.log(profile);
   return (
     <div className="relative">
       <div id="hero" className="relative w-[100%]">
