@@ -77,13 +77,18 @@ const BrowseMovies = () => {
   // console.log(profile);
   return (
     <div className="relative">
-      <div id="hero" className="relative w-[100%]">
+      <div id="hero" className="relative h-[50vh] lg:h-[100vh] overflow-hidden">
         <div className="absolute top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
+        <div className="absolute bottom-0 left-0 flex flex-col w-[100%]">
+          <ScrollNav data={[...genre]} />
+        </div>
+
+        
         <img src="/images/angAvatar.jpg" />
+        
       </div>
 
-      <ScrollNav data={[...genre]} />
-
+      {/* <ScrollNav data={[...genre]} /> */}
     </div>
   );
 };
