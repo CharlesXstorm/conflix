@@ -21,6 +21,10 @@ html {
   font-family: "oleo";
   scroll-behavior: smooth;
 }
+
+#portal{
+  position: relative;
+}
 #loginPass::-ms-reveal {
   filter: invert(100%);
 }

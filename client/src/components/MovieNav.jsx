@@ -1,34 +1,74 @@
 import {useState} from 'react'
 import { useSelector } from "react-redux";
+import ReactDOM from 'react-dom';
+import ProfileModal from './ProfileModal';
 
 const MovieNav = () => {
   const [click,setClick] = useState(false)
-  const [contWidth,setContWidth] = useState("w-[10%]")
-  const [inputWidth,setInputWidth] = useState("w-[0%]")
+  const [modal,setModal] = useState(false)
+  // const [contWidth,setContWidth] = useState("w-[10%]")
+  // const [inputWidth,setInputWidth] = useState("w-[0%]")
+  const [style,setStyle] = useState({contWidth:'w-[10%]',inputWidth:'w-[0%]',arrow:'rotate-90'})
   const { isPC } = useSelector((state) => state.dvWidth);
   const { profile } = useSelector((state) => state.profile);
+
+  // const clickHandler = ()=>{
+  //   switch (click) {
+  //       case true:
+  //           setContWidth("w-[10%]")
+  //           setInputWidth("w-[0%]")
+  //           setClick(false)
+  //           break;
+  //       case false:
+  //           setContWidth("w-[60%] bg-[rgb(0,0,0,0.8)] border")
+  //           setInputWidth("w-[100%]")
+  //           setClick(true)
+  //           break;
+  //       default:
+  //           break;
+  //   }
+  // }
 
   const clickHandler = ()=>{
     switch (click) {
         case true:
-            setContWidth("w-[10%]")
-            setInputWidth("w-[0%]")
+            setStyle((prev)=> ({...prev,contWidth:'w-[10%]',inputWidth:'w-[0%]'}))
             setClick(false)
             break;
         case false:
-            setContWidth("w-[80%] lg:w-[100%] bg-[rgb(0,0,0,0.8)] border")
-            setInputWidth("w-[100%]")
+            setStyle((prev)=> ({...prev,contWidth:'w-[60%] bg-[rgb(0,0,0,0.8)] border',inputWidth:'w-[100%]'}))
             setClick(true)
             break;
         default:
             break;
     }
   }
+
+
+  const mouseOverHandler = ()=>{
+    setStyle((prev)=> ({...prev,arrow:"rotate-[270deg]"}))
+    setModal(true)
+  }
+
+  const mouseOutHandler = ()=> {
+
+      setModal(false)
+      setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
+
+      // const timeOut = setTimeout(()=>{
+      //       setModal(false)
+      //       setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
+      //     },[2000])
+
+      //     return ()=> clearTimeout(timeOut)
+   
+  }
   // console.log(profile)
   // console.log(isPC)
   return (
+    <>
     <div className="text-white font-[roboto] fixed z-10 top-0 right-0 left-0 flex flex-row justify-between pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
-      <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] ">
+      <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
         <svg
           version="1.1"
           id="conflix"
@@ -106,7 +146,7 @@ const MovieNav = () => {
           </g>
         </svg>
         {isPC && (
-          <div className="flex flex-row justify-center gap-4">
+          <div className="flex flex-row text-sm justify-center gap-4">
             <a className="font-bold">Home</a>
             <a className="">TV Shows</a>
             <a className="">Movies</a>
@@ -115,25 +155,34 @@ const MovieNav = () => {
         )}
       </div>
 
-      <div className="">
-        <div className=" flex gap-4 justify-end items-center ">
+      {/* <div className="flex border"> */}
+        <div className="flex gap-4 w-[auto] justify-end items-center ">
 
           {
             ////search group
-            <div className={`flex gap-2 justify-start items-center p-1 transition-all duration-1 ease-in-out  ${contWidth}`} >
+            <div className={`flex gap-2 justify-start items-center p-1 transition-all duration-1 ease-in-out ${style.contWidth}`} >
             <button className="flex" onClick={clickHandler}><span className="material-symbols-outlined align-center">search</span></button>
-            <input type="search" placeholder="Title, people, genres" className={`bg-[transparent] focus:outline-none text-[rgb(100,100,100)] transition-all duration-1 ease-in-out  ${inputWidth}`} />
+            <input type="search" placeholder="Title, people, genres" className={`bg-[transparent] focus:outline-none text-[rgb(100,100,100)] transition-all duration-1 ease-in-out  ${style.inputWidth}`} />
           </div>
           }
 
           {isPC &&
-            <span className="align-center">{profile.name}</span>
+            <div className="py-1 align-center">{profile.name}</div>
           }
-          <span className="material-symbols-outlined align-center">notifications</span>
-          <img src={profile.img} className="w-[2.5em]" />
+          <div className="py-1 material-symbols-outlined align-center">notifications</div>
+          <div className="py-1 border flex gap-[0.5em]" onMouseEnter={mouseOverHandler} onMouseLeave={mouseOutHandler} >
+            <img src={profile.img} className='w-[2em]'  />
+            <span className='items-center flex' ><img src="images/arrow.svg" className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}  /></span>
+          </div>
         </div>
-      </div>
+      {/* </div> */}
     </div>
+    
+    {modal && ReactDOM.createPortal(
+        <ProfileModal />,
+        document.getElementById("portal")
+      )}
+    </>
   );
 };
 

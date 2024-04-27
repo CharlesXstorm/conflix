@@ -76,15 +76,38 @@ const BrowseMovies = () => {
   const { profile } = useSelector((state) => state.profile);
   // console.log(profile);
   return (
-    <div className="relative">
+    <div className="relative font-[roboto]">
       <div id="hero" className="relative h-[50vh] lg:h-[100vh] overflow-hidden">
         <div className="absolute top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
         <div className="absolute bottom-0 left-0 flex flex-col w-[100%]">
           <ScrollNav data={[...genre]} />
         </div>
 
-        
-        <img src="/images/angAvatar.jpg" />
+        {
+          //hero info
+          <div className="absolute pl-5 md:pl-10 xl:pl-[4em] border flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
+          <div className="flex flex-col gap-4">
+
+            <div className="movieTitle flex flex-col gap-2"> 
+            <div className="flex items-center gap-2"><img src='images/LOGO_C.svg' className="w-[0.8em] lg:w-[1em] align-center" /><span className="flex items-center">Series</span> </div>
+            <div><span className="font-bold text-[1.5em] lg:text-[2em]">Movie Title</span></div>
+            </div>
+
+
+            <div className="flex flex-row justify-between gap-4 items-left">
+              <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold"><span ><img src="images/play.svg" className="w-[1em]" /></span>Play</button>
+              <button className="border p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">More Info</button>
+            </div>
+          </div>
+
+          <div className="flex flex-row gap-2">
+            <button className="border"><img src="images/volume-max.svg" className="w-[2em]" /></button><span className="bg-[rgb(0,0,0,0.5)] flex items-center border-l-4 p-2 lg:px-4 pr-6 lg:pr-10">18+</span>
+          </div>
+        </div>
+        }
+
+        <div className="video bg-[pink] h-full "></div>
+        {/* <img src="/images/angAvatar.jpg" /> */}
         
       </div>
 
