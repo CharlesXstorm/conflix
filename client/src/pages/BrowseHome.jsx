@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from "react-redux";
 import IconButton from "../components/UI/IconButton";
 import { Link } from "react-router-dom";
 
-// import React from 'react'
 
-const BrowseHome = ({ setProfileClick, data }) => {
+const BrowseHome = ({ setProfileClick}) => {
+
+  const {data} = useSelector((state)=> state.account)
+
   return (
     <div className="absolute z-10 flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white">
       <div className=" flex m-[auto] flex-col justify-center">
@@ -14,7 +17,7 @@ const BrowseHome = ({ setProfileClick, data }) => {
         {
           //icons
           <div className="flex gap-2 xl:gap-8 p-4 px-6 flex-wrap justify-center text-[rgb(120,120,120)]">
-            {data.map((item) => (
+            {data.subProfile.map((item) => (
               <IconButton
                 key={item.id}
                 name={item.name}

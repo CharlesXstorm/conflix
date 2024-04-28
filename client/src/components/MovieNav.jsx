@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import { useSelector } from "react-redux";
 import ReactDOM from 'react-dom';
 import ProfileModal from './ProfileModal';
@@ -6,28 +6,20 @@ import ProfileModal from './ProfileModal';
 const MovieNav = () => {
   const [click,setClick] = useState(false)
   const [modal,setModal] = useState(false)
-  // const [contWidth,setContWidth] = useState("w-[10%]")
-  // const [inputWidth,setInputWidth] = useState("w-[0%]")
+  const [timeoutId,setTimeoutId] = useState(null)
   const [style,setStyle] = useState({contWidth:'w-[10%]',inputWidth:'w-[0%]',arrow:'rotate-90'})
-  const { isPC } = useSelector((state) => state.dvWidth);
-  const { profile } = useSelector((state) => state.profile);
 
-  // const clickHandler = ()=>{
-  //   switch (click) {
-  //       case true:
-  //           setContWidth("w-[10%]")
-  //           setInputWidth("w-[0%]")
-  //           setClick(false)
-  //           break;
-  //       case false:
-  //           setContWidth("w-[60%] bg-[rgb(0,0,0,0.8)] border")
-  //           setInputWidth("w-[100%]")
-  //           setClick(true)
-  //           break;
-  //       default:
-  //           break;
-  //   }
-  // }
+  const { isPC } = useSelector((state) => state.dvWidth);
+  const { profile} = useSelector((state) => state.account);
+
+useEffect(()=>{
+
+  return ()=>{
+    if(timeoutId){
+      clearTimeout(timeoutId)
+    }
+  }
+},[timeoutId])
 
   const clickHandler = ()=>{
     switch (click) {
@@ -36,7 +28,7 @@ const MovieNav = () => {
             setClick(false)
             break;
         case false:
-            setStyle((prev)=> ({...prev,contWidth:'w-[60%] bg-[rgb(0,0,0,0.8)] border',inputWidth:'w-[100%]'}))
+            setStyle((prev)=> ({...prev,contWidth:'w-[60%] lg:w-[55%] bg-[rgb(0,0,0,0.8)] border',inputWidth:'w-[100%]'}))
             setClick(true)
             break;
         default:
@@ -46,23 +38,35 @@ const MovieNav = () => {
 
 
   const mouseOverHandler = ()=>{
+    // Clear any existing timeouts
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
     setStyle((prev)=> ({...prev,arrow:"rotate-[270deg]"}))
     setModal(true)
   }
 
   const mouseOutHandler = ()=> {
+    // Clear any existing timeouts
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
 
-      setModal(false)
-      setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
+    // Set a new timeout and save its ID
+    if(isPC){
+      const newTimeoutId = setTimeout(() => {
+        setModal(false)
+        setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
+      }, 1000);
 
-      // const timeOut = setTimeout(()=>{
-      //       setModal(false)
-      //       setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
-      //     },[2000])
-
-      //     return ()=> clearTimeout(timeOut)
-   
+      setTimeoutId(newTimeoutId);
+  }else{
+    setModal(false)
+    setStyle((prev)=> ({...prev,arrow:"rotate-90"}))
   }
+
+  }
+
   // console.log(profile)
   // console.log(isPC)
   return (
@@ -161,8 +165,9 @@ const MovieNav = () => {
           {
             ////search group
             <div className={`flex gap-2 justify-start items-center p-1 transition-all duration-1 ease-in-out ${style.contWidth}`} >
-            <button className="flex" onClick={clickHandler}><span className="material-symbols-outlined align-center">search</span></button>
-            <input type="search" placeholder="Title, people, genres" className={`bg-[transparent] focus:outline-none text-[rgb(100,100,100)] transition-all duration-1 ease-in-out  ${style.inputWidth}`} />
+            {/* <button className="flex" onClick={clickHandler}><span className="material-symbols-outlined align-center">search</span></button> */}
+            <button className="flex" onClick={clickHandler}><span className='align-center w-[1.5em]'><img src='images/search.svg' /></span></button>
+            <input id='search' type="search" placeholder="Title, people, genres" className={`bg-[transparent] focus:outline-none text-[rgb(150,150,150)] transition-all duration-1 ease-in-out  ${style.inputWidth}`} />
           </div>
           }
 
@@ -170,7 +175,7 @@ const MovieNav = () => {
             <div className="py-1 align-center">{profile.name}</div>
           }
           <div className="py-1 material-symbols-outlined align-center">notifications</div>
-          <div className="py-1 border flex gap-[0.5em]" onMouseEnter={mouseOverHandler} onMouseLeave={mouseOutHandler} >
+          <div className="py-1 flex gap-[0.5em]" onMouseEnter={mouseOverHandler} onMouseLeave={mouseOutHandler} >
             <img src={profile.img} className='w-[2em]'  />
             <span className='items-center flex' ><img src="images/arrow.svg" className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}  /></span>
           </div>
@@ -179,7 +184,7 @@ const MovieNav = () => {
     </div>
     
     {modal && ReactDOM.createPortal(
-        <ProfileModal />,
+        <ProfileModal onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler} />,
         document.getElementById("portal")
       )}
     </>

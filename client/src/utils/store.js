@@ -5,6 +5,6 @@ import profileReducer from "./profileSlice";
 export default configureStore({
   reducer: {
     dvWidth: dvWidthReducer,
-    profile: profileReducer
+    account: profileReducer
   }
 });

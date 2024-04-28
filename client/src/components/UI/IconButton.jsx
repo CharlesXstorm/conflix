@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 import { useDispatch } from "react-redux";
-import { setProfile } from "../../utils/profileSlice";
+import { setProfile} from "../../utils/profileSlice";
 
-const IconButton = ({ name, src, edit, profile, setProfileClick }) => {
+const IconButton = ({ name, src, edit, profile, setProfileClick}) => {
   const dispatch = useDispatch();
 
   const clickHandler = () => {
     dispatch(setProfile(profile))
-    setProfileClick(true);
+    setProfileClick((prev)=> !prev);
+    // setMoviePage(true)
   };
   return (
     <div className="flex flex-col mb-2">

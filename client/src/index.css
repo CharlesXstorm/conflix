@@ -28,6 +28,10 @@ html {
 #loginPass::-ms-reveal {
   filter: invert(100%);
 }
+#search::-webkit-search-cancel-button {
+  filter: invert(100%);
+  /* color: white; */
+}
 
 #lang {
   

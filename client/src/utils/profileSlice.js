@@ -2,16 +2,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const profileSlice = createSlice({
-  name: "profile",
-  initialState: { profile: null },
+  name: "account",
+  initialState: { profile: null,data: null },
   reducers: {
     setProfile: (state, action) => {
       state.profile = { ...action.payload };
+    },
+    setData: (state, action) => {
+      state.data =  action.payload ;
     }
   }
 });
 
 //Action creators are generated for each case reducer function
-export const { setProfile } = profileSlice.actions;
+export const { setProfile, setData } = profileSlice.actions;
 
 export default profileSlice.reducer;

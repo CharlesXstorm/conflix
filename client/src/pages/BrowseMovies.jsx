@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
 
 //data
@@ -73,8 +73,8 @@ const genre = [
 ];
 
 const BrowseMovies = () => {
-  const { profile } = useSelector((state) => state.profile);
-  // console.log(profile);
+  // const { data } = useSelector((state) => state.account);
+  // console.log(data);
   return (
     <div className="relative font-[roboto]">
       <div id="hero" className="relative h-[50vh] lg:h-[100vh] overflow-hidden">

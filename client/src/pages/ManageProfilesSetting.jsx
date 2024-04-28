@@ -5,7 +5,7 @@ import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 
 const ManageProfilesSetting = ({setProfileClick}) => {
-  const { profile } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.account);
   const [userName, setUserName] = useState(profile.name);
   const inputRef = useRef();
 
