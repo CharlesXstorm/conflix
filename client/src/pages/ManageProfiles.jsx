@@ -4,22 +4,21 @@ import ReactDOM from "react-dom";
 import ManageProfilesHome from "./ManageProfilesHome";
 import ManageProfilesSetting from './ManageProfilesSetting';
 
-const ManageProfiles = ({profileClick, setProfileClick, loaded}) => {
+const ManageProfiles = ({editClick, setEditClick, setAccountClick, loaded}) => {
 
   // useEffect(()=>{
-  
   //   setProfileClick(false)
   // },[])
 
   return (
     <div>
-      {!profileClick && loaded &&
+      {!editClick && loaded &&
         ReactDOM.createPortal(
-          <ManageProfilesHome setProfileClick={setProfileClick}/>,
+          <ManageProfilesHome setEditClick={setEditClick} setAccountClick={setAccountClick} />,
           document.getElementById("portal")
         )}
 
-      {profileClick && loaded && < ManageProfilesSetting setProfileClick={setProfileClick} />}
+      {editClick && loaded && < ManageProfilesSetting setEditClick={setEditClick} />}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 
-const ManageProfilesSetting = ({setProfileClick}) => {
+const ManageProfilesSetting = ({setEditClick}) => {
   const { profile } = useSelector((state) => state.account);
   const [userName, setUserName] = useState(profile.name);
   const inputRef = useRef();
@@ -15,7 +15,7 @@ const ManageProfilesSetting = ({setProfileClick}) => {
 
   const saveHandler =()=>{
     console.log("post data")
-    setProfileClick((prev)=> !prev)
+    setEditClick((prev)=> !prev)
   }
 
   const deleteHandler =()=>{
@@ -173,7 +173,7 @@ const ManageProfilesSetting = ({setProfileClick}) => {
           width="w-fit text-[1em]"
           align="self-center justify-center mt-3"
           span={{ have: false }}
-          onClick={()=>setProfileClick((prev)=> !prev)}
+          onClick={()=>setEditClick((prev)=> !prev)}
           // to="/browse"
         />
 

@@ -17,7 +17,9 @@ import BrowseShared from "./pages/Shared/BrowseShared";
 import ProtectedRoute from "./pages/Shared/ProtectedRoute.jsx";
 
 function App() {
-  const [profileClick, setProfileClick] = useState(false)
+  // const [profileClick, setProfileClick] = useState(false)
+  const[editClick,setEditClick] = useState(false)
+  const [accountClick,setAccountClick] = useState(false)
   const [loaded,setLoaded] = useState(false)
   const dispatch = useDispatch();
 
@@ -46,11 +48,11 @@ function App() {
         <Route path="regform" element={<Regform />} />
       </Route>
 
-      <Route element={<ProtectedRoute setLoaded={setLoaded} setProfileClick={setProfileClick} />}>
-        <Route path="browse" element={<BrowseShared profileClick={profileClick} />}>
-          <Route index element={<Browse profileClick={profileClick} setProfileClick={setProfileClick} loaded={loaded} />} />
+      <Route element={<ProtectedRoute setLoaded={setLoaded} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
+        <Route path="browse" element={<BrowseShared accountClick={accountClick} />}>
+          <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} />} />
         </Route>
-        <Route path="ManageProfiles" element={<ManageProfiles profileClick={profileClick} setProfileClick={setProfileClick} loaded={loaded} />} />
+        <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />
       </Route>
 
     </Routes>

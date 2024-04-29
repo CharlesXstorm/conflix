@@ -4,7 +4,7 @@ import IconButton from "../components/UI/IconButton";
 import { Link } from "react-router-dom";
 
 
-const BrowseHome = ({ setProfileClick}) => {
+const BrowseHome = ({ setAccountClick,setEditClick}) => {
 
   const {data} = useSelector((state)=> state.account)
 
@@ -24,7 +24,8 @@ const BrowseHome = ({ setProfileClick}) => {
                 src={item.img}
                 edit={false}
                 profile={item}
-                setProfileClick={setProfileClick}
+                setAccountClick={setAccountClick}
+                setEditClick={setEditClick}
               />
             ))}
           </div>

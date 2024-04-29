@@ -3,11 +3,11 @@
 import { Outlet } from "react-router-dom";
 import MovieNav from "../../components/MovieNav";
 
-const BrowseShared = ({ profileClick  }) => {
+const BrowseShared = ({ accountClick  }) => {
 
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
-      { profileClick && <MovieNav />}
+      { accountClick && <MovieNav />}
       <Outlet />
     </div>
   );

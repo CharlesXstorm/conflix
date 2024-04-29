@@ -46,23 +46,22 @@ import BrowseMovies from './BrowseMovies';
 //   }
 // ];
 
-const Browse = ({profileClick, setProfileClick, loaded}) => {
+const Browse = ({accountClick, setAccountClick,setEditClick, loaded}) => {
 
   // useEffect(()=>{
-    
   //   setProfileClick(false)
   // },[])
 
   return (
     <div>
 
-        {!profileClick && loaded && ReactDOM.createPortal(
-        <BrowseHome setProfileClick={setProfileClick}
+        {!accountClick && loaded && ReactDOM.createPortal(
+        <BrowseHome setAccountClick={setAccountClick} setEditClick={setEditClick}
         />,
         document.getElementById("portal")
       )}
 
-      {profileClick && loaded && <BrowseMovies/>}
+      {accountClick && loaded && <BrowseMovies/>}
     </div>
   )
 }

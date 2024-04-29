@@ -5,7 +5,7 @@ import IconButton from "../components/UI/IconButton";
 import { Link } from "react-router-dom";
 
 
-const ManageProfilesHome = ({setProfileClick}) => {
+const ManageProfilesHome = ({setEditClick, setAccountClick}) => {
   const {data} = useSelector((state)=> state.account)
 
   return (
@@ -18,13 +18,14 @@ const ManageProfilesHome = ({setProfileClick}) => {
           //icons
           <div className="flex gap-2 xl:gap-8 p-4 px-6 flex-wrap justify-center text-[rgb(120,120,120)]">
             {data.subProfile.map((item) => (
-              <IconButton
+              item.isProfile && <IconButton
                 key={item.id}
                 name={item.name}
                 src={item.img}
                 edit={true}
                 profile={item}
-                setProfileClick={setProfileClick}
+                setEditClick={setEditClick}
+                setAccountClick={setAccountClick}
               />
             ))}
           </div>

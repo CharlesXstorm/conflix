@@ -6,7 +6,7 @@ import { useDispatch} from "react-redux";
 import { setData } from "../../utils/profileSlice";
 import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({setLoaded,setProfileClick}) => {
+const ProtectedRoute = ({setLoaded}) => {
   const auth = { token: true };
 
   // const { data } = useSelector((state) => state.account);
@@ -16,7 +16,7 @@ const ProtectedRoute = ({setLoaded,setProfileClick}) => {
     // console.log("protected");
     dispatch(setData(jsonData));
     setLoaded(true)
-    setProfileClick(false)
+    // setProfileClick(false)
   }, []);
 
   // console.log(data);
