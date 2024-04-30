@@ -17,6 +17,14 @@
     "express": "^4.19.2",
     "mongoose": "^5.13.22",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "jsonwebtoken": "^8.5.1",
+    "validator": "^13.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharlesXstorm/netflixClone.git"
   }
 }
