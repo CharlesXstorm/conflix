@@ -7,9 +7,11 @@ const {getAllUsers,
     getUser,
     signUp,
     login,
+    logOut,
     updateUser,
     deleteUser,
     getAllSubProfiles,
+    getSubProfile,
     createSubProfile,
     updateSubProfile,
     deleteSubProfile} = require("../controllers/controllers");
@@ -25,6 +27,9 @@ Router.route("/signup")
 Router.route('/login')
 .post(login)
 
+Router.route('/logout')
+.post(logOut)
+
 Router.route('/auth')
 .get(requireAuth,getUser)
 
@@ -38,8 +43,12 @@ Router.route("/:id/subProfiles")
 .post(createSubProfile,updateUser)
 
 Router.route('/:id/subProfiles/:subId')
+.get(getSubProfile)
 .patch(updateSubProfile,updateUser)
 .delete(deleteSubProfile,updateUser)
+
+//watchlist Routes
+Router.route('/:id/subProfiles/:subId/watchlist')
 
 
 module.exports = Router;

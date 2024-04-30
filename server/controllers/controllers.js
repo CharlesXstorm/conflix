@@ -32,6 +32,14 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logOut = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({
+    status: "success",
+    data: "logged out"
+  });
+};
+
 exports.signUp = async (req, res) => {
   //signUp user
   try {
@@ -115,6 +123,7 @@ exports.deleteUser = async (req, res) => {
 };
 
 //subProfile controllers
+////////////////////////////////////////////////////////////////////////////
 
 exports.getAllSubProfiles = async (req, res) => {
   try {
@@ -135,6 +144,10 @@ exports.getAllSubProfiles = async (req, res) => {
     });
   }
 };
+
+exports.getSubProfile = async(req,res)=>{
+
+}
 
 exports.createSubProfile = async (req, res, next) => {
   try {
@@ -216,3 +229,17 @@ exports.deleteSubProfile = async (req, res, next) => {
     });
   }
 };
+
+//watchList controllers
+/////////////////////////////////////////////////////////////////////////////
+
+exports.getAllWatchList = async(req,res)=>{
+  try{
+    const user = await User.findById(req.params.id)
+  }catch(err){
+    res.status(404).json({
+      status: 'fail',
+      message: err.message
+    })
+  }
+}
