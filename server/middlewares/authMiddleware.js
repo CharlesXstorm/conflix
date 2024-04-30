@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
-dotenv.config({ path: "../config.env" });
+dotenv.config({ path: "../.env" });
 
 exports.requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;

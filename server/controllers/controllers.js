@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-dotenv.config({ path: "../config.env" });
+dotenv.config({ path: "../.env" });
 
 //create jsonwebtoken
 const maxAge = 3 * 24 * 60 * 60;
