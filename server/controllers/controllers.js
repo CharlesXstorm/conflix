@@ -145,9 +145,37 @@ exports.getAllSubProfiles = async (req, res) => {
   }
 };
 
-exports.getSubProfile = async(req,res)=>{
+exports.getSubProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
 
-}
+    let subProfile = user.subProfile;
+    subProfile = subProfile.filter(
+      (item) =>
+        item["id"] * 1 === req.params["subId"] * 1 && item["id"] * 1 != 0
+    );
+
+    if (subProfile.join("") === "") {
+      throw Error("This profile does not exist");
+    }
+
+    req.subProfile = subProfile;
+    req.profileId = req.params.id;
+    req.subId = req.params.subId;
+
+    next();
+
+    // res.status(200).json({
+    //   status: "success",
+    //   subProfile
+    // });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message
+    });
+  }
+};
 
 exports.createSubProfile = async (req, res, next) => {
   try {
@@ -158,7 +186,7 @@ exports.createSubProfile = async (req, res, next) => {
     const profile = { ...req.body };
     profile.id = subQuery.length;
     profile.isProfile = true;
-    profile.wishList = [];
+    profile.watchList = [];
 
     // add the profile to the subQuery
     subQuery.push(profile);
@@ -233,13 +261,35 @@ exports.deleteSubProfile = async (req, res, next) => {
 //watchList controllers
 /////////////////////////////////////////////////////////////////////////////
 
-exports.getAllWatchList = async(req,res)=>{
-  try{
-    const user = await User.findById(req.params.id)
-  }catch(err){
+exports.getAllWatchList = async (req, res) => {
+  try {
+    // const subProfile = req.subProfile
+    res.status(200).json({
+      status: "success",
+      data: req.subProfile
+    });
+  } catch (err) {
     res.status(404).json({
-      status: 'fail',
+      status: "fail",
       message: err.message
-    })
+    });
   }
-}
+};
+
+exports.addWatchList = async (req, res) => {
+  try {
+    const subProfile = req.subProfile;
+
+    console.log(subProfile.watchList);
+
+    res.status(201).json({
+      status: "success"
+    });
+
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message
+    });
+  }
+};

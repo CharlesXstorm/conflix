@@ -14,7 +14,9 @@ const {getAllUsers,
     getSubProfile,
     createSubProfile,
     updateSubProfile,
-    deleteSubProfile} = require("../controllers/controllers");
+    deleteSubProfile,
+    getAllWatchList,
+    addWatchList} = require("../controllers/controllers");
 
 
 //user routes
@@ -43,12 +45,13 @@ Router.route("/:id/subProfiles")
 .post(createSubProfile,updateUser)
 
 Router.route('/:id/subProfiles/:subId')
-.get(getSubProfile)
+// .get(getSubProfile)
 .patch(updateSubProfile,updateUser)
 .delete(deleteSubProfile,updateUser)
 
 //watchlist Routes
 Router.route('/:id/subProfiles/:subId/watchlist')
-
+.get(getSubProfile,getAllWatchList)
+.post(getSubProfile,addWatchList)
 
 module.exports = Router;
