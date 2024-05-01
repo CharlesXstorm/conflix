@@ -45,13 +45,12 @@ Router.route("/:id/subProfiles")
 .post(createSubProfile,updateUser)
 
 Router.route('/:id/subProfiles/:subId')
-// .get(getSubProfile)
 .patch(updateSubProfile,updateUser)
 .delete(deleteSubProfile,updateUser)
 
 //watchlist Routes
 Router.route('/:id/subProfiles/:subId/watchlist')
 .get(getSubProfile,getAllWatchList)
-.post(getSubProfile,addWatchList)
+.post(getSubProfile,addWatchList,updateSubProfile,updateUser)
 
 module.exports = Router;

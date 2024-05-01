@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: () => new Date(new Date().getTime() + (60 * 60 * 1000)),
     select: false
   }
 });
@@ -62,7 +62,7 @@ userSchema.statics.login = async function (email, password) {
       throw Error("incorrect password");
     }
   } else {
-    throw Error("incorrect email");
+    throw Error("This account does not exist");
   }
 };
 

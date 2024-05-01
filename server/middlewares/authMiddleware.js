@@ -11,7 +11,7 @@ exports.requireAuth = (req, res, next) => {
       if (err) {
         res.status(400).json({
           status: "fail",
-          data: null
+          data: false
         });
       }
 
@@ -21,7 +21,7 @@ exports.requireAuth = (req, res, next) => {
   } else {
     res.status(400).json({
       status: "fail",
-      data: null
+      data: false
     });
   }
 };
@@ -36,6 +36,13 @@ exports.headerAuth = async (req, res, next) => {
 
   //the generated authToken is then used as the value for header authorization as follows:
   // authorization: "Bearer authToken"
+
+  //set response headers
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 
   try {
     const authHeader = await req.headers["authorization"];

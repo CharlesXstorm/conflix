@@ -4,6 +4,26 @@ const User = require("../models/userModel");
 
 dotenv.config({ path: "../.env" });
 
+//error handling
+const handleErrors = (err) => {
+
+  //sign up
+  if (err.includes("user validation")) {
+    let error = { email: "", password: "" };
+    if (err.includes("email")) {
+      error.email = "Please enter a valid email";
+      return error.email;
+    }
+    error.password = "Minimum of 6 characters required";
+    return error.password;
+  }
+
+  if (err.includes("duplicate key")) {
+    return "This account is already registered";
+  }
+
+};
+
 //create jsonwebtoken
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -36,7 +56,7 @@ exports.logOut = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.status(200).json({
     status: "success",
-    data: "logged out"
+    message: "logged out"
   });
 };
 
@@ -51,9 +71,11 @@ exports.signUp = async (req, res) => {
       data: user._id
     });
   } catch (err) {
+    const error = handleErrors(err.message);
+
     res.status(400).json({
       status: "fail",
-      message: err.message
+      message: error
     });
   }
 };
@@ -124,7 +146,6 @@ exports.deleteUser = async (req, res) => {
 
 //subProfile controllers
 ////////////////////////////////////////////////////////////////////////////
-
 exports.getAllSubProfiles = async (req, res) => {
   try {
     const userQuery = await User.findById(req.params.id);
@@ -164,11 +185,6 @@ exports.getSubProfile = async (req, res, next) => {
     req.subId = req.params.subId;
 
     next();
-
-    // res.status(200).json({
-    //   status: "success",
-    //   subProfile
-    // });
   } catch (err) {
     res.status(404).json({
       status: "fail",
@@ -221,6 +237,8 @@ exports.updateSubProfile = async (req, res, next) => {
     //update the document with the new subQuery
     req.body = { subProfile: newSubQuery };
 
+    console.log(req.body);
+
     next();
   } catch (err) {
     res.status(400).json({
@@ -260,13 +278,12 @@ exports.deleteSubProfile = async (req, res, next) => {
 
 //watchList controllers
 /////////////////////////////////////////////////////////////////////////////
-
 exports.getAllWatchList = async (req, res) => {
   try {
-    // const subProfile = req.subProfile
+    // const subProfile = req.subProfile[0];
     res.status(200).json({
       status: "success",
-      data: req.subProfile
+      data: req.subProfile[0].watchList
     });
   } catch (err) {
     res.status(404).json({
@@ -276,16 +293,18 @@ exports.getAllWatchList = async (req, res) => {
   }
 };
 
-exports.addWatchList = async (req, res) => {
+exports.addWatchList = async (req, res, next) => {
   try {
-    const subProfile = req.subProfile;
+    const subProfile = req.subProfile[0];
 
-    console.log(subProfile.watchList);
+    let watchList = subProfile.watchList;
+    const newWatchList = { ...req.body };
 
-    res.status(201).json({
-      status: "success"
-    });
+    req.params.id = req.profileId;
+    req.params.subId = req.subId;
+    req.body = { watchList: [newWatchList, ...watchList] };
 
+    next();
   } catch (err) {
     res.status(404).json({
       status: "fail",
