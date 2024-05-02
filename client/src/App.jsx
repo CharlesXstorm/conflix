@@ -20,6 +20,7 @@ function App() {
   // const [profileClick, setProfileClick] = useState(false)
   const[editClick,setEditClick] = useState(false)
   const [accountClick,setAccountClick] = useState(false)
+  const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
   const dispatch = useDispatch();
 
@@ -43,9 +44,9 @@ function App() {
     <Routes>
       <Route index element={<Home />} />
       <Route path="login" element={<Signin />} />
-      <Route path="signup" element={<Signup />}>
+      <Route path="signup" element={<Signup setEmail={setEmail} />}>
         <Route index element={<Registration />} />
-        <Route path="regform" element={<Regform />} />
+        <Route path="regform" element={<Regform email={email} />} />
       </Route>
 
       <Route element={<ProtectedRoute setLoaded={setLoaded} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>

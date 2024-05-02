@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {useSelector } from "react-redux";
 
 import HomeDetail from "../components/HomeDetail";
@@ -118,9 +118,23 @@ const accordion = [
 
 const Home = () => {
   const [clickedId, setClickedId] = useState(null);
+  const [email,setEmail] = useState('')
   const { isMobile, isTablet } = useSelector((state) => state.dvWidth);
+  
+
+  const firstEmailRef = useRef()
+  const secEmailRef = useRef()
 
   const isOdd = (item) => !(item.id % 2 == 0);
+
+  const onFirstChangeHandler = ()=>{
+    setEmail(firstEmailRef.current.value)
+  }
+  const onSecChangeHandler = ()=>{
+    setEmail(secEmailRef.current.value)
+  }
+
+  // console.log("email:",email)
 
   return (
     <>
@@ -146,7 +160,10 @@ const Home = () => {
           </p>
         </div>
         <Input
+          ref={firstEmailRef}
+          onChange={onFirstChangeHandler}
           type="text"
+          value= {email}
           button="button"
           placeholder="Email address"
           style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"
@@ -200,7 +217,10 @@ const Home = () => {
                 </p>
               </div>
               <Input
+                ref={secEmailRef}
+                onChange={onSecChangeHandler}
                 type="text"
+                value= {email}
                 button="button"
                 placeholder="Email address"
                 style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"

@@ -6,7 +6,6 @@ dotenv.config({ path: "../.env" });
 
 //error handling
 const handleErrors = (err) => {
-
   //sign up
   if (err.includes("user validation")) {
     let error = { email: "", password: "" };
@@ -21,7 +20,6 @@ const handleErrors = (err) => {
   if (err.includes("duplicate key")) {
     return "This account is already registered";
   }
-
 };
 
 //create jsonwebtoken
@@ -65,7 +63,8 @@ exports.signUp = async (req, res) => {
   try {
     const user = await User.create(req.body);
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    // res.cookie("jwt", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { SameSite: "None", maxAge: maxAge * 1000 });
     res.status(201).json({
       status: "success",
       data: user._id

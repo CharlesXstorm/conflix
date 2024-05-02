@@ -1,10 +1,22 @@
-// import React from 'react'
+/* eslint-disable no-extra-boolean-cast */
+/* eslint-disable react/prop-types */
+import {useState,useEffect} from 'react'
 
 import Footer from "../../components/Footer";
 import HomeNav from "../../components/HomeNav";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const Signup = () => {
+
+  const [email,setEmail] = useState("")
+  
+  let location = useLocation()
+
+  useEffect(()=>{
+    setEmail( Boolean(location.state) && location.state.email || "")
+  },[])
+
+  // console.log(email)
   return (
     <div className="bg-white font-[roboto]">
       <HomeNav
@@ -14,7 +26,7 @@ const Signup = () => {
         buttonText="text-black"
         size="text-md lg:text-xl font-bold"
       />
-      <Outlet />
+      <Outlet context={email} />
       <Footer
         bgColor="bg-[rgb(230,230,230)]"
         text="text-[rgb(100,100,100)]"

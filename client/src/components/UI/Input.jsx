@@ -1,16 +1,28 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-// import React from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import Button from "./Button";
 
-const Input = ({ placeholder, button, style, type, align, id }) => {
+const Input = React.forwardRef(({ placeholder, button, style, type, align, id, onChange,value },ref) => {
+
+  let navigate = useNavigate();
+
+  const onClickHandler = ()=>{
+    navigate('signup',{state:{email: value}})
+  }
+
   return (
     <div
       className={`relative flex flex-col lg:flex-row  justify-center item-center m-[auto] ${align} mt-3`}
     >
       <input
+        ref={ref}
+        onChange={onChange}
         id={id}
         type={type}
+        value={value}
         className={`justify-center gap-[1em] border rounded self-center ${style}`}
         placeholder={placeholder}
       />
@@ -25,10 +37,11 @@ const Input = ({ placeholder, button, style, type, align, id }) => {
           align="self-center"
           button={button}
           span={{ have: true, name: "arrow_forward_ios" }}
+          onClick= {onClickHandler}
         />
       )}
     </div>
-  );
-};
+  )
+});
 
 export default Input;

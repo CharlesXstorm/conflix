@@ -1,17 +1,81 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
-// import React from 'react'
+import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
+import {
+  setEmailValidator,
+  setPasswordValidator
+} from "../utils/validatorSlice";
 import Button from "./UI/Button";
 import Input from "./UI/Input";
-import { Link } from "react-router-dom";
+import Validator from "./UI/Validator";
 
-const Form = ({ type, name, desc, style, check, padding, buttonName,buttonType,buttonSize}) => {
+const Form = ({
+  type,
+  name,
+  desc,
+  style,
+  check,
+  padding,
+  buttonName,
+  buttonType,
+  buttonSize,
+  context
+}) => {
+  const [email, setEmail] = useState(context);
+  const [pass, setPass] = useState("");
+
+  const emailRef = useRef();
+  const passRef = useRef();
+
+  const { emailError, passwordError } = useSelector((state) => state.validator);
+  const dispatch = useDispatch();
+
+  const onEmailChangeHandler = () => {
+    dispatch(setEmailValidator(false));
+    setEmail(emailRef.current.value);
+  };
+
+  const onPassChangeHandler = () => {
+    dispatch(setPasswordValidator(false));
+    setPass(passRef.current.value);
+  };
+
   const login = () => {
     console.log("login");
   };
-  const signup = () => {
-    console.log("signup");
+
+  //sign up //////////////////////////////////////////////////
+  const signup = async () => {
+    try {
+      const data = { email: email, password: pass };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      const res = await axios.post(
+        // `${import.meta.env.VITE_API_URL}/signup`,
+        "/api/v1/conflix/users/signup",
+        data,
+        config
+      );
+      console.log(res);
+    } catch (err) {
+      // console.log(err.response.data.message);
+      const error = err.response.data.message;
+
+      if (error.includes("characters")) {
+        dispatch(setPasswordValidator(error));
+      } else {
+        dispatch(setEmailValidator(error));
+      }
+    }
   };
 
   const submitHandler = (e) => {
@@ -28,29 +92,37 @@ const Form = ({ type, name, desc, style, check, padding, buttonName,buttonType,b
     }
   };
   return (
-    <div className={`relative flex lg:text-[14px] xl:text-[18px] flex-col justify-center item-center ${type==="login"?"md:bg-[rgb(0,0,0,0.7)]":""} w-[95%] md:w-[50%] lg:w-[30%] m-[auto] ${padding}`}>
-      <p
-        className={`${
-          style.name || "text-white"
-        } font-bold tracking-normal`}
-      >
+    <div
+      className={`relative flex lg:text-[14px] xl:text-[18px] flex-col justify-center item-center ${
+        type === "login" ? "md:bg-[rgb(0,0,0,0.7)]" : ""
+      } w-[95%] md:w-[50%] lg:w-[30%] m-[auto] ${padding}`}
+    >
+      <p className={`${style.name || "text-white"} font-bold tracking-normal`}>
         {name}
       </p>
       {desc.detail && <p className={`${desc.style}`}>{desc.detail}</p>}
       <form className="" onSubmit={submitHandler}>
         <Input
+          ref={emailRef}
+          onChange={onEmailChangeHandler}
+          value={email}
           type="text"
           button={false}
           placeholder={"Email address"}
           style={style.input}
         />
+        {emailError && <Validator value={emailError} />}
         <Input
+          ref={passRef}
+          onChange={onPassChangeHandler}
+          value={pass}
           type="password"
           button={false}
           placeholder={"Password"}
           style={style.input}
           id={style.inputId}
         />
+        {passwordError && <Validator value={passwordError} />}
         {type === "signup" && (
           <div className={`${check.style} flex`}>
             <input type="checkbox" className="scale-150" />
@@ -58,8 +130,8 @@ const Form = ({ type, name, desc, style, check, padding, buttonName,buttonType,b
           </div>
         )}
         <Button
-          name={buttonName ||"Sign In"}
-          button={buttonType ||"button"}
+          name={buttonName || "Sign In"}
+          button={buttonType || "button"}
           bgColor="bg-red-600"
           color="text-white"
           // size={"text-[1em]"}
