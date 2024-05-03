@@ -1,27 +1,57 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+// import axios from "axios";
+
 import { setData } from "../../utils/profileSlice";
 import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({setLoaded}) => {
-  const auth = { token: true };
+const ProtectedRoute = ({ setLoaded }) => {
+  const [auth] = useState(true);
 
-  // const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
+  // const getUser = async () => {
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+  //         withCredentials: true
+  //       }
+  //     };
+
+  //     const res = await axios.get(
+  //       `${import.meta.env.VITE_API_URL}/auth`,
+  //       config
+  //     );
+  //     return res.data.data;
+  //   } catch (err) {
+  //     return err.response.data.data;
+  //   }
+  // };
+
+  //getUser ////////////////////////
   useEffect(() => {
-    // console.log("protected");
     dispatch(setData(jsonData));
-    setLoaded(true)
-    // setProfileClick(false)
+    // setAuth(true);
+    setLoaded(true);
+
+    // const fetchData = async () => {
+    //   const user = await getUser();
+    //   if (!user) {
+    //     setAuth(false);
+    //   } else {
+    //     dispatch(setData(user));
+    //     setAuth(true);
+    //     setLoaded(true);
+    //   }
+    // };
+    // fetchData();
   }, []);
 
-  // console.log(data);
-
-  return <>{auth.token ? <Outlet /> : <Navigate to="/" />}</>;
+  return <>{auth ? <Outlet /> : <Navigate to="/" />}</>;
 };
 
 export default ProtectedRoute;

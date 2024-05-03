@@ -72,6 +72,28 @@ const genre = [
   }
 ];
 
+const tVData = {
+  "adult": false,
+  "backdrop_path": "/rgRTWlzePnPL9api6sdxGkzxW8x.jpg",
+  "genre_ids": [
+    10759,
+    35
+  ],
+  "id": 19478,
+  "origin_country": [
+    "FR"
+  ],
+  "original_language": "fr",
+  "original_name": "Les Bleus, premiers pas dans la police",
+  "overview": "The cases of five young and well-intentioned police recruits often turn into catastrophes.",
+  "popularity": 93.003,
+  "poster_path": "/jEqLvC1Frgy7zunQwpmYMeLuUdg.jpg",
+  "first_air_date": "2007-09-19",
+  "name": "The Rookies",
+  "vote_average": 5,
+  "vote_count": 4
+}
+
 const BrowseMovies = () => {
   // const { data } = useSelector((state) => state.account);
   // console.log(data);

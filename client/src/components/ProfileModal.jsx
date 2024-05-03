@@ -21,9 +21,6 @@ const Button = ({name,src,profile})=>{
 const ProfileModal = ({onMouseOver,onMouseOut}) => {
   const { data } = useSelector((state) => state.account);
 
-  console.log(data)
-
-  console.log(data)
   return (
     <div onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} className="absolute flex flex-col text-white top-[6vh] lg:top-[10vh] xl:top-[7vh] right-5 md:right-10 xl:right-[4em] z-[1] ">
        <div className="flex justify-end pr-6"><span className=""><img src='images/arrow.svg' className="w-[0.8em] -rotate-90" /></span></div>

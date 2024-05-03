@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -25,11 +26,13 @@ const Form = ({
   buttonSize,
   context
 }) => {
-  const [email, setEmail] = useState(context);
+  const [email, setEmail] = useState(context||"");
   const [pass, setPass] = useState("");
 
   const emailRef = useRef();
   const passRef = useRef();
+
+  let navigate = useNavigate()
 
   const { emailError, passwordError } = useSelector((state) => state.validator);
   const dispatch = useDispatch();
@@ -44,8 +47,35 @@ const Form = ({
     setPass(passRef.current.value);
   };
 
-  const login = () => {
-    console.log("login");
+  //login ////////////////////////////////////////////////
+  const login = async() => {
+    try {
+      const data = { email: email, password: pass };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        data,
+        config
+      );
+      if(res){
+        navigate('/browse')
+      }
+    } catch (err) {
+      // console.log(err.response.data.message);
+      const error = err.response.data.message;
+
+      if (error.includes("password")) {
+        dispatch(setPasswordValidator(error));
+      } else {
+        dispatch(setEmailValidator(error));
+      }
+    }
   };
 
   //sign up //////////////////////////////////////////////////
@@ -60,12 +90,13 @@ const Form = ({
       };
 
       const res = await axios.post(
-        // `${import.meta.env.VITE_API_URL}/signup`,
-        "/api/v1/conflix/users/signup",
+        `${import.meta.env.VITE_API_URL}/signup`,
         data,
         config
       );
-      console.log(res);
+      if(res){
+        navigate('/browse')
+      }
     } catch (err) {
       // console.log(err.response.data.message);
       const error = err.response.data.message;
