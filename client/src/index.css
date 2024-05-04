@@ -22,15 +22,27 @@ html {
   scroll-behavior: smooth;
 }
 
-#portal{
-  position: relative;
-}
 #loginPass::-ms-reveal {
   filter: invert(100%);
 }
 #search::-webkit-search-cancel-button {
   filter: invert(100%);
   /* color: white; */
+}
+
+.react-player{
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+
+.player-wrapper{
+  position: relative;
+  height: 100vh;
+  /* overflow: hidden; */
+  /* transform: scale(1.5); */
+  border: 5px solid red;
 }
 
 #lang {
@@ -44,5 +56,17 @@ html {
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;
+  }
+}
+
+@media only screen and (max-width:980px) {
+  .player-wrapper{
+    transform: scale(1.8);
+  }
+}
+
+@media only screen and (max-width:680px) {
+  .player-wrapper{
+    transform: scale(2.8);
   }
 }

@@ -83,7 +83,7 @@ const ScrollNav = ({ data }) => {
     });
   }, []);
 
-  console.log(count,"scrollNav")
+  // console.log(count,"scrollNav")
 
   const nextHandler = ()=>{
 //handle next button

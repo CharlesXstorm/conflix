@@ -22,9 +22,11 @@ const ProfileModal = ({onMouseOver,onMouseOut}) => {
   const { data } = useSelector((state) => state.account);
 
   return (
-    <div onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} className="absolute flex flex-col text-white top-[6vh] lg:top-[10vh] xl:top-[7vh] right-5 md:right-10 xl:right-[4em] z-[1] ">
+    <div className="w-full h-[100vh] absolute z-20">
+
+    <div onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} className="absolute flex flex-col text-white top-[6vh] lg:top-[10vh] xl:top-[7vh] right-5 md:right-10 xl:right-[4em] border">
        <div className="flex justify-end pr-6"><span className=""><img src='images/arrow.svg' className="w-[0.8em] -rotate-90" /></span></div>
-        <div className="bg-[rgb(10,10,10)] p-4 border flex flex-col gap-2 pr-[4em] md:pr-[6em]">
+        <div className="bg-[rgb(10,10,10)] p-4 flex flex-col gap-2 pr-[4em] md:pr-[6em]">
             {
               data.subProfile.map((item)=> 
               item.isProfile && <Button key={item.id} name={item.name} src={item.img} profile={item} />
@@ -37,6 +39,8 @@ const ProfileModal = ({onMouseOver,onMouseOut}) => {
            
         </div>
         <button className="border-t-[1px] hover:underline items-center justify-center flex bg-[rgb(10,10,10)] py-4"><span className="text-[0.8em]">Sign out of Conflix</span></button>
+    </div>
+    
     </div>
   )
 }

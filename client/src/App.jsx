@@ -38,7 +38,7 @@ function App() {
     };
   }, []);
 
-  console.log("loaded",loaded)
+  // console.log("loaded",loaded)
  
   return (
     <Routes>

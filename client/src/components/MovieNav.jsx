@@ -71,7 +71,7 @@ useEffect(()=>{
   // console.log(isPC)
   return (
     <>
-    <div className="text-white font-[roboto] fixed z-10 top-0 right-0 left-0 flex flex-row justify-between pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
+    <div className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
       <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
         <svg
           version="1.1"
