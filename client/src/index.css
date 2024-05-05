@@ -30,19 +30,20 @@ html {
   /* color: white; */
 }
 
-.react-player{
+/* .react-player{
   position: absolute;
   top: 0;
   left: 0;
 
-}
+} */
 
 .player-wrapper{
-  position: relative;
+  /* position: relative;
   height: 100vh;
-  /* overflow: hidden; */
-  /* transform: scale(1.5); */
-  border: 5px solid red;
+    border: 5px solid red; */
+  overflow: hidden; 
+  transform: scale(1.5);
+
 }
 
 #lang {

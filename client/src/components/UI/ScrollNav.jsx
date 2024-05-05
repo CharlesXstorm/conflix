@@ -168,37 +168,6 @@ const ScrollNav = ({ data, position }) => {
     }
   };
 
-  const scrollHandlerNew = () => {
-    //add every scroll child divisor to a list
-
-    var nthChild = document.getElementsByClassName(`${data[0]._id}_id_${3}`);
-    console.log(nthChild);
-
-    for (var child of nthChild) {
-      var position = child.getBoundingClientRect().right * 1;
-      if (position > 0 && position < dvWidth * 1) {
-        setBgSpan({ [`${data[0]._id}_id_${3}`]: "bg-[rgb(160,160,160)]" });
-        break;
-      } else {
-        setBgSpan({ [`${data[0]._id}_id_${3}`]: "bg-[rgb(60,60,60)]" });
-      }
-    }
-
-    //add first and last scroll children to variables
-    var lastChild =
-      scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
-    var firstChild =
-      scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
-    //make scroll continuous when scroll reaches last item
-    if (lastChild < dvWidth * 1) {
-      list.splice(list.length, 0, ...list.slice(0, 12));
-    }
-    //make scroll continuous when scroll reaches first item
-    if (firstChild > 0) {
-      console.log("first child");
-    }
-  };
-
   return (
     <div className={`${position || "relative"} w-full`}>
       <div className="flex flex-row justify-between">

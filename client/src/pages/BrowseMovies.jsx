@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef} from "react";
 // import { useSelector } from "react-redux";
-import ScrollNav from "../components/UI/ATestScrollTestNav";
+import ScrollNav from "../components/UI/ScrollNav";
+// import VideoPlayer from "../components/VideoPlayer";
 import ReactPlayer from "react-player/youtube";
 
 //data
@@ -165,28 +166,35 @@ const BrowseMovies = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  const [timeOutId, setTimeOutId] = useState(null);
+  const [duration, setDuration] = useState(null)
+  const [stopped, setStopped] = useState(false);
   const playerRef = useRef();
 
-  // const { data } = useSelector((state) => state.account);
-  // console.log(data);
 
-  const delay = () => {
-    // console.log("delay");
-    // playerRef.current.setState({showPreview: true})
-    setTimeout(() => {
-      // playerRef.current.handleClickPreview()
-      setPlaying(true);
-      // playerRef.current.handleClickPreview()
-      // playerRef.current.setState({showPreview: false})
-    }, 2000);
+  // const delay = () => {
+  //   setTimeout(() => {
+  //     setPlaying(true);
+  //   }, 2000);
 
-    // setTimeOutId(newTimeOutId);
+  // };
+
+  // const readyHandler = () => {
+  //   delay();
+  // };
+
+  const stopFnc = () => {
+    setPlaying(false);
+    setStopped(true)
+    if (playerRef.current) {
+      playerRef.current.seekTo(130, "seconds");
+    }
   };
 
-  const readyHandler = () => {
-    // console.log("working");
-    delay();
+  const progressHandler = (progress) => {
+    if (progress.playedSeconds >= 0.85 * duration && playing && !stopped) {
+      // console.log('stopped', playing)
+      stopFnc();
+    }
   };
 
   const volumeHandler = () => {
@@ -203,15 +211,19 @@ const BrowseMovies = () => {
     <div className="relative font-[roboto]">
       <div
         id="hero"
-        className="relative h-[50vh] lg:h-[100vh] overflow-hidden border border-[blue]"
+        className="relative h-[50vh] lg:h-[100vh] overflow-hidden"
       >
         {!playing && (
           <div
-            className="absolute top-0 left-0 border-[25px] border-[green] z-10 w-full h-full overflow-hidden"
-            onClick={() => setPlaying(true)}
+            className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
+            onClick={() => {
+              playerRef.current.seekTo(130,'seconds');
+              setPlaying(true)
+              setStopped(false)
+            }}
           >
             <img
-              className="scale-[2] md:scale-125 border"
+              className="scale-[2] md:scale-125"
               src="https://image.tmdb.org/t/p/original/tpiqEVTLRz2Mq7eLq5DT8jSrp71.jpg"
               alt="thumbnail"
             />
@@ -253,8 +265,8 @@ const BrowseMovies = () => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-2 pointer-events-auto">
-              <div className="flex mt-2 ml-2">
+            <div className="flex flex-row pointer-events-auto">
+              <div className="flex mt-2 ml-2 gap-2 ">
                 <button className="" onClick={volumeHandler}>
                   <img
                     src={`images/volume-${volumeIcon}.svg`}
@@ -269,13 +281,15 @@ const BrowseMovies = () => {
           </div>
         }
 
-        {/* <div className="absolute z-10 top-0 left-0 border-green-500 flex items-end border w-full h-full">
-          <ScrollNav data={[...genre]} />
-        </div> */}
-
-        <div className="player-wrapper">
-        <div className="bg-[red] h-full w-full"></div>
-          {/* <ReactPlayer
+        {/* <VideoPlayer
+        volume = {volume}
+        playing={playing}
+        setPlaying={setPlaying}
+        playerRef={playerRef}
+        /> */}
+    
+        <div className="player-wrapper h-full">
+          <ReactPlayer
             className="react-player"
             ref={playerRef}
             url={"https://www.youtube.com/watch?v=UEJuNHOd8Dw"}
@@ -284,24 +298,22 @@ const BrowseMovies = () => {
             volume={volume}
             height="100%"
             width="100%"
-            onReady={readyHandler}
+            // onReady={readyHandler}
             onPause={() => setPlaying((prev) => !prev)}
-            onEnded={() => playerRef.current.setState({ showPreview: true })}
+            onEnded={() => setPlaying(false)}
             progressInterval={1000}
-          /> */}
+            onDuration={(duration)=>setDuration(duration)}
+            onProgress={progressHandler}
+          />
         </div>
 
       </div>
 
-      {/* <div className="flex flex-col w-[100%]">
-        <ScrollNav data={[...genreA]} />
-      </div>
+      {/* 
       <div className="flex flex-col w-[100%]">
         <ScrollNav data={[...genreA]} />
       </div>
-      <div className="flex flex-col w-[100%]">
-        <ScrollNav data={[...genreA]} />
-      </div> */}
+    */}
 
     </div>
   );

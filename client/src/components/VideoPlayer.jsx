@@ -1,43 +1,63 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReactPlayer from "react-player/youtube";
 
-const VideoPlayer = React.Fragment(({volume, playing},ref) => {
+const VideoPlayer = ({ volume, playing, setPlaying, playerRef }) => {
+  const [duration, setDuration] = useState(null);
+  // const playerRef = useRef();
 
+  const delay = () => {
+    // console.log("delay");
+    // playerRef.current.setState({showPreview: true})
+    // playerRef.current.handleClickPreview()
+    setTimeout(() => {
+      playerRef.current.seekTo(130, "seconds");
+      setPlaying((prev) => !prev);
+    }, 2000);
+  };
 
-  const [timeOutId, setTimeOutId] = useState(null);
+  // const readyHandler = () => {
+  //   delay();
+  // };
 
+  const stop = () => {
+    setPlaying(false);
+    if (playerRef.current) {
+      playerRef.current.seekTo(130, "seconds");
+    }
+  };
 
+  const progressHandler = (progress) => {
+    if (progress.playedSeconds >= 0.85 * duration && playing) {
+      // console.log('stopped', playing)
+      stop();
+    }
+  };
 
-    const readyHandler = () => {
-        console.log("working");
-        // delay()
-      };
+  // useEffect(() => {
+  //   delay()
+  // }, []);
 
-      useEffect(() => {
-       
-      }, []);
   return (
-    <div className="player-wrapper h-full border">
-          <ReactPlayer
-            ref={ref}
-            url={"https://www.youtube.com/watch?v=UEJuNHOd8Dw"}
-            playing={playing}
-            controls={false} // Disable default controls
-            light={
-              <img
-                id="prevImg"
-                src="https://image.tmdb.org/t/p/original/tpiqEVTLRz2Mq7eLq5DT8jSrp71.jpg"
-                alt="Thumbnail"
-              />
-            }
-            volume={volume}
-            height="100%"
-            width="100%"
-            onReady={readyHandler}
-          />
-        </div>
-  )
-})
+    <div className="player-wrapper h-full">
+      <ReactPlayer
+        className="react-player"
+        ref={playerRef}
+        url={"https://www.youtube.com/watch?v=UEJuNHOd8Dw"}
+        playing={playing}
+        controls={false} // Disable default controls
+        volume={volume}
+        height="100%"
+        width="100%"
+        // onReady={readyHandler}
+        onPause={() => setPlaying((prev) => !prev)}
+        progressInterval={5000}
+        onProgress={progressHandler}
+        onDuration={(duration) => setDuration(duration)}
+      />
+    </div>
+  );
+};
 
-export default VideoPlayer
+export default VideoPlayer;
