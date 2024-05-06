@@ -1,4 +1,4 @@
-import { useState, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 // import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
 // import VideoPlayer from "../components/VideoPlayer";
@@ -166,10 +166,10 @@ const BrowseMovies = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  const [duration, setDuration] = useState(null)
+  const [duration, setDuration] = useState(null);
+  let [track, setTrack] = useState(null);
   const [stopped, setStopped] = useState(false);
   const playerRef = useRef();
-
 
   // const delay = () => {
   //   setTimeout(() => {
@@ -182,19 +182,70 @@ const BrowseMovies = () => {
   //   delay();
   // };
 
+  // console.log(playerRef.current)
+
   const stopFnc = () => {
-    setPlaying(false);
-    setStopped(true)
-    if (playerRef.current) {
-      playerRef.current.seekTo(130, "seconds");
+    setStopped(true);
+    setPlaying((prevPlaying) => {
+      if (prevPlaying) {
+        if (playerRef.current) {
+          playerRef.current.seekTo(130, "seconds");
+        }
+        return false; // This will ensure the state is set to false
+      }
+      return prevPlaying; // No change to the state
+    });
+  };
+
+  const progressHandle = (progress) => {
+    console.log("playing ", playerRef.current.player.isPlaying);
+    if (progress.playedSeconds >= 0.85 * duration && playing && !stopped) {
+      setStopped(true);
+      playerRef.current.player.isPlaying = false;
+      playerRef.current.player.isLoading = false;
+      setPlaying((prevPlaying) => {
+        if (prevPlaying) {
+          return false; // This will ensure the state is set to false
+        }
+        return prevPlaying; // No change to the state
+      });
+
     }
   };
 
+  useEffect(() => {
+    // console.log(playerRef.current.player.handlePlay(function(){return (this.play)}))
+    // console.log(playerRef.current.player)
+    // if (!playing || stopped) {
+    //   setPlaying((prevPlaying) => {
+    //     if (prevPlaying) {
+    //       return false;
+    //     }
+    //     return prevPlaying;
+    //   });
+    //   console.log('The video has been stopped.');
+    // }
+  }, []);
+
+  // setPlaying(false)
+
   const progressHandler = (progress) => {
     if (progress.playedSeconds >= 0.85 * duration && playing && !stopped) {
-      // console.log('stopped', playing)
-      stopFnc();
+      setPlaying((prevPlaying) => {
+        setStopped(true);
+        // setVolume(0)
+        if (prevPlaying) {
+          // if (playerRef.current) {
+          //   playerRef.current.seekTo(130,'seconds');
+          // }
+          return false; // This will ensure the state is set to false
+        }
+        return prevPlaying; // No change to the state
+      });
+      // stopFnc()
     }
+
+    // console.log("progress still running");
   };
 
   const volumeHandler = () => {
@@ -209,17 +260,14 @@ const BrowseMovies = () => {
 
   return (
     <div className="relative font-[roboto]">
-      <div
-        id="hero"
-        className="relative h-[50vh] lg:h-[100vh] overflow-hidden"
-      >
+      <div id="hero" className="relative h-[50vh] lg:h-[100vh] overflow-hidden">
         {!playing && (
           <div
             className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
             onClick={() => {
-              playerRef.current.seekTo(130,'seconds');
-              setPlaying(true)
-              setStopped(false)
+              playerRef.current.seekTo(130, "seconds");
+              setPlaying(true);
+              setStopped(false);
             }}
           >
             <img
@@ -231,7 +279,10 @@ const BrowseMovies = () => {
         )}
         <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-        <ScrollNav position='absolute z-10 bottom-0 left-0 border-[5px] border-[red]' data={[...genre]} />
+        <ScrollNav
+          position="absolute z-10 bottom-0 left-0 border-[5px] border-[red]"
+          data={[...genre]}
+        />
 
         {
           //hero info
@@ -287,7 +338,7 @@ const BrowseMovies = () => {
         setPlaying={setPlaying}
         playerRef={playerRef}
         /> */}
-    
+
         <div className="player-wrapper h-full">
           <ReactPlayer
             className="react-player"
@@ -302,11 +353,10 @@ const BrowseMovies = () => {
             onPause={() => setPlaying((prev) => !prev)}
             onEnded={() => setPlaying(false)}
             progressInterval={1000}
-            onDuration={(duration)=>setDuration(duration)}
-            onProgress={progressHandler}
+            onDuration={(duration) => setDuration(duration)}
+            onProgress={(progress)=> progress.playedSeconds >= 0.85 * duration && playing? setPlaying((prev) => !prev): console.log('not playing')}
           />
         </div>
-
       </div>
 
       {/* 
@@ -314,7 +364,6 @@ const BrowseMovies = () => {
         <ScrollNav data={[...genreA]} />
       </div>
     */}
-
     </div>
   );
 };
