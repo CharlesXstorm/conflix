@@ -1,43 +1,34 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import ReactPlayer from "react-player/youtube";
 
 const VideoPlayer = ({ volume, playing, setPlaying, playerRef }) => {
   const [duration, setDuration] = useState(null);
-  // const playerRef = useRef();
 
   const delay = () => {
-    // console.log("delay");
-    // playerRef.current.setState({showPreview: true})
-    // playerRef.current.handleClickPreview()
     setTimeout(() => {
-      playerRef.current.seekTo(130, "seconds");
-      setPlaying((prev) => !prev);
+      setPlaying(true);
     }, 2000);
   };
 
-  // const readyHandler = () => {
-  //   delay();
-  // };
-
-  const stop = () => {
-    setPlaying(false);
-    if (playerRef.current) {
-      playerRef.current.seekTo(130, "seconds");
-    }
+  const readyHandler = () => {
+    playerRef.current.seekTo(130, "seconds");
+    delay();
   };
 
-  const progressHandler = (progress) => {
+  const progressHandler = (progress) => { 
     if (progress.playedSeconds >= 0.85 * duration && playing) {
-      // console.log('stopped', playing)
-      stop();
+      setPlaying((prevPlaying) => {
+        if (prevPlaying) {
+          return false; // This will ensure the state is set to false
+        }
+        return prevPlaying; // No change to the state
+      });
+      playerRef.current.seekTo(130,'seconds')
     }
   };
 
-  // useEffect(() => {
-  //   delay()
-  // }, []);
 
   return (
     <div className="player-wrapper h-full">
@@ -50,9 +41,9 @@ const VideoPlayer = ({ volume, playing, setPlaying, playerRef }) => {
         volume={volume}
         height="100%"
         width="100%"
-        // onReady={readyHandler}
-        onPause={() => setPlaying((prev) => !prev)}
-        progressInterval={5000}
+        onReady={readyHandler}
+        onPause={()=>setPlaying(false)}
+        progressInterval={1000}
         onProgress={progressHandler}
         onDuration={(duration) => setDuration(duration)}
       />

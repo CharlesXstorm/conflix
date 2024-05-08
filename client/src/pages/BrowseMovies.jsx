@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 // import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
-// import VideoPlayer from "../components/VideoPlayer";
-import ReactPlayer from "react-player/youtube";
+import VideoPlayer from "../components/VideoPlayer";
+// import ReactPlayer from "react-player/youtube";
 
 //data
 
@@ -166,87 +166,7 @@ const BrowseMovies = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  const [duration, setDuration] = useState(null);
-  let [track, setTrack] = useState(null);
-  const [stopped, setStopped] = useState(false);
   const playerRef = useRef();
-
-  // const delay = () => {
-  //   setTimeout(() => {
-  //     setPlaying(true);
-  //   }, 2000);
-
-  // };
-
-  // const readyHandler = () => {
-  //   delay();
-  // };
-
-  // console.log(playerRef.current)
-
-  const stopFnc = () => {
-    setStopped(true);
-    setPlaying((prevPlaying) => {
-      if (prevPlaying) {
-        if (playerRef.current) {
-          playerRef.current.seekTo(130, "seconds");
-        }
-        return false; // This will ensure the state is set to false
-      }
-      return prevPlaying; // No change to the state
-    });
-  };
-
-  const progressHandle = (progress) => {
-    console.log("playing ", playerRef.current.player.isPlaying);
-    if (progress.playedSeconds >= 0.85 * duration && playing && !stopped) {
-      setStopped(true);
-      playerRef.current.player.isPlaying = false;
-      playerRef.current.player.isLoading = false;
-      setPlaying((prevPlaying) => {
-        if (prevPlaying) {
-          return false; // This will ensure the state is set to false
-        }
-        return prevPlaying; // No change to the state
-      });
-
-    }
-  };
-
-  useEffect(() => {
-    // console.log(playerRef.current.player.handlePlay(function(){return (this.play)}))
-    // console.log(playerRef.current.player)
-    // if (!playing || stopped) {
-    //   setPlaying((prevPlaying) => {
-    //     if (prevPlaying) {
-    //       return false;
-    //     }
-    //     return prevPlaying;
-    //   });
-    //   console.log('The video has been stopped.');
-    // }
-  }, []);
-
-  // setPlaying(false)
-
-  const progressHandler = (progress) => {
-    if (progress.playedSeconds >= 0.85 * duration && playing && !stopped) {
-      setPlaying((prevPlaying) => {
-        setStopped(true);
-        // setVolume(0)
-        if (prevPlaying) {
-          // if (playerRef.current) {
-          //   playerRef.current.seekTo(130,'seconds');
-          // }
-          return false; // This will ensure the state is set to false
-        }
-        return prevPlaying; // No change to the state
-      });
-      // stopFnc()
-    }
-
-    // console.log("progress still running");
-  };
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -264,14 +184,10 @@ const BrowseMovies = () => {
         {!playing && (
           <div
             className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
-            onClick={() => {
-              playerRef.current.seekTo(130, "seconds");
-              setPlaying(true);
-              setStopped(false);
-            }}
+            onClick={() => setPlaying(true)}
           >
             <img
-              className="scale-[2] md:scale-125"
+              className="scale-[2] md:scale-125 origin-[50%_20%]"
               src="https://image.tmdb.org/t/p/original/tpiqEVTLRz2Mq7eLq5DT8jSrp71.jpg"
               alt="thumbnail"
             />
@@ -286,7 +202,7 @@ const BrowseMovies = () => {
 
         {
           //hero info
-          <div className="absolute z-20 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] border flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
+          <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] border flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
             <div className="flex flex-col gap-4 pointer-events-auto">
               <div className="movieTitle flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -332,31 +248,13 @@ const BrowseMovies = () => {
           </div>
         }
 
-        {/* <VideoPlayer
-        volume = {volume}
-        playing={playing}
-        setPlaying={setPlaying}
-        playerRef={playerRef}
-        /> */}
-
-        <div className="player-wrapper h-full">
-          <ReactPlayer
-            className="react-player"
-            ref={playerRef}
-            url={"https://www.youtube.com/watch?v=UEJuNHOd8Dw"}
-            playing={playing}
-            controls={false} // Disable default controls
-            volume={volume}
-            height="100%"
-            width="100%"
-            // onReady={readyHandler}
-            onPause={() => setPlaying((prev) => !prev)}
-            onEnded={() => setPlaying(false)}
-            progressInterval={1000}
-            onDuration={(duration) => setDuration(duration)}
-            onProgress={(progress)=> progress.playedSeconds >= 0.85 * duration && playing? setPlaying((prev) => !prev): console.log('not playing')}
-          />
-        </div>
+        <VideoPlayer
+          volume={volume}
+          playing={playing}
+          setPlaying={setPlaying}
+          playerRef={playerRef}
+          // setCurrentSeconds={setCurrentSeconds}
+        />
       </div>
 
       {/* 

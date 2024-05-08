@@ -71,3 +71,17 @@ html {
     transform: scale(2.8);
   }
 }
+
+@media only screen and (max-width:400px) {
+  #hero{
+    height: 55vh
+  }
+}
+
+@media only screen and (max-width:380px) {
+  #hero{
+    height: 65vh
+  }
+}
+
+
