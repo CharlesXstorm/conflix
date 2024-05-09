@@ -7,9 +7,9 @@ const VideoPlayer = ({ volume, playing, setPlaying, playerRef }) => {
   const [duration, setDuration] = useState(null);
 
   const delay = () => {
-    setTimeout(() => {
-      setPlaying(true);
-    }, 2000);
+    // setTimeout(() => {
+    //   setPlaying(true);
+    // }, 2000);
   };
 
   const readyHandler = () => {

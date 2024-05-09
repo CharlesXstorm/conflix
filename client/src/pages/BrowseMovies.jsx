@@ -253,15 +253,14 @@ const BrowseMovies = () => {
           playing={playing}
           setPlaying={setPlaying}
           playerRef={playerRef}
-          // setCurrentSeconds={setCurrentSeconds}
         />
       </div>
 
-      {/* 
-      <div className="flex flex-col w-[100%]">
+      
+      <div className="flex flex-col mt-8 w-[100%]">
         <ScrollNav data={[...genreA]} />
       </div>
-    */}
+   
     </div>
   );
 };

@@ -22,7 +22,7 @@ const ProfileModal = ({onMouseOver,onMouseOut}) => {
   const { data } = useSelector((state) => state.account);
 
   return (
-    <div className="w-full h-[100vh] absolute z-20">
+    <div className="w-full h-[100vh] fixed z-20">
 
     <div onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} className="absolute flex flex-col text-white top-[6vh] lg:top-[10vh] xl:top-[7vh] right-5 md:right-10 xl:right-[4em] border">
        <div className="flex justify-end pr-6"><span className=""><img src='images/arrow.svg' className="w-[0.8em] -rotate-90" /></span></div>

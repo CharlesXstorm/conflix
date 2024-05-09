@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
+import ReactDOM from 'react-dom'
 import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setItemInfo } from "../../utils/scrollItemSlice";
+import ItemModal from './ItemModal';
 
 //next button
 const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
@@ -60,9 +63,44 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 
 //scroll items
 const ScrollItem = ({ src, bg, classes }) => {
+
+  const [hover,setHover] = useState(false)
+
+const dispatch = useDispatch()
+
+  const mouseOverHandler = (e)=>{
+    dispatch(setItemInfo({
+      bottom: e.target.getBoundingClientRect().bottom,
+      height: e.target.getBoundingClientRect().height,
+      left: `left-[${Math.floor(e.target.getBoundingClientRect().left)}px]`,
+      right: e.target.getBoundingClientRect().right,
+      top: `top-[${Math.floor(e.target.getBoundingClientRect().top)}px]`,
+      width: e.target.getBoundingClientRect().width,
+      x: e.target.getBoundingClientRect().x,
+      y: e.target.getBoundingClientRect().y,
+    }))
+
+    setHover(true)
+    // console.log(e.target.getBoundingClientRect())
+  }
+
+
+  const mouseOutHandler = ()=>{
+    setHover(false)
+  }
   return (
+    
+    <>
+    {hover && ReactDOM.createPortal(
+        <ItemModal 
+        // onMouseOver={mouseOverHandler} 
+        onMouseOut={mouseOutHandler} 
+        />,
+        document.getElementById("portal")
+      )}
     <div
-      className={`${classes} relative overflow-hidden rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]`}
+    onMouseOver={mouseOverHandler}
+    className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border overflow-hidden`}
     >
       <div className="absolute top-[10px] left-[10px]">
         <img src={src} className="w-[5%]" />
@@ -71,8 +109,30 @@ const ScrollItem = ({ src, bg, classes }) => {
         {bg}
       </div>
     </div>
+
+    </>
+
   );
 };
+// const ScrollItem = ({ src, bg, classes }) => {
+//   return (
+//     <>
+    
+//     <div
+//       className={`${classes} relative overflow-hidden rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]`}
+//     >
+//       <div className="absolute top-[10px] left-[10px]">
+//         <img src={src} className="w-[5%]" />
+//       </div>
+//       <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
+//         {bg}
+//       </div>
+//     </div>
+
+//     <div className="absolute top-0 left-0 border p-[100px]"></div>
+//     </>
+//   );
+// };
 
 //scroll indicator
 const Span = ({ id, bgSpan }) => {
@@ -212,7 +272,7 @@ const ScrollNav = ({ data, position }) => {
           ref={scrollRef}
           onScroll={scrollHandler}
           id="scrollNav"
-          className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
+          className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll border border-blue-600"
         >
           {list.map((item, index) => (
             <ScrollItem
