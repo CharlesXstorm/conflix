@@ -72,15 +72,19 @@ const dispatch = useDispatch()
     dispatch(setItemInfo({
       bottom: e.target.getBoundingClientRect().bottom,
       height: e.target.getBoundingClientRect().height,
-      left: `left-[${Math.floor(e.target.getBoundingClientRect().left)}px]`,
+      left: `${Math.floor(e.target.getBoundingClientRect().left)}px`,
       right: e.target.getBoundingClientRect().right,
-      top: `top-[${Math.floor(e.target.getBoundingClientRect().top)}px]`,
+      top: `${Math.floor(e.target.getBoundingClientRect().top)}px`,
       width: e.target.getBoundingClientRect().width,
       x: e.target.getBoundingClientRect().x,
       y: e.target.getBoundingClientRect().y,
     }))
 
     setHover(true)
+    // setTimeout(()=>{
+    //   setHover(true)
+    // },[1000])
+    
     // console.log(e.target.getBoundingClientRect())
   }
 
@@ -95,11 +99,13 @@ const dispatch = useDispatch()
         <ItemModal 
         // onMouseOver={mouseOverHandler} 
         onMouseOut={mouseOutHandler} 
+        setHover={setHover}
         />,
         document.getElementById("portal")
       )}
     <div
     onMouseOver={mouseOverHandler}
+    onMouseOut={mouseOutHandler}
     className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border overflow-hidden`}
     >
       <div className="absolute top-[10px] left-[10px]">
