@@ -54,6 +54,10 @@ html {
   display: none;
 }
 
+/* .scroll::-webkit-scrollbar{
+  display: none;
+} */
+
 /* #portal {
   overflow: hidden;
 } */

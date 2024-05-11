@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 // import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
 import VideoPlayer from "../components/VideoPlayer";
+import FramerScroll from "../components/UI/FramerScroll";
 // import ReactPlayer from "react-player/youtube";
 
 //data
@@ -256,10 +257,40 @@ const BrowseMovies = () => {
         />
       </div>
 
-      
-      <div className="flex flex-col mt-8 w-[100%]">
+      <FramerScroll data={[...genreA]} />
+      {/* <div className="flex flex-col mt-8 w-[100%]">
         <ScrollNav data={[...genreA]} />
-      </div>
+      </div> */}
+
+      {/* <div className="w-[100%] flex flex-col mt-8 border">
+
+        <div className="flex-col">
+          <p className="p-[10px]">Title</p>
+          <div className="scroll flex gap-2 w-[100%] h-[10em] border overflow-y-visible overflow-x-clip ">
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+            <div className="relative w-[20%] h-[100%] rounded bg-red-600 flex-none">
+              <div className="z-[30] bg-green-500 rounded absolute top-[-5em] left-[1.5em] w-[20em] h-[20em]"></div>
+            </div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600 flex-none"></div>
+          </div>
+        </div>
+
+        <div className="flex-col">
+          <p className="p-[10px]">Title</p>
+          <div className="scroll flex gap-2 w-[100%] h-[10em] ">
+            <div className="w-[20%] h-[100%] rounded bg-red-600"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600"></div>
+            <div className="w-[20%] h-[100%] rounded bg-red-600"></div>
+          </div>
+        </div>
+
+      </div> */}
    
     </div>
   );

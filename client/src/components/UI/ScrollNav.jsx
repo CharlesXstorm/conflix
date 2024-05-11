@@ -81,11 +81,7 @@ const dispatch = useDispatch()
     }))
 
     setHover(true)
-    // setTimeout(()=>{
-    //   setHover(true)
-    // },[1000])
-    
-    // console.log(e.target.getBoundingClientRect())
+ 
   }
 
 
@@ -97,12 +93,12 @@ const dispatch = useDispatch()
     <>
     {hover && ReactDOM.createPortal(
         <ItemModal 
-        // onMouseOver={mouseOverHandler} 
         onMouseOut={mouseOutHandler} 
         setHover={setHover}
         />,
         document.getElementById("portal")
       )}
+      
     <div
     onMouseOver={mouseOverHandler}
     onMouseOut={mouseOutHandler}
