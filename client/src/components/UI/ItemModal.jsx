@@ -1,28 +1,32 @@
 /* eslint-disable react/prop-types */
 import {useState, useEffect,useRef} from 'react'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
-const ItemModal = ({ onMouseOut,setHover }) => {
-  const [height,setHeight] = useState()
+const ItemModal = ({ onMouseOut,setHover,itemInfo, dvWidth }) => {
+  // const [height,setHeight] = useState()
+  const [position,setPosition] = useState('')
   const modalRef = useRef()
-  const { itemInfo } = useSelector((state) => state.item);
+  // const { itemInfo } = useSelector((state) => state.item);
+  console.log(itemInfo)
 
   useEffect(()=>{
-    // console.log(modalRef)
-    setHeight(modalRef.current.clientHeight)
-  },[])
+    if(itemInfo.left<=10){
+      return setPosition('left-0')
+    }
+    if(itemInfo.right>=(dvWidth-10) ){
+      return setPosition('right-0')
+    }
+    setPosition('left-[calc(-250px/4)] xl:left-[calc(-250px/8)]')
 
-  // console.log(itemInfo.top, itemInfo.left);
+  },[itemInfo,dvWidth])
+
+
   return (
-    <div className="h-[100%] pointer-events-none w-[100%] fixed top-0 left-0 z-[20] border-4 border-green-500">
-      <div 
-      // onMouseOver={onMouseOut} 
-      onScroll={()=> console.log('scrolling')}
-      className="w-[inherit] h-[inherit] absolute top-0 left-0 border-4 border-blue-500"></div>
+
       <div
         ref={modalRef}
-        className={`absolute bg-red-500 border w-[250px] h-[250px] lg:w-[250px] lg:h-[250px] xl:w-[400px] xl:h-[400px] rounded overflow-hidden`}
-        style={{ top: `calc(${itemInfo.top} - (${height/4}px))`, left: `calc(${itemInfo.left} - (${height/4}px))` }}
+        className={`absolute z-[40] top-[calc(-250px/4)] xl:top-[calc(-300px/4)] bg-red-500 border w-[250px] h-[250px] lg:w-[250px] lg:h-[250px] xl:w-[300px] xl:h-[300px] rounded overflow-hidden`}
+        // style={{ zIndex: 60 }}
       >
         <div className="w-[inherit] h-[inherit] bg-white pointer-events-auto flex-col justify-center" 
         onMouseOver={()=> setHover(true)}
@@ -33,7 +37,6 @@ const ItemModal = ({ onMouseOut,setHover }) => {
 
         </div>
       </div>
-    </div>
   );
 };
 

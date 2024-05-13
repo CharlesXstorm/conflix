@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import { useRef, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setItemInfo } from "../../utils/scrollItemSlice";
-import ItemModal from './ItemModal';
+import { useSelector} from "react-redux";
 
 //next button
 const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
@@ -64,44 +62,9 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 //scroll items
 const ScrollItem = ({ src, bg, classes }) => {
 
-  const [hover,setHover] = useState(false)
-
-const dispatch = useDispatch()
-
-  const mouseOverHandler = (e)=>{
-    dispatch(setItemInfo({
-      bottom: e.target.getBoundingClientRect().bottom,
-      height: e.target.getBoundingClientRect().height,
-      left: `${Math.floor(e.target.getBoundingClientRect().left)}px`,
-      right: e.target.getBoundingClientRect().right,
-      top: `${Math.floor(e.target.getBoundingClientRect().top)}px`,
-      width: e.target.getBoundingClientRect().width,
-      x: e.target.getBoundingClientRect().x,
-      y: e.target.getBoundingClientRect().y,
-    }))
-
-    setHover(true)
- 
-  }
-
-
-  const mouseOutHandler = ()=>{
-    setHover(false)
-  }
   return (
-    
-    <>
-    {hover && ReactDOM.createPortal(
-        <ItemModal 
-        onMouseOut={mouseOutHandler} 
-        setHover={setHover}
-        />,
-        document.getElementById("portal")
-      )}
-      
+  
     <div
-    onMouseOver={mouseOverHandler}
-    onMouseOut={mouseOutHandler}
     className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border overflow-hidden`}
     >
       <div className="absolute top-[10px] left-[10px]">
@@ -112,29 +75,8 @@ const dispatch = useDispatch()
       </div>
     </div>
 
-    </>
-
   );
 };
-// const ScrollItem = ({ src, bg, classes }) => {
-//   return (
-//     <>
-    
-//     <div
-//       className={`${classes} relative overflow-hidden rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]`}
-//     >
-//       <div className="absolute top-[10px] left-[10px]">
-//         <img src={src} className="w-[5%]" />
-//       </div>
-//       <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-//         {bg}
-//       </div>
-//     </div>
-
-//     <div className="absolute top-0 left-0 border p-[100px]"></div>
-//     </>
-//   );
-// };
 
 //scroll indicator
 const Span = ({ id, bgSpan }) => {
