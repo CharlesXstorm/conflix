@@ -4,28 +4,29 @@ import {useState, useEffect,useRef} from 'react'
 
 const ItemModal = ({ onMouseOut,setHover,itemInfo, dvWidth }) => {
   // const [height,setHeight] = useState()
-  const [position,setPosition] = useState('')
+  // const [position,setPosition] = useState('')
   const modalRef = useRef()
   // const { itemInfo } = useSelector((state) => state.item);
   console.log(itemInfo)
 
   useEffect(()=>{
-    if(itemInfo.left<=10){
-      return setPosition('left-0')
-    }
-    if(itemInfo.right>=(dvWidth-10) ){
-      return setPosition('right-0')
-    }
-    setPosition('left-[calc(-250px/4)] xl:left-[calc(-250px/8)]')
+    // if(itemInfo.left<=10){
+    //   return setPosition('left-0')
+    // }
+    // if(itemInfo.right>=(dvWidth-10) ){
+    //   return setPosition('right-0')
+    // }
+    // setPosition('left-[calc(-200px/4)] xl:left-[calc(-250px/8)]')
 
-  },[itemInfo,dvWidth])
+  },[])
 
 
   return (
 
       <div
         ref={modalRef}
-        className={`absolute z-[40] top-[calc(-250px/4)] xl:top-[calc(-300px/4)] bg-red-500 border w-[250px] h-[250px] lg:w-[250px] lg:h-[250px] xl:w-[300px] xl:h-[300px] rounded overflow-hidden`}
+        className={`absolute z-[40] bg-red-500 border w-[250px] h-[250px] xl:w-[300px] xl:h-[300px] rounded overflow-hidden`}
+        // className={`absolute z-[40] ${position} top-[calc(-200px/4)] xl:top-[calc(-300px/4)] bg-red-500 border w-[250px] h-[250px] xl:w-[300px] xl:h-[300px] rounded overflow-hidden`}
         // style={{ zIndex: 60 }}
       >
         <div className="w-[inherit] h-[inherit] bg-white pointer-events-auto flex-col justify-center" 

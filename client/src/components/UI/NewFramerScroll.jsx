@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import ItemModal from "./FramerItemModal";
+import ItemModal from "./NewFramerItemModal";
 
 //motionVariants
 /////////////////////////////////////////////////////////////////////////////////////
@@ -97,19 +98,47 @@ const Span = ({ id, bgSpan }) => {
   );
 };
 
+//Modal Container
+/////////////////////////////////////////////////////////////////////////////
+const ModalCont = ({ height, onMouseOut, setHover, itemInfo }) => {
+  // console.log(height);
+  // console.log(itemInfo)
+
+  return (
+    <div
+      style={{ height: `${height}` }}
+      className={`absolute z-[40] w-[100%] border-[4px] border-green-600`}
+    >
+      <div className="border-red-600 border-[4px] relative h-[inherit] w-[inherit]">
+        <div
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={onMouseOut}
+          style={{ top:`${itemInfo.top}px`, left:`${itemInfo.left}px` }}
+          className="absolute z-[50] border w-[250px] h-[250px] rounded-[6px] bg-[green] "
+        ></div>
+      </div>
+    </div>
+  );
+};
+
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
 const ScrollItem = ({ src, bg, dvWidth }) => {
   const [hover, setHover] = useState(false);
   const [itemInfo, setItemInfo] = useState({});
+  const [modalContHeight, setModalContHeight] = useState("");
+  const [refCurrent, setRefCurrent] = useState(null);
+  const itemRef = useRef();
 
   const mouseOverHandler = (e) => {
+    console.log('yellowDiv',e.pageY)
     setItemInfo({
       bottom: Math.floor(e.target.getBoundingClientRect().bottom),
       height: Math.floor(e.target.getBoundingClientRect().height),
       left: Math.floor(e.target.getBoundingClientRect().left),
       right: Math.floor(e.target.getBoundingClientRect().right),
-      top: Math.floor(e.target.getBoundingClientRect().top),
+      // top: Math.floor(e.pageY),
+      top: Math.floor(e.target.getBoundingClientRect().top + window.scrollY),
       width: Math.floor(e.target.getBoundingClientRect().width),
       x: e.target.getBoundingClientRect().x,
       y: e.target.getBoundingClientRect().y
@@ -120,32 +149,71 @@ const ScrollItem = ({ src, bg, dvWidth }) => {
   const mouseOutHandler = () => {
     setHover(false);
   };
+
+  const scrollContHandler = () => {
+    console.log('blueDiv',itemRef)
+    setItemInfo({
+      bottom: Math.floor(itemRef.current.getBoundingClientRect().bottom),
+      height: Math.floor(itemRef.current.getBoundingClientRect().height),
+      left: Math.floor(itemRef.current.getBoundingClientRect().left),
+      right: Math.floor(itemRef.current.getBoundingClientRect().right),
+      top: Math.floor(itemRef.current.getBoundingClientRect().top + window.scrollY),
+      width: Math.floor(itemRef.current.getBoundingClientRect().width),
+      x: itemRef.current.getBoundingClientRect().x,
+      y: itemRef.current.getBoundingClientRect().y
+    });
+    // console.log(itemRef.current.getBoundingClientRect());
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    setModalContHeight(`${body.scrollHeight}px`);
+    setRefCurrent(itemRef.current);
+
+    if (refCurrent != null && hover != false) {
+      window.addEventListener("scroll", scrollContHandler);
+      return () => removeEventListener("scroll", scrollContHandler);
+    }
+  }, [refCurrent, hover]);
+
   return (
-    <div
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
-      className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border `}
-    >
-      {/* <div className="w-[300px] h-[300px] absolute z-[30] top-0 left-0 bg-[white] border-[4px] border-[blue]"></div> */}
-      {hover && (
-        <ItemModal
-          onMouseOut={mouseOutHandler}
-          setHover={setHover}
-          itemInfo={itemInfo}
-          dvWidth={dvWidth}
-        />
-      )}
+    <>
+      {hover &&
+        ReactDOM.createPortal(
+          <ModalCont
+            // onScroll={scrollContHandler}
+            height={modalContHeight}
+            onMouseOut={mouseOutHandler}
+            setHover={setHover}
+            itemInfo={itemInfo}
+          />,
+          document.getElementById("portal")
+        )}
+
       <div
-        className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[100%]  border `}
+        onMouseOver={mouseOverHandler}
+        // onMouseOut={mouseOutHandler}
+        className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border `}
       >
-        <div className="absolute top-[10px] left-[10px]">
-          <img src={src} className="w-[5%]" />
-        </div>
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-          {bg}
+        {/* <div className="w-[300px] h-[300px] absolute z-[30] top-0 left-0 bg-[white] border-[4px] border-[blue]"></div> */}
+        {hover && (
+          <div
+            ref={itemRef}
+            className="absolute z-[30] top-0 left-0 w-[100%] h-[inherit] bg-[blue] border-[4px] rounded"
+          ></div>
+        )}
+        <div
+          className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[100%]  border `}
+        >
+          <div className="absolute top-[10px] left-[10px]">
+            <img src={src} className="w-[5%]" />
+          </div>
+          <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
+            {bg}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -243,20 +311,6 @@ const FramerScroll = ({ data }) => {
                         dvWidth={dvWidth}
                       />
                     ))}
-                    {/* <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                      <div className="absolute z-[30] top-[4em] left-[1em] w-[16em] h-[16em] bg-green-500 rounded border-[4px]"></div>
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div> */}
                   </motion.div>
                 )
               );

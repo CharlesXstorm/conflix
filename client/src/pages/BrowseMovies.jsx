@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 // import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
 import VideoPlayer from "../components/VideoPlayer";
-import FramerScroll from "../components/UI/FramerScroll";
+import FramerScroll from "../components/UI/NewFramerScroll";
 // import ReactPlayer from "react-player/youtube";
 
 //data
@@ -260,6 +260,9 @@ const BrowseMovies = () => {
       <FramerScroll data={[...genreA]} />
       <FramerScroll data={[...genreA]} />
       <FramerScroll data={[...genreA]} />
+      {/* <ScrollNav data={[...genreA]} />
+      <ScrollNav data={[...genreA]} />
+      <ScrollNav data={[...genreA]} /> */}
       
    
     </div>
