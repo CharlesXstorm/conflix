@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import ItemModal from "./FramerItemModal";
@@ -54,8 +55,11 @@ const Next = ({ setPage, viewLength, setDirection, setBgSpan }) => {
   };
   return (
     <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
-      <button className="w-[3em] xl:w-[5em] h-[100%]" onClick={nextHandler}>
-        <img src="/images/left-arrow.svg" className="rotate-180" />
+      <button
+        className="w-[3em] xl:w-[4em] h-[100%] flex justify-center items-center"
+        onClick={nextHandler}
+      >
+        <img src="/images/left-arrow.svg" className="rotate-180 w-[2em]" />
       </button>
     </div>
   );
@@ -77,8 +81,11 @@ const Prev = ({ setPage, viewLength, setDirection, setBgSpan }) => {
   };
   return (
     <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
-      <button className="w-[3em] xl:w-[5em] h-[100%]" onClick={prevHandler}>
-        <img src="/images/left-arrow.svg" />
+      <button
+        className="w-[3em] xl:w-[4em] h-[100%] flex justify-center items-center"
+        onClick={prevHandler}
+      >
+        <img src="/images/left-arrow.svg" className="w-[2em]" />
       </button>
     </div>
   );
@@ -97,11 +104,79 @@ const Span = ({ id, bgSpan }) => {
   );
 };
 
+//Modal Container Component
+/////////////////////////////////////////////////////////////////////////////
+const ModalCont = ({
+  height,
+  onMouseOut,
+  setHover,
+  setModal,
+  itemInfo,
+  dvWidth
+}) => {
+  const [animate, setAnimate] = useState({
+    transform: "scale(0)",
+    opacity: 0
+  });
+
+  useEffect(() => {
+    setAnimate({
+      transform: "scale(1)",
+      opacity: 1
+    });
+    const delay = () => {
+      setTimeout(() => {
+        setModal("ready");
+      }, [1000]);
+    };
+    delay();
+
+    return () => clearTimeout(delay);
+  }, []);
+  return (
+    <div style={{ height: `${height}` }} className={`absolute z-[40] w-[100%]`}>
+      <div className="relative h-[inherit] w-[inherit] overflow-hidden">
+        <div
+          className="absolute top-0 left-0 z-[40] h-[inherit] w-[inherit]"
+          // onMouseEnter={onMouseOut}
+          onMouseMove={() =>
+            setModal((prev) => {
+              if (prev === true) {
+                return true;
+              }
+
+              setTimeout(() => {
+                setAnimate({
+                  transform: "scale(0)",
+                  opacity: 0
+                });
+              }, [1500]);
+              setHover(false);
+              return true;
+            })
+          }
+        ></div>
+        <ItemModal
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={onMouseOut}
+          itemInfo={itemInfo}
+          animate={animate}
+          dvWidth={dvWidth}
+        />
+      </div>
+    </div>
+  );
+};
+
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
 const ScrollItem = ({ src, bg, dvWidth }) => {
   const [hover, setHover] = useState(false);
+  const [modal, setModal] = useState(true);
   const [itemInfo, setItemInfo] = useState({});
+  const [modalContHeight, setModalContHeight] = useState("");
+  const [refCurrent, setRefCurrent] = useState(null);
+  const itemRef = useRef();
 
   const mouseOverHandler = (e) => {
     setItemInfo({
@@ -109,43 +184,83 @@ const ScrollItem = ({ src, bg, dvWidth }) => {
       height: Math.floor(e.target.getBoundingClientRect().height),
       left: Math.floor(e.target.getBoundingClientRect().left),
       right: Math.floor(e.target.getBoundingClientRect().right),
-      top: Math.floor(e.target.getBoundingClientRect().top),
+      top: Math.floor(e.target.getBoundingClientRect().top + window.scrollY),
       width: Math.floor(e.target.getBoundingClientRect().width),
       x: e.target.getBoundingClientRect().x,
       y: e.target.getBoundingClientRect().y
     });
+
     setHover(true);
   };
 
   const mouseOutHandler = () => {
     setHover(false);
   };
+
+  const scrollContHandler = () => {
+    setItemInfo({
+      bottom: Math.floor(itemRef.current.getBoundingClientRect().bottom),
+      height: Math.floor(itemRef.current.getBoundingClientRect().height),
+      left: Math.floor(itemRef.current.getBoundingClientRect().left),
+      right: Math.floor(itemRef.current.getBoundingClientRect().right),
+      top: Math.floor(
+        itemRef.current.getBoundingClientRect().top + window.scrollY
+      ),
+      width: Math.floor(itemRef.current.getBoundingClientRect().width),
+      x: itemRef.current.getBoundingClientRect().x,
+      y: itemRef.current.getBoundingClientRect().y
+    });
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    setModalContHeight(`${body.scrollHeight}px`);
+    setRefCurrent(itemRef.current);
+
+    if (refCurrent != null && hover != false) {
+      window.addEventListener("scroll", scrollContHandler);
+      return () => removeEventListener("scroll", scrollContHandler);
+    }
+  }, [refCurrent, hover]);
+
   return (
-    <div
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
-      className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border `}
-    >
-      {/* <div className="w-[300px] h-[300px] absolute z-[30] top-0 left-0 bg-[white] border-[4px] border-[blue]"></div> */}
-      {hover && (
-        <ItemModal
-          onMouseOut={mouseOutHandler}
-          setHover={setHover}
-          itemInfo={itemInfo}
-          dvWidth={dvWidth}
-        />
-      )}
+    <>
+      {hover &&
+        modal &&
+        ReactDOM.createPortal(
+          <ModalCont
+            height={modalContHeight}
+            onMouseOut={mouseOutHandler}
+            setHover={setHover}
+            setModal={setModal}
+            itemInfo={itemInfo}
+            dvWidth={dvWidth}
+          />,
+          document.getElementById("portal")
+        )}
+
       <div
-        className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[100%]  border `}
+        onMouseEnter={mouseOverHandler}
+        className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]`}
       >
-        <div className="absolute top-[10px] left-[10px]">
-          <img src={src} className="w-[5%]" />
-        </div>
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-          {bg}
+        {hover && (
+          <div
+            ref={itemRef}
+            className="absolute z-[30] top-0 left-0 w-[100%] h-[inherit] rounded"
+          ></div>
+        )}
+        <div
+          className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[100%] `}
+        >
+          <div className="absolute top-[10px] left-[10px]">
+            <img src={src} className="w-[5%]" />
+          </div>
+          <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
+            {bg}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -227,7 +342,7 @@ const FramerScroll = ({ data }) => {
               return (
                 step + (item - step) === children[page] && (
                   <motion.div
-                    className="flex flex-row gap-[1%] lg:gap-[1%] w-[100%] h-[100%] justify-center items-center "
+                    className="flex flex-row gap-[1%] lg:gap-[0.5%] w-[100%] h-[100%] justify-center items-center "
                     key={index}
                     variants={slideVariants[direction]}
                     initial="hidden"
@@ -243,20 +358,6 @@ const FramerScroll = ({ data }) => {
                         dvWidth={dvWidth}
                       />
                     ))}
-                    {/* <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                      <div className="absolute z-[30] top-[4em] left-[1em] w-[16em] h-[16em] bg-green-500 rounded border-[4px]"></div>
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div>
-                    <div className="relative bg-[orange] w-[20%] h-[inherit] rounded ">
-                    </div> */}
                   </motion.div>
                 )
               );
