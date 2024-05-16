@@ -23,6 +23,7 @@ const ManageProfilesSetting = ({setEditClick}) => {
   }
 
   return (
+
     <div className="text-white font-[roboto] mt-[1em] md:m-[auto] md:mt-[1em] p-10 flex flex-col md:justify-center">
       <div className="w-[100%] md:w-[50%] xl:w-[40%] m-[auto]">
         <p className="pb-1 text-[2.5em] ">Edit Profile</p>
@@ -193,6 +194,7 @@ const ManageProfilesSetting = ({setEditClick}) => {
         }
       </div>
     </div>
+    
   );
 };
 
