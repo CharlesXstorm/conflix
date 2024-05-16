@@ -33,8 +33,8 @@ function App() {
     window.addEventListener("resize", handleEvent);
 
     return () => {
-      window.addEventListener("load", handleEvent);
-      window.addEventListener("resize", handleEvent);
+      window.removeEventListener("load", handleEvent);
+      window.removeEventListener("resize", handleEvent);
     };
   }, []);
 

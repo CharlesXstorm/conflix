@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/ScrollNav";
 import VideoPlayer from "../components/VideoPlayer";
-import FramerScroll from "../components/UI/NewFramerScroll";
+import FramerScroll from "../components/UI/FramerScroll";
 // import ReactPlayer from "react-player/youtube";
 
 //data
@@ -167,7 +167,10 @@ const BrowseMovies = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
+  const [hover, setHover] = useState(false);
   const playerRef = useRef();
+
+  const { isPC } = useSelector((state) => state.dvWidth);
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -196,10 +199,21 @@ const BrowseMovies = () => {
         )}
         <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-        <ScrollNav
-          position="absolute z-10 bottom-0 left-0 border-[5px] border-[red]"
-          data={[...genre]}
-        />
+        {isPC ? (
+          <FramerScroll
+            position="absolute z-10 bottom-0 left-0"
+            $id={"hero"}
+            data={[...genreA]}
+            hover={hover}
+            setHover={setHover}
+          />
+        ) : (
+          <ScrollNav
+            position="absolute z-10 bottom-0 left-0"
+            $id={"hero"}
+            data={[...genre]}
+          />
+        )}
 
         {
           //hero info
@@ -257,14 +271,26 @@ const BrowseMovies = () => {
         />
       </div>
 
-      <FramerScroll data={[...genreA]} />
-      <FramerScroll data={[...genreA]} />
-      <FramerScroll data={[...genreA]} />
-      {/* <ScrollNav data={[...genreA]} />
-      <ScrollNav data={[...genreA]} />
-      <ScrollNav data={[...genreA]} /> */}
+      {isPC?
+      [0, 1, 2].map((item) => (
+        <FramerScroll
+          key={item}
+          $id={item}
+          data={[...genreA]}
+          hover={hover}
+          setHover={setHover}
+        />
+      ))
+      :
+      [0, 1, 2].map((item) => (
+        <ScrollNav
+          key={item}
+          $id={item}
+          data={[...genre]}
+          />
+      ))
+      }
       
-   
     </div>
   );
 };

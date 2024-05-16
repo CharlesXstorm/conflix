@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 // import ReactDOM from 'react-dom'
 import { useRef, useState, useEffect } from "react";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
-//next button
+//next button component /////////////////////////////////////////////////////////
 const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
   const nextHandler = () => {
     scrollRef.current.scrollTo({
@@ -20,14 +20,17 @@ const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
 
   return (
     <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
-      <button className="w-[3em] xl:w-[5em] h-[100%]" onClick={nextHandler}>
-        <img src="/images/left-arrow.svg" className="rotate-180" />
+      <button
+        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        onClick={nextHandler}
+      >
+        <img src="/images/left-arrow.svg" className="rotate-180 w-[1.5em]" />
       </button>
     </div>
   );
 };
 
-//previous button
+//previous button component //////////////////////////////////////////////////////
 const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
   const prevHandler = () => {
     //handle prev button
@@ -52,20 +55,21 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 
   return (
     <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
-      <button className="w-[3em] xl:w-[5em] h-[100%]" onClick={prevHandler}>
-        <img src="/images/left-arrow.svg" />
+      <button
+        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        onClick={prevHandler}
+      >
+        <img src="/images/left-arrow.svg" className="w-[1.5em]" />
       </button>
     </div>
   );
 };
 
-//scroll items
+//scroll items component ///////////////////////////////////////////////////////////////////
 const ScrollItem = ({ src, bg, classes }) => {
-
   return (
-  
     <div
-    className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] border overflow-hidden`}
+      className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
     >
       <div className="absolute top-[10px] left-[10px]">
         <img src={src} className="w-[5%]" />
@@ -74,13 +78,11 @@ const ScrollItem = ({ src, bg, classes }) => {
         {bg}
       </div>
     </div>
-
   );
 };
 
-//scroll indicator
+//scroll indicator component ////////////////////////////////////////////////////////////////
 const Span = ({ id, bgSpan }) => {
-  console.log(id, bgSpan[id]);
   return (
     <span
       className={`${
@@ -90,8 +92,8 @@ const Span = ({ id, bgSpan }) => {
   );
 };
 
-//scroll component
-const ScrollNav = ({ data, position }) => {
+//scroll Nav component /////////////////////////////////////////////////////////////////////////
+const ScrollNav = ({ data, position, $id }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list] = useState([...data[0].movies]);
   const [count, setCount] = useState(`${isPC ? 5 : 3}` * 1);
@@ -119,7 +121,7 @@ const ScrollNav = ({ data, position }) => {
 
     setChildren([...scrollChildren]);
     setBgSpan({
-      [`${data[0]._id}_id_${scrollChildren[0]}`]: "bg-[rgb(160,160,160)]"
+      [`${data[0]._id}_${$id}_${scrollChildren[0]}`]: "bg-[rgb(160,160,160)]"
     });
   }, []);
 
@@ -136,39 +138,25 @@ const ScrollNav = ({ data, position }) => {
     }
     //make scroll continuous when scroll reaches first item
     if (firstChild > 0) {
-      console.log("first child");
+      // console.log("first child");
     }
 
-    console.log(children);
     //add every scroll child divisor to a list
     for (var item of children) {
       var nthChild = document.getElementsByClassName(
-        `${data[0]._id}_id_${item}`
+        `${data[0]._id}_${$id}_${item}`
       );
       //update the proper span indicator for every child divisor that comes into view
       for (var child of nthChild) {
         var position = child.getBoundingClientRect().right * 1;
-        console.log(child, position);
+
         if (position > 10 && position < dvWidth * 1) {
-          // setBgSpan((prev) => ({
-          //   ...prev,
-          //   [`${data[0]._id}_id_${item}`]: "bg-[rgb(160,160,160)]"
-          // }));
-          console.log("setWhite", `${data[0]._id}_id_${item}`, {
-            [`${data[0]._id}_id_${item}`]: "bg-[rgb(160,160,160)]"
-          });
-          setBgSpan({ [`${data[0]._id}_id_${item}`]: "bg-[rgb(160,160,160)]" });
+          setBgSpan({ [`${data[0]._id}_${$id}_${item}`]: "bg-[rgb(160,160,160)]" });
           return;
         } else {
-          // setBgSpan((prev) => ({
-          //   ...prev,
-          //   [`${data[0]._id}_id_${item}`]: "bg-[rgb(60,60,60)]"
-          // }));
-          setBgSpan({ [`${data[0]._id}_id_${item}`]: "bg-[rgb(60,60,60)]" });
+          setBgSpan({ [`${data[0]._id}_${$id}_${item}`]: "bg-[rgb(60,60,60)]" });
         }
       }
-      console.log("stop at", `${data[0]._id}_id_${item}`);
-      console.log("bgSpan equals", bgSpan);
     }
   };
 
@@ -184,7 +172,7 @@ const ScrollNav = ({ data, position }) => {
             children.map((item) => (
               <Span
                 key={item}
-                id={`${data[0]._id}_id_${item}`}
+                id={`${data[0]._id}_${$id}_${item}`}
                 bgSpan={bgSpan}
               />
             ))
@@ -216,12 +204,12 @@ const ScrollNav = ({ data, position }) => {
           ref={scrollRef}
           onScroll={scrollHandler}
           id="scrollNav"
-          className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll border border-blue-600"
+          className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
         >
           {list.map((item, index) => (
             <ScrollItem
               key={index}
-              classes={`${data[0]._id}_id_${item.id}`}
+              classes={`${data[0]._id}_${$id}_${item.id}`}
               src={item.logo}
               bg={item.bg}
             />

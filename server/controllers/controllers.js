@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const Profiles = require("../models/profileIconModel");
 
 dotenv.config({ path: "../.env" });
 
@@ -64,7 +65,11 @@ exports.signUp = async (req, res) => {
     const user = await User.create(req.body);
     const token = createToken(user._id);
     // res.cookie("jwt", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: maxAge * 1000 });
-    res.cookie("jwt", token, { httpOnly: true, SameSite: "None", maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      SameSite: "None",
+      maxAge: maxAge * 1000
+    });
     res.status(201).json({
       status: "success",
       data: user._id
@@ -304,6 +309,23 @@ exports.addWatchList = async (req, res, next) => {
     req.body = { watchList: [newWatchList, ...watchList] };
 
     next();
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message
+    });
+  }
+};
+
+exports.getProfileIcons = async (req, res) => {
+  try {
+    const iconsQuery = await Profiles.find();
+
+    res.status(200).json({
+      status: "success",
+      result: iconsQuery.length,
+      data: iconsQuery
+    });
   } catch (err) {
     res.status(404).json({
       status: "fail",

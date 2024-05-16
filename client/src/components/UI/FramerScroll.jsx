@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import ItemModal from "./FramerItemModal";
+import Loader from "./Loader";
 
 //motionVariants
 /////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +95,6 @@ const Prev = ({ setPage, viewLength, setDirection, setBgSpan }) => {
 //scroll indicator Component
 ///////////////////////////////////////////////////////////////////////////////////////
 const Span = ({ id, bgSpan }) => {
-  console.log(id, bgSpan[id]);
   return (
     <span
       className={`${
@@ -110,57 +110,39 @@ const ModalCont = ({
   height,
   onMouseOut,
   setHover,
-  setModal,
   itemInfo,
-  dvWidth
+  dvWidth,
+  id,
+  itemHeight,
+  itemWidth
 }) => {
-  const [animate, setAnimate] = useState({
-    transform: "scale(0)",
-    opacity: 0
-  });
+  // const [animate, setAnimate] = useState({
+  //   transform: "scale(0)",
+  //   opacity: 0
+  // });
 
-  useEffect(() => {
-    setAnimate({
-      transform: "scale(1)",
-      opacity: 1
-    });
-    const delay = () => {
-      setTimeout(() => {
-        setModal("ready");
-      }, [1000]);
-    };
-    delay();
+  // useEffect(() => {
+  //   setAnimate({
+  //     transform: "scale(1)",
+  //     opacity: 1
+  //   });
+  // }, []);
+  // console.log("itemRef",itemHeight)
 
-    return () => clearTimeout(delay);
-  }, []);
   return (
-    <div style={{ height: `${height}` }} className={`absolute z-[40] w-[100%]`}>
-      <div className="relative h-[inherit] w-[inherit] overflow-hidden">
-        <div
-          className="absolute top-0 left-0 z-[40] h-[inherit] w-[inherit]"
-          // onMouseEnter={onMouseOut}
-          onMouseMove={() =>
-            setModal((prev) => {
-              if (prev === true) {
-                return true;
-              }
-
-              setTimeout(() => {
-                setAnimate({
-                  transform: "scale(0)",
-                  opacity: 0
-                });
-              }, [1500]);
-              setHover(false);
-              return true;
-            })
-          }
-        ></div>
+    <div
+      style={{ height: `${height}` }}
+      className={`pointer-events-none  absolute z-[40] w-[100%]`}
+    >
+      <div className="pointer-events-none relative h-[inherit] w-[inherit] overflow-hidden">
         <ItemModal
-          onMouseEnter={() => setHover(true)}
+          key={id}
+          onMouseEnter={() => setHover(id)}
           onMouseLeave={onMouseOut}
           itemInfo={itemInfo}
-          animate={animate}
+          itemHeight={itemHeight}
+          itemWidth={itemWidth}
+          // animate={animate}
           dvWidth={dvWidth}
         />
       </div>
@@ -170,15 +152,13 @@ const ModalCont = ({
 
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItem = ({ src, bg, dvWidth }) => {
-  const [hover, setHover] = useState(false);
-  const [modal, setModal] = useState(true);
+const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
   const [itemInfo, setItemInfo] = useState({});
   const [modalContHeight, setModalContHeight] = useState("");
-  const [refCurrent, setRefCurrent] = useState(null);
   const itemRef = useRef();
 
   const mouseOverHandler = (e) => {
+    //handle hover
     setItemInfo({
       bottom: Math.floor(e.target.getBoundingClientRect().bottom),
       height: Math.floor(e.target.getBoundingClientRect().height),
@@ -189,15 +169,16 @@ const ScrollItem = ({ src, bg, dvWidth }) => {
       x: e.target.getBoundingClientRect().x,
       y: e.target.getBoundingClientRect().y
     });
-
-    setHover(true);
+    setHover(id);
   };
 
   const mouseOutHandler = () => {
+    //reset hover onMouseOut
     setHover(false);
   };
 
   const scrollContHandler = () => {
+    //function to run on everyScroll when hovered over an element
     setItemInfo({
       bottom: Math.floor(itemRef.current.getBoundingClientRect().bottom),
       height: Math.floor(itemRef.current.getBoundingClientRect().height),
@@ -213,51 +194,59 @@ const ScrollItem = ({ src, bg, dvWidth }) => {
   };
 
   useEffect(() => {
+    //get document height and save in a state
     const body = document.body;
     setModalContHeight(`${body.scrollHeight}px`);
-    setRefCurrent(itemRef.current);
-
-    if (refCurrent != null && hover != false) {
+    //activate on scroll for hovered element
+    if (hover === id) {
       window.addEventListener("scroll", scrollContHandler);
       return () => removeEventListener("scroll", scrollContHandler);
     }
-  }, [refCurrent, hover]);
+  }, [hover]);
 
   return (
     <>
-      {hover &&
-        modal &&
-        ReactDOM.createPortal(
-          <ModalCont
-            height={modalContHeight}
-            onMouseOut={mouseOutHandler}
-            setHover={setHover}
-            setModal={setModal}
-            itemInfo={itemInfo}
-            dvWidth={dvWidth}
-          />,
-          document.getElementById("portal")
-        )}
-
+      {/* <AnimatePresence mode="wait"> */}
+      {
+        //display visible modal in portal div
+        hover === id &&
+          ReactDOM.createPortal(
+            <ModalCont
+              height={modalContHeight}
+              onMouseOut={mouseOutHandler}
+              setHover={setHover}
+              id={id}
+              itemInfo={itemInfo}
+              dvWidth={dvWidth}
+              itemHeight={()=>{
+                if(itemRef.current){
+                 return itemRef.current.clientHeight
+                }
+              }}
+              itemWidth={()=>{
+                if(itemRef.current){
+                 return itemRef.current.clientWidth
+                }
+              }}
+            />
+            ,
+            document.getElementById("portal")
+          )
+      }
+      {/* </AnimatePresence> */}
       <div
-        onMouseEnter={mouseOverHandler}
-        className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)]`}
+        ref={itemRef}
+        onMouseOver={mouseOverHandler}
+        onMouseOut={mouseOutHandler}
+        className={`relative rounded-md h-[100%] bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
-        {hover && (
-          <div
-            ref={itemRef}
-            className="absolute z-[30] top-0 left-0 w-[100%] h-[inherit] rounded"
-          ></div>
-        )}
-        <div
-          className={`relative rounded-md h-[100%] bg-[orange] flex-none w-[100%] `}
-        >
-          <div className="absolute top-[10px] left-[10px]">
-            <img src={src} className="w-[5%]" />
-          </div>
-          <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-            {bg}
-          </div>
+        <Loader />
+        <div className="absolute top-[10px] left-[10px]">
+          <img src={src} className="w-[5%]" />
+        </div>
+
+        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
+          {bg}
         </div>
       </div>
     </>
@@ -266,7 +255,7 @@ const ScrollItem = ({ src, bg, dvWidth }) => {
 
 //scroll element Component
 /////////////////////////////////////////////////////////////////////////////
-const FramerScroll = ({ data }) => {
+const FramerScroll = ({ data, $id, hover, setHover, position }) => {
   const [list] = useState([...data[0].movies]);
   const [step, setStep] = useState(null);
   const [page, setPage] = useState(0);
@@ -307,7 +296,7 @@ const FramerScroll = ({ data }) => {
   }, [isPC]);
 
   return (
-    <div className="border w-[100%] mt-4 mb-4">
+    <div className= {`${position || "relative mt-4 mb-4"} w-[100%]`}>
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] lg:text-xl">
           Title
@@ -337,7 +326,7 @@ const FramerScroll = ({ data }) => {
         />
 
         <div className="flex flex-row w-[100%] h-[8em] lg:h-[6em] xl:h-[8em] overflow-x-clip overflow-y-visible">
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="wait">
             {children.map((item, index) => {
               return (
                 step + (item - step) === children[page] && (
@@ -352,10 +341,13 @@ const FramerScroll = ({ data }) => {
                   >
                     {list.slice(item - step, item).map((item, index) => (
                       <ScrollItem
-                        key={`${index}_${children[page]}`}
+                        key={`${$id}_${index}_${children[page]}`}
+                        id={`${$id}_${index}_${children[page]}`}
                         src={item.logo}
                         bg={item.bg}
                         dvWidth={dvWidth}
+                        setHover={setHover}
+                        hover={hover}
                       />
                     ))}
                   </motion.div>

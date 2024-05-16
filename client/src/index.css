@@ -30,6 +30,12 @@ html {
   /* color: white; */
 }
 
+#loader{
+  background-image:linear-gradient(to left, transparent 40%, #b4b4b4 60%, transparent);
+  transform: translateX(-80%);
+  animation: load 1s linear infinite;
+}
+
 /* .react-player{
   position: absolute;
   top: 0;
@@ -92,4 +98,12 @@ html {
   }
 }
 
+@keyframes load {
+  0%{
+    transform: translateX(-80%);
+  }
+  100%{
+    transform: translateX(100%);
+  }
+}
 

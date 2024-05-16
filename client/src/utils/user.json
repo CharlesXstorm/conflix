@@ -4,17 +4,24 @@
   "password": "1234",
   "subProfile": [
     {
-      "id": 1,
+      "id": 0,
       "name": "Add Profile",
       "img": "images/addProfile.svg",
       "isProfile": false
     },
     {
-      "id": 0,
+      "id": 1,
       "name": "kids",
       "img": "https://dl.dropboxusercontent.com/scl/fi/k2lrec356rb6ecrjlh46c/kids.png?rlkey=t0wwdggp85hj0g562vc6u4apz&dl=0",
       "isProfile": true,
-      "wishList":[]
+      "wishList": []
+    },
+    {
+      "id": 2,
+      "name": "Profile1",
+      "img": "https://dl.dropboxusercontent.com/scl/fi/s19nganwgvtv8cyorna2d/blue_1.png?rlkey=gfqj9guqhwp3ggt22grtyday9&st=n2kgzhjj&dl=0",
+      "isProfile": true,
+      "wishList": []
     }
   ]
 }

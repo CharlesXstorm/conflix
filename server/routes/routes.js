@@ -16,7 +16,8 @@ const {getAllUsers,
     updateSubProfile,
     deleteSubProfile,
     getAllWatchList,
-    addWatchList} = require("../controllers/controllers");
+    addWatchList,
+    getProfileIcons} = require("../controllers/controllers");
 
 
 //user routes
@@ -52,5 +53,9 @@ Router.route('/:id/subProfiles/:subId')
 Router.route('/:id/subProfiles/:subId/watchlist')
 .get(getSubProfile,getAllWatchList)
 .post(getSubProfile,addWatchList,updateSubProfile,updateUser)
+
+//profile Icons Routes
+Router.route('/profileIcons')
+.get(getProfileIcons)
 
 module.exports = Router;
