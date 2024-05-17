@@ -16,6 +16,8 @@ import ManageProfiles from "./pages/ManageProfiles";
 import BrowseShared from "./pages/Shared/BrowseShared";
 import ProtectedRoute from "./pages/Shared/ProtectedRoute.jsx";
 
+import { useSelector } from "react-redux";
+
 function App() {
   // const [profileClick, setProfileClick] = useState(false)
   const[editClick,setEditClick] = useState(false)
@@ -23,6 +25,8 @@ function App() {
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
   const dispatch = useDispatch();
+
+  const {dvWidth} = useSelector((state)=> state.dvWidth)
 
   const handleEvent = () => {
     dispatch(getWidth(window.innerWidth));
@@ -37,6 +41,8 @@ function App() {
       window.removeEventListener("resize", handleEvent);
     };
   }, []);
+
+  console.log('Apps dvWidth is: ',dvWidth)
 
   // console.log("loaded",loaded)
  
