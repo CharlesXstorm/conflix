@@ -3,11 +3,11 @@
 import React from 'react'
 
 
-const InputField = React.forwardRef(({id,name,type,value,onChange},ref) => {
+const InputField = React.forwardRef(({id,name,type,value,onChange,placeholder,className},ref) => {
     // const inputRef = useRef()
   return (
     <div>
-        <input ref={ref}  id={id} type={type} name={name} value={value} onChange={onChange} className='bg-[rgb(120,120,120)] focus:outline-none p-1 flex w-[100%]' />
+        <input ref={ref}  id={id} type={type} name={name} value={value} onChange={onChange} placeholder={placeholder} className={`${className || ""} bg-[rgb(120,120,120)] focus:outline-none p-1 flex w-[100%]`} />
     </div>
   )
 })

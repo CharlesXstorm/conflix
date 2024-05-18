@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import ReactDOM from 'react-dom'
-import BrowseHome from "./BrowseHome"
-import BrowseMovies from './BrowseMovies';
-// import { useEffect } from 'react';
+import ReactDOM from "react-dom";
+import BrowseHome from "./BrowseHome";
+import BrowseMovies from "./BrowseMovies";
+import BrowseAdd from "./BrowseAdd";
+import {useState, useEffect } from 'react';
 
 // const profile = [
 //   {
@@ -32,7 +33,6 @@ import BrowseMovies from './BrowseMovies';
 //   }
 // ];
 
-
 // const profiles = [
 //   {
 //     id: 1,
@@ -46,24 +46,38 @@ import BrowseMovies from './BrowseMovies';
 //   }
 // ];
 
-const Browse = ({accountClick, setAccountClick,setEditClick, loaded}) => {
+const Browse = ({ accountClick, setAccountClick, setEditClick, loaded }) => {
+  const [addProfile,setAddProfile] = useState()
 
-  // useEffect(()=>{
-  //   setProfileClick(false)
-  // },[])
+  useEffect(()=>{
+    setAddProfile(false)
+  },[])
 
   return (
     <div>
+      {!accountClick &&
+        loaded &&
+        ReactDOM.createPortal(
+          <BrowseHome
+            setAccountClick={setAccountClick}
+            setEditClick={setEditClick}
+            setAddProfile={setAddProfile}
+          />,
+          document.getElementById("portal")
+        )}
 
-        {!accountClick && loaded && ReactDOM.createPortal(
-        <BrowseHome setAccountClick={setAccountClick} setEditClick={setEditClick}
-        />,
-        document.getElementById("portal")
-      )}
+      {addProfile &&
+        loaded &&
+        ReactDOM.createPortal(
+          <BrowseAdd
+            setAddProfile={setAddProfile}
+          />,
+          document.getElementById("portal")
+        )}
 
-      {accountClick && loaded && <BrowseMovies/>}
+      {accountClick && loaded && <BrowseMovies />}
     </div>
-  )
-}
+  );
+};
 
-export default Browse
+export default Browse;

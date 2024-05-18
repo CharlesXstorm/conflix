@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import ReactDOM from 'react-dom'
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState} from "react";
 import { useSelector } from "react-redux";
 
 //next button component /////////////////////////////////////////////////////////
@@ -66,16 +66,16 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 };
 
 //scroll items component ///////////////////////////////////////////////////////////////////
-const ScrollItem = ({ src, bg, classes }) => {
+const ScrollItem = () => {
   return (
-    <div
-      className={`${classes} relative rounded-md bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/8)-1%)] overflow-hidden`}
+    <button
+      className={` relative rounded-md bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/8)-1%)] overflow-hidden`}
     >
       <div className="">
         <img src="images/profiles/yellow.png" />
       </div>
       
-    </div>
+    </button>
   );
 };
 
@@ -118,7 +118,7 @@ const IconScrollNav = ({ data, position}) => {
 
       </div>
 
-      <div className="relative h-[auto] border">
+      <div className="relative h-[auto]">
         {
           <>
             <Next

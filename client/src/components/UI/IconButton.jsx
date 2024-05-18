@@ -2,28 +2,37 @@
 // import React from 'react'
 import { useDispatch } from "react-redux";
 import { setProfile} from "../../utils/profileSlice";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick}) => {
+const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,setAddProfile}) => {
   const dispatch = useDispatch();
 
   const clickHandler = () => {
     dispatch(setProfile(profile))
-    if(edit || !profile.isProfile){
-      setAccountClick(false)
+
+    if(edit){
+      console.log("clicked",edit)
       setEditClick((prev)=> !prev)
-    }else{
-      setEditClick(false)
-      setAccountClick((prev)=> !prev);
+      setAccountClick(false);
+      return
     }
-    
-    // setMoviePage(true)
+
+    if(!profile.isProfile){
+      setAccountClick(false)
+      setAddProfile(true)
+      return
+    }
+    if(profile.isProfile){
+      setAccountClick(true)
+      setAddProfile(false)
+      return
+    }
   };
 
   if(!profile.isProfile){
     return(
       <div className="flex flex-col mb-2">
-      <Link to='/ManageProfiles' className="relative" onClick={clickHandler}>
+      <button className="relative" onClick={clickHandler}>
       <img src={`${src}`} className="relative w-[5.5em] xl:w-[10em]" />
         {edit && (
           <>
@@ -93,7 +102,7 @@ const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick}) =
             </div>
           </>
         )}
-      </Link>
+      </button>
       <p className="text-center pt-2">{name}</p>
       </div>
     )

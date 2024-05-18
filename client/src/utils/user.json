@@ -19,7 +19,21 @@
     {
       "id": 2,
       "name": "Profile1",
-      "img": "https://dl.dropboxusercontent.com/scl/fi/s19nganwgvtv8cyorna2d/blue_1.png?rlkey=gfqj9guqhwp3ggt22grtyday9&st=n2kgzhjj&dl=0",
+      "img": "https://dl.dropboxusercontent.com/scl/fi/ztm529dc8jji7n5o0iw4v/blue.png?rlkey=k06hs1wmfgrp4qavy9exbql59&st=jlv2uhpz&dl=0",
+      "isProfile": true,
+      "wishList": []
+    },
+    {
+      "id": 3,
+      "name": "Profile1",
+      "img": "https://dl.dropboxusercontent.com/scl/fi/c5msqwhoe6y3udewc2i4u/green.png?rlkey=10my9f44bdgjiywcq1md13qrd&st=ezx9ujzv&dl=0",
+      "isProfile": true,
+      "wishList": []
+    },
+    {
+      "id": 4,
+      "name": "Profile1",
+      "img": "https://dl.dropboxusercontent.com/scl/fi/vo7ex9cf8fuu397nmqapp/red.png?rlkey=tsv7sooq6apbtlegfun0muiw6&st=9r5j3ixg&dl=0",
       "isProfile": true,
       "wishList": []
     }

@@ -76,10 +76,10 @@ const ManageProfilesIcons = () => {
   <div className="fixed text-white md:text-2xl xl:text-3xl font-[roboto] font-[500] top-0 left-0  bg-[#121212] z-[20] w-[100%] h-[100vh] overflow-hidden">
     
     
-    <div className="border border-red-600 relative flex flex-col justify-between items-center w-[inherit] mt-[6em] px-[4%] lg:mt-[3em] lg:px-[4em] xl:mt-[4em] xl:px-[8em]">
+    <div className="border border-red-600 relative flex flex-col justify-between items-center w-[inherit] mt-[6em] lg:mt-[6em] xl:mt-[6em] ">
     {
       //header
-      <div className="absolute top-[-3em] z-[30] w-full flex flex-row justify-between items-center px-[5%] py-4 lg:py-6 lg:px-[4em] xl:px-[8em] bg-[rgb(18,18,18,0.8)]">
+      <div className="absolute top-[-3em] z-[30] w-full flex flex-row justify-between items-center px-[5%] py-4 lg:py-6 lg:px-[4em] xl:px-[6em] bg-[rgb(18,18,18,0.8)]">
         <div className="flex justify-center items-center gap-4 lg:gap-6">
         <span><img src="images/left-arrow-01.svg" className="w-[1.5em] xl:w-[2em]" alt="icon" /></span>
           <p>Edit Profile<br/>Choose a profile icon.</p>
@@ -93,9 +93,9 @@ const ManageProfilesIcons = () => {
     }
       
       
-      <div className="w-full pt-[2.5em] lg:pt-[5em] h-[100vh] overflow-y-auto ">
+      <div className="w-full pt-[2.5em] lg:pt-[2em] h-[100vh] overflow-y-auto px-[4%] lg:px-[4em] xl:px-[6em]">
         {
-          [1,2,3,4,5,6,7,8,9,10].map((item)=> <IconScrollNav position={"mt-[1em]"} key={item} data={genre}/>)
+          [1,2,3,4,5,6,7,8,9,10].map((item)=> <IconScrollNav position={"mt-[2em]"} key={item} data={genre}/>)
         }
       </div>
 

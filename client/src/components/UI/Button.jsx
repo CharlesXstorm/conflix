@@ -14,6 +14,7 @@ const Button = ({
   span,
   onClick,
   button,
+  className,
   to
 }) => {
   // const linkFunc = ()=>{
@@ -24,7 +25,7 @@ const Button = ({
       {button === "link" && (
         <Link
           to={to}
-          className={`rounded ${bgColor} ${color} ${size} ${width} ${align} ${padding} px-3 item-center justify-center flex`}
+          className={`rounded ${className} ${bgColor} ${color} ${size} ${width} ${align} ${padding} px-3 item-center justify-center flex`}
           // onClick={onClick}
         >
           {name}
@@ -38,7 +39,7 @@ const Button = ({
 
       {button === "button" && (
         <button
-          className={`rounded ${bgColor} ${color} ${size} ${width} ${align} ${padding} px-3 item-center flex`}
+          className={`rounded ${className} ${bgColor} ${color} ${size} ${width} ${align} ${padding} px-3 item-center flex`}
           onClick={onClick}
         >
           {name}

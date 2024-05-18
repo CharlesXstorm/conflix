@@ -18,7 +18,7 @@ const ManageProfiles = ({
   const {dvWidth} = useSelector((state)=> state.dvWidth)
 
   useEffect(() => {
-    setProfileIcons(true);
+    setProfileIcons(false);
     
   }, []);
 console.log('manageProfiles dvWidth is: ',dvWidth)

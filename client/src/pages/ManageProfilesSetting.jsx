@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { useSelector } from "react-redux";
 import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 
 const ManageProfilesSetting = ({setEditClick}) => {
-  const { profile } = useSelector((state) => state.account);
+  const { profile,data } = useSelector((state) => state.account);
   const [userName, setUserName] = useState(profile.name);
   const inputRef = useRef();
 
@@ -21,6 +21,9 @@ const ManageProfilesSetting = ({setEditClick}) => {
   const deleteHandler =()=>{
     console.log("delete data")
   }
+
+  console.log('isProfile: ',profile.isProfile)
+  console.log('subProfile: : ',data.subProfile)
 
   return (
 

@@ -4,7 +4,7 @@ import IconButton from "../components/UI/IconButton";
 import { Link } from "react-router-dom";
 
 
-const BrowseHome = ({ setAccountClick,setEditClick}) => {
+const BrowseHome = ({ setAccountClick,setEditClick,setAddProfile}) => {
 
   const {data} = useSelector((state)=> state.account)
 
@@ -19,8 +19,13 @@ const BrowseHome = ({ setAccountClick,setEditClick}) => {
         {
           //icons
           <div className="flex gap-2 xl:gap-8 p-4 px-6 flex-wrap justify-center text-[rgb(120,120,120)]">
-            {data.subProfile.map(() => 
+            {data.subProfile.map((item) => 
               {
+                if(data.subProfile.length >= 6){
+                  if(item.name==="Add Profile"){
+                    return
+                  }
+                }
                 count--
               return <IconButton
                 key={data.subProfile[count].id}
@@ -30,6 +35,7 @@ const BrowseHome = ({ setAccountClick,setEditClick}) => {
                 profile={data.subProfile[count]}
                 setAccountClick={setAccountClick}
                 setEditClick={setEditClick}
+                setAddProfile={setAddProfile}
               />
             }
             )}
