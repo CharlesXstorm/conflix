@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import BrowseHome from "./BrowseHome";
 import BrowseMovies from "./BrowseMovies";
 import BrowseAdd from "./BrowseAdd";
-import {useState, useEffect } from 'react';
+// import { AnimatePresence } from "framer-motion";
+// import {useEffect } from 'react';
 
 // const profile = [
 //   {
@@ -46,32 +47,39 @@ import {useState, useEffect } from 'react';
 //   }
 // ];
 
-const Browse = ({ accountClick, setAccountClick, setEditClick, loaded }) => {
-  const [addProfile,setAddProfile] = useState()
+const Browse = ({
+  accountClick,
+  setAccountClick,
+  setEditClick,
+  loaded,
+  addProfile,
+  setAddProfile
+}) => {
+  // const [addProfile,setAddProfile] = useState()
 
-  useEffect(()=>{
-    setAddProfile(false)
-  },[])
+  // useEffect(()=>{
+  //   setAddProfile(false)
+  // },[])
 
   return (
     <div>
-      {!accountClick &&
-        loaded &&
-        ReactDOM.createPortal(
-          <BrowseHome
-            setAccountClick={setAccountClick}
-            setEditClick={setEditClick}
-            setAddProfile={setAddProfile}
-          />,
-          document.getElementById("portal")
-        )}
+     
+        {!accountClick &&
+          loaded &&
+          ReactDOM.createPortal(
+            <BrowseHome
+              setAccountClick={setAccountClick}
+              setEditClick={setEditClick}
+              setAddProfile={setAddProfile}
+            />,
+            document.getElementById("portal")
+          )}
+
 
       {addProfile &&
         loaded &&
         ReactDOM.createPortal(
-          <BrowseAdd
-            setAddProfile={setAddProfile}
-          />,
+          <BrowseAdd setAddProfile={setAddProfile} />,
           document.getElementById("portal")
         )}
 

@@ -32,8 +32,8 @@ const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,set
   if(!profile.isProfile){
     return(
       <div className="flex flex-col mb-2">
-      <button className="relative" onClick={clickHandler}>
-      <img src={`${src}`} className="relative w-[5.5em] xl:w-[10em]" />
+      <button className="relative rounded-[8px] overflow-hidden" onClick={clickHandler}>
+      <img src={`${src}`} className="relative w-[6.5em] md:w-[8em] xl:w-[10em]" />
         {edit && (
           <>
             <div className="bg-[rgb(0,0,0,0.5)] w-[100%] h-[100%] absolute top-0 "></div>
@@ -103,14 +103,14 @@ const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,set
           </>
         )}
       </button>
-      <p className="text-center pt-2">{name}</p>
+      <p className="text-center text-[0.8em] md:text-[1em] pt-2">{name}</p>
       </div>
     )
   }else{
     return (
     <div className="flex flex-col mb-2">
-      <button className="relative" onClick={clickHandler}>
-        <img src={`${src}`} className="relative w-[5.5em] xl:w-[10em]" />
+      <button className="relative rounded-[8px] overflow-hidden" onClick={clickHandler}>
+        <img src={`${src}`} className="relative w-[6.5em] md:w-[8em] xl:w-[10em]" />
         {edit && (
           <>
             <div className="bg-[rgb(0,0,0,0.5)] w-[100%] h-[100%] absolute top-0 "></div>
@@ -180,7 +180,7 @@ const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,set
           </>
         )}
       </button>
-      <p className="text-center pt-2">{name}</p>
+      <p className="text-center text-[0.8em] md:text-[1em] pt-2">{name}</p>
     </div>
   );
   }

@@ -24,6 +24,7 @@ function App() {
   const [accountClick,setAccountClick] = useState(false)
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
+  const [addProfile,setAddProfile] = useState()
   const dispatch = useDispatch();
 
   const {dvWidth} = useSelector((state)=> state.dvWidth)
@@ -55,9 +56,9 @@ function App() {
         <Route path="regform" element={<Regform email={email} />} />
       </Route>
 
-      <Route element={<ProtectedRoute setLoaded={setLoaded} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
+      <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
         <Route path="browse" element={<BrowseShared accountClick={accountClick} />}>
-          <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} />} />
+          <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />
       </Route>

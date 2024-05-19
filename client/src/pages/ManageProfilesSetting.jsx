@@ -1,29 +1,83 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState} from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 
-const ManageProfilesSetting = ({setEditClick}) => {
-  const { profile,data } = useSelector((state) => state.account);
+const ManageProfilesSetting = ({setEditClick,setProfileIcons}) => {
+  const { profile,data} = useSelector((state) => state.account);
   const [userName, setUserName] = useState(profile.name);
   const inputRef = useRef();
 
+  //server update function
+  const updateData = async () => {
+    try {
+      const Newdata = { name:userName, img: profile.img };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      return await axios.patch(
+        `${import.meta.env.VITE_API_URL}/${data._id}/subProfiles/${profile.id}`,
+        Newdata,
+        config
+      );
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
+  };
+
+  //server delete function
+  const deleteData = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      return await axios.delete(
+        `${import.meta.env.VITE_API_URL}/${data._id}/subProfiles/${profile.id}`,
+        config
+      );
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
+  };
+
+  //update input onChange
   const changeHandler = () => {
     setUserName(inputRef.current.value);
   };
 
-  const saveHandler =()=>{
-    console.log("post data")
-    setEditClick((prev)=> !prev)
+  //save handler
+  const saveHandler = async()=>{
+    const updated = await updateData()
+    if(updated){
+      setEditClick((prev)=> !prev)
+    }
   }
 
-  const deleteHandler =()=>{
-    console.log("delete data")
+  //delete Handler
+  const deleteHandler = async()=>{
+    const deleted = await deleteData()
+    if(deleted){
+      setEditClick((prev)=> !prev)
+    }
   }
 
-  console.log('isProfile: ',profile.isProfile)
-  console.log('subProfile: : ',data.subProfile)
+//show available profile Icons
+  const iconChange = ()=>{
+    setProfileIcons(true)
+  }
+
+  // console.log('isProfile: ',profile)
+  // console.log('subProfile: : ',data.subProfile)
 
   return (
 
@@ -34,8 +88,13 @@ const ManageProfilesSetting = ({setEditClick}) => {
 
         {
           <div className="flex flex-row gap-5 mt-4 item-center">
-            <div className="w-[30%] xl:w-[20%]">
-              <img src={`${profile.img}`} className="w-[100%]" />
+            <div className="w-[30%] xl:w-[20%] h-[auto]">
+              <div className="relative">
+                <img src={`${profile.img}`} className="w-[100%]" />
+                <button className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1" onClick={iconChange}>
+                  <img src="images/pencilSVG.svg" alt="icon" className="w-[1.5em]"/>
+                </button>
+              </div>
             </div>
 
             <div className="w-[70%] flex flex-col gap-2">

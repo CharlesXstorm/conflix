@@ -25,14 +25,14 @@
     },
     {
       "id": 3,
-      "name": "Profile1",
+      "name": "Profile2",
       "img": "https://dl.dropboxusercontent.com/scl/fi/c5msqwhoe6y3udewc2i4u/green.png?rlkey=10my9f44bdgjiywcq1md13qrd&st=ezx9ujzv&dl=0",
       "isProfile": true,
       "wishList": []
     },
     {
       "id": 4,
-      "name": "Profile1",
+      "name": "Profile3",
       "img": "https://dl.dropboxusercontent.com/scl/fi/vo7ex9cf8fuu397nmqapp/red.png?rlkey=tsv7sooq6apbtlegfun0muiw6&st=9r5j3ixg&dl=0",
       "isProfile": true,
       "wishList": []
