@@ -17,6 +17,8 @@ import BrowseShared from "./pages/Shared/BrowseShared";
 import ProtectedRoute from "./pages/Shared/ProtectedRoute.jsx";
 
 import { useSelector } from "react-redux";
+import Logout from "./pages/Logout.jsx";
+import AuthRoute from "./pages/Shared/AuthRoute.jsx";
 
 function App() {
   // const [profileClick, setProfileClick] = useState(false)
@@ -49,15 +51,20 @@ function App() {
  
   return (
     <Routes>
+
+    <Route element={<AuthRoute setAccountClick={setAccountClick} />}>
       <Route index element={<Home />} />
       <Route path="login" element={<Signin />} />
       <Route path="signup" element={<Signup setEmail={setEmail} />}>
         <Route index element={<Registration />} />
         <Route path="regform" element={<Regform email={email} />} />
       </Route>
+    </Route>
+
+      <Route path="logout" element={<Logout />} />
 
       <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
-        <Route path="browse" element={<BrowseShared accountClick={accountClick} />}>
+        <Route path="browse" element={<BrowseShared accountClick={accountClick}/>}>
           <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />

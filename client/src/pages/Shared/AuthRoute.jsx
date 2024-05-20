@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 import { useEffect, useState } from "react";
-import { Outlet, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 
 import { setData } from "../../utils/profileSlice";
+
 // import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
-  const [auth,setAuth] = useState(true);
+const AuthRoute = ({ setAccountClick }) => {
+  const [auth, setAuth] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,34 +33,22 @@ const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
     }
   };
 
-  // useEffect(()=>{
-
-  // })
-
   //getUser ////////////////////////
   useEffect(() => {
-    // dispatch(setData(jsonData));
-    // setAuth(true);
-    // setLoaded(false);
-    // setAddProfile(false)
-
-
+    setAccountClick(false);
     const fetchData = async () => {
       const user = await getUser();
       if (!user) {
         setAuth(false);
+        dispatch(setData(null));
       } else {
-        dispatch(setData(user));
         setAuth(true);
-        setLoaded(true);
-        // setAddProfile(false)
-        console.log('protected route')
       }
     };
     fetchData();
-  }, [addProfile,editClick]);
+  }, []);
 
-  return <>{auth ? <Outlet /> : <Navigate to="/" />}</>;
+  return <>{auth ? <Navigate to="/browse" /> : <Outlet />}</>;
 };
 
-export default ProtectedRoute;
+export default AuthRoute;

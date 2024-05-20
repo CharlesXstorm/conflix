@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
+import { Link } from "react-router-dom";
 
 import Button from "./UI/Button";
 
 const HomeNav = ({button, buttonText, buttonColor,size,to}) => {
   return (
-    <div className="relative flex flex-row justify-between p-5 pt-8 px-10 lg:px-[10em]">
-      <div className="text-red-600 w-[auto]">
+    <div className="relative flex flex-row justify-between p-5 pt-8 px-10 xl:px-[10em]">
+      <Link to='/' className="text-red-600 w-[auto]">
         <svg
           version="1.1"
           id="conflix"
@@ -18,7 +19,7 @@ const HomeNav = ({button, buttonText, buttonColor,size,to}) => {
           viewBox="0 0 1000 287.991"
           enableBackground="new 0 0 1000 287.991"
           xmlSpace="preserve"
-          className="w-[5em] lg:w-[8em] xl:w-[10em]"
+          className="w-[5em] lg:w-[6em] xl:w-[10em]"
         >
           <g>
             <path
@@ -83,7 +84,7 @@ const HomeNav = ({button, buttonText, buttonColor,size,to}) => {
             </g>
           </g>
         </svg>
-      </div>
+      </Link>
       <div>
         <Button
           name="Sign In"

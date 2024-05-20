@@ -26,13 +26,15 @@ const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile }) => {
   let count = data.subProfile.length;
 
   return (
-    <motion.div
+    <div
+      
+      className="absolute z-10 flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden"
+    >
+      <motion.div 
       variants={pageVariants}
       initial="hidden"
       animate="visible"
-      className="absolute z-10 flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white"
-    >
-      <div className=" flex m-[auto] flex-col justify-center">
+      className=" flex m-[auto] flex-col justify-center">
         <p className="text-[2.2em] xl:text-[3em] text-center">
           Who&apos;s watching?
         </p>
@@ -67,8 +69,8 @@ const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile }) => {
         >
           Manage Profiles
         </Link>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

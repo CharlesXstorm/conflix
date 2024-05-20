@@ -145,7 +145,7 @@ const Home = () => {
           to="/login"
           buttonColor="bg-red-600"
           buttonText="text-white"
-          size="text-md"
+          size="text-md xl:text-xl"
         />
         <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] font-[roboto] w-[80%] m-[auto] z-1 relative">
           <p className="text-white font-bold text-[1.8em] xl:text-[3em] text-center tracking-normal">
@@ -190,7 +190,7 @@ const Home = () => {
       {
         //frequently asked questions
         <div className="flex flex-col items-center justify-center mt-[2em] lg:mt-[4em]">
-          <p className="text-white text-[2em] xl:text-[3em] text-center font-bold py-3 pt-4 lg:pt-0">
+          <p className="text-white text-[2em] xl:text-[3em] text-center font-bold px-10 py-3 pt-4 lg:pt-0">
             Frequently Asked Questions
           </p>
           {

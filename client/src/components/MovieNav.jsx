@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {useState,useEffect} from 'react'
 import { useSelector } from "react-redux";
 import ReactDOM from 'react-dom';
