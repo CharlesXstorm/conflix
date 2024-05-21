@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const Route = require("./routes/routes");
+const movieRoute = require("./routes/routes_movies");
 const { headerAuth } = require("./middlewares/authMiddleware");
 
 const app = express();
@@ -32,5 +33,6 @@ app.use(headerAuth);
 app.use(morgan("dev"));
 
 app.use("/api/v1/conflix/users", Route);
+app.use("/api/v1/conflix/browse", movieRoute);
 
 module.exports = app;

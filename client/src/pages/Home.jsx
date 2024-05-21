@@ -177,6 +177,7 @@ const Home = () => {
       {details.map((item) => (
         <HomeDetail
           key={item.id}
+          id={item.id}
           title={item.title}
           src={item.src}
           desc={item.desc}

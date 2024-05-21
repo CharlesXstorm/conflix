@@ -14,7 +14,8 @@
   font-family: 'roboto';
 }
 body {
-  background-color: rgb(10,10,10);
+  background-color: black;
+  /* background-color: rgb(10,10,10); */
 }
 
 html {

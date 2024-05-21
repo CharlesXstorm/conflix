@@ -12,6 +12,7 @@
   "author": "charles ukadike",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.1",
     "bcrypt": "^5.0.0",
     "concurrently": "^7.6.0",
     "cookie-parser": "^1.4.5",
