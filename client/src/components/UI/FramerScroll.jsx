@@ -113,6 +113,8 @@ const ModalCont = ({
   itemInfo,
   dvWidth,
   id,
+  bg,
+  title,
   itemHeight,
   itemWidth
 }) => {
@@ -144,6 +146,8 @@ const ModalCont = ({
           itemWidth={itemWidth}
           // animate={animate}
           dvWidth={dvWidth}
+          bg={bg}
+          title={title}
         />
       </div>
     </div>
@@ -152,10 +156,12 @@ const ModalCont = ({
 
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
+const ScrollItem = ({ bg, dvWidth, hover, setHover, id,data }) => {
   const [itemInfo, setItemInfo] = useState({});
   const [modalContHeight, setModalContHeight] = useState("");
   const itemRef = useRef();
+
+  console.log("bgImage",bg)
 
   const mouseOverHandler = (e) => {
     //handle hover
@@ -206,7 +212,7 @@ const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
 
   return (
     <>
-      {/* <AnimatePresence mode="wait"> */}
+
       {
         //display visible modal in portal div
         hover === id &&
@@ -216,6 +222,8 @@ const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
               onMouseOut={mouseOutHandler}
               setHover={setHover}
               id={id}
+              bg={bg}
+              title={data.title}
               itemInfo={itemInfo}
               dvWidth={dvWidth}
               itemHeight={()=>{
@@ -233,7 +241,7 @@ const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
             document.getElementById("portal")
           )
       }
-      {/* </AnimatePresence> */}
+
       <div
         ref={itemRef}
         onMouseOver={mouseOverHandler}
@@ -241,13 +249,20 @@ const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
         className={`relative rounded-md h-[100%] bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
         <Loader />
+
+        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip"
+        style={{backgroundImage:`url(https://image.tmdb.org/t/p/w300/${bg})`, backgroundSize:"cover"}}
+        >
+          {/* <img src={`https://image.tmdb.org/t/p/w185/${bg}`} className="w-[100%] absolute top-0 left-0 border" alt="bgImage" /> */}
+          <span className="absolute bottom-0 left-0 w-[100%] text-[0.22em] text-center pb-2 pointer-events-none"
+          style={{fontFamily:'bebas_neueregular',letterSpacing:"5px"}}
+          >{data.title}</span>
+        </div>
         <div className="absolute top-[10px] left-[10px]">
-          <img src={src} className="w-[5%]" />
+          <img src={"images/LOGO_C.svg"} className="w-[5%]" />
         </div>
 
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-          {bg}
-        </div>
+
       </div>
     </>
   );
@@ -256,7 +271,7 @@ const ScrollItem = ({ src, bg, dvWidth, hover, setHover, id }) => {
 //scroll element Component
 /////////////////////////////////////////////////////////////////////////////
 const FramerScroll = ({ data, $id, hover, setHover, position }) => {
-  const [list] = useState([...data[0].movies]);
+  const [list] = useState([...data.movies]);
   const [step, setStep] = useState(null);
   const [page, setPage] = useState(0);
   const [bgSpan, setBgSpan] = useState({ 0: "bg-[rgb(160,160,160)]" });
@@ -296,10 +311,10 @@ const FramerScroll = ({ data, $id, hover, setHover, position }) => {
   }, [isPC]);
 
   return (
-    <div className= {`${position || "relative mt-4 mb-4"} w-[100%]`}>
+    <div className= {`${position || "relative mt-4 mb-4"} w-[100%]`} >
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] lg:text-xl">
-          Title
+          {data.title}
         </p>
         <div className="flex flex-row gap-2 px-5 items-end py-2">
           {
@@ -325,7 +340,7 @@ const FramerScroll = ({ data, $id, hover, setHover, position }) => {
           setBgSpan={setBgSpan}
         />
 
-        <div className="flex flex-row w-[100%] h-[8em] lg:h-[6em] xl:h-[8em] overflow-x-clip overflow-y-visible">
+        <div className="flex flex-row w-[100%] h-[100%] overflow-x-clip overflow-y-visible">
           <AnimatePresence mode="wait">
             {children.map((item, index) => {
               return (
@@ -344,7 +359,8 @@ const FramerScroll = ({ data, $id, hover, setHover, position }) => {
                         key={`${$id}_${index}_${children[page]}`}
                         id={`${$id}_${index}_${children[page]}`}
                         src={item.logo}
-                        bg={item.bg}
+                        bg = {item["poster_path"]}
+                        data={item}
                         dvWidth={dvWidth}
                         setHover={setHover}
                         hover={hover}

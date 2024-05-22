@@ -7,7 +7,7 @@ const {getAllBrowse,
 
 //user routes
 Router.route("/")
-.get(getAllBrowse)
+.post(getAllBrowse)
 
 
 module.exports = Router;

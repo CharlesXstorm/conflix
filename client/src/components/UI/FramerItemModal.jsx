@@ -7,6 +7,8 @@ const ItemModal = ({
   onMouseEnter,
   onMouseLeave,
   itemInfo,
+  bg,
+  title,
   // animate,
   dvWidth,
   itemHeight,
@@ -67,9 +69,20 @@ const ItemModal = ({
         // ...animate,
         transition: "all 0.2s ease"
       }}
-      className="pointer-events-auto absolute z-[50] w-[300px] h-[300px] rounded-[6px] overflow-hidden bg-white "
+      className="pointer-events-auto absolute z-[50] w-[300px] h-[300px] rounded-[6px] overflow-hidden text-white bg-[rgb(18,18,18)] "
     >
-      <div className="bg-[url('https://image.tmdb.org/t/p/w342/xb30hkUpBm23stnVgDJGYGsC0R0.jpg')] h-[70%] w-[100%] bg-cover"></div>
+      <div className="relative h-[70%] w-[100%] bg-cover"
+      style={{backgroundImage:`url(https://image.tmdb.org/t/p/w300/${bg})`}}
+      >
+          <span className="absolute top-[50%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center pb-2 font-[500] pointer-events-none"
+          style={{fontFamily:'bebas_neueregular',letterSpacing:"5px"}}
+          >{title}</span>
+       
+      </div>
+
+      <div className="h-[30%] w-[100%]">
+        
+      </div>
     </motion.div>
   );
 };
