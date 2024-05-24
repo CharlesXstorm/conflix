@@ -64,10 +64,8 @@ const ItemModal = ({
       onMouseLeave={onMouseLeave}
       style={{
         top: `${itemInfo.top - 300 / 4}px`,
-        // left: `${itemInfo.left - 300 / 60}px`,
         ...sidePosition,
-        // ...animate,
-        transition: "all 0.2s ease"
+        transition: "all 0.1s ease"
       }}
       className="pointer-events-auto absolute z-[50] w-[300px] h-[300px] rounded-[6px] overflow-hidden text-white bg-[rgb(18,18,18)] "
     >
