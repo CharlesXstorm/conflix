@@ -9,68 +9,82 @@ const ItemModal = ({
   itemInfo,
   bg,
   title,
+  id,
   // animate,
+  show,
   dvWidth,
-  itemHeight,
-  itemWidth
+  top,
+  left,
+  right,
+  height,
+  width
 }) => {
   // console.log('animate',animate)
   const [sidePosition, setSidePosition] = useState();
   const [initPosition, setInitPosition] = useState();
+  // const [position] = useState()
 
-  console.log(itemInfo.left, itemInfo.right, dvWidth, sidePosition);
+  console.log("itemInfo Render",itemInfo);
+  console.log('id',id)
 
   useEffect(() => {
-    if (itemInfo.left <= 40) {
+    if (left <= 40) {
       setSidePosition({ left: "4em" });
-      setInitPosition({ left: `${itemInfo.left}px` });
+      setInitPosition({ left: `${left}px` });
       return;
     }
-    if (itemInfo.right >= dvWidth - 50) {
+    if (right >= dvWidth - 50) {
       setSidePosition({ right: "4em" });
-      setInitPosition({ right: `${itemInfo.right}px` });
+      setInitPosition({ right: `${right}px` });
       return;
     }
     if (dvWidth <= 1680) {
-      return setSidePosition({ left: `${itemInfo.left - 300 / 12}px` });
+      return setSidePosition({ left: `${left - 300 / 12}px` });
     }
-    return setSidePosition({ left: `${itemInfo.left - 300 / 60}px` });
-  }, [dvWidth, itemInfo]);
+    return setSidePosition({ left: `${left - 300 / 60}px` });
+  }, [dvWidth, left, right]);
   return (
-    <motion.div
-      initial={{
-        top: `${itemInfo.top}px`,
-        ...initPosition,
-        height: `${itemHeight}px`,
-        width: `${itemWidth}px`,
-        opacity: 0
-      }}
-      animate={{
-        top: `${itemInfo.top - 300 / 4}px`,
-        ...sidePosition,
-        height: `300px`,
-        width: `300px`,
-        opacity: 1
-      }}
-      exit={{
-        top: `${itemInfo.top}px`,
-        ...initPosition,
-        height: `${itemHeight}px`,
-        width: `${itemWidth}px`,
-        opacity: 0
-      }}
-      transition={{ duration: 0.1, type: "linear" }}
+    <div
+      // initial={{
+      //   top: `${itemInfo.top}px`,
+      //   ...initPosition,
+      //   height: `${itemHeight}px`,
+      //   width: `${itemWidth}px`,
+      //   opacity: 0
+      // }}
+      // animate={{
+      //   top: `${itemInfo.top - 300 / 4}px`,
+      //   ...sidePosition,
+      //   height: `300px`,
+      //   width: `300px`,
+      //   opacity: 1
+      // }}
+      // exit={{
+      //   top: `${itemInfo.top}px`,
+      //   ...initPosition,
+      //   height: `${itemHeight}px`,
+      //   width: `${itemWidth}px`,
+      //   opacity: 0
+      // }}
+      // transition={{ duration: 0.1, type: "linear" }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{
-        top: `${itemInfo.top - 300 / 4}px`,
+        top: `${show?top - 300 / 4:top}px`,
+        
+        ...initPosition,
         ...sidePosition,
-        transition: "all 0.1s ease"
+        transition: "all 0.15s linear",
+        opacity: `${show?1:0}` ,
+        width: `${show?300:width}px`,
+        height: `${show?300:height}px`
       }}
-      className="pointer-events-auto absolute z-[50] w-[300px] h-[300px] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)] "
+      className="pointer-events-auto absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)] "
     >
-      <div className="relative h-[60%] w-[100%] bg-cover"
-      style={{backgroundImage:`url(https://image.tmdb.org/t/p/w300/${bg})`}}
+      <div className="relative w-[100%] bg-cover"
+      style={{backgroundImage:`url(https://image.tmdb.org/t/p/w300/${bg})`,
+    height: `${show?"60%":"100%"}`
+    }}
       >
           <span className="absolute top-[50%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center pb-2 font-[500] pointer-events-none"
           style={{fontFamily:'bebas_neueregular',letterSpacing:"5px"}}
@@ -78,7 +92,11 @@ const ItemModal = ({
        
       </div>
 
-      <div className="flex flex-col gap-3 h-[40%] w-[100%] p-4 ">
+      <div className="flex flex-col gap-3 w-[100%] p-4 "
+      style={{
+        height: `${show?"40%":"0%"}`
+      }}
+      >
         <div className="flex justify-between">
           <span className="flex gap-2">
             <button className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
@@ -114,7 +132,7 @@ const ItemModal = ({
           <span>Sci-Fi TV</span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
