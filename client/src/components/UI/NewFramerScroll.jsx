@@ -110,7 +110,7 @@ const ModalCont = ({
   height,
   onMouseOut,
   setHover,
-  itemInfo,
+  // itemInfo,
   dvWidth,
   id,
   bg,
@@ -122,35 +122,47 @@ const ModalCont = ({
   right,
   top
 }) => {
-  // const [animate, setAnimate] = useState({
-  //   opacity: 0,
-  //   height: itemHeight,
-  //   width: itemWidth
-  // });
+  const [modalHeight, setModalHeight] = useState();
+  const [modalTop,setModalTop] = useState(0);
+  const [expand,setExpand] = useState(false)
+  const [modalPosition, setModalPosition] = useState()
+  const [bgColor,setBgColor] = useState()
+  const [modalEvents,setModalEvents] = useState()
+  
 
-  // useEffect(() => {
-  //   setAnimate({
-  //     transform: "scale(1)",
-  //     opacity: 1
-  //   });
-  // }, []);
-  // console.log("left",left,'top',top)
+  useEffect(() => {
+    expand ? setModalHeight("100vh") : setModalHeight(`${height}`);
+    expand? setModalTop(`${window.scrollY}px`): setModalTop(0)
+    expand? setModalPosition("fixed"): setModalPosition("relative")
+    expand? setBgColor("rgb(0,0,0,0.5)"): setBgColor("transparent")
+    expand? setModalEvents("auto"): setModalEvents("none")
+  }, [expand,height]);
 
   return (
     <div
-      style={{ height: `${height}` }}
-      className={`pointer-events-none absolute z-[40] w-[100%]`}
+      style={{
+        // height: `${height}`,
+        height: modalHeight,
+        pointerEvents: modalEvents,
+        top: modalTop
+      }}
+      className={`absolute z-[40] w-[100%] border-[4px] border-red-600`}
     >
-      <div className="pointer-events-none relative h-[inherit] w-[inherit] overflow-hidden">
+      <div 
+      style={{
+        // top: modalTop,
+        
+        backgroundColor: bgColor,
+        pointerEvents: modalEvents,
+        // position: modalPosition,
+      }}
+      className="border-[4px] relative border-blue-600 h-[inherit] w-[inherit] overflow-auto">
         <ItemModal
           key={id}
-          id={id}
           onMouseEnter={() => setHover(id)}
           onMouseLeave={onMouseOut}
-          itemInfo={itemInfo}
           height={itemHeight}
           width={itemWidth}
-          // animate={animate}
           show={show}
           dvWidth={dvWidth}
           bg={bg}
@@ -158,6 +170,7 @@ const ModalCont = ({
           top={top}
           left={left}
           right={right}
+          setExpand={setExpand}
         />
       </div>
     </div>
@@ -167,25 +180,12 @@ const ModalCont = ({
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
 const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
-  const [itemInfo, setItemInfo] = useState({});
   const [ready, setReady] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [modalContHeight, setModalContHeight] = useState("");
   const itemRef = useRef();
 
-  console.log("bgImage", bg);
-
-  const mouseOverHandler = (e) => {
-    //handle hover
-    setItemInfo({
-      bottom: Math.floor(e.target.getBoundingClientRect().bottom),
-      height: Math.floor(e.target.getBoundingClientRect().height),
-      left: Math.floor(e.target.getBoundingClientRect().left),
-      right: Math.floor(e.target.getBoundingClientRect().right),
-      top: Math.floor(e.target.getBoundingClientRect().top + window.scrollY),
-      width: Math.floor(e.target.getBoundingClientRect().width),
-      x: e.target.getBoundingClientRect().x,
-      y: e.target.getBoundingClientRect().y
-    });
+  const mouseOverHandler = () => {
     setHover(id);
   };
 
@@ -194,14 +194,11 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
     setHover(false);
   };
 
-
-
   useEffect(() => {
     //get document height and save in a state
     const body = document.body;
     setModalContHeight(`${body.scrollHeight}px`);
     setReady(true);
-
   }, [hover]);
 
   return (
@@ -217,7 +214,6 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
               id={id}
               bg={bg}
               title={data.title}
-              itemInfo={itemInfo}
               dvWidth={dvWidth}
               show={hover === id}
               left={Math.floor(itemRef.current.getBoundingClientRect().left)}
@@ -225,12 +221,12 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
               top={Math.floor(
                 itemRef.current.getBoundingClientRect().top + window.scrollY
               )}
-              itemHeight={
-                Math.floor(itemRef.current.getBoundingClientRect().height)
-              }
-              itemWidth={
-                Math.floor(itemRef.current.getBoundingClientRect().width)
-              }
+              itemHeight={Math.floor(
+                itemRef.current.getBoundingClientRect().height
+              )}
+              itemWidth={Math.floor(
+                itemRef.current.getBoundingClientRect().width
+              )}
             />,
             document.getElementById("portal")
           )
@@ -242,16 +238,15 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
         onMouseOut={mouseOutHandler}
         className={`relative rounded-md h-[100%] bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
-        <Loader />
+        {loaded && <Loader />}
 
-        <div
-          className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip"
-          style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w300/${bg})`,
-            backgroundSize: "cover"
-          }}
-        >
-          {/* <img src={`https://image.tmdb.org/t/p/w185/${bg}`} className="w-[100%] absolute top-0 left-0 border" alt="bgImage" /> */}
+        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
+          <img
+            src={`https://image.tmdb.org/t/p/w300/${bg}`}
+            className="w-[100%] absolute top-0 left-0"
+            alt="bgImage"
+            onLoad={() => setLoaded(false)}
+          />
           <span
             className="absolute bottom-0 left-0 w-[100%] text-[0.22em] text-center pb-2 pointer-events-none"
             style={{ fontFamily: "bebas_neueregular", letterSpacing: "5px" }}
