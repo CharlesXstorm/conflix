@@ -17,59 +17,61 @@ const ItemModal = ({
   height,
   width
 }) => {
-
   const [initPosition, setInitPosition] = useState();
-  const [itemTop,setItemTop] = useState()
-  const [itemWidth,setItemWidth] = useState()
-  const [itemHeight,setItemHeight] =useState()
-  const [mouseLeave,setMouseLeave] = useState()
+  const [itemTop, setItemTop] = useState();
+  const [itemWidth, setItemWidth] = useState();
+  const [itemHeight, setItemHeight] = useState();
+  const [mouseLeave, setMouseLeave] = useState();
 
-  const expandHandler = ()=>{
-    setExpand(true)
-    setMouseLeave(null)
-    setItemTop(0)
-    setItemWidth('60%')
-    setItemHeight('150%')
-    setInitPosition({left: "20%"})
-  }
+  const expandHandler = () => {
+    setExpand(true);
+    setMouseLeave(null);
+    setItemTop(0);
+    setItemWidth("60%");
+    setItemHeight("150%");
+    if (right >= dvWidth - 50) {
+      setInitPosition({ right: "20%" });
+      return;
+    }
+    setInitPosition({ left: "20%" });
+  };
 
   useEffect(() => {
-//reset default values on show change
-    setItemTop(`${top - 300 / 4}px`)
-    setItemWidth("300px")
-    setItemHeight("300px")
-    setMouseLeave(()=> onMouseLeave)
+    //reset default values on show change
+    setItemTop(`${top - 300 / 4}px`);
+    setItemWidth("300px");
+    setItemHeight("300px");
+    setMouseLeave(() => onMouseLeave);
 
-    if(!show){
-      setExpand(false)
+    if (!show) {
+      setExpand(false);
     }
-//check if element is at extreme left of scroll
+    //check if element is at extreme left of scroll
     if (left <= 40) {
       show
         ? setInitPosition({ left: "4em" })
-        : setInitPosition({ left: `${left}px` })
+        : setInitPosition({ left: `${left}px` });
       return;
     }
-//check if element is at extreme rght of scroll
+    //check if element is at extreme rght of scroll
     if (right >= dvWidth - 50) {
       show
         ? setInitPosition({ right: "4em" })
-        : setInitPosition({right: `4px` })
+        : setInitPosition({ right: `4px` });
       return;
     }
-//check if screen size is below xl for elements between extreme right and left
+    //check if screen size is below xl for elements between extreme right and left
     if (dvWidth <= 1680) {
       show
         ? setInitPosition({ left: `${left - 300 / 12}px` })
-        : setInitPosition({ left: `${left}px` })
+        : setInitPosition({ left: `${left}px` });
       return;
     }
-//otherwise, for elements between extreme right and left in a screen size of xl
+    //otherwise, for elements between extreme right and left in a screen size of xl
     show
-        ? setInitPosition({ left: `${left - 300 / 60}px` })
-        : setInitPosition({ left: `${left}px` })
+      ? setInitPosition({ left: `${left - 300 / 60}px` })
+      : setInitPosition({ left: `${left}px` });
     return;
-
   }, [show, dvWidth, left, right]);
 
   return (
@@ -77,14 +79,16 @@ const ItemModal = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={mouseLeave}
       style={{
-        top: `${show ? itemTop : top+"px"}`,
-        transition: "all 0.15s linear",
+        top: `${show ? itemTop : top + "px"}`,
+        transition: "all 0.2s linear",
         opacity: `${show ? 1 : 0}`,
-        width: `${show ? itemWidth : width+"px"}`,
-        height: `${show ? itemHeight : height+"px"}`,
+        width: `${show ? itemWidth : width + "px"}`,
+        height: `${show ? itemHeight : height + "px"}`,
         ...initPosition
       }}
-      className={`${show?"pointer-events-auto":"pointer-events-none"} absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)]`} 
+      className={`${
+        show ? "pointer-events-auto" : "pointer-events-none"
+      } absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)]`}
     >
       <div
         className="relative w-[100%] bg-cover"
@@ -109,12 +113,13 @@ const ItemModal = ({
       >
         <div className="flex justify-between">
           <span className="flex gap-2">
-            <button 
-            onClick={()=> {
-              // setExpand(false);
-              onMouseLeave()
-            }}
-            className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
+            <button
+              onClick={() => {
+                // setExpand(false);
+                onMouseLeave();
+              }}
+              className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
+            >
               <img src="images/play.svg" alt="buttons" />
             </button>
             <button className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center">
@@ -126,7 +131,10 @@ const ItemModal = ({
           </span>
 
           <span className="flex">
-            <button onClick={expandHandler} className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center">
+            <button
+              onClick={expandHandler}
+              className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
+            >
               <img src="images/arrow-down.svg" alt="buttons" />
             </button>
           </span>

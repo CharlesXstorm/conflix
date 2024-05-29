@@ -2,6 +2,7 @@
 // import ReactDOM from 'react-dom'
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Loader from "./Loader";
 
 //next button component /////////////////////////////////////////////////////////
 const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
@@ -66,17 +67,29 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 };
 
 //scroll items component ///////////////////////////////////////////////////////////////////
-const ScrollItem = ({ src, bg, classes }) => {
+const ScrollItem = ({bg, classes }) => {
+  const [loaded,setLoaded] = useState(true)
   return (
     <div
-      className={`${classes} relative rounded-md h-[100%] bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
-    >
-      <div className="absolute top-[10px] left-[10px]">
-        <img src={src} className="w-[5%]" />
-      </div>
-      <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit]">
-        {bg}
-      </div>
+      className={`${classes} relative rounded-md h-[100%] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+    > 
+        {
+        loaded && 
+        <Loader />}
+
+        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
+          <img
+            src={`https://image.tmdb.org/t/p/w300/${bg}`}
+            className="w-[100%] absolute top-0 left-0"
+            alt="bgImage"
+            onLoad={() => setLoaded(false)}
+          />
+        </div>
+
+        <div className="absolute top-[10px] left-[10px]">
+          <img src={"images/LOGO_C.svg"} className="w-[5%]" />
+        </div>
+      
     </div>
   );
 };
@@ -95,14 +108,15 @@ const Span = ({ id, bgSpan }) => {
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
 const ScrollNav = ({ data, position, $id }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
-  const [list] = useState([...data[0].movies]);
+  const [list] = useState([...data.movies]);
+  const [movieList] = useState([...data.movies]);
   const [count, setCount] = useState(`${isPC ? 5 : 3}` * 1);
   const [children, setChildren] = useState([]);
   const [bgSpan, setBgSpan] = useState(null);
   const scrollRef = useRef();
 
   useEffect(() => {
-    const movieList = [...data[0].movies];
+    // const movieList = [...data.movies];
     const scrollChildren = [];
 
     movieList.forEach((item, index) =>
@@ -120,10 +134,13 @@ const ScrollNav = ({ data, position, $id }) => {
     );
 
     setChildren([...scrollChildren]);
+    console.log("movieList",movieList[scrollChildren[0]].id)
     setBgSpan({
-      [`${data[0]._id}_${$id}_${scrollChildren[0]}`]: "bg-[rgb(160,160,160)]"
+      [`${data._id}_${$id}_${movieList[scrollChildren[0]].id}`]: "bg-[rgb(160,160,160)]"
     });
   }, []);
+
+  console.log('children render',children,'movieLength',movieList.length)
 
   //handle scroll event start
   const scrollHandler = () => {
@@ -134,7 +151,7 @@ const ScrollNav = ({ data, position, $id }) => {
       scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
     //make scroll continuous when scroll reaches last item
     if (lastChild < dvWidth * 1) {
-      list.splice(list.length, 0, ...list.slice(0, 12));
+      list.splice(list.length, 0, ...list.slice(0, movieList.length));
     }
     //make scroll continuous when scroll reaches first item
     if (firstChild > 0) {
@@ -144,17 +161,17 @@ const ScrollNav = ({ data, position, $id }) => {
     //add every scroll child divisor to a list
     for (var item of children) {
       var nthChild = document.getElementsByClassName(
-        `${data[0]._id}_${$id}_${item}`
+        `${data._id}_${$id}_${movieList[item].id}`
       );
       //update the proper span indicator for every child divisor that comes into view
       for (var child of nthChild) {
         var position = child.getBoundingClientRect().right * 1;
 
         if (position > 10 && position < dvWidth * 1) {
-          setBgSpan({ [`${data[0]._id}_${$id}_${item}`]: "bg-[rgb(160,160,160)]" });
+          setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(160,160,160)]" });
           return;
         } else {
-          setBgSpan({ [`${data[0]._id}_${$id}_${item}`]: "bg-[rgb(60,60,60)]" });
+          setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(60,60,60)]" });
         }
       }
     }
@@ -164,7 +181,7 @@ const ScrollNav = ({ data, position, $id }) => {
     <div className={`${position || "relative"} w-full`}>
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] lg:text-xl">
-          {data[0].title}
+          {data.title}
         </p>
         <div className="flex flex-row gap-2 px-5 items-end py-2">
           {
@@ -172,7 +189,7 @@ const ScrollNav = ({ data, position, $id }) => {
             children.map((item) => (
               <Span
                 key={item}
-                id={`${data[0]._id}_${$id}_${item}`}
+                id={`${data._id}_${$id}_${movieList[item].id}`}
                 bgSpan={bgSpan}
               />
             ))
@@ -180,7 +197,7 @@ const ScrollNav = ({ data, position, $id }) => {
         </div>
       </div>
 
-      <div className="relative h-[8em] lg:h-[6em] xl:h-[8em]">
+      <div className="relative h-[9em] md:h-[18em] lg:h-[6em] xl:h-[8em]">
         {
           <>
             <Next
@@ -209,9 +226,9 @@ const ScrollNav = ({ data, position, $id }) => {
           {list.map((item, index) => (
             <ScrollItem
               key={index}
-              classes={`${data[0]._id}_${$id}_${item.id}`}
-              src={item.logo}
-              bg={item.bg}
+              classes={`${data._id}_${$id}_${item.id}`}
+              // src={"item.logo"}
+              bg={item['poster_path']}
             />
           ))}
         </div>

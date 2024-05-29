@@ -50,7 +50,7 @@ const ProfileModal = ({ onMouseOver, onMouseOut}) => {
   };
 
   return (
-    <div className="w-full h-[100vh] fixed z-20">
+    <div className="w-full h-[100vh] fixed z-[60]">
       <div
         onMouseEnter={onMouseOver}
         onMouseLeave={onMouseOut}

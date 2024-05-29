@@ -123,40 +123,65 @@ const ModalCont = ({
   top
 }) => {
   const [modalHeight, setModalHeight] = useState();
-  const [modalTop,setModalTop] = useState(0);
-  const [expand,setExpand] = useState(false)
-  const [modalPosition, setModalPosition] = useState()
-  const [bgColor,setBgColor] = useState()
-  const [modalEvents,setModalEvents] = useState()
-  
+  const [modalTop, setModalTop] = useState(0);
+  const [expand, setExpand] = useState(false);
+  const [modalPosition, setModalPosition] = useState();
+  const [bgColor, setBgColor] = useState();
+  const [modalEvents, setModalEvents] = useState();
+  const [modalOverflow, setModalOverflow] = useState();
+  const [delayID, setDelayID] = useState(null);
+
+  const delayTop = () => {
+  //clear timeout if available
+    if (delayID) clearTimeout(delayID);
+
+//implement delay
+    const newDelayID = setTimeout(() => {
+      setModalTop(`${window.scrollY}px`);
+    }, 200);
+
+    setDelayID(newDelayID);
+  };
 
   useEffect(() => {
+//update style properties when expand changes state
     expand ? setModalHeight("100vh") : setModalHeight(`${height}`);
-    expand? setModalTop(`${window.scrollY}px`): setModalTop(0)
-    expand? setModalPosition("fixed"): setModalPosition("relative")
-    expand? setBgColor("rgb(0,0,0,0.5)"): setBgColor("transparent")
-    expand? setModalEvents("auto"): setModalEvents("none")
-  }, [expand,height]);
+    expand ? delayTop() : setModalTop(0);
+    expand ? setModalPosition("fixed") : setModalPosition("relative");
+    expand ? setBgColor("rgb(0,0,0,0.6)") : setBgColor("transparent");
+    expand ? setModalEvents("auto") : setModalEvents("none");
+    expand ? setModalOverflow("auto") : setModalOverflow("hidden");
+
+//clear timeout if available
+    if(delayID){
+      return clearTimeout(delayID);
+    }
+  }, [expand, height]);
 
   return (
     <div
       style={{
-        // height: `${height}`,
-        height: modalHeight,
-        pointerEvents: modalEvents,
-        top: modalTop
+        height: `${height}`,
+        // height: modalHeight,
+        pointerEvents: modalEvents
+        // top: modalTop
       }}
-      className={`absolute z-[40] w-[100%] border-[4px] border-red-600`}
+      className={`absolute z-[40] w-[100%]`}
     >
-      <div 
-      style={{
-        // top: modalTop,
-        
-        backgroundColor: bgColor,
-        pointerEvents: modalEvents,
-        // position: modalPosition,
-      }}
-      className="border-[4px] relative border-blue-600 h-[inherit] w-[inherit] overflow-auto">
+      <div
+        style={{
+          // top: modalTop,
+          // height: modalHeight,
+          backgroundColor: bgColor,
+          pointerEvents: modalEvents,
+          overscrollBehavior: "contain",
+          overflow: modalOverflow,
+          marginTop: modalTop,
+          transition: "all 0.2s linear"
+          // position: modalPosition,
+        }}
+        className="relative h-[inherit] w-[inherit]"
+      >
         <ItemModal
           key={id}
           onMouseEnter={() => setHover(id)}
@@ -305,7 +330,7 @@ const FramerScroll = ({ data, $id, hover, setHover, position }) => {
   }, [isPC]);
 
   return (
-    <div className={`${position || "relative mt-4 mb-4"} w-[100%]`}>
+    <div className={`${position || "relative "} w-[100%]`}>
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] lg:text-xl">
           {data.title}

@@ -4,17 +4,17 @@ import { useSelector } from "react-redux";
 import ReactDOM from 'react-dom';
 import ProfileModal from './ProfileModal';
 
-const MovieNav = () => {
+const MovieNav = ({bgColor}) => {
   const [click,setClick] = useState(false)
   const [modal,setModal] = useState(false)
   const [timeoutId,setTimeoutId] = useState(null)
   const [style,setStyle] = useState({contWidth:'w-[10%]',inputWidth:'w-[0%]',arrow:'rotate-90'})
+  // const [bgColor,setBgColor] = useState("transparent")
 
   const { isPC } = useSelector((state) => state.dvWidth);
   const { profile} = useSelector((state) => state.account);
 
 useEffect(()=>{
-
   return ()=>{
     if(timeoutId){
       clearTimeout(timeoutId)
@@ -68,11 +68,14 @@ useEffect(()=>{
 
   }
 
-  // console.log(profile)
-  // console.log(isPC)
   return (
     <>
-    <div className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between pt-2 lg:pt-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
+    <div 
+    style={{
+      backgroundColor: bgColor,
+      transition:"all 0.4s linear"
+    }}
+    className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 lg:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] ">
       <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
         <svg
           version="1.1"
