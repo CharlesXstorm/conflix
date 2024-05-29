@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import ItemModal from "./NewFramerItemModal";
+import ItemModal from "./PCNavItemModal";
 import Loader from "./Loader";
 
 //motionVariants
@@ -289,7 +289,7 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
 
 //scroll element Component
 /////////////////////////////////////////////////////////////////////////////
-const FramerScroll = ({ data, $id, hover, setHover, position }) => {
+const PCNavScroll = ({ data, $id, hover, setHover, position }) => {
   const [list] = useState([...data.movies]);
   const [step, setStep] = useState(null);
   const [page, setPage] = useState(0);
@@ -396,4 +396,4 @@ const FramerScroll = ({ data, $id, hover, setHover, position }) => {
   );
 };
 
-export default FramerScroll;
+export default PCNavScroll;

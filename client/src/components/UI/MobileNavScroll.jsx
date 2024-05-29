@@ -106,7 +106,7 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const ScrollNav = ({ data, position, $id }) => {
+const MobileNavScroll = ({ data, position, $id }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list] = useState([...data.movies]);
   const [movieList] = useState([...data.movies]);
@@ -237,4 +237,4 @@ const ScrollNav = ({ data, position, $id }) => {
   );
 };
 
-export default ScrollNav;
+export default MobileNavScroll;

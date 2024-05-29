@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import ScrollNav from "../components/UI/ScrollNav";
-import VideoPlayer from "../components/VideoPlayer";
-import FramerScroll from "../components/UI/NewFramerScroll";
+import ScrollNav from "../components/UI/MobileNavScroll";
+// import VideoPlayer from "../components/VideoPlayer";
+import PCNavScroll from "../components/UI/PCNavScroll";
 import PCHero from "../components/PCHero";
+import MobileHero from "../components/MobileHero";
 // import ReactPlayer from "react-player/youtube";
 
 //data
@@ -424,180 +425,6 @@ const resultData = {
   ]
 };
 
-const genreA = [
-  {
-    _id: 1,
-    title: "Tv Shows",
-    movies: [
-      {
-        id: 0,
-        logo: "images/LOGO_C.svg",
-        bg: "0"
-      },
-      {
-        id: 1,
-        logo: "images/LOGO_C.svg",
-        bg: "1"
-      },
-      {
-        id: 2,
-        logo: "images/LOGO_C.svg",
-        bg: "2"
-      },
-      {
-        id: 3,
-        logo: "images/LOGO_C.svg",
-        bg: "3"
-      },
-      {
-        id: 4,
-        logo: "images/LOGO_C.svg",
-        bg: "4"
-      },
-      {
-        id: 5,
-        logo: "images/LOGO_C.svg",
-        bg: "5"
-      },
-      {
-        id: 6,
-        logo: "images/LOGO_C.svg",
-        bg: "6"
-      },
-      {
-        id: 7,
-        logo: "images/LOGO_C.svg",
-        bg: "7"
-      },
-      {
-        id: 8,
-        logo: "images/LOGO_C.svg",
-        bg: "8"
-      },
-      {
-        id: 9,
-        logo: "images/LOGO_C.svg",
-        bg: "9"
-      },
-      {
-        id: 10,
-        logo: "images/LOGO_C.svg",
-        bg: "10"
-      },
-      {
-        id: 11,
-        logo: "images/LOGO_C.svg",
-        bg: "11"
-      }
-    ]
-  }
-];
-
-const genre = [
-  {
-    _id: 0,
-    title: "Tv Shows",
-    movies: [
-      {
-        id: 0,
-        logo: "images/LOGO_C.svg",
-        bg: "0"
-      },
-      {
-        id: 1,
-        logo: "images/LOGO_C.svg",
-        bg: "1"
-      },
-      {
-        id: 2,
-        logo: "images/LOGO_C.svg",
-        bg: "2"
-      },
-      {
-        id: 3,
-        logo: "images/LOGO_C.svg",
-        bg: "3"
-      },
-      {
-        id: 4,
-        logo: "images/LOGO_C.svg",
-        bg: "4"
-      },
-      {
-        id: 5,
-        logo: "images/LOGO_C.svg",
-        bg: "5"
-      },
-      {
-        id: 6,
-        logo: "images/LOGO_C.svg",
-        bg: "6"
-      },
-      {
-        id: 7,
-        logo: "images/LOGO_C.svg",
-        bg: "7"
-      },
-      {
-        id: 8,
-        logo: "images/LOGO_C.svg",
-        bg: "8"
-      },
-      {
-        id: 9,
-        logo: "images/LOGO_C.svg",
-        bg: "9"
-      },
-      {
-        id: 10,
-        logo: "images/LOGO_C.svg",
-        bg: "10"
-      },
-      {
-        id: 11,
-        logo: "images/LOGO_C.svg",
-        bg: "11"
-      }
-    ]
-  }
-];
-
-const Movie = {
-  adult: false,
-  backdrop_path: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
-  genre_ids: [878, 12],
-  id: 693134,
-  original_language: "en",
-  original_title: "Dune: Part Two",
-  overview:
-    "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, Paul endeavors to prevent a terrible future only he can foresee.",
-  popularity: 1242.512,
-  poster_path: "/gho58bYmw9juYXmUSHRJKOngJGn.jpg",
-  release_date: "2024-02-27",
-  title: "Dune: Part Two",
-  video: false,
-  vote_average: 8.183,
-  vote_count: 3973
-};
-
-const tVData = {
-  adult: false,
-  backdrop_path: "/rgRTWlzePnPL9api6sdxGkzxW8x.jpg",
-  genre_ids: [10759, 35],
-  id: 19478,
-  origin_country: ["FR"],
-  original_language: "fr",
-  original_name: "Les Bleus, premiers pas dans la police",
-  overview:
-    "The cases of five young and well-intentioned police recruits often turn into catastrophes.",
-  popularity: 93.003,
-  poster_path: "/jEqLvC1Frgy7zunQwpmYMeLuUdg.jpg",
-  first_air_date: "2007-09-19",
-  name: "The Rookies",
-  vote_average: 5,
-  vote_count: 4
-};
-
 const BrowseMovies = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -633,6 +460,12 @@ const BrowseMovies = () => {
           volumeIcon={volumeIcon}
         />
       )}
+      {
+        !isPC &&
+        <MobileHero
+        data={[...resultData.movies][Math.floor(Math.random()*resultData.movies.length)]}
+        />
+      }
       {/* <div id="hero" className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden">
         {!playing && (
           <div
@@ -718,7 +551,7 @@ const BrowseMovies = () => {
       <div className="flex flex-col gap-[1.5em] mt-[1.5em]">
         {isPC
           ? [0, 1, 2].map((item) => (
-              <FramerScroll
+              <PCNavScroll
                 key={item}
                 $id={item}
                 data={{ ...resultData }}

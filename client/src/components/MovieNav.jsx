@@ -178,7 +178,7 @@ useEffect(()=>{
           {isPC &&
             <div className="py-1 align-center">{profile.name}</div>
           }
-          <div className="py-1 material-symbols-outlined align-center">notifications</div>
+          <button className="py-1 align-center"><span className='align-center'><img src='images/notification.svg' className='w-[1.5em]' /></span></button>
           <div className="py-1 flex gap-[0.5em]" onMouseEnter={mouseOverHandler} onMouseLeave={mouseOutHandler} >
             <img src={profile.img} className='w-[2em]'  />
             <span className='items-center flex' ><img src="images/arrow.svg" className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}  /></span>

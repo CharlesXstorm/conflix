@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-import FramerScroll from "./UI/NewFramerScroll";
+import FramerScroll from "./UI/PCNavScroll";
 import VideoPlayer from "./VideoPlayer";
 
 const PCHero = ({
