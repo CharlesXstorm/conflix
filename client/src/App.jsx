@@ -19,6 +19,7 @@ import ProtectedRoute from "./pages/Shared/ProtectedRoute.jsx";
 import { useSelector } from "react-redux";
 import Logout from "./pages/Logout.jsx";
 import AuthRoute from "./pages/Shared/AuthRoute.jsx";
+import MovieDetail from "./pages/MovieDetail.jsx";
 
 function App() {
   // const [profileClick, setProfileClick] = useState(false)
@@ -66,6 +67,7 @@ function App() {
       <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
         <Route path="browse" element={<BrowseShared accountClick={accountClick}/>}>
           <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+          <Route path=":id" element={<MovieDetail/>} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />
       </Route>

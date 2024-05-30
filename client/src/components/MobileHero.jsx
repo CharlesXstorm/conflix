@@ -3,6 +3,7 @@
 
 // import Loader from "./UI/Loader"
 import json from "../utils/TMDBconfig/Genres/movieList.json"
+import { Link } from "react-router-dom"
 
 const GenreSpan = ({index,length,genre})=>{
 
@@ -34,13 +35,15 @@ const MobileHero = ({data}) => {
             {/* {ready &&
                 <Loader />
                 } */}
+            <Link to={`:${data.id}`}>
             <img 
             src={`https://image.tmdb.org/t/p/original${data['poster_path']}`}
             // onLoad={()=> setReady(false)}
             className="w-[100%]"
             alt="mobile hero"/>
+            </Link>
 
-            <div className='absolute top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.6)_45%,transparent)] '></div>
+            <div className='absolute pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.6)_45%,transparent)] '></div>
 
             <div className='absolute left-0 top-[45%]  w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center'>
                 <div className='flex flex-col justify-center items-center gap-1'>
@@ -56,7 +59,8 @@ const MobileHero = ({data}) => {
                 </div>
 
                 <div className='flex justify-center items-center w-[100%] px-[4%] gap-[5%] pt-[0.5em] '>
-                   <button className='rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 '>
+                   <button 
+                   className='rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 '>
                     <span><img src="images/play.svg" alt="play" className='w-[1em]' /></span>
                     <span>Play</span>
                     </button>
