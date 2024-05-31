@@ -1,29 +1,27 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-import FramerScroll from "./UI/PCNavScroll";
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "./VideoPlayer"
 
-const PCHero = ({
-  playing,
-  setPlaying,
-  playerRef,
-  isPC,
-  resultData,
-  hover,
-  setHover,
-  volume,
-  volumeHandler,
-  volumeIcon,
-  movieID,
-  src,
-  title
-}) => {
-
+const MovieDetailHero = (
+    {
+        playing,
+        setPlaying,
+        playerRef,
+        isPC,
+        volume,
+        volumeHandler,
+        volumeIcon,
+        movieID,
+        movie,
+        src
+      }
+) => {
+    
   return (
     <div
       id="hero"
-      className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden"
+      className="relative h-[30vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden "
     >
       {!playing && (
         <div
@@ -31,23 +29,13 @@ const PCHero = ({
           onClick={() => setPlaying(true)}
         >
           <img
-            className="scale-[2] md:scale-125 origin-[50%_20%]"
+            className="scale-[1.4] md:scale-125 origin-[50%_20%]"
             src={`https://image.tmdb.org/t/p/original${src}`}
             alt="thumbnail"
           />
         </div>
       )}
-      <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
-
-      {isPC && (
-        <FramerScroll
-          position="absolute z-10 bottom-0 left-0"
-          $id={"hero"}
-          data={{ ...resultData }}
-          hover={hover}
-          setHover={setHover}
-        />
-      )}
+      <div className="absolute z-10 pointer-events-none bottom-[-2px] left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
       {
         //hero info
@@ -56,36 +44,39 @@ const PCHero = ({
             <div className="movieTitle flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <img
-                  src="images/LOGO_C.svg"
+                  src="/images/LOGO_C.svg"
                   className="w-[0.8em] lg:w-[1em] align-center"
                 />
                 <span className="flex items-center">Series</span>{" "}
               </div>
               <div>
                 <span className="font-bold text-[1.5em] lg:text-[2em]">
-                  {title}
+                  {movie && movie.title}
                 </span>
               </div>
             </div>
 
-            <div className="flex flex-row justify-between gap-4 items-left">
+            {isPC &&
+                <div className="flex flex-row justify-between gap-4 items-left">
               <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
                 <span>
-                  <img src="images/play.svg" className="w-[1em]" />
+                  <img src="/images/play.svg" className="w-[1em]" />
                 </span>
                 Play
               </button>
               <button className="border p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
                 More Info
               </button>
-            </div>
+            </div>}
+
           </div>
 
-          <div className="flex flex-row pointer-events-auto">
+          {isPC &&
+            <div className="flex flex-row pointer-events-auto">
             <div className="flex mt-2 ml-2 gap-2 ">
               <button className="" onClick={volumeHandler}>
                 <img
-                  src={`images/volume-${volumeIcon}.svg`}
+                  src={`/images/volume-${volumeIcon}.svg`}
                   className="w-[2em]"
                 />
               </button>
@@ -93,7 +84,8 @@ const PCHero = ({
                 18+
               </span>
             </div>
-          </div>
+          </div>}
+
         </div>
       }
 
@@ -105,7 +97,7 @@ const PCHero = ({
         movieID={movieID}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PCHero;
+export default MovieDetailHero

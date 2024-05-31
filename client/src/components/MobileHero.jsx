@@ -35,7 +35,7 @@ const MobileHero = ({data}) => {
             {/* {ready &&
                 <Loader />
                 } */}
-            <Link to={`:${data.id}`}>
+            <Link to={`${data.id}`}>
             <img 
             src={`https://image.tmdb.org/t/p/original${data['poster_path']}`}
             // onLoad={()=> setReady(false)}

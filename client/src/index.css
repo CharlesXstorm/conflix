@@ -84,7 +84,7 @@ html {
 
 @media only screen and (max-width:680px) {
   .player-wrapper{
-    transform: scale(2.8);
+    transform: scale(1.8);
   }
 }
 

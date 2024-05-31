@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ScrollNav from "../components/UI/MobileNavScroll";
 // import VideoPlayer from "../components/VideoPlayer";
 import PCNavScroll from "../components/UI/PCNavScroll";
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
+import axios from "axios";
 // import ReactPlayer from "react-player/youtube";
 
 //data
@@ -430,6 +431,7 @@ const BrowseMovies = () => {
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [hover, setHover] = useState(false);
+  const [hero, setHero] = useState(null);
   const playerRef = useRef();
 
   const { isPC } = useSelector((state) => state.dvWidth);
@@ -444,9 +446,46 @@ const BrowseMovies = () => {
     }
   };
 
+  const getUpcomingMovies = async () => {
+    const config = {
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjM4YjA5MWRjMWM4ZDkxYzk1ZGIwMGFhOWE1OThiOSIsInN1YiI6IjY2MzIxNGUyZTBjYTdmMDEyOTgyOWY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HSnxf7osUq8BzwRoC7k8bR00ZnHV59x8Barai4tqNxA"
+      }
+    };
+    try {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1`,
+        config
+      );
+
+      return res.data.results;
+    
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await getUpcomingMovies();
+    
+      if (result) {
+      setHero(result[Math.floor(Math.random() * result.length)]);
+       }
+    };
+    fetch();
+    return;
+  }, []);
+
   return (
-    <div className="relative font-[roboto]">
+    <>
+
+    {hero &&
+      <div className="relative font-[roboto]">
       {isPC ? (
+        
         <PCHero
           playerRef={playerRef}
           playing={playing}
@@ -458,15 +497,12 @@ const BrowseMovies = () => {
           volume={volume}
           volumeHandler={volumeHandler}
           volumeIcon={volumeIcon}
+          movieID={hero.id}
+          src={hero["backdrop_path"]}
+          title={hero.title}
         />
       ) : (
-        <MobileHero
-          data={
-            [...resultData.movies][
-              Math.floor(Math.random() * resultData.movies.length)
-            ]
-          }
-        />
+        <MobileHero data={hero} />
       )}
 
       <div className="flex flex-col gap-[1.5em] mt-[1.5em] py-4">
@@ -484,7 +520,8 @@ const BrowseMovies = () => {
               <ScrollNav key={item} $id={item} data={{ ...resultData }} />
             ))}
       </div>
-    </div>
+    </div>}
+    </>
   );
 };
 

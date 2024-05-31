@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 // import "./App.css";
 import { useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import { getWidth } from "./utils/dvWidthSlice.js";
 
 import Home from "./pages/Home";
@@ -16,7 +16,6 @@ import ManageProfiles from "./pages/ManageProfiles";
 import BrowseShared from "./pages/Shared/BrowseShared";
 import ProtectedRoute from "./pages/Shared/ProtectedRoute.jsx";
 
-import { useSelector } from "react-redux";
 import Logout from "./pages/Logout.jsx";
 import AuthRoute from "./pages/Shared/AuthRoute.jsx";
 import MovieDetail from "./pages/MovieDetail.jsx";
@@ -35,6 +34,10 @@ function App() {
   const handleEvent = () => {
     dispatch(getWidth(window.innerWidth));
   };
+
+  const getLocation = ()=>{
+    
+  }
 
   useEffect(() => {
     window.addEventListener("load", handleEvent);

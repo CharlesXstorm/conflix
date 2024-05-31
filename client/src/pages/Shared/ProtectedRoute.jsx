@@ -32,18 +32,9 @@ const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
     }
   };
 
-  // useEffect(()=>{
-
-  // })
-
   //getUser ////////////////////////
   useEffect(() => {
-    // dispatch(setData(jsonData));
-    // setAuth(true);
-    // setLoaded(false);
-    // setAddProfile(false)
-
-
+    navigator.geolocation.getCurrentPosition((position)=> console.log(position))
     const fetchData = async () => {
       const user = await getUser();
       if (!user) {
@@ -52,8 +43,6 @@ const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
         dispatch(setData(user));
         setAuth(true);
         setLoaded(true);
-        // setAddProfile(false)
-        console.log('protected route')
       }
     };
     fetchData();
