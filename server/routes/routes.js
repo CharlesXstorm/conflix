@@ -3,6 +3,10 @@ const Router = express.Router();
 
 const {requireAuth} = require('../middlewares/authMiddleware')
 
+const {getAllBrowse,
+} = require("../controllers/controllers_movies");
+
+
 const {getAllUsers,
     getUser,
     signUp,
@@ -57,5 +61,9 @@ Router.route('/:id/subProfiles/:subId/watchlist')
 //profile Icons Routes
 Router.route('/profileIcons')
 .get(getProfileIcons)
+
+//movie routes
+Router.route("/browse")
+.post(getAllBrowse)
 
 module.exports = Router;

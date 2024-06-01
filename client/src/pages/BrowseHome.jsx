@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// import { useState } from "react";
 import { useSelector } from "react-redux";
 import IconButton from "../components/UI/IconButton";
 import { Link } from "react-router-dom";
@@ -20,14 +21,14 @@ const pageVariants = {
   }
 };
 
-const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile }) => {
+const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile}) => {
   const { data } = useSelector((state) => state.account);
 
   let count = data.subProfile.length;
 
   return (
-    <div
-      
+   
+      <div
       className="absolute z-10 flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden"
     >
       <motion.div 
@@ -54,7 +55,7 @@ const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile }) => {
                   name={data.subProfile[count].name}
                   src={data.subProfile[count].img}
                   edit={false}
-                  profile={data.subProfile[count]}
+                  profile={{...data.subProfile[count],userID:data._id}}
                   setAccountClick={setAccountClick}
                   setEditClick={setEditClick}
                   setAddProfile={setAddProfile}

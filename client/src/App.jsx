@@ -35,10 +35,6 @@ function App() {
     dispatch(getWidth(window.innerWidth));
   };
 
-  const getLocation = ()=>{
-    
-  }
-
   useEffect(() => {
     window.addEventListener("load", handleEvent);
     window.addEventListener("resize", handleEvent);

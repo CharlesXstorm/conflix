@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
+import { Suspense,lazy} from "react";
 import ReactDOM from "react-dom";
-import BrowseHome from "./BrowseHome";
-import BrowseMovies from "./BrowseMovies";
 import BrowseAdd from "./BrowseAdd";
 import { useSelector } from "react-redux";
+const LazyBrowseHome = lazy(()=> import('./BrowseHome'))
+const LazyBrowseMovies = lazy(()=> import('./BrowseMovies'))
+
 const Browse = ({
   accountClick,
   setAccountClick,
@@ -13,19 +14,8 @@ const Browse = ({
   addProfile,
   setAddProfile
 }) => {
+  
   const { data } = useSelector((state) => state.account);
-
-  useEffect(() => {
-    // setAccountClick(false)
-    const loadFunc = ()=>{
-      console.log("images loaded")
-    }
-    window.addEventListener('load',loadFunc)
-    console.log("loaded: ", loaded, "account: ", accountClick);
-    console.log('null',Boolean(null))
-
-    return ()=> window.removeEventListener('load',loadFunc)
-  });
 
   return (
     <div>
@@ -33,11 +23,14 @@ const Browse = ({
         loaded &&
         data!=null &&
         ReactDOM.createPortal(
-          <BrowseHome
+          <Suspense>
+          <LazyBrowseHome
             setAccountClick={setAccountClick}
             setEditClick={setEditClick}
             setAddProfile={setAddProfile}
-          />,
+          />
+          </Suspense>
+          ,
           document.getElementById("portal")
         )}
 
@@ -48,7 +41,11 @@ const Browse = ({
           document.getElementById("portal")
         )}
 
-      {accountClick && loaded && <BrowseMovies />}
+      {accountClick && loaded && 
+      <Suspense fallback={<div className="w-[100%] h-[100vh] bg-black ">loading...</div>}>
+      <LazyBrowseMovies />
+      </Suspense>
+      }
     </div>
   );
 };

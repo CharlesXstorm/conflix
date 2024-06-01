@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import ScrollNav from "../components/UI/MobileNavScroll";
+import MobileNavScroll from "../components/UI/MobileNavScroll";
 // import VideoPlayer from "../components/VideoPlayer";
 import PCNavScroll from "../components/UI/PCNavScroll";
 import PCHero from "../components/PCHero";
@@ -432,9 +432,11 @@ const BrowseMovies = () => {
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
+  const [browseMovies, setBrowseMovies] = useState(null);
   const playerRef = useRef();
 
   const { isPC } = useSelector((state) => state.dvWidth);
+  const { profile } = useSelector((state) => state.account);
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -450,18 +452,55 @@ const BrowseMovies = () => {
     const config = {
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjM4YjA5MWRjMWM4ZDkxYzk1ZGIwMGFhOWE1OThiOSIsInN1YiI6IjY2MzIxNGUyZTBjYTdmMDEyOTgyOWY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HSnxf7osUq8BzwRoC7k8bR00ZnHV59x8Barai4tqNxA"
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_AUTH}`,
       }
     };
     try {
       const res = await axios.get(
-        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1`,
+        `${import.meta.env.VITE_TMDB_URL}/movie/upcoming?language=en-US&page=1`,
         config
       );
 
       return res.data.results;
-    
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+// get movie categories
+  const getBrowseMovies = async () => {
+    let myList;
+    let data = {myList: myList}
+    const config = {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+        withCredentials: true
+      }
+    };
+    try {
+      //get user's watchList
+      const watchList = await axios.get(
+        `${import.meta.env.VITE_API_URL}/${profile.userID}/subProfiles/${
+          profile.id
+        }/watchlist`,
+        config
+      );
+
+      if (watchList ) {
+        if (watchList.data.data.length > 0){
+          myList = watchList.data.data;
+        }else {
+          myList = null;
+        }
+      } 
+      //get all movies and watchList data
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/browse`,
+        data,
+        config
+      );
+
+      return res.data.data;
     } catch (err) {
       console.log(err);
     }
@@ -470,10 +509,15 @@ const BrowseMovies = () => {
   useEffect(() => {
     const fetch = async () => {
       const result = await getUpcomingMovies();
-    
+      const movies = await getBrowseMovies();
+
+
       if (result) {
-      setHero(result[Math.floor(Math.random() * result.length)]);
-       }
+        setHero(result[Math.floor(Math.random() * result.length)]);
+      }
+      if (movies) {
+        setBrowseMovies(movies);
+      }
     };
     fetch();
     return;
@@ -481,46 +525,58 @@ const BrowseMovies = () => {
 
   return (
     <>
+      {hero && browseMovies && (
+        <div className="relative font-[roboto]">
+          {isPC ? (
+            <PCHero
+              playerRef={playerRef}
+              playing={playing}
+              setPlaying={setPlaying}
+              isPC={isPC}
+              resultData={resultData}
+              hover={hover}
+              setHover={setHover}
+              volume={volume}
+              volumeHandler={volumeHandler}
+              volumeIcon={volumeIcon}
+              movieID={hero.id}
+              src={hero["backdrop_path"]}
+              title={hero.title}
+            />
+          ) : (
+            <MobileHero data={hero} />
+          )}
 
-    {hero &&
-      <div className="relative font-[roboto]">
-      {isPC ? (
-        
-        <PCHero
-          playerRef={playerRef}
-          playing={playing}
-          setPlaying={setPlaying}
-          isPC={isPC}
-          resultData={resultData}
-          hover={hover}
-          setHover={setHover}
-          volume={volume}
-          volumeHandler={volumeHandler}
-          volumeIcon={volumeIcon}
-          movieID={hero.id}
-          src={hero["backdrop_path"]}
-          title={hero.title}
-        />
-      ) : (
-        <MobileHero data={hero} />
+          <div className="flex flex-col gap-[1.5em] mt-[1.5em] py-4">
+            {isPC
+              ? browseMovies.map((item,index) => 
+                {
+                  if(item.shortList){
+                    return
+                  }else{
+                    return <PCNavScroll
+                    key={index}
+                    $id={index}
+                    data={item}
+                    hover={hover}
+                    setHover={setHover}
+                  />
+                  }
+                }
+                  )
+              : browseMovies.map((item,index) =>
+                  {
+                    if(item.shortList){
+                      return
+                    }else{
+                      return <MobileNavScroll key={index} $id={index} data={item} />
+                    }
+                   
+                  }
+              )}
+          </div>
+        </div>
       )}
-
-      <div className="flex flex-col gap-[1.5em] mt-[1.5em] py-4">
-        {isPC
-          ? [0, 1, 2].map((item) => (
-              <PCNavScroll
-                key={item}
-                $id={item}
-                data={{ ...resultData }}
-                hover={hover}
-                setHover={setHover}
-              />
-            ))
-          : [0, 1, 2].map((item) => (
-              <ScrollNav key={item} $id={item} data={{ ...resultData }} />
-            ))}
-      </div>
-    </div>}
     </>
   );
 };

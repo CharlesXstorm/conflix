@@ -71,7 +71,7 @@ const ScrollItem = ({bg, classes }) => {
   const [loaded,setLoaded] = useState(true)
   return (
     <div
-      className={`${classes} relative rounded-md h-[100%] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+      className={`${classes} relative rounded-md h-[100%] flex-none w-[calc((100%/3)-1%)] md:w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
     > 
         {
         loaded && 
@@ -110,31 +110,31 @@ const MobileNavScroll = ({ data, position, $id }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list] = useState([...data.movies]);
   const [movieList] = useState([...data.movies]);
-  const [count, setCount] = useState(`${isPC ? 5 : 3}` * 1);
+  const [count, setCount] = useState(`${isPC ? 5 : 2}` * 1);
   const [children, setChildren] = useState([]);
   const [bgSpan, setBgSpan] = useState(null);
   const scrollRef = useRef();
 
+
   useEffect(() => {
-    // const movieList = [...data.movies];
     const scrollChildren = [];
 
     movieList.forEach((item, index) =>
-      index * 1 < movieList.length / `${isPC ? 6 : 4}`
+      index * 1 < movieList.length / `${isPC ? 6 : 3}`
         ? `${
             isPC && index === 0
               ? scrollChildren.push(5)
               : isPC
               ? scrollChildren.push(scrollChildren[index - 1] + 6)
               : !isPC && index === 0
-              ? scrollChildren.push(3)
-              : scrollChildren.push(scrollChildren[index - 1] + 4)
+              ? scrollChildren.push(2)
+              : scrollChildren.push(scrollChildren[index - 1] + 3)
           }`
         : null
     );
 
     setChildren([...scrollChildren]);
-    console.log("movieList",movieList[scrollChildren[0]].id)
+
     setBgSpan({
       [`${data._id}_${$id}_${movieList[scrollChildren[0]].id}`]: "bg-[rgb(160,160,160)]"
     });
@@ -180,24 +180,24 @@ const MobileNavScroll = ({ data, position, $id }) => {
   return (
     <div className={`${position || "relative"} w-full`}>
       <div className="flex flex-row justify-between">
-        <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] lg:text-xl">
+        <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] md:text-xl">
           {data.title}
         </p>
         <div className="flex flex-row gap-2 px-5 items-end py-2">
           {
             //scroll indicator
-            children.map((item) => (
-              <Span
+            children.map((item)=> <Span
                 key={item}
                 id={`${data._id}_${$id}_${movieList[item].id}`}
                 bgSpan={bgSpan}
               />
-            ))
+            )
+            
           }
         </div>
       </div>
 
-      <div className="relative h-[9em] md:h-[18em] lg:h-[6em] xl:h-[8em]">
+      <div className="relative h-[12em] md:h-[20em] lg:h-[6em] xl:h-[8em]">
         {
           <>
             <Next

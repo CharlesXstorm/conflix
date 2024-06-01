@@ -34,9 +34,10 @@ const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
 
   //getUser ////////////////////////
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position)=> console.log(position))
+    
     const fetchData = async () => {
       const user = await getUser();
+     
       if (!user) {
         setAuth(false);
       } else {
