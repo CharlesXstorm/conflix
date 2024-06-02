@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
 const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
@@ -67,8 +68,15 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 };
 
 //scroll items component ///////////////////////////////////////////////////////////////////
-const ScrollItem = ({bg, classes }) => {
+const ScrollItem = ({bg, classes,$id,groupType,movieType }) => {
   const [loaded,setLoaded] = useState(true)
+
+  const navigate = useNavigate()
+  const data = {groupType,movieType}
+
+  const handleClick = ()=>{
+    navigate(`/browse/${$id}`,{state:data})
+  }
   return (
     <div
       className={`${classes} relative rounded-md h-[100%] flex-none w-[calc((100%/3)-1%)] md:w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
@@ -77,7 +85,7 @@ const ScrollItem = ({bg, classes }) => {
         loaded && 
         <Loader />}
 
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
+        <div onClick={handleClick} className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
           <img
             src={`https://image.tmdb.org/t/p/w300/${bg}`}
             className="w-[100%] absolute top-0 left-0"
@@ -106,7 +114,7 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const MobileNavScroll = ({ data, position, $id }) => {
+const MobileNavScroll = ({ data, position, $id,$bg }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list] = useState([...data.movies]);
   const [movieList] = useState([...data.movies]);
@@ -139,8 +147,6 @@ const MobileNavScroll = ({ data, position, $id }) => {
       [`${data._id}_${$id}_${movieList[scrollChildren[0]].id}`]: "bg-[rgb(160,160,160)]"
     });
   }, []);
-
-  console.log('children render',children,'movieLength',movieList.length)
 
   //handle scroll event start
   const scrollHandler = () => {
@@ -178,7 +184,9 @@ const MobileNavScroll = ({ data, position, $id }) => {
   };
 
   return (
-    <div className={`${position || "relative"} w-full`}>
+    <div 
+    style={{backgroundImage:`${$id === 0?`linear-gradient(180deg,rgb(${$bg},0.2) 45%,transparent)`:""}`}}
+    className={`${position || "relative"} w-full ${$id === 0?"pt-6":""}`}>
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] md:text-xl">
           {data.title}
@@ -226,6 +234,9 @@ const MobileNavScroll = ({ data, position, $id }) => {
           {list.map((item, index) => (
             <ScrollItem
               key={index}
+              $id={item.id}
+              groupType={data.type}
+              movieType={item["media_type"]}
               classes={`${data._id}_${$id}_${item.id}`}
               // src={"item.logo"}
               bg={item['poster_path']}

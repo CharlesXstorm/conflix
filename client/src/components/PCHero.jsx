@@ -1,49 +1,71 @@
 /* eslint-disable react/prop-types */
-// import React from 'react'
+import {useState,useRef} from 'react'
 
-import FramerScroll from "./UI/PCNavScroll";
+import { AnimatePresence, motion } from "framer-motion";
+import PCNavScroll from "./UI/PCNavScroll";
 import VideoPlayer from "./VideoPlayer";
 
 const PCHero = ({
-  playing,
-  setPlaying,
-  playerRef,
+  // playing,
+  // setPlaying,
+  // playerRef,
   isPC,
-  resultData,
   hover,
   setHover,
-  volume,
-  volumeHandler,
-  volumeIcon,
+  // volume,
+  // volumeHandler,
+  // volumeIcon,
   movieID,
+  movie,
   src,
   title
 }) => {
+  const [playing, setPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [volumeIcon, setVolumeIcon] = useState("max");
+  // const [hover, setHover] = useState(false);
 
+  const playerRef = useRef();
+
+  const volumeHandler = () => {
+    if (volume === 1) {
+      setVolumeIcon("off");
+      setVolume(0);
+    } else {
+      setVolumeIcon("max");
+      setVolume(1);
+    }
+  };
   return (
     <div
       id="hero"
       className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden"
     >
-      {!playing && (
-        <div
-          className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
-          onClick={() => setPlaying(true)}
-        >
-          <img
-            className="scale-[2] md:scale-125 origin-[50%_20%]"
-            src={`https://image.tmdb.org/t/p/original${src}`}
-            alt="thumbnail"
-          />
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {!playing && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "linear" }}
+            className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
+            onClick={() => setPlaying(true)}
+          >
+            <img
+              className="scale-[2] md:scale-125 origin-[50%_20%]"
+              src={`https://image.tmdb.org/t/p/original${src}`}
+              alt="thumbnail"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
       {isPC && (
-        <FramerScroll
+        <PCNavScroll
           position="absolute z-10 bottom-0 left-0"
           $id={"hero"}
-          data={{ ...resultData }}
+          data={movie}
           hover={hover}
           setHover={setHover}
         />
@@ -51,7 +73,7 @@ const PCHero = ({
 
       {
         //hero info
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-4 top-[16vh] lg:top-[40vh] xl:top-[50vh] w-full">
           <div className="flex flex-col gap-4 pointer-events-auto">
             <div className="movieTitle flex flex-col gap-2">
               <div className="flex items-center gap-2">
@@ -67,7 +89,9 @@ const PCHero = ({
                 </span>
               </div>
             </div>
+          </div>
 
+          <div className="flex flex-row justify-between pointer-events-auto">
             <div className="flex flex-row justify-between gap-4 items-left">
               <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
                 <span>
@@ -79,9 +103,7 @@ const PCHero = ({
                 More Info
               </button>
             </div>
-          </div>
 
-          <div className="flex flex-row pointer-events-auto">
             <div className="flex mt-2 ml-2 gap-2 ">
               <button className="" onClick={volumeHandler}>
                 <img
@@ -102,7 +124,8 @@ const PCHero = ({
         playing={playing}
         setPlaying={setPlaying}
         playerRef={playerRef}
-        movieID={movieID}
+        id={movieID}
+        movieType={"movie"}
       />
     </div>
   );

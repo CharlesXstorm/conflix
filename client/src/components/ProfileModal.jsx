@@ -58,7 +58,7 @@ const ProfileModal = ({ onMouseOver, onMouseOut}) => {
       >
         <div className="flex justify-end pr-6">
           <span className="">
-            <img src="images/arrow.svg" className="w-[0.8em] -rotate-90" />
+            <img src="/images/arrow.svg" className="w-[0.8em] -rotate-90" />
           </span>
         </div>
         <div className="bg-[rgb(10,10,10)] p-4 flex flex-col gap-2 pr-[4em] md:pr-[6em]">
@@ -78,7 +78,7 @@ const ProfileModal = ({ onMouseOver, onMouseOut}) => {
             className="flex hover:underline py-1 flex-row gap-3 items-center"
           >
             <span className="w-[1.2em]">
-              <img src="images/pencilSVG.svg" />
+              <img src="/images/pencilSVG.svg" />
             </span>
             <span className="text-[0.8em]">Manage Profiles</span>
           </Link>
@@ -90,13 +90,13 @@ const ProfileModal = ({ onMouseOver, onMouseOut}) => {
           </button>
           <button className="flex hover:underline py-1 flex-row gap-3 items-center">
             <span className="w-[1.5em]">
-              <img src="images/user.svg" />
+              <img src="/images/user.svg" />
             </span>
             <span className="text-[0.8em]">Account</span>
           </button>
           <button className="flex hover:underline py-1 flex-row gap-3 items-center">
             <span className="w-[1.5em]">
-              <img src="images/help.svg" />
+              <img src="/images/help.svg" />
             </span>
             <span className="text-[0.8em]">Help Center</span>
           </button>

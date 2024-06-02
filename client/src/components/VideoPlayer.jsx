@@ -1,64 +1,89 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 import axios from "axios";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import ReactPlayer from "react-player/youtube";
 
-const VideoPlayer = ({ volume, playing, setPlaying, playerRef, movieID,seriesID,seriesNum}) => {
-  const [duration, setDuration] = useState(null);
-  const [key,setKey] = useState("UEJuNHOd8Dw")
-  const $movieID = movieID || null
-  const $seriesID = seriesID || null
-  const $seriesNum = seriesNum || null
+const VideoPlayer = ({
+  volume,
+  playing,
+  setPlaying,
+  playerRef,
+  id,
+  movieType
+}) => {
+  const [key, setKey] = useState();
+  // const $id = id || null
+  // const $seriesID = seriesID || null
+  // const $seriesNum = seriesNum || null
+  // console.log('videoID',id)
+
+  console.log("movieTypeUpdate: ", movieType);
 
   const delay = () => {
-    // setTimeout(() => {
-    //   setPlaying(true);
-    // }, 2000);
+    setTimeout(() => {
+      setPlaying(true);
+    }, 2000);
   };
 
   const readyHandler = () => {
-    playerRef.current.seekTo(130, "seconds");
+    playerRef.current.seekTo(2, "seconds");
     delay();
   };
 
-  const progressHandler = (progress) => { 
-    if (progress.playedSeconds >= 0.85 * duration && playing) {
+  const progressHandler = (progress) => {
+    if (progress.played >= 0.85) {
       setPlaying((prevPlaying) => {
         if (prevPlaying) {
           return false; // This will ensure the state is set to false
         }
         return prevPlaying; // No change to the state
       });
-      playerRef.current.seekTo(130,'seconds')
+      playerRef.current.seekTo(2, "seconds");
     }
   };
 
-  const getKey = async()=>{
+  const getKey = async () => {
     const config = {
       headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjM4YjA5MWRjMWM4ZDkxYzk1ZGIwMGFhOWE1OThiOSIsInN1YiI6IjY2MzIxNGUyZTBjYTdmMDEyOTgyOWY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HSnxf7osUq8BzwRoC7k8bR00ZnHV59x8Barai4tqNxA'
+        accept: "application/json",
+        Authorization:
+          `Bearer ${import.meta.env.VITE_TMDB_AUTH}`
       }
-    }
-    try{
-      const movie = await axios.get(`https://api.themoviedb.org/3/movie/${$movieID}/videos?language=en-US`,config)
-      
-      for(var item of movie.data.results){
-        if(item.type.toLowerCase()==="trailer"){
-          setKey(item.key)
+    };
+    try {
+      let movie;
+      if (movieType === "movie") {
+        movie = await axios.get(
+          `${import.meta.env.VITE_TMDB_URL}/movie/${id}/videos?language=en-US`,
+          config
+        );
+      }
+      if(movieType==="tv"){
+        movie = await axios.get(
+          `${import.meta.env.VITE_TMDB_URL}/tv/${id}/videos?language=en-US`,
+          config
+        );
+      }
+
+      if (!movie) {
+        throw new Error("video not found");
+      }
+
+      for (var item of movie.data.results) {
+        if (item.type.toLowerCase() === "trailer") {
+          setKey(item.key);
           break;
         }
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  useEffect(()=>{
-    getKey()
-  },[])
-
+  useEffect(() => {
+    getKey();
+  }, []);
 
   return (
     <div className="player-wrapper h-full">
@@ -72,10 +97,9 @@ const VideoPlayer = ({ volume, playing, setPlaying, playerRef, movieID,seriesID,
         height="100%"
         width="100%"
         onReady={readyHandler}
-        onPause={()=>setPlaying(false)}
+        onPause={() => setPlaying(false)}
         progressInterval={1000}
         onProgress={progressHandler}
-        onDuration={(duration) => setDuration(duration)}
       />
     </div>
   );

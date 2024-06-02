@@ -44,10 +44,6 @@ function App() {
       window.removeEventListener("resize", handleEvent);
     };
   }, []);
-
-  console.log('Apps dvWidth is: ',dvWidth)
-
-  // console.log("loaded",loaded)
  
   return (
     <Routes>

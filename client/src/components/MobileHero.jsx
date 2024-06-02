@@ -26,11 +26,13 @@ const GenreSpan = ({index,length,genre})=>{
     )
 }
 
-const MobileHero = ({data}) => {
+const MobileHero = ({data, $bg}) => {
     // const [ready,setReady] = useState(true)
     //  console.log(data)
   return (
-    <div className="w-[100%] pt-[5em] flex items-center justify-center">
+    <div 
+    style={{backgroundImage:`linear-gradient(0deg,rgb(${$bg},0.2) 45%,transparent)`}}
+    className="w-[100%] pt-[5em] flex items-center justify-center">
         <div className="relative flex justify-center items-center  w-[90%] md:w-[80%] border-[2px] border-[rgb(120,120,120)] rounded-[12px] overflow-hidden">
             {/* {ready &&
                 <Loader />
@@ -43,12 +45,14 @@ const MobileHero = ({data}) => {
             alt="mobile hero"/>
             </Link>
 
-            <div className='absolute pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.6)_45%,transparent)] '></div>
+            <div 
+            style={{backgroundImage:`linear-gradient(0deg,rgb(${$bg},0.4) 45%,transparent)`}}
+            className={`absolute pointer-events-none top-0 left-0 w-[100%] h-[100%]`} ></div>
 
             <div className='absolute left-0 top-[45%]  w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center'>
                 <div className='flex flex-col justify-center items-center gap-1'>
                     <span className='flex items-center gap-2'><img src="images/LOGO_C.svg" className='w-[1em]' alt="logo" /><span className='font-[500] tracking-[0.3em] text-[rgb(220,220,220)] text-[1em]'>SERIES</span></span>
-                    <span className='text-[2em] md:text-[2.5em] font-[800]'>{data.title}</span>
+                    <span className='text-[2em] md:text-[2.5em] font-[800] w-[100%] px-2 text-center'>{data.title}</span>
                 </div>
 
                 <div className='flex gap-1 text-[0.8em] md:text-[1em]'>

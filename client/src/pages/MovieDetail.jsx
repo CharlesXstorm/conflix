@@ -1,20 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import MovieDetailHero from "../components/MovieDetailHero";
 import axios from "axios";
 
 const MovieDetail = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [src, setSrc] = useState();
-  const [movie, setMovie] = useState();
+  const [$data, set$Data] = useState(null);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const playerRef = useRef();
 
   const { id } = useParams();
+  const location = useLocation();
+  const data = location.state;
 
   const { isPC } = useSelector((state) => state.dvWidth);
+
+  console.log("groupType: ", data.groupType, "movieType: ", data.movieType);
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -30,38 +33,72 @@ const MovieDetail = () => {
     const config = {
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjM4YjA5MWRjMWM4ZDkxYzk1ZGIwMGFhOWE1OThiOSIsInN1YiI6IjY2MzIxNGUyZTBjYTdmMDEyOTgyOWY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HSnxf7osUq8BzwRoC7k8bR00ZnHV59x8Barai4tqNxA"
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_AUTH}`
       }
     };
+    let result = {};
     try {
-      const res = await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, config);
-      setSrc(res.data['backdrop_path'] || res.data['poster_path']);
-      setMovie(res.data)
-      // console.log("result", res.data);
+      let res;
+      if (data.movieType === "movie" || data.groupType === "movie") {
+        res = await axios.get(
+          `${import.meta.env.VITE_TMDB_URL}/movie/${id}?language=en-US`,
+          config
+        );
+        result = { ...result, movieType: "movie" };
+      } else {
+        res = await axios.get(
+          `${import.meta.env.VITE_TMDB_URL}/tv/${id}?language=en-US`,
+          config
+        );
+        result = { ...result, movieType: "tv" };
+      }
+
+      if (!res) {
+        throw new Error("movie details not found");
+      }
+
+      result = {
+        ...result,
+        movieSrc: `${res.data["backdrop_path"] || res.data["poster_path"]}`,
+        movie: res.data,
+        movieID: `${res.data.id}`
+      };
+
+      return result;
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getMovieDetails();
+    const fetch = async () => {
+      const result = await getMovieDetails();
+      if (result) {
+        set$Data(result);
+      }
+    };
+    fetch();
   }, []);
-
+  console.log("movieData", $data);
   return (
     <div className="w-[100%] flex flex-col justify-center">
-      <MovieDetailHero
-        playerRef={playerRef}
-        playing={playing}
-        setPlaying={setPlaying}
-        isPC={isPC}
-        volume={volume}
-        volumeHandler={volumeHandler}
-        volumeIcon={volumeIcon}
-        movieID={id}
-        movie={movie}
-        src={src}
-      />
+      {
+        $data && (
+          <MovieDetailHero
+            playerRef={playerRef}
+            playing={playing}
+            setPlaying={setPlaying}
+            isPC={isPC}
+            volume={volume}
+            volumeHandler={volumeHandler}
+            volumeIcon={volumeIcon}
+            movie={$data.movie}
+            id={$data.movieID}
+            movieType={$data.movieType}
+            src={$data.movieSrc}
+          />
+        )
+      }
 
       <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%] pt-[1em] ">
         <button className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
