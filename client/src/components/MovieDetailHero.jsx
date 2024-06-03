@@ -40,7 +40,7 @@ const MovieDetailHero = ({
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="absolute z-10 pointer-events-none bottom-[-2px] left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
+      <div className="absolute z-10 pointer-events-none bottom-[-0.5em] left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
       {
         //hero info

@@ -6,24 +6,16 @@ import PCNavScroll from "./UI/PCNavScroll";
 import VideoPlayer from "./VideoPlayer";
 
 const PCHero = ({
-  // playing,
-  // setPlaying,
-  // playerRef,
-  isPC,
   hover,
   setHover,
-  // volume,
-  // volumeHandler,
-  // volumeIcon,
-  movieID,
   movie,
-  src,
-  title
+  $data
 }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  // const [hover, setHover] = useState(false);
+
+  console.log('PCHero',$data)
 
   const playerRef = useRef();
 
@@ -42,7 +34,8 @@ const PCHero = ({
       className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden"
     >
       <AnimatePresence initial={false}>
-        {!playing && (
+        {
+        !playing && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -53,15 +46,16 @@ const PCHero = ({
           >
             <img
               className="scale-[2] md:scale-125 origin-[50%_20%]"
-              src={`https://image.tmdb.org/t/p/original${src}`}
+              src={`https://image.tmdb.org/t/p/original${$data['backdrop_path']}`}
               alt="thumbnail"
             />
           </motion.div>
-        )}
+        )
+        }
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-      {isPC && (
+      
         <PCNavScroll
           position="absolute z-10 bottom-0 left-0"
           $id={"hero"}
@@ -69,7 +63,7 @@ const PCHero = ({
           hover={hover}
           setHover={setHover}
         />
-      )}
+    
 
       {
         //hero info
@@ -85,7 +79,7 @@ const PCHero = ({
               </div>
               <div>
                 <span className="font-bold text-[1.5em] lg:text-[2em]">
-                  {title}
+                  {$data.title}
                 </span>
               </div>
             </div>
@@ -124,7 +118,7 @@ const PCHero = ({
         playing={playing}
         setPlaying={setPlaying}
         playerRef={playerRef}
-        id={movieID}
+        id={$data.id}
         movieType={"movie"}
       />
     </div>

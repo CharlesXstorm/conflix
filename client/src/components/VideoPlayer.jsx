@@ -13,12 +13,6 @@ const VideoPlayer = ({
   movieType
 }) => {
   const [key, setKey] = useState();
-  // const $id = id || null
-  // const $seriesID = seriesID || null
-  // const $seriesNum = seriesNum || null
-  // console.log('videoID',id)
-
-  console.log("movieTypeUpdate: ", movieType);
 
   const delay = () => {
     setTimeout(() => {

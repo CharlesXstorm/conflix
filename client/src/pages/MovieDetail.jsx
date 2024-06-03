@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import MovieDetailHero from "../components/MovieDetailHero";
 import axios from "axios";
 
-const MovieDetail = () => {
+const MovieDetail = ({movieType}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [$data, set$Data] = useState(null);
@@ -14,10 +15,12 @@ const MovieDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const data = location.state;
+  const $movieType = data.groupType || data.movieType || movieType
 
   const { isPC } = useSelector((state) => state.dvWidth);
 
-  console.log("groupType: ", data.groupType, "movieType: ", data.movieType);
+  // console.log("groupType: ", data.groupType, "movieType: ", data.movieType);
+  console.log("detailMovieType: ",$movieType);
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -39,7 +42,7 @@ const MovieDetail = () => {
     let result = {};
     try {
       let res;
-      if (data.movieType === "movie" || data.groupType === "movie") {
+      if ($movieType === "movie") {
         res = await axios.get(
           `${import.meta.env.VITE_TMDB_URL}/movie/${id}?language=en-US`,
           config
@@ -79,7 +82,8 @@ const MovieDetail = () => {
     };
     fetch();
   }, []);
-  console.log("movieData", $data);
+
+
   return (
     <div className="w-[100%] flex flex-col justify-center">
       {
@@ -115,6 +119,9 @@ const MovieDetail = () => {
           <span>My List</span>
         </button>
       </div>
+
+      <div></div>
+
     </div>
   );
 };
