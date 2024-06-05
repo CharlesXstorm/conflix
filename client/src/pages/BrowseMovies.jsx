@@ -9,6 +9,7 @@ import axios from "axios";
 const BrowseMovies = () => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
+  const [title, setTitle] = useState();
   const [browseMovies, setBrowseMovies] = useState(null);
   const [$bg, set$bg] = useState();
 
@@ -31,8 +32,22 @@ const BrowseMovies = () => {
       );
       res = res.data.results;
       res = res[Math.floor(Math.random() * res.length)];
-      setHero(res);
 
+      if(res){
+        let logo = await axios.get(
+        `${import.meta.env.VITE_TMDB_URL}/movie/${res.id}/images`,
+        config
+      );
+      logo = logo.data["logos"];
+
+      for (var any of logo) {
+        if (any["iso_639_1"] === "en") {
+          setTitle(any["file_path"]);
+          break;
+        }
+      }}
+
+      setHero(res);
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +101,7 @@ const BrowseMovies = () => {
 
       if (movies) {
         setBrowseMovies(movies);
-      }  
+      }
     };
     fetch();
     return;
@@ -94,7 +109,7 @@ const BrowseMovies = () => {
 
   return (
     <>
-      {hero && browseMovies && (
+      {hero && browseMovies && title && (
         <div className="relative font-[roboto]">
           {isPC ? (
             <PCHero
@@ -102,9 +117,10 @@ const BrowseMovies = () => {
               setHover={setHover}
               movie={browseMovies[0]}
               $data={hero}
+              title={title}
             />
           ) : (
-            <MobileHero $data={hero} $bg={$bg} />
+            <MobileHero $data={hero} $bg={$bg} title={title} />
           )}
 
           <div className="flex flex-col gap-[1.5em] lg:mt-[1.5em]">

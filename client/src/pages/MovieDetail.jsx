@@ -20,7 +20,7 @@ const MovieDetail = ({movieType}) => {
   const { isPC } = useSelector((state) => state.dvWidth);
 
   // console.log("groupType: ", data.groupType, "movieType: ", data.movieType);
-  console.log("detailMovieType: ",$movieType);
+  // console.log("detailMovieType: ",$movieType);
 
   const volumeHandler = () => {
     if (volume === 1) {

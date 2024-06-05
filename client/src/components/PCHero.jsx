@@ -9,7 +9,8 @@ const PCHero = ({
   hover,
   setHover,
   movie,
-  $data
+  $data,
+  title
 }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -67,20 +68,25 @@ const PCHero = ({
 
       {
         //hero info
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-4 top-[16vh] lg:top-[40vh] xl:top-[50vh] w-full">
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-4 bottom-[30vh] w-full">
           <div className="flex flex-col gap-4 pointer-events-auto">
             <div className="movieTitle flex flex-col gap-2">
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <img
                   src="images/LOGO_C.svg"
                   className="w-[0.8em] lg:w-[1em] align-center"
                 />
                 <span className="flex items-center">Series</span>{" "}
-              </div>
+              </div> */}
               <div>
-                <span className="font-bold text-[1.5em] lg:text-[2em]">
-                  {$data.title}
+                <span className='flex'>
+                <img
+              className=""
+              src={`https://image.tmdb.org/t/p/w300${title}`}
+              alt="thumbnail"
+            />
                 </span>
+              
               </div>
             </div>
           </div>

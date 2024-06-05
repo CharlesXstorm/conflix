@@ -19,8 +19,7 @@ const MovieDetailHero = ({
 }) => {
   return (
     <div
-      id="hero"
-      className="relative h-[30vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden "
+      className="relative  h-[30vh] md:h-[40vh] overflow-hidden "
     >
       <AnimatePresence initial={false}>
         {!playing && (

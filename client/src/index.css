@@ -15,7 +15,6 @@
 }
 body {
   background-color: black;
-  /* background-color: rgb(10,10,10); */
 }
 
 html {
@@ -29,7 +28,6 @@ html {
 }
 #search::-webkit-search-cancel-button {
   filter: invert(100%);
-  /* color: white; */
 }
 
 #loader{
@@ -38,17 +36,7 @@ html {
   animation: load 1s linear infinite;
 }
 
-/* .react-player{
-  position: absolute;
-  top: 0;
-  left: 0;
-
-} */
-
 .player-wrapper{
-  /* position: relative;
-  height: 100vh;
-    border: 5px solid red; */
   overflow: hidden; 
   transform: scale(1.5);
 
@@ -61,14 +49,6 @@ html {
 #scrollNav::-webkit-scrollbar{
   display: none;
 }
-
-/* .scroll::-webkit-scrollbar{
-  display: none;
-} */
-
-/* #portal {
-  overflow: hidden;
-} */
 
 @supports (font-variation-settings: normal) {
   html {
@@ -85,6 +65,11 @@ html {
 @media only screen and (max-width:680px) {
   .player-wrapper{
     transform: scale(1.6);
+  }
+}
+@media only screen and (max-width:380px) {
+  .player-wrapper{
+    transform: scale(1.4);
   }
 }
 

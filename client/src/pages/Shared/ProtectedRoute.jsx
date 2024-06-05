@@ -8,8 +8,9 @@ import axios from "axios";
 import { setData } from "../../utils/profileSlice";
 // import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
-  const [auth,setAuth] = useState(true);
+const ProtectedRoute = ({ setLoaded, addProfile, editClick }) => {
+  const [auth, setAuth] = useState();
+  const [ready, setReady] = useState();
 
   const dispatch = useDispatch();
 
@@ -34,22 +35,23 @@ const ProtectedRoute = ({ setLoaded,addProfile,editClick }) => {
 
   //getUser ////////////////////////
   useEffect(() => {
-    
     const fetchData = async () => {
       const user = await getUser();
-     
+
       if (!user) {
         setAuth(false);
+        setReady(true);
       } else {
         dispatch(setData(user));
         setAuth(true);
+        setReady(true);
         setLoaded(true);
       }
     };
     fetchData();
-  }, [addProfile,editClick]);
+  }, [addProfile, editClick]);
 
-  return <>{auth ? <Outlet /> : <Navigate to="/" />}</>;
+  return <>{ready && <>{auth ? <Outlet /> : <Navigate to="/" />}</>}</>;
 };
 
 export default ProtectedRoute;

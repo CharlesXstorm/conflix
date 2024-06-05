@@ -10,7 +10,8 @@ import { setData } from "../../utils/profileSlice";
 // import jsonData from "../../utils/user.json";
 
 const AuthRoute = ({ setAccountClick }) => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState();
+  const [ready, setReady] = useState();
 
   const dispatch = useDispatch();
 
@@ -40,15 +41,17 @@ const AuthRoute = ({ setAccountClick }) => {
       const user = await getUser();
       if (!user) {
         setAuth(false);
+        setReady(true);
         dispatch(setData(null));
       } else {
         setAuth(true);
+        setReady(true);
       }
     };
     fetchData();
   }, []);
 
-  return <>{auth ? <Navigate to="/browse" /> : <Outlet />}</>;
+  return <>{ready && <>{auth ? <Navigate to="/browse" /> : <Outlet />}</>}</>;
 };
 
 export default AuthRoute;

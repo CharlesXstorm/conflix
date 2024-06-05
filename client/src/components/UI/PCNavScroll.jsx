@@ -4,8 +4,10 @@ import ReactDOM from "react-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
+import { Suspense, lazy } from "react";
 import ItemModal from "./PCNavItemModal";
 import Loader from "./Loader";
+import axios from "axios";
 
 //motionVariants
 /////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@ const Next = ({ setPage, viewLength, setDirection, setBgSpan }) => {
     });
   };
   return (
-    <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
+    <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] xl:w-[4em] h-[100%] flex justify-center items-center"
         onClick={nextHandler}
@@ -81,7 +83,7 @@ const Prev = ({ setPage, viewLength, setDirection, setBgSpan }) => {
     });
   };
   return (
-    <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
+    <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] xl:w-[4em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
@@ -132,10 +134,10 @@ const ModalCont = ({
   const [delayID, setDelayID] = useState(null);
 
   const delayTop = () => {
-  //clear timeout if available
+    //clear timeout if available
     if (delayID) clearTimeout(delayID);
 
-//implement delay
+    //implement delay
     const newDelayID = setTimeout(() => {
       setModalTop(`${window.scrollY}px`);
     }, 200);
@@ -144,7 +146,7 @@ const ModalCont = ({
   };
 
   useEffect(() => {
-//update style properties when expand changes state
+    //update style properties when expand changes state
     expand ? setModalHeight("100vh") : setModalHeight(`${height}`);
     expand ? delayTop() : setModalTop(0);
     expand ? setModalPosition("fixed") : setModalPosition("relative");
@@ -152,8 +154,8 @@ const ModalCont = ({
     expand ? setModalEvents("auto") : setModalEvents("none");
     expand ? setModalOverflow("auto") : setModalOverflow("hidden");
 
-//clear timeout if available
-    if(delayID){
+    //clear timeout if available
+    if (delayID) {
       return clearTimeout(delayID);
     }
   }, [expand, height]);
@@ -204,10 +206,11 @@ const ModalCont = ({
 
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
+const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
   const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(true);
   const [modalContHeight, setModalContHeight] = useState("");
+  // const [title, setTitle] = useState();
   const itemRef = useRef();
 
   const mouseOverHandler = () => {
@@ -218,6 +221,49 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
     //reset hover onMouseOut
     setHover(false);
   };
+
+  // const getTitleById = async () => {
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${import.meta.env.VITE_TMDB_AUTH}`,
+  //         accept: "application/json"
+  //       }
+  //     };
+
+  //     let res;
+  //     if (movieType === "movie") {
+  //       res = await axios.get(
+  //         `${import.meta.env.VITE_TMDB_URL}/movie/${data['id']}/images`,
+  //         config
+  //       );
+  //     }else{
+  //       res = await axios.get(
+  //         `${import.meta.env.VITE_TMDB_URL}/tv/${data['id']}/images`,
+  //         config
+  //       );
+  //     }
+
+  //     const logo = res.data["logos"];
+
+  //     for (var any of logo) {
+  //       if (any["iso_639_1"] === "en") {
+  //         setTitle(any["file_path"]);
+  //         break;
+  //       }
+  //     }
+
+  //     return;
+  //   } catch (err) {
+  //     return err.response.data.data;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   (async function fetch() {
+  //     await getTitleById();
+  //   })();
+  // }, []);
 
   useEffect(() => {
     //get document height and save in a state
@@ -261,22 +307,27 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data }) => {
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        className={`relative rounded-md h-[100%] bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+        className={`relative rounded-md bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
         {loaded && <Loader />}
 
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
+        <div className="relative flex justify-center h-[1.2em] xl:h-[1.5em] font-bold text-[5em] items-center h-[content] overflow-clip">
           <img
             src={`https://image.tmdb.org/t/p/w300/${bg}`}
-            className="w-[100%] absolute top-0 left-0"
+            className="scale-[1.2] w-[100%] absolute top-0 left-0 origin-[50%_0%]"
             alt="bgImage"
             onLoad={() => setLoaded(false)}
           />
           <span
-            className="absolute bottom-0 left-0 w-[100%] text-[0.22em] text-center pb-2 pointer-events-none"
-            style={{ fontFamily: "bebas_neueregular", letterSpacing: "5px" }}
+            className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-2 pointer-events-none"
+            style={{ fontFamily: "bebas_neueregular", letterSpacing: "3px" }}
           >
-            {data.title}
+            {data.title || data.name}
+            {/* <img
+              src={`https://image.tmdb.org/t/p/w92${title}`}
+              className="w-[50%] origin-[50%_0%]"
+              alt="title"
+            /> */}
           </span>
         </div>
         <div className="absolute top-[10px] left-[10px]">
@@ -345,7 +396,7 @@ const PCNavScroll = ({ data, $id, hover, setHover, position }) => {
         </div>
       </div>
 
-      <div className="relative z-[0] w-[inherit] h-[8em] lg:h-[6em] xl:h-[8em]">
+      <div className="relative z-[0] w-[inherit]">
         <Next
           setPage={setPage}
           viewLength={children.length}
@@ -359,13 +410,13 @@ const PCNavScroll = ({ data, $id, hover, setHover, position }) => {
           setBgSpan={setBgSpan}
         />
 
-        <div className="flex flex-row w-[100%] h-[100%] overflow-x-clip overflow-y-visible">
+        <div className="flex flex-row w-[100%] overflow-x-clip overflow-y-visible">
           <AnimatePresence mode="wait">
             {children.map((item, index) => {
               return (
                 step + (item - step) === children[page] && (
                   <motion.div
-                    className="flex flex-row gap-[1%] lg:gap-[0.5%] w-[100%] h-[100%] justify-center items-center "
+                    className="flex flex-row gap-[1%] lg:gap-[0.5%] w-[100%] justify-center items-center "
                     key={index}
                     variants={slideVariants[direction]}
                     initial="hidden"
@@ -374,16 +425,21 @@ const PCNavScroll = ({ data, $id, hover, setHover, position }) => {
                     transition={{ type: "linear", duration: 0.1 }}
                   >
                     {list.slice(item - step, item).map((item, index) => (
-                      <ScrollItem
-                        key={`${$id}_${index}_${children[page]}`}
-                        id={`${$id}_${index}_${children[page]}`}
-                        src={item.logo}
-                        bg={item["poster_path"]}
-                        data={item}
-                        dvWidth={dvWidth}
-                        setHover={setHover}
-                        hover={hover}
-                      />
+                      <Suspense key={`${$id}_${index}_${children[page]}`}>
+                       
+                          <ScrollItem
+                            key={`${$id}_${index}_${children[page]}`}
+                            id={`${$id}_${index}_${children[page]}`}
+                            src={item.logo}
+                            bg={item["backdrop_path"] || item["poster_path"]}
+                            data={item}
+                            dvWidth={dvWidth}
+                            setHover={setHover}
+                            hover={hover}
+                            movieType={data.type || item["media_type"]}
+                          />
+                       
+                      </Suspense>
                     ))}
                   </motion.div>
                 )
