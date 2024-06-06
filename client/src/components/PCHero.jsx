@@ -1,22 +1,42 @@
 /* eslint-disable react/prop-types */
-import {useState,useRef} from 'react'
+import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import PCNavScroll from "./UI/PCNavScroll";
 import VideoPlayer from "./VideoPlayer";
 
-const PCHero = ({
-  hover,
-  setHover,
-  movie,
-  $data,
-  title
-}) => {
+const titleVariant = {
+  playingVariant: {
+    scale: 0.5,
+    transition: { duration: 0.8, ease: "linear" }
+  },
+  notPlayingVariant: {
+    scale: 1,
+    transition: { duration: 1, ease: "linear" }
+  }
+};
+
+const tagVariant = {
+  playingVariant: {
+    scale: 0.2,
+    opacity: 0,
+    transition: { duration: 1, ease: "linear" }
+  },
+  notPlayingVariant: {
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 1, ease: "linear" }
+  }
+};
+
+const PCHero = ({ hover, setHover, movie, $data, title }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
+  const [delayId, setDelayId] = useState();
+  const [animate,setAnimate] = useState()
 
-  console.log('PCHero',$data)
+  console.log("PCHero", $data);
 
   const playerRef = useRef();
 
@@ -29,14 +49,33 @@ const PCHero = ({
       setVolume(1);
     }
   };
+
+  const animateFnc = () => {
+
+    // if (delayId) {
+    //   clearTimeout(delayId);
+    // }
+  //  setTimeout(() => {
+      return("playingVariant") ;
+    // }, 1000);
+    // setDelayId(newDelayId);
+
+    // return animate
+  };
+
+  useEffect(() => {
+    if (delayId) {
+      return () => clearTimeout(delayId);
+    }
+  }, [delayId]);
+
   return (
     <div
       id="hero"
       className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden"
     >
       <AnimatePresence initial={false}>
-        {
-        !playing && (
+        {!playing && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -47,49 +86,48 @@ const PCHero = ({
           >
             <img
               className="scale-[2] md:scale-125 origin-[50%_20%]"
-              src={`https://image.tmdb.org/t/p/original${$data['backdrop_path']}`}
+              src={`https://image.tmdb.org/t/p/original${$data["backdrop_path"]}`}
               alt="thumbnail"
             />
           </motion.div>
-        )
-        }
+        )}
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-      
-        <PCNavScroll
-          position="absolute z-10 bottom-0 left-0"
-          $id={"hero"}
-          data={movie}
-          hover={hover}
-          setHover={setHover}
-        />
-    
+      <PCNavScroll
+        position="absolute z-10 bottom-0 left-0"
+        $id={"hero"}
+        data={movie}
+        hover={hover}
+        setHover={setHover}
+      />
 
       {
         //hero info
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-4 bottom-[30vh] w-full">
-          <div className="flex flex-col gap-4 pointer-events-auto">
-            <div className="movieTitle flex flex-col gap-2">
-              {/* <div className="flex items-center gap-2">
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-6 bottom-[30vh] w-full">
+          <motion.div
+            variants={titleVariant}
+            animate={playing ? animateFnc() : "notPlayingVariant"}
+            className="flex flex-col gap-6 pointer-events-auto origin-[0%_100%]"
+          >
+            <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%]">
+              <span className="flex">
                 <img
-                  src="images/LOGO_C.svg"
-                  className="w-[0.8em] lg:w-[1em] align-center"
+                  className="w-[20em] xl:w-[30em]"
+                  src={`https://image.tmdb.org/t/p/w300${title}`}
+                  alt="thumbnail"
                 />
-                <span className="flex items-center">Series</span>{" "}
-              </div> */}
-              <div>
-                <span className='flex'>
-                <img
-              className=""
-              src={`https://image.tmdb.org/t/p/w300${title}`}
-              alt="thumbnail"
-            />
-                </span>
-              
-              </div>
+              </span>
             </div>
-          </div>
+
+            <motion.div
+              variants={tagVariant}
+              animate={playing ? animateFnc() : "notPlayingVariant"}
+              className="w-[40%] text-[0.6em] xl:text-[1em] origin-[0%_100%]"
+            >
+              <span>{$data.overview}</span>
+            </motion.div>
+          </motion.div>
 
           <div className="flex flex-row justify-between pointer-events-auto">
             <div className="flex flex-row justify-between gap-4 items-left">

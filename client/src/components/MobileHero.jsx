@@ -22,7 +22,7 @@ const GenreSpan = ({ index, length, genre }) => {
   );
 };
 
-const MobileHero = ({ $data, $bg }) => {
+const MobileHero = ({ $data, $bg, title }) => {
   // const [ready,setReady] = useState(true)
   //  console.log(data)
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const MobileHero = ({ $data, $bg }) => {
           className={`absolute pointer-events-none top-0 left-0 w-[100%] h-[100%]`}
         ></div>
 
-        <div className="absolute left-0 top-[45%]  w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center">
+        <div className="absolute left-0 bottom-[10%] w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center">
           <div className="flex flex-col justify-center items-center gap-1">
             <span className="flex items-center gap-2">
               <img src="images/LOGO_C.svg" className="w-[1em]" alt="logo" />
@@ -69,6 +69,11 @@ const MobileHero = ({ $data, $bg }) => {
             </span>
             <span className="text-[2em] md:text-[2.5em] font-[800] w-[100%] px-2 text-center">
               {$data.title}
+              {/* <img
+            src={`https://image.tmdb.org/t/p/w300${title}`}
+            className="w-[100%]"
+            alt="mobile hero"
+          /> */}
             </span>
           </div>
 
