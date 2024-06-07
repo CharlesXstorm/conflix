@@ -5,38 +5,38 @@ import { AnimatePresence, motion } from "framer-motion";
 import PCNavScroll from "./UI/PCNavScroll";
 import VideoPlayer from "./VideoPlayer";
 
-const titleVariant = {
-  playingVariant: {
-    scale: 0.5,
-    transition: { duration: 0.8, ease: "linear" }
-  },
-  notPlayingVariant: {
-    scale: 1,
-    transition: { duration: 1, ease: "linear" }
-  }
-};
-
-const tagVariant = {
-  playingVariant: {
-    scale: 0.2,
-    opacity: 0,
-    transition: { duration: 1, ease: "linear" }
-  },
-  notPlayingVariant: {
-    scale: 1,
-    opacity: 1,
-    transition: { duration: 1, ease: "linear" }
-  }
-};
 
 const PCHero = ({ hover, setHover, movie, $data, title }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  const [delayId, setDelayId] = useState();
-  const [animate,setAnimate] = useState()
+  const [delayPlay,setDelayPlay] = useState()
+  const [initial] = useState({
+    title:{
+    transform: 'scale(1)',
+    // paddingBottom:"20px"
+  },
+  overview:{
+    transform: "scale(1)",
+    opacity: 1,
+    paddingBottom: "14px",
+    paddingTop: "14px"
 
-  console.log("PCHero", $data);
+  }
+})
+  const [animate] = useState({
+    title:{
+    transform: 'scale(0.5)',
+    // marginBottom:"0px"
+  },
+  overview:{
+    transform: "scale(0)",
+    opacity: 0,
+    paddingBottom: "0px",
+    paddingTop: "0px"
+
+  }
+})
 
   const playerRef = useRef();
 
@@ -50,24 +50,17 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
     }
   };
 
-  const animateFnc = () => {
-
-    // if (delayId) {
-    //   clearTimeout(delayId);
-    // }
-  //  setTimeout(() => {
-      return("playingVariant") ;
-    // }, 1000);
-    // setDelayId(newDelayId);
-
-    // return animate
-  };
 
   useEffect(() => {
-    if (delayId) {
-      return () => clearTimeout(delayId);
+    if (playing) {
+      const timeOut = setTimeout(()=>{
+        setDelayPlay(true)
+      },4000)
+      return () => clearTimeout(timeOut);
+    }else{
+      setDelayPlay(false)
     }
-  }, [delayId]);
+  }, [playing]);
 
   return (
     <div
@@ -104,11 +97,10 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
 
       {
         //hero info
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col gap-6 bottom-[30vh] w-full">
-          <motion.div
-            variants={titleVariant}
-            animate={playing ? animateFnc() : "notPlayingVariant"}
-            className="flex flex-col gap-6 pointer-events-auto origin-[0%_100%]"
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em]  flex flex-col bottom-[30vh] w-full">
+          <div
+          style={delayPlay?animate.title:initial.title}
+            className="flex flex-col transition-all duration-1000 ease-in-out  pointer-events-auto origin-[0%_100%]"
           >
             <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%]">
               <span className="flex">
@@ -120,14 +112,13 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
               </span>
             </div>
 
-            <motion.div
-              variants={tagVariant}
-              animate={playing ? animateFnc() : "notPlayingVariant"}
-              className="w-[40%] text-[0.6em] xl:text-[1em] origin-[0%_100%]"
+            <div
+            style={delayPlay?animate.overview:initial.overview}
+              className="transition-all duration-1000 ease-in-out w-[40%] text-[0.6em] xl:text-[1em] origin-[0%_100%]"
             >
               <span>{$data.overview}</span>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           <div className="flex flex-row justify-between pointer-events-auto">
             <div className="flex flex-row justify-between gap-4 items-left">
