@@ -65,7 +65,8 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
   return (
     <div
       id="hero"
-      className="relative h-[50vh] md:h-[40vh]  lg:h-[100vh] overflow-hidden"
+      style={{fontFamily:"roboto"}}
+      className="relative h-[50vh] md:h-[40vh] lg:h-[100vh] overflow-hidden"
     >
       <AnimatePresence initial={false}>
         {!playing && (
