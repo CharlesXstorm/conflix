@@ -2,9 +2,11 @@
 
 const Loader = () => {
   return (
-    <div id='loader' className="absolute bg-[#3d3d3d] w-[100%] h-[100%] "
-
+<>
+    <div className="absolute bg-[#3d3d3d] w-full h-full"></div>
+    <div id='loader' className="absolute w-[100%] h-[100%]"
     ></div>
+</>
   )
 }
 

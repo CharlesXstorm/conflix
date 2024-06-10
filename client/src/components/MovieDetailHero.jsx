@@ -3,6 +3,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 import VideoPlayer from "./VideoPlayer";
+import Loader from "./UI/Loader";
+import { useState } from "react";
 
 const MovieDetailHero = ({
   playing,
@@ -17,10 +19,21 @@ const MovieDetailHero = ({
   movieType,
   src
 }) => {
+
+  const [loaded,setLoaded] = useState(false)
+
   return (
+
     <div
-      className="relative  h-[30vh] md:h-[40vh] overflow-hidden "
+      className="relative h-[30vh] w-full md:h-[40vh] overflow-hidden "
     >
+      
+      {!loaded &&
+        <div className="absolute top-0 left-0 h-full w-full z-[40]">
+        <Loader />
+      </div>
+      }
+       
       <AnimatePresence initial={false}>
         {!playing && (
           <motion.div
@@ -35,14 +48,16 @@ const MovieDetailHero = ({
               className="scale-[1.4] md:scale-125 origin-[50%_20%]"
               src={`https://image.tmdb.org/t/p/original${src}`}
               alt="thumbnail"
+              onLoad={()=>setLoaded(true)}
             />
           </motion.div>
         )}
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none bottom-[-0.5em] left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-      {
-        //hero info
+      
+       { //hero info
+       
         <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
           <div className="flex flex-col gap-4 pointer-events-auto">
             <div className="movieTitle flex flex-col gap-2">
@@ -93,7 +108,8 @@ const MovieDetailHero = ({
         </div>
       }
 
-      <VideoPlayer
+     
+        <VideoPlayer
         volume={volume}
         playing={playing}
         setPlaying={setPlaying}
