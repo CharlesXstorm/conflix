@@ -4,7 +4,7 @@
 const MoreItem = ()=>{
 
   return(
-    <div className="flex flex-col w-[50%] lg:w-[30%]">
+    <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em]">
           <div className="w-full"><img src="https://image.tmdb.org/t/p/w300/yWKPYjbkV8Bb9JLSKsX7KEQCuoh.jpg" alt="backdrop"/></div>
 
           <div className="flex flex-col">
@@ -36,11 +36,13 @@ const MoreMovies = () => {
     <div className="flex flex-col gap-4 mt-4 font-bold">
       <p className="text-xl">More Like This</p>
 
-      <div className="w-full flex gap-2">
-
+      <div className="w-full flex gap-2 flex-wrap items-center justify-center">
         <MoreItem />
         <MoreItem />
-
+        <MoreItem />
+        <MoreItem />
+        <MoreItem />
+        <MoreItem />
       </div>
 
     </div>

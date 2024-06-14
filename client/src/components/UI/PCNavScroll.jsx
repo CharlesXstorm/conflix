@@ -174,16 +174,25 @@ const ModalCont = ({
         style={{
           // top: modalTop,
           // height: modalHeight,
-          backgroundColor: bgColor,
-          pointerEvents: modalEvents,
+          // backgroundColor: bgColor,
+          // pointerEvents: modalEvents,
           overscrollBehavior: "contain",
           overflow: modalOverflow,
-          marginTop: modalTop,
-          transition: "all 0.2s linear"
+          // marginTop: modalTop,
+          transition: "all 0.2s linear",
           // position: modalPosition,
         }}
-        className="relative h-[inherit] w-[inherit]"
+        // onClick={()=> onMouseOut()}
+        className="relative h-[inherit] w-[inherit] pointer-events-none"
       >
+        <div 
+        onClick={()=> {
+          onMouseOut()}}
+        className="absolute top-0 left-0 w-[100%] h-[inherit]"
+        style={{backgroundColor: bgColor,
+          transition: "all 0.2s linear",
+          pointerEvents: modalEvents
+        }}></div>
         <ItemModal
           key={id}
           onMouseEnter={() => setHover(id)}
@@ -191,6 +200,7 @@ const ModalCont = ({
           height={itemHeight}
           width={itemWidth}
           show={show}
+          expand={expand}
           dvWidth={dvWidth}
           bg={bg}
           title={title}
@@ -199,6 +209,7 @@ const ModalCont = ({
           right={right}
           setExpand={setExpand}
         />
+        
       </div>
     </div>
   );
@@ -222,48 +233,6 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
     setHover(false);
   };
 
-  // const getTitleById = async () => {
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${import.meta.env.VITE_TMDB_AUTH}`,
-  //         accept: "application/json"
-  //       }
-  //     };
-
-  //     let res;
-  //     if (movieType === "movie") {
-  //       res = await axios.get(
-  //         `${import.meta.env.VITE_TMDB_URL}/movie/${data['id']}/images`,
-  //         config
-  //       );
-  //     }else{
-  //       res = await axios.get(
-  //         `${import.meta.env.VITE_TMDB_URL}/tv/${data['id']}/images`,
-  //         config
-  //       );
-  //     }
-
-  //     const logo = res.data["logos"];
-
-  //     for (var any of logo) {
-  //       if (any["iso_639_1"] === "en") {
-  //         setTitle(any["file_path"]);
-  //         break;
-  //       }
-  //     }
-
-  //     return;
-  //   } catch (err) {
-  //     return err.response.data.data;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   (async function fetch() {
-  //     await getTitleById();
-  //   })();
-  // }, []);
 
   useEffect(() => {
     //get document height and save in a state
@@ -331,7 +300,7 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
           </span>
         </div>
         <div className="absolute top-[10px] left-[10px]">
-          <img src={"images/LOGO_C.svg"} className="w-[5%]" />
+          <img src={"/images/LOGO_C.svg"} className="w-[5%]" />
         </div>
       </div>
     </>

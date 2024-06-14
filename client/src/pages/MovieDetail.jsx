@@ -6,6 +6,7 @@ import MovieDetailHero from "../components/MovieDetailHero";
 import axios from "axios";
 import Episodes from "../components/Episodes";
 import MoreMovies from "../components/MoreMovies";
+import AboutMovie from "../components/AboutMovie";
 // import Loader from "../components/UI/Loader";
 
 const MovieDetail = ({ movieType}) => {
@@ -106,6 +107,7 @@ const MovieDetail = ({ movieType}) => {
           src={$data.movieSrc}
         />
   
+       {!isPC &&
         <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
           <button className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
             <span>
@@ -121,7 +123,7 @@ const MovieDetail = ({ movieType}) => {
             <span>My List</span>
           </button>
         </div>
-        
+        }
         <div className="flex flex-col gap-[1em] px-[4%]">
           <div className="w-[100%]">
             <p>
@@ -141,6 +143,7 @@ const MovieDetail = ({ movieType}) => {
           <Episodes />
         
           <MoreMovies />
+          <AboutMovie />
         
           <div></div>
         </div>

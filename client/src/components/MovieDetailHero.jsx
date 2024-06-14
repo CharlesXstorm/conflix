@@ -25,7 +25,7 @@ const MovieDetailHero = ({
   return (
 
     <div
-      className="relative h-[30vh] w-full md:h-[40vh] overflow-hidden "
+      className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] overflow-hidden "
     >
       
       {!loaded &&

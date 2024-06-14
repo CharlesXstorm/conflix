@@ -170,7 +170,7 @@ useEffect(()=>{
             ////search group
             <div className={`flex gap-2 justify-start items-center p-1 transition-all duration-1 ease-in-out ${style.contWidth}`} >
             {/* <button className="flex" onClick={clickHandler}><span className="material-symbols-outlined align-center">search</span></button> */}
-            <button className="flex" onClick={clickHandler}><span className='align-center w-[1.5em]'><img src='images/search.svg' /></span></button>
+            <button className="flex" onClick={clickHandler}><span className='align-center w-[1.5em]'><img src='/images/search.svg' /></span></button>
             <input id='search' type="search" placeholder="Title, people, genres" className={`bg-[transparent] focus:outline-none text-[rgb(150,150,150)] transition-all duration-1 ease-in-out  ${style.inputWidth}`} />
           </div>
           }
@@ -178,10 +178,10 @@ useEffect(()=>{
           {isPC &&
             <div className="py-1 align-center">{profile.name}</div>
           }
-          <button className="py-1 align-center"><span className='align-center'><img src='images/notification.svg' className='w-[1.5em]' /></span></button>
+          <button className="py-1 align-center"><span className='align-center'><img src='/images/notification.svg' className='w-[1.5em]' /></span></button>
           <div className="py-1 flex gap-[0.5em]" onMouseEnter={mouseOverHandler} onMouseLeave={mouseOutHandler} >
             <img src={profile.img} className='w-[2em]'  />
-            <span className='items-center flex' ><img src="images/arrow.svg" className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}  /></span>
+            <span className='items-center flex' ><img src="/images/arrow.svg" className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}  /></span>
           </div>
         </div>
       {/* </div> */}

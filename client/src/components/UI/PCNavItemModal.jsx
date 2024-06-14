@@ -10,6 +10,7 @@ const ItemModal = ({
   bg,
   title,
   show,
+  expand,
   dvWidth,
   top,
   left,
@@ -26,9 +27,6 @@ const ItemModal = ({
   const expandHandler = () => {
     setExpand(true);
     setMouseLeave(null);
-    setItemTop(0);
-    setItemWidth("60%");
-    setItemHeight("150%");
     if (right >= dvWidth - 50) {
       setInitPosition({ right: "20%" });
       return;
@@ -79,11 +77,13 @@ const ItemModal = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={mouseLeave}
       style={{
-        top: `${show ? itemTop : top + "px"}`,
+        top: `${!show?top+"px":show && ! expand? itemTop:`calc(${window.scrollY}px + 4em)`}`,
         transition: "all 0.2s linear",
         opacity: `${show ? 1 : 0}`,
-        width: `${show ? itemWidth : width + "px"}`,
-        height: `${show ? itemHeight : height + "px"}`,
+        // width: `${show ? itemWidth : width + "px"}`,
+        // height: `${show ? itemHeight : height + "px"}`,
+        width: `${!show?width+"px":show && ! expand? itemWidth:"60%"}`,
+        height: `${!show?height+"px":show && ! expand? itemHeight:"150%"}`,
         ...initPosition
       }}
       className={`${
@@ -94,7 +94,7 @@ const ItemModal = ({
         className="relative w-[100%] bg-cover"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w300/${bg})`,
-          height: `${show ? "60%" : "100%"}`
+          height: `${!show?"100%":show && ! expand? "60%":"50vh"}`
         }}
       >
         <span
@@ -120,13 +120,13 @@ const ItemModal = ({
               }}
               className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
             >
-              <img src="images/play.svg" alt="buttons" />
+              <img src="/images/play.svg" alt="buttons" />
             </button>
             <button className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center">
-              <img src="images/add-icon.svg" alt="buttons" />
+              <img src="/images/add-icon.svg" alt="buttons" />
             </button>
             <button className="w-[2em] border-[2px] rounded-[50%] p-[6px] flex items-center justify-center">
-              <img src="images/like.svg" alt="buttons" />
+              <img src="/images/like.svg" alt="buttons" />
             </button>
           </span>
 
@@ -135,7 +135,7 @@ const ItemModal = ({
               onClick={expandHandler}
               className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
             >
-              <img src="images/arrow-down.svg" alt="buttons" />
+              <img src="/images/arrow-down.svg" alt="buttons" />
             </button>
           </span>
         </div>

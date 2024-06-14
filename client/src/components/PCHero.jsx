@@ -125,7 +125,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
             <div className="flex flex-row justify-between gap-4 items-left">
               <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
                 <span>
-                  <img src="images/play.svg" className="w-[1em]" />
+                  <img src="/images/play.svg" className="w-[1em]" />
                 </span>
                 Play
               </button>
@@ -137,7 +137,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
             <div className="flex mt-2 ml-2 gap-2 ">
               <button className="" onClick={volumeHandler}>
                 <img
-                  src={`images/volume-${volumeIcon}.svg`}
+                  src={`/images/volume-${volumeIcon}.svg`}
                   className="w-[2em]"
                 />
               </button>
