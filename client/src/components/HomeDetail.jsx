@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 const HomeDetail = ({ isOdd, title, desc, src, isMobile, isTablet, id }) => {
-  console.log('id', id)
+
   return (
     <div className="flex flex-col lg:flex-row p-5 lg:px-[5em] lg:mt-[2em] xl:mt-[4em] justify-center items-center border-[rgb(25,25,25)] border-b-[0.5em]">
       {!isOdd && (

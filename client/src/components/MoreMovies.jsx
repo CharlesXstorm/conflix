@@ -34,7 +34,7 @@ const MoreItem = ()=>{
 const MoreMovies = () => {
   return (
     <div className="flex flex-col gap-4 mt-4 font-bold">
-      <div>More Like This</div>
+      <p className="text-xl">More Like This</p>
 
       <div className="w-full flex gap-2">
 

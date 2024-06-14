@@ -8,7 +8,7 @@ import Episodes from "../components/Episodes";
 import MoreMovies from "../components/MoreMovies";
 // import Loader from "../components/UI/Loader";
 
-const MovieDetail = ({ movieType }) => {
+const MovieDetail = ({ movieType}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [$data, set$Data] = useState(null);
@@ -81,7 +81,11 @@ const MovieDetail = ({ movieType }) => {
         set$Data(result);
       }
     };
-    fetch();
+
+    if(id){
+      fetch();
+    }
+    
   }, []);
 
   return (
