@@ -15,6 +15,7 @@ const BrowseMovies = () => {
 
   const { isPC } = useSelector((state) => state.dvWidth);
   const { profile } = useSelector((state) => state.account);
+  const {overflowValue } = useSelector((state) => state.feature);
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
 
@@ -91,6 +92,11 @@ const BrowseMovies = () => {
       console.log(err);
     }
   };
+
+  useEffect(()=>{
+    const moviePage = document.body.style
+    moviePage.overflow = overflowValue;
+  },[overflowValue])
 
   useEffect(() => {
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);

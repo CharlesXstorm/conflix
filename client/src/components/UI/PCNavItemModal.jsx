@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setOverflow } from "../../utils/featureSlice";
+import MovieDetail from "../../pages/MovieDetail"
 // import { motion } from "framer-motion";
 
 const ItemModal = ({
@@ -11,6 +13,7 @@ const ItemModal = ({
   title,
   show,
   expand,
+  movieType,
   dvWidth,
   top,
   left,
@@ -23,15 +26,17 @@ const ItemModal = ({
   const [itemWidth, setItemWidth] = useState();
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
+  const dispatch = useDispatch();
 
   const expandHandler = () => {
+    dispatch(setOverflow('hidden'));
     setExpand(true);
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
-      setInitPosition({ right: "20%" });
+      setInitPosition({ right: "25%" });
       return;
     }
-    setInitPosition({ left: "20%" });
+    setInitPosition({ left: "25%" });
   };
 
   useEffect(() => {
@@ -82,15 +87,21 @@ const ItemModal = ({
         opacity: `${show ? 1 : 0}`,
         // width: `${show ? itemWidth : width + "px"}`,
         // height: `${show ? itemHeight : height + "px"}`,
-        width: `${!show?width+"px":show && ! expand? itemWidth:"60%"}`,
-        height: `${!show?height+"px":show && ! expand? itemHeight:"150%"}`,
+        width: `${!show?width+"px":show && ! expand? itemWidth:"50%"}`,
+        height: `${!show?height+"px":show && ! expand? itemHeight:"100%"}`,
         ...initPosition
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
       } absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)]`}
     >
-      <div
+      {
+        expand &&
+        <MovieDetail movieType={movieType} />
+      }
+      {!expand &&
+        <>
+        <div
         className="relative w-[100%] bg-cover"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w300/${bg})`,
@@ -155,6 +166,7 @@ const ItemModal = ({
           <span>Sci-Fi TV</span>
         </div>
       </div>
+      </>}
     </div>
   );
 };

@@ -8,6 +8,8 @@ import { Suspense, lazy } from "react";
 import ItemModal from "./PCNavItemModal";
 import Loader from "./Loader";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setOverflow } from "../../utils/featureSlice";
 
 //motionVariants
 /////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +114,7 @@ const ModalCont = ({
   height,
   onMouseOut,
   setHover,
+  movieType,
   // itemInfo,
   dvWidth,
   id,
@@ -132,6 +135,7 @@ const ModalCont = ({
   const [modalEvents, setModalEvents] = useState();
   const [modalOverflow, setModalOverflow] = useState();
   const [delayID, setDelayID] = useState(null);
+  const dispatch = useDispatch();
 
   const delayTop = () => {
     //clear timeout if available
@@ -187,7 +191,11 @@ const ModalCont = ({
       >
         <div 
         onClick={()=> {
-          onMouseOut()}}
+          onMouseOut()
+          setTimeout(()=> {
+            dispatch(setOverflow("auto"))
+          },30)
+        }}
         className="absolute top-0 left-0 w-[100%] h-[inherit]"
         style={{backgroundColor: bgColor,
           transition: "all 0.2s linear",
@@ -208,6 +216,7 @@ const ModalCont = ({
           left={left}
           right={right}
           setExpand={setExpand}
+          movieType={movieType}
         />
         
       </div>
@@ -250,10 +259,11 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
             <ModalCont
               height={modalContHeight}
               onMouseOut={mouseOutHandler}
+              movieType={movieType}
               setHover={setHover}
               id={id}
               bg={bg}
-              title={data.title}
+              title={data.title || data.name}
               dvWidth={dvWidth}
               show={hover === id}
               left={Math.floor(itemRef.current.getBoundingClientRect().left)}

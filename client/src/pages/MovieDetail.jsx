@@ -14,13 +14,14 @@ const MovieDetail = ({ movieType}) => {
   const [volume, setVolume] = useState(1);
   const [$data, set$Data] = useState(null);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  // const [loaded, setLoaded] = useState(false)
+
   const playerRef = useRef();
 
   const { id } = useParams();
   const location = useLocation();
   const data = location.state;
-  const $movieType = data.groupType || data.movieType || movieType;
+
+  const $movieType = data?data.groupType || data.movieType : movieType;
 
   const { isPC } = useSelector((state) => state.dvWidth);
 
@@ -91,7 +92,8 @@ const MovieDetail = ({ movieType}) => {
 
   return (
     <div className="w-[100%] flex flex-col justify-center gap-[1em]">
-      {$data && 
+      {/* {
+      $data && 
         <>
         <MovieDetailHero
           playerRef={playerRef}
@@ -105,7 +107,7 @@ const MovieDetail = ({ movieType}) => {
           id={$data.movieID}
           movieType={$data.movieType}
           src={$data.movieSrc}
-        />
+        /> */}
   
        {!isPC &&
         <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
@@ -147,7 +149,7 @@ const MovieDetail = ({ movieType}) => {
         
           <div></div>
         </div>
-      </>}
+      {/* </>} */}
       
     </div>
   );
