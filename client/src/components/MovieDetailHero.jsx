@@ -17,7 +17,8 @@ const MovieDetailHero = ({
   id,
   movie,
   movieType,
-  src
+  src,
+  bg
 }) => {
 
   const [loaded,setLoaded] = useState(false)
@@ -25,7 +26,7 @@ const MovieDetailHero = ({
   return (
 
     <div
-      className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] overflow-hidden "
+      className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden "
     >
       
       {!loaded &&
@@ -46,7 +47,7 @@ const MovieDetailHero = ({
           >
             <img
               className="scale-[1.4] md:scale-125 origin-[50%_20%]"
-              src={`https://image.tmdb.org/t/p/original${src}`}
+              src={`https://image.tmdb.org/t/p/original${bg || src}`}
               alt="thumbnail"
               onLoad={()=>setLoaded(true)}
             />
@@ -58,8 +59,9 @@ const MovieDetailHero = ({
       
        { //hero info
        
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-row top-[16vh] justify-between items-end lg:top-[50vh] w-full">
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col top-[16vh] gap-4 items-start lg:top-[20vh] w-full">
           <div className="flex flex-col gap-4 pointer-events-auto">
+
             <div className="movieTitle flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <img
@@ -75,7 +77,12 @@ const MovieDetailHero = ({
               </div>
             </div>
 
-            {isPC && (
+
+          </div>
+
+          {isPC && (
+            <div className="flex flex-row justify-between pointer-events-auto w-full">
+
               <div className="flex flex-row justify-between gap-4 items-left">
                 <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
                   <span>
@@ -87,11 +94,8 @@ const MovieDetailHero = ({
                   More Info
                 </button>
               </div>
-            )}
-          </div>
 
-          {isPC && (
-            <div className="flex flex-row pointer-events-auto">
+
               <div className="flex mt-2 ml-2 gap-2 ">
                 <button className="" onClick={volumeHandler}>
                   <img

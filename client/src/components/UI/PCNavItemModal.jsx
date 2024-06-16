@@ -11,6 +11,7 @@ const ItemModal = ({
   setExpand,
   bg,
   title,
+  movieID,
   show,
   expand,
   movieType,
@@ -23,20 +24,29 @@ const ItemModal = ({
 }) => {
   const [initPosition, setInitPosition] = useState();
   const [itemTop, setItemTop] = useState();
+  const [expandTop, setExpandTop] = useState(0);
+  const [expandOpacity, setExpandOpacity] = useState();
   const [itemWidth, setItemWidth] = useState();
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
   const dispatch = useDispatch();
 
   const expandHandler = () => {
+    
+    // setTimeout(() => {setExpandTop("0px")},300)
+    setExpandTop(`calc(${window.scrollY}px + 4em)`)
+    setExpandOpacity(1);
     dispatch(setOverflow('hidden'));
     setExpand(true);
+
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
       setInitPosition({ right: "25%" });
-      return;
+      // return;
+    }else{
+      setInitPosition({ left: "25%" });
     }
-    setInitPosition({ left: "25%" });
+    
   };
 
   useEffect(() => {
@@ -48,6 +58,7 @@ const ItemModal = ({
 
     if (!show) {
       setExpand(false);
+      setTimeout(()=>{setExpandOpacity(0)},300)
     }
     //check if element is at extreme left of scroll
     if (left <= 40) {
@@ -82,22 +93,25 @@ const ItemModal = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={mouseLeave}
       style={{
-        top: `${!show?top+"px":show && ! expand? itemTop:`calc(${window.scrollY}px + 4em)`}`,
+        // `calc(${window.scrollY}px + 4em)`
+        top: `${!show?top+"px":show && ! expand? itemTop:expandTop}`,
         transition: "all 0.2s linear",
-        opacity: `${show ? 1 : 0}`,
+        opacity: `${show ? 1 : expandOpacity}`,
         // width: `${show ? itemWidth : width + "px"}`,
         // height: `${show ? itemHeight : height + "px"}`,
         width: `${!show?width+"px":show && ! expand? itemWidth:"50%"}`,
-        height: `${!show?height+"px":show && ! expand? itemHeight:"100%"}`,
+        height: `${!show?height+"px":show && ! expand? itemHeight:"150%"}`,
         ...initPosition
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
       } absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)]`}
     >
+      
       {
         expand &&
-        <MovieDetail movieType={movieType} />
+        // <div className="bg-red-500 w-full h-full"></div>
+        <MovieDetail movieType={movieType} movieID={movieID} bg={bg} />
       }
       {!expand &&
         <>
@@ -126,7 +140,6 @@ const ItemModal = ({
           <span className="flex gap-2">
             <button
               onClick={() => {
-                // setExpand(false);
                 onMouseLeave();
               }}
               className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
@@ -166,7 +179,8 @@ const ItemModal = ({
           <span>Sci-Fi TV</span>
         </div>
       </div>
-      </>}
+      </>
+      }
     </div>
   );
 };

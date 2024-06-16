@@ -128,41 +128,97 @@ const ModalCont = ({
   right,
   top
 }) => {
-
+  const [modalHeight, setModalHeight] = useState();
+  const [modalTop, setModalTop] = useState(0);
   const [expand, setExpand] = useState(false);
+  const [modalPosition, setModalPosition] = useState();
+  const [bgColor, setBgColor] = useState();
+  const [modalEvents, setModalEvents] = useState();
+  const [modalOverflow, setModalOverflow] = useState();
+  const [delayID, setDelayID] = useState(null);
   const dispatch = useDispatch();
 
+  const expandDelay = () => {
+    //clear timeout if available
+    if (delayID) clearTimeout(delayID);
+
+    //implement delay
+    const newDelayID = setTimeout(() => {
+      setModalTop(`calc(${window.scrollY}px + 4em)`);
+      setModalPosition("absolute")
+      setModalHeight("100vh")
+    }, 300);
+
+    setDelayID(newDelayID);
+  };
+
+  const expandReset = ()=>{
+    setModalHeight(`${height}`)
+    setModalTop('0px');
+    setModalPosition("relative");
+    // setBgColor("transparent");
+    // setModalEvents("none");
+    setModalOverflow("hidden");
+  }
+
+  useEffect(() => {
+    //update style properties when expand changes state
+    // expand ? setModalHeight("100vh") : setModalHeight(`${height}`);
+    expand ? expandDelay() : expandReset();
+    // expand ? setModalPosition("absolute") : setModalPosition("relative");
+    // expand ? setBgColor("rgb(0,0,0,0.6)") : setBgColor("transparent");
+    // expand ? setModalEvents("auto") : setModalEvents("none");
+    // expand ? setModalOverflow("scroll") : setModalOverflow("hidden");
+
+    //clear timeout if available
+    if (delayID) {
+      return clearTimeout(delayID);
+    }
+  }, [expand]);
 
   return (
     <div
       style={{
         height: `${height}`,
+        // height: modalHeight,
         pointerEvents: `${expand?"auto":"none"}`
+        // top: modalTop
       }}
       className={`absolute top-0 left-0 z-[40] w-[100%]`}
     >
-
       <div
         style={{
+          top: modalTop,
+          height: modalHeight,
+          // paddingTop: `${expand?"4em":"0px"}`,
+          // backgroundColor: bgColor,
+          // pointerEvents: modalEvents,
           overscrollBehavior: "contain",
+          // overflowY: modalOverflow,
           overflowY:`${expand?"auto":"hidden"}`,
+          // marginTop: modalTop,
           transition: "all 0.2s linear",
-          height: `${height}`,
+          // height: `${height}`,
+          position: modalPosition,
         }}
-        className="relative top-0 left-0 w-[100%] pointer-events-none"
+        // onClick={()=> onMouseOut()}
+        className=" w-[100%] pointer-events-none border-[3px] border-red-500"
       >
-
         <div 
         onClick={()=> {
           onMouseOut()
-          dispatch(setOverflow("auto"))
+          setTimeout(()=> {
+            dispatch(setOverflow("auto"))
+          },30)
         }}
-        className="top-0 left-0 h-full w-[100%]"
+        className="top-0 left-0 h-full w-[100%] border-[3px] border-blue-500"
         style={{
+          // backgroundColor: bgColor,
           backgroundColor:`${expand?"rgb(0,0,0,0.6)":"transparent"}`,
           transition: "all 0.2s linear",
           pointerEvents: `${expand?"auto":"none"}`,
           position: `${expand?"fixed":"absolute"}`,
+          // height: `${height}`,
         }}></div>
         <ItemModal
           key={id}
