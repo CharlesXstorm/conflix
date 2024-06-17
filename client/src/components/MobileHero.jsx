@@ -62,7 +62,7 @@ const MobileHero = ({ $data, $bg, title }) => {
         <div className="absolute left-0 bottom-[10%] w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center">
           <div className="flex flex-col justify-center items-center gap-1">
             <span className="flex items-center gap-2">
-              <img src="images/LOGO_C.svg" className="w-[1em]" alt="logo" />
+              <img src="/images/LOGO_C.svg" className="w-[1em]" alt="logo" />
               <span className="font-[500] tracking-[0.3em] text-[rgb(220,220,220)] text-[1em]">
                 SERIES
               </span>
@@ -91,7 +91,7 @@ const MobileHero = ({ $data, $bg, title }) => {
           <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%] pt-[0.5em] ">
             <button className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
               <span>
-                <img src="images/play.svg" alt="play" className="w-[1em]" />
+                <img src="/images/play.svg" alt="play" className="w-[1em]" />
               </span>
               <span>Play</span>
             </button>
@@ -99,7 +99,7 @@ const MobileHero = ({ $data, $bg, title }) => {
             <button className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 ">
               <span>
                 <img
-                  src="images/add-icon.svg"
+                  src="/images/add-icon.svg"
                   alt="play"
                   className="w-[1.5em]"
                 />

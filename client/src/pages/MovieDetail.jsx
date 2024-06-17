@@ -26,7 +26,7 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
 
   const { isPC } = useSelector((state) => state.dvWidth);
 
-  console.log('data',$data)
+  // console.log('data',$data)
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -151,7 +151,7 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
             </div>
 
             {$movieType ==="tv" &&
-              <Episodes />}
+              <Episodes $data={$data.movie} />}
 
             <MoreMovies />
             <AboutMovie />
