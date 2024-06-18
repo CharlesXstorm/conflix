@@ -130,7 +130,7 @@ const ModalCont = ({
 }) => {
 
   const [expand, setExpand] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
   return (
@@ -144,15 +144,17 @@ const ModalCont = ({
 
       <div
         style={{
+          backgroundColor:`${expand?"rgb(0,0,0,0.6)":"transparent"}`,
           overscrollBehavior: "contain",
           overflowY:`${expand?"auto":"hidden"}`,
           transition: "all 0.2s linear",
           height: `${height}`,
+          pointerEvents: `${expand?"auto":"none"}`,
         }}
-        className="relative top-0 left-0 w-[100%] pointer-events-none"
+        className="relative top-0 left-0 w-[100%]"
       >
 
-        <div 
+        {/* <div 
         onClick={()=> {
           onMouseOut()
           dispatch(setOverflow("auto"))
@@ -163,7 +165,7 @@ const ModalCont = ({
           transition: "all 0.2s linear",
           pointerEvents: `${expand?"auto":"none"}`,
           position: `${expand?"fixed":"absolute"}`,
-        }}></div>
+        }}></div> */}
         <ItemModal
           key={id}
           onMouseEnter={() => setHover(id)}
@@ -251,11 +253,17 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        className={`relative rounded-md bg-[#3d3d3d] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+        className={`relative rounded-[3px] bg-[#3d3d3d] flex-none h-[8em] lg:h-[6em] xl:h-[8em]  w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
-        {loaded && <Loader />}
+        {
+        loaded && <Loader />
+        }
 
-        <div className="relative flex justify-center h-[1.2em] xl:h-[1.5em] font-bold text-[5em] items-center h-[content] overflow-clip">
+        <div className="absolute top-0 left-0 h-full w-full z-[60]">
+          <img className="w-full border" src='/images/svgNum/no_1.svg' alt='svg' />
+        </div>
+
+        <div className="relative flex justify-center font-bold text-[5em] items-center h-full overflow-clip">
           <img
             src={`https://image.tmdb.org/t/p/w300/${bg}`}
             className="scale-[1.2] w-[100%] absolute top-0 left-0 origin-[50%_0%]"
@@ -263,7 +271,7 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
             onLoad={() => setLoaded(false)}
           />
           <span
-            className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-2 pointer-events-none"
+            className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-4 pointer-events-none"
             style={{ fontFamily: "bebas_neueregular", letterSpacing: "3px" }}
           >
             {data.title || data.name}

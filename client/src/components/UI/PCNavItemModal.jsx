@@ -100,7 +100,7 @@ const ItemModal = ({
         // width: `${show ? itemWidth : width + "px"}`,
         // height: `${show ? itemHeight : height + "px"}`,
         width: `${!show?width+"px":show && ! expand? itemWidth:"50%"}`,
-        height: `${!show?height+"px":show && ! expand? itemHeight:"150%"}`,
+        height: `${!show?height+"px":show && ! expand? itemHeight:"110%"}`,
         ...initPosition
       }}
       className={`${
@@ -110,8 +110,19 @@ const ItemModal = ({
       
       {
         expand &&
-        // <div className="bg-red-500 w-full h-full"></div>
+        <>
         <MovieDetail movieType={movieType} movieID={movieID} bg={bg} />
+        {
+        //cancel button///////////
+        <button 
+        onClick={()=> {
+          onMouseLeave()
+          dispatch(setOverflow("auto"))
+        }}
+        className="absolute z-[60] top-0 right-0 p-2 mr-[0.5em] mt-[0.5em] w-[2em] h-[2em] rounded-[50%] bg-[rgb(40,40,40)] ">
+          <img className="w-full" src="/images/cancel.svg" alt="cancel" />
+        </button>}
+        </>
       }
       {!expand &&
         <>
@@ -123,7 +134,7 @@ const ItemModal = ({
         }}
       >
         <span
-          className="absolute top-[50%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center pb-2 font-[500] pointer-events-none"
+          className="absolute bottom-[10%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center p-2 font-[500] pointer-events-none"
           style={{ fontFamily: "bebas_neueregular", letterSpacing: "5px" }}
         >
           {title}

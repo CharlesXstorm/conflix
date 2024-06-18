@@ -116,7 +116,7 @@ const BrowseMovies = () => {
   return (
     <>
       {hero && browseMovies && title && (
-        <div className="relative font-[roboto]">
+        <div className="relative font-[roboto] pb-[1em]">
           {isPC ? (
             <PCHero
               hover={hover}
@@ -129,7 +129,7 @@ const BrowseMovies = () => {
             <MobileHero $data={hero} $bg={$bg} title={title} />
           )}
 
-          <div className="flex flex-col gap-[1.5em] lg:mt-[1.5em]">
+          <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">
             {isPC
               ? browseMovies.map((item, index) => {
                   if (item.shortList) {
