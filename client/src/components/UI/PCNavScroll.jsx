@@ -253,15 +253,15 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        className={`relative rounded-[3px] bg-[#3d3d3d] flex-none h-[8em] lg:h-[6em] xl:h-[8em]  w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+        className={`relative rounded-[3px] bg-[#3d3d3d] flex-none h-[8em] lg:h-[6em] xl:h-[10em]  w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
         {
         loaded && <Loader />
         }
 
-        <div className="absolute top-0 left-0 h-full w-full z-[60]">
-          <img className="w-full border" src='/images/svgNum/no_1.svg' alt='svg' />
-        </div>
+        {/* <div className="absolute top-0 left-0 h-full w-full z-[60]">
+          <img className="h-full" src='/images/svgNum/num_9.svg' alt='svg' />
+        </div> */}
 
         <div className="relative flex justify-center font-bold text-[5em] items-center h-full overflow-clip">
           <img

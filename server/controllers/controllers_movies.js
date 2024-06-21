@@ -34,7 +34,7 @@ exports.getAllBrowse = async (req, res) => {
     // }else{
     //   region = "US"
     // }
-    let region = 'US'
+    let region = "NG";
 
     const nextWatch = await axios.get(
       `${url}/trending/all/day?language=en-US`,
@@ -100,14 +100,14 @@ exports.getAllBrowse = async (req, res) => {
         _id: 0,
         title: "Your Next Watch",
         shortList: false,
-        movies: nextWatch.data.results.slice(0,18)
+        movies: nextWatch.data.results.slice(0, 18)
       },
       {
         _id: 1,
         title: "New on Conflix",
         type: "movie",
         shortList: false,
-        movies: newPopular.data.results.slice(0,18)
+        movies: newPopular.data.results.slice(0, 18)
       },
       {
         _id: 2,
@@ -121,14 +121,14 @@ exports.getAllBrowse = async (req, res) => {
         title: `TV Comedies`,
         type: "tv",
         shortList: false,
-        movies: TVComedies.data.results.slice(0,18)
+        movies: TVComedies.data.results.slice(0, 18)
       },
       {
         _id: 4,
         title: `Today's Top Pick for You`,
         type: "tv",
         shortList: false,
-        movies: TVShowsToday.data.results.slice(0,18)
+        movies: TVShowsToday.data.results.slice(0, 18)
       },
       {
         _id: 5,
@@ -141,63 +141,63 @@ exports.getAllBrowse = async (req, res) => {
         title: `Anime`,
         type: "tv",
         shortList: false,
-        movies: anime.data.results.slice(0,18)
+        movies: anime.data.results.slice(0, 18)
       },
       {
         _id: 7,
         title: `TV Dramas`,
         type: "tv",
         shortList: false,
-        movies: TVDramas.data.results.slice(0,18)
+        movies: TVDramas.data.results.slice(0, 18)
       },
       {
         _id: 8,
         title: `Action & Adventure Movies`,
         type: "movie",
         shortList: false,
-        movies: actionAdv.data.results.slice(0,18)
+        movies: actionAdv.data.results.slice(0, 18)
       },
       {
         _id: 9,
         title: `Comedy Movies`,
         type: "movie",
         shortList: false,
-        movies: comedyMovies.data.results.slice(0,18)
+        movies: comedyMovies.data.results.slice(0, 18)
       },
       {
         _id: 10,
         title: `Kids' TV`,
         type: "tv",
         shortList: false,
-        movies: kidsTV.data.results.slice(0,18)
+        movies: kidsTV.data.results.slice(0, 18)
       },
       {
         _id: 11,
         title: `TV Sci-Fi & Fantasy`,
         type: "tv",
         shortList: false,
-        movies: TVscifi.data.results.slice(0,18)
+        movies: TVscifi.data.results.slice(0, 18)
       },
       {
         _id: 12,
         title: `True Crime`,
         type: "tv",
         shortList: false,
-        movies: trueCrime.data.results.slice(0,18)
+        movies: trueCrime.data.results.slice(0, 18)
       },
       {
         _id: 13,
         title: `Thrillers & Horror Movies`,
         type: "movie",
         shortList: false,
-        movies: horrorThriller.data.results.slice(0,18)
+        movies: horrorThriller.data.results.slice(0, 18)
       },
       {
         _id: 14,
         title: `Documentaries`,
         type: "movie",
         shortList: false,
-        movies: documentary.data.results.slice(0,18)
+        movies: documentary.data.results.slice(0, 18)
       }
     ];
 

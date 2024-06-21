@@ -129,7 +129,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
                 </span>
                 Play
               </button>
-              <button className="border p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
+              <button className="p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
                 More Info
               </button>
             </div>
