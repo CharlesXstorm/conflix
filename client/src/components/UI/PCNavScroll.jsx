@@ -4,12 +4,12 @@ import ReactDOM from "react-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { Suspense, lazy } from "react";
+import { Suspense} from "react";
 import ItemModal from "./PCNavItemModal";
 import Loader from "./Loader";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setOverflow } from "../../utils/featureSlice";
+// import axios from "axios";
+// import { useDispatch } from "react-redux";
+// import { setOverflow } from "../../utils/featureSlice";
 
 //motionVariants
 /////////////////////////////////////////////////////////////////////////////////////
@@ -128,32 +128,28 @@ const ModalCont = ({
   right,
   top
 }) => {
-
   const [expand, setExpand] = useState(false);
   // const dispatch = useDispatch();
-
 
   return (
     <div
       style={{
         height: `${height}`,
-        pointerEvents: `${expand?"auto":"none"}`
+        pointerEvents: `${expand ? "auto" : "none"}`
       }}
       className={`absolute top-0 left-0 z-[40] w-[100%]`}
     >
-
       <div
         style={{
-          backgroundColor:`${expand?"rgb(0,0,0,0.6)":"transparent"}`,
+          backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
           overscrollBehavior: "contain",
-          overflowY:`${expand?"auto":"hidden"}`,
+          overflowY: `${expand ? "auto" : "hidden"}`,
           transition: "all 0.2s linear",
           height: `${height}`,
-          pointerEvents: `${expand?"auto":"none"}`,
+          pointerEvents: `${expand ? "auto" : "none"}`
         }}
         className="relative top-0 left-0 w-[100%]"
       >
-
         {/* <div 
         onClick={()=> {
           onMouseOut()
@@ -184,7 +180,6 @@ const ModalCont = ({
           setExpand={setExpand}
           movieType={movieType}
         />
-        
       </div>
     </div>
   );
@@ -194,7 +189,7 @@ const ModalCont = ({
 ////////////////////////////////////////////////////////////////////////////////
 const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
   const [ready, setReady] = useState(false);
-  const [loaded, setLoaded] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [modalContHeight, setModalContHeight] = useState("");
   // const [title, setTitle] = useState();
   const itemRef = useRef();
@@ -207,7 +202,6 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
     //reset hover onMouseOut
     setHover(false);
   };
-
 
   useEffect(() => {
     //get document height and save in a state
@@ -253,35 +247,39 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        className={`relative rounded-[3px] bg-[#3d3d3d] flex-none h-[8em] lg:h-[6em] xl:h-[10em]  w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+        // style={{height: `${loaded?'110px':"auto"}`}}
+        className={`relative scrollItem rounded-[3px] bg-[#3d3d3d] flex-none h-[auto] w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
-        {
-        loaded && <Loader />
-        }
-
-        {/* <div className="absolute top-0 left-0 h-full w-full z-[60]">
-          <img className="h-full" src='/images/svgNum/num_9.svg' alt='svg' />
-        </div> */}
-
-        <div className="relative flex justify-center font-bold text-[5em] items-center h-full overflow-clip">
+        <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
           <img
+          style={{
+              display: `${loaded ? "block" : "none"}`
+            }}
             src={`https://image.tmdb.org/t/p/w300/${bg}`}
-            className="scale-[1.2] w-[100%] absolute top-0 left-0 origin-[50%_0%]"
+            className=" w-[100%] top-0 left-0 origin-[50%_0%]"
             alt="bgImage"
-            onLoad={() => setLoaded(false)}
+            onLoad={() => setLoaded(true)}
           />
+
           <span
             className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-4 pointer-events-none"
             style={{ fontFamily: "bebas_neueregular", letterSpacing: "3px" }}
           >
             {data.title || data.name}
-            {/* <img
-              src={`https://image.tmdb.org/t/p/w92${title}`}
-              className="w-[50%] origin-[50%_0%]"
-              alt="title"
-            /> */}
           </span>
+
+          <div
+            className="relative"
+            style={{
+              display: `${loaded ? "none" : "block"}`
+            }}
+          >
+            <Loader />
+            <img className="w-[100%]" src="/images/loaderBG.jpg" alt="loader" />
+          </div>
+
         </div>
+
         <div className="absolute top-[10px] left-[10px]">
           <img src={"/images/LOGO_C.svg"} className="w-[5%]" />
         </div>
@@ -378,19 +376,17 @@ const PCNavScroll = ({ data, $id, hover, setHover, position }) => {
                   >
                     {list.slice(item - step, item).map((item, index) => (
                       <Suspense key={`${$id}_${index}_${children[page]}`}>
-                       
-                          <ScrollItem
-                            key={`${$id}_${index}_${children[page]}`}
-                            id={`${$id}_${index}_${children[page]}`}
-                            src={item.logo}
-                            bg={item["backdrop_path"] || item["poster_path"]}
-                            data={item}
-                            dvWidth={dvWidth}
-                            setHover={setHover}
-                            hover={hover}
-                            movieType={data.type || item["media_type"]}
-                          />
-                       
+                        <ScrollItem
+                          key={`${$id}_${index}_${children[page]}`}
+                          id={`${$id}_${index}_${children[page]}`}
+                          src={item.logo}
+                          bg={item["backdrop_path"] || item["poster_path"]}
+                          data={item}
+                          dvWidth={dvWidth}
+                          setHover={setHover}
+                          hover={hover}
+                          movieType={data.type || item["media_type"]}
+                        />
                       </Suspense>
                     ))}
                   </motion.div>

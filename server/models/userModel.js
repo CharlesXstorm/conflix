@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
       {
         id: 0,
         name: "Add Profile",
-        img: "images/addProfile.svg",
+        img: "/images/addProfile.svg",
         isProfile: false
       },
       {
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: () => new Date(new Date().getTime() + (60 * 60 * 1000)),
+    default: () => new Date(new Date().getTime() + 60 * 60 * 1000),
     select: false
   }
 });

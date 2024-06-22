@@ -56,7 +56,8 @@ exports.getAllBrowse = async (req, res) => {
       `${url}/tv/airing_today?language=en-US&page=1`,
       config
     );
-    const myList = req.body.myList || "Add movies to see them here";
+    const myList = req.body.myList || null
+
     const anime = await axios.get(
       `${url}/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=16&with_origin_country=JP`,
       config
@@ -114,7 +115,7 @@ exports.getAllBrowse = async (req, res) => {
         title: `Top 10 TV Shows in ${countries[region]} Today`,
         type: "tv",
         shortList: true,
-        movies: regionTopTV.data.results
+        movies: regionTopTV.data.results.slice(0,10)
       },
       {
         _id: 3,

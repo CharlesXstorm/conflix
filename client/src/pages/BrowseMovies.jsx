@@ -161,7 +161,15 @@ const BrowseMovies = () => {
                 })
               : browseMovies.map((item, index) => {
                   if (item.shortList) {
-                    return;
+                    return (
+                      <NavScroll
+                        key={index}
+                        $id={index}
+                        data={item}
+                        hover={hover}
+                        setHover={setHover}
+                      />
+                    )
                   } else {
                     return (
                       <MobileNavScroll

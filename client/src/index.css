@@ -42,6 +42,10 @@ html {
 
 }
 
+.scrollItem{
+  height: 10em;
+}
+
 #lang {
   
 }
@@ -56,9 +60,24 @@ html {
   }
 }
 
+@media only screen and (max-width:1280px) {
+  .scrollItem{
+    height: 7em;
+  }
+}
+
+@media only screen and (max-width:1024px) {
+  .scrollItem{
+    height: 5em;
+  }
+}
+
 @media only screen and (max-width:980px) {
   .player-wrapper{
     transform: scale(1.6);
+  }
+  .scrollItem{
+    height: 5em;
   }
 }
 

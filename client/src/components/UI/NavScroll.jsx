@@ -21,7 +21,7 @@ const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
   };
 
   return (
-    <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
+    <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
         onClick={nextHandler}
@@ -56,7 +56,7 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
   };
 
   return (
-    <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[inherit]">
+    <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
@@ -79,7 +79,7 @@ const ScrollItem = ({bg, classes,$id,groupType,movieType }) => {
   }
   return (
     <div
-      className={`${classes} relative rounded-md h-[100%] flex-none w-[calc((100%/3)-1%)] md:w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
+      className={`${classes} relative rounded-md h-[13em] flex-none w-[calc((100%/3)-1%)] md:w-[calc((100%/4)-1%)] lg:w-[calc((100%/5)-1%)] overflow-hidden`}
     > 
         {
         loaded && 
@@ -87,7 +87,7 @@ const ScrollItem = ({bg, classes,$id,groupType,movieType }) => {
 
         <div onClick={handleClick} className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip">
           <img
-            src={`https://image.tmdb.org/t/p/w300/${bg}`}
+            src={bg?`https://image.tmdb.org/t/p/w300/${bg}`:"/images/nullPoster.jpg"}
             className="w-[100%] absolute top-0 left-0"
             alt="bgImage"
             onLoad={() => setLoaded(false)}
@@ -107,7 +107,8 @@ const Span = ({ id, bgSpan }) => {
   return (
     <span
       className={`${
-        bgSpan[id] || "bg-[rgb(60,60,60)]"
+        // bgSpan[id] || 
+        "bg-[rgb(60,60,60)]"
       } rounded w-[1em] h-[3px] transition-all duration-[0.4s] ease-in-out`}
     ></span>
   );
@@ -116,135 +117,173 @@ const Span = ({ id, bgSpan }) => {
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
 const NavScroll = ({ data, position, $id,hover,setHover }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
-  const [list] = useState([...data.movies]);
-  const [movieList] = useState([...data.movies]);
+  const [list,setList] = useState();
+  const [movieList,setMovieList] = useState();
   const [count, setCount] = useState(`${isPC ? 5 : 2}` * 1);
-  const [children, setChildren] = useState([]);
+  const [page, setPage] = useState(1)
+  const [children, setChildren] = useState();
   const [bgSpan, setBgSpan] = useState(null);
+  const[initScrollPos,setInitScrollPos] = useState(0)
+  const[finalScrollPos,setFinalScrollPos] = useState(0)
+  const [scrollTimeOut,setScrollTimeOut] = useState(null);
   const scrollRef = useRef();
 
+  // console.log('data',data.title,data)
+  // console.log('movieList',movieList)
 
-  useEffect(() => {
-    const scrollChildren = [];
+  useEffect(()=>{
+    if(data.movies){
+      setList([...data.movies])
+      setMovieList([...data.movies])
+      setChildren([ ...Array(Math.floor(data.movies.length/5)).keys()])
+      // console.log('array range',[ ...Array(Math.floor(data.movies.length/5)).keys()])
+    }
 
-    movieList.forEach((item, index) =>
-      index * 1 < movieList.length / `${isPC ? 6 : 3}`
-        ? `${
-            isPC && index === 0
-              ? scrollChildren.push(5)
-              : isPC
-              ? scrollChildren.push(scrollChildren[index - 1] + 6)
-              : !isPC && index === 0
-              ? scrollChildren.push(2)
-              : scrollChildren.push(scrollChildren[index - 1] + 3)
-          }`
-        : null
-    );
+    
+  },[])
 
-    setChildren([...scrollChildren]);
 
-    setBgSpan({
-      [`${data._id}_${$id}_${movieList[scrollChildren[0]].id}`]: "bg-[rgb(160,160,160)]"
-    });
-  }, []);
+  const scrollHandler = ()=>{
+    console.log('scrollAmount',scrollRef.current.scrollLeft,'page',page,'iniScrollPos',initScrollPos)
+    if (scrollTimeOut != null){
+      clearTimeout(scrollTimeOut)
+      setScrollTimeOut(null)
+    }
+    if(initScrollPos < scrollRef.current.scrollLeft){
+      // console.log('scrolling left')
+      if(scrollRef.current.scrollLeft > (0.1*dvWidth*page)){
+        scrollRef.current.scrollTo({left:(dvWidth*page)-10,behavior: 'smooth'})
+        setFinalScrollPos((dvWidth*page)-10)
+        setPage((prev)=> prev + 1)
+      }
+      // else{
+      //   scrollRef.current.scroll({left:finalScrollPos,behavior: 'smooth'})
+      // }
+    }else{
+      console.log('scrolling right')
+    }
+
+    const timeOutId = setTimeout(()=>{
+      setInitScrollPos(scrollRef.current.scrollLeft)
+    },150)
+
+    setScrollTimeOut(timeOutId)
+  }
 
   //handle scroll event start
-  const scrollHandler = () => {
-    //add first and last scroll children to variables
-    var lastChild =
-      scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
-    var firstChild =
-      scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
-    //make scroll continuous when scroll reaches last item
-    if (lastChild < dvWidth * 1) {
-      list.splice(list.length, 0, ...list.slice(0, movieList.length));
-    }
-    //make scroll continuous when scroll reaches first item
-    if (firstChild > 0) {
-      // console.log("first child");
-    }
+  // const scrollHandler = () => {
+ 
+  //   var lastChild =
+  //     scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
+  //   var firstChild =
+  //     scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
 
-    //add every scroll child divisor to a list
-    for (var item of children) {
-      var nthChild = document.getElementsByClassName(
-        `${data._id}_${$id}_${movieList[item].id}`
-      );
-      //update the proper span indicator for every child divisor that comes into view
-      for (var child of nthChild) {
-        var position = child.getBoundingClientRect().right * 1;
+  //   if (lastChild < dvWidth * 1) {
+  //     list.splice(list.length, 0, ...list.slice(0, movieList.length));
+  //   }
 
-        if (position > 10 && position < dvWidth * 1) {
-          setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(160,160,160)]" });
-          return;
-        } else {
-          setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(60,60,60)]" });
-        }
-      }
-    }
-  };
+    
 
-  return (
-    <div 
+
+  //   for (var item of children) {
+  //     var nthChild = document.getElementsByClassName(
+  //       `${data._id}_${$id}_${movieList[item].id}`
+  //     );
+  //     for (var child of nthChild) {
+  //       var position = child.getBoundingClientRect().right * 1;
+
+  //       if (position > 10 && position < dvWidth * 1) {
+  //         setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(160,160,160)]" });
+  //         return;
+  //       } else {
+  //         setBgSpan({ [`${data._id}_${$id}_${movieList[item].id}`]: "bg-[rgb(60,60,60)]" });
+  //       }
+  //     }
+  //   }
+  // };
+
+  if(data.movies){
+    return (<>
+      {movieList && children &&
+        <div 
+      className={`${position || "relative"} w-full ${$id === 0?"pt-6":""}`}>
+        <div className="flex flex-row justify-between">
+          <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] md:text-xl">
+            {data.title}
+          </p>
+          <div className="flex flex-row gap-2 px-5 items-end py-2">
+            {
+              //scroll indicator
+              children.map((item)=> <Span
+                  key={item}
+                  // id={`${data._id}_${$id}_${movieList[item].id}`}
+                  bgSpan={bgSpan}
+                />
+              )
+              
+            }
+          </div>
+        </div>
+  
+        <div className="relative">
+          {
+            <>
+              <Next
+                count={count}
+                setCount={setCount}
+                scrollRef={scrollRef}
+                isPC={isPC}
+                dvWidth={dvWidth}
+              />
+              <Prev
+                count={count}
+                setCount={setCount}
+                scrollRef={scrollRef}
+                isPC={isPC}
+                dvWidth={dvWidth}
+              />
+            </>
+          }
+  
+          <div
+            ref={scrollRef}
+            onScroll={scrollHandler}
+            id="scrollNav"
+            className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
+          >
+            {list.map((item, index) => (
+              <ScrollItem
+                key={index}
+                $id={item.id}
+                groupType={data.type}
+                movieType={item["media_type"]}
+                // classes={`${data._id}_${$id}_${item.id}`}
+                src={"item.logo"}
+                bg={item['poster_path']}
+              />
+            ))}
+          </div>
+        </div>
+      </div>}</>
+    );
+  }else{
+    return(
+      <div 
     className={`${position || "relative"} w-full ${$id === 0?"pt-6":""}`}>
       <div className="flex flex-row justify-between">
         <p className="mb-2 font-bold px-5 md:px-10 xl:px-[4em] md:text-xl">
           {data.title}
         </p>
-        <div className="flex flex-row gap-2 px-5 items-end py-2">
-          {
-            //scroll indicator
-            children.map((item)=> <Span
-                key={item}
-                id={`${data._id}_${$id}_${movieList[item].id}`}
-                bgSpan={bgSpan}
-              />
-            )
-            
-          }
-        </div>
       </div>
 
-      <div className="relative h-[12em] md:h-[20em] lg:h-[6em] xl:h-[10em]">
-        {
-          <>
-            <Next
-              count={count}
-              setCount={setCount}
-              scrollRef={scrollRef}
-              isPC={isPC}
-              dvWidth={dvWidth}
-            />
-            <Prev
-              count={count}
-              setCount={setCount}
-              scrollRef={scrollRef}
-              isPC={isPC}
-              dvWidth={dvWidth}
-            />
-          </>
-        }
-
-        <div
-          ref={scrollRef}
-          onScroll={scrollHandler}
-          id="scrollNav"
-          className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
-        >
-          {list.map((item, index) => (
-            <ScrollItem
-              key={index}
-              $id={item.id}
-              groupType={data.type}
-              movieType={item["media_type"]}
-              classes={`${data._id}_${$id}_${item.id}`}
-              // src={"item.logo"}
-              bg={item['poster_path']}
-            />
-          ))}
-        </div>
+      <div className="flex item-center justify-center bg-[rgb(120,120,120,0.5)] relative h-[12em] md:h-[20em] lg:h-[6em] xl:h-[10em] w-full">
+      <p className="flex items-center text-lg lg:text-xl font-bold">Add movies to your list to see them here</p>
       </div>
-    </div>
-  );
+      </div>
+    )
+  }
+
+ 
 };
 
 export default NavScroll;
