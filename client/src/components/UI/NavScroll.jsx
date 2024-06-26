@@ -74,6 +74,8 @@ const ScrollItem = ({ bg, classes, $id, groupType, movieType }) => {
   const navigate = useNavigate();
   const data = { groupType, movieType };
 
+  // console.log("scrollID", $id);
+
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
   };
@@ -125,62 +127,118 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
   const [count, setCount] = useState(5);
+  const [step, setStep] = useState(0);
   // const [count, setCount] = useState(`${isPC ? 5 : 2}` * 1);
   const [page, setPage] = useState(1);
   const [children, setChildren] = useState();
   const [bgSpan, setBgSpan] = useState(null);
+  const [trackedElement, setTrackedElement] = useState(null);
+  const [lastChild, setLastChild] = useState(null);
   const [initScrollPos, setInitScrollPos] = useState(0);
+  const [finalScrollPos, setFinalScrollPos] = useState(null);
   const [scrollDirection, setScrollDirection] = useState(null);
   const [scrollID, setScrollID] = useState();
+  const [scrollEnded, setScrollEnded] = useState(false);
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef();
 
-  // console.log('data',data.title,data)
   // console.log("initScrollPos", initScrollPos);
 
   useEffect(() => {
     if (data.movies) {
-      setList([...data.movies]);
+      setList([...data.movies,...data.movies,...data.movies]);
       setMovieList([...data.movies]);
       setChildren([...Array(Math.floor(data.movies.length / count)).keys()]);
-      setScrollID(
-        Array(data.movies.length)
-          .fill(`scrollID_${$id}`)
-          .map((item, ind) => `${item}_${ind}`)
-      );
     }
   }, []);
 
   useEffect(() => {
+    if (list) {
+      setScrollID(
+        Array(list.length)
+          .fill(`scrollID_${$id}`)
+          .map((item, ind) => `${item}_${ind}`)
+      );
+    }
+  }, [list]);
+
+  useEffect(() => {
+    if (scrollDirection === "left") {
+      let viewElement = document.getElementById(scrollID[step + 5]);
+      setTrackedElement(viewElement);
+      scrollRef.current.scrollTo({
+        behavior: "smooth",
+        left: Math.floor(viewElement.getBoundingClientRect().left)
+      });
+    }
+
+    // if (scrollDirection === "right") {
+    //   let viewElement = document.getElementById(scrollID[step - 5]);
+    //   scrollRef.current.scrollTo({
+    //     behavior: "smooth",
+    //     left: `${viewElement.getBoundingClientRect().left}` * 1
+    //   });
+    // }
+  }, [scrollDirection]);
+
+  useEffect(() => {
     
-    if(scrollDirection === 'left'){
-      let viewElement = document.getElementById(scrollID[count+4])
-      scrollRef.current.scrollTo({behavior: "smooth",
-        left: `${viewElement.getBoundingClientRect().right}` * 1
+    let lastChild
+    if(scrollID){
+      lastChild = document.getElementById(
+      scrollID[scrollID.length - 11]
+    );
+  }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log('entry',entry,'Are dey equal?', entry.target === trackedElement)
+          if (entry.target === lastChild) {
+              console.log("Last Child is visible");
+              setList((prev) => [...prev, ...movieList]);
+          }
+          if (entry.target === trackedElement) {
+              console.log("scroll Ended");
+              setStep((prev) => prev + 5);
+              setTrackedElement(null);
+              setScrollDirection(null);
+          }
+        }
       });
+    });
+
+    console.log('tracked element', trackedElement);
+
+    if (lastChild) {
+      observer.observe(lastChild);
     }
-    if(scrollDirection === 'right'){
-      let viewElement = document.getElementById(scrollID[count-5])
-      scrollRef.current.scrollTo({behavior: "smooth",
-        left: `${viewElement.getBoundingClientRect().left}` * 1
-      });
+    if (trackedElement) {
+      observer.observe(trackedElement);
     }
-   
-  },[scrollDirection])
+
+    // Clean up the observer when the component unmounts
+    return () => {
+      observer.disconnect();
+    };
+  }, [finalScrollPos,trackedElement, movieList, scrollID]);
+
+  // useEffect(() => {
+  //   if (scrollEnded) {
+  //     console.log("scrollEnded");
+  //     setStep((prev) => prev + 5);
+  //     setTrackedElement(null);
+  //     setScrollDirection(null);
+  //     setScrollEnded(false);
+  //   }
+  // }, [scrollEnded]);
 
   const scrollHandler = () => {
-
     if (scrollTimeOut != null) {
       clearTimeout(scrollTimeOut);
       setScrollTimeOut(null);
     }
 
-    let viewElement = document.getElementById(scrollID[count+4])
-    if(scrollRef.current.scrollLeft*1 >= (Math.floor(viewElement.getBoundingClientRect().right*1)-20) ){
-        console.log('scrollEnded')
-        setScrollDirection(null)
-      }
-
+    //get the scroll direction//////////////////////////////////////////////
     if (initScrollPos < scrollRef.current.scrollLeft) {
       setScrollDirection("left");
     } else {
@@ -192,9 +250,28 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
     }, 150);
 
     setScrollTimeOut(timeOutId);
-  };
+    ///////////////////////////////////////////////////////////////////
 
- 
+    //get scrollEvent end//////////////////////////////////////////////
+
+    // console.log('scrollRef',scrollRef.current.scrollLeft,'scrollElement',trackedElement)
+
+    // if (scrollRef.current.scrollLeft === trackedElement) {
+    //   setScrollEnded(true);
+    // }
+
+    //////////////////////////////////////////////////////////////////////
+
+    //get last child position to create infinite scroll//////////////////
+    setFinalScrollPos(scrollRef.current.scrollLeft)
+    // let lastTrackedChild = document.getElementById(
+    //   scrollID[scrollID.length - 2]
+    // );
+    // setLastChild(lastTrackedChild);
+
+    // console.log("stepNum", step);
+    //////////////////////////////////////////////////////////////////////
+  };
 
   if (data.movies) {
     return (
@@ -247,7 +324,7 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
                 ref={scrollRef}
                 onScroll={scrollHandler}
                 id="scrollNav"
-                className="flex relative flex-row gap-[1%] lg:gap-[1%] h-[100%] w-[auto] w-[100%] overflow-scroll"
+                className="flex relative flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
                 {list.map((item, index) => (
                   <ScrollItem
