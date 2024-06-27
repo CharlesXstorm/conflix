@@ -1,23 +1,31 @@
 /* eslint-disable react/prop-types */
 // import ReactDOM from 'react-dom'
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
+const Next = ({
+  setCount,
+  scrollRef,
+  finalScrollPos,
+  isPC,
+  dvWidth,
+  setScrollAmount,
+  setScrollDirection,
+  stage,
+  setStage
+}) => {
   const nextHandler = () => {
+    console.log("stage next", stage);
+    // setScrollAmount(dvWidth * stage);
+    // setScrollDirection(null);
     scrollRef.current.scrollTo({
       behavior: "smooth",
-      left: `${scrollRef.current.scrollLeft + dvWidth}` * 1
+      left: Math.floor(dvWidth * stage)
     });
-
-    if (isPC) {
-      setCount((prev) => prev + 6);
-    } else {
-      setCount((prev) => prev + 4);
-    }
+    // setStage((prev)=> prev + 1)
   };
 
   return (
@@ -33,26 +41,28 @@ const Next = ({ setCount, scrollRef, isPC, dvWidth }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
+const Prev = ({
+  count,
+  setCount,
+  scrollRef,
+  finalScrollPos,
+  isPC,
+  dvWidth,
+  setScrollAmount,
+  setScrollDirection,
+  stage,
+  setStage
+}) => {
   const prevHandler = () => {
+    console.log("stage prev", stage);
     //handle prev button
+    // setScrollAmount(dvWidth * (stage - 1));
+    // setScrollDirection('right');
     scrollRef.current.scrollTo({
       behavior: "smooth",
-      left: `${scrollRef.current.scrollLeft - dvWidth}` * 1
+      left: Math.floor(dvWidth * (stage - 1))
     });
-    if (isPC) {
-      if (count - 6 < 0) {
-        setCount(5);
-        return;
-      }
-      setCount((prev) => prev - 6);
-    } else {
-      if (count - 4 < 0) {
-        setCount(3);
-        return;
-      }
-      setCount((prev) => prev - 4);
-    }
+    // setStage((prev)=> prev - 1)
   };
 
   return (
@@ -82,12 +92,12 @@ const ScrollItem = ({ bg, classes, $id, groupType, movieType }) => {
   return (
     <div
       id={$id}
-      className={`${classes} relative rounded-md h-[13em] flex-none w-[calc((100%/3)-1%)] md:w-[calc((100%/4)-1%)] lg:w-[calc((100%/5)-1%)] overflow-hidden`}
+      className={`${classes} relative rounded-md h-[13em] flex-none w-[calc((100%/5))] overflow-hidden`}
     >
       {loaded && <Loader />}
 
       <div
-        onClick={handleClick}
+        // onClick={handleClick}
         className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip"
       >
         <img
@@ -135,18 +145,32 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
   const [trackedElement, setTrackedElement] = useState(null);
   const [lastChild, setLastChild] = useState(null);
   const [initScrollPos, setInitScrollPos] = useState(0);
-  const [finalScrollPos, setFinalScrollPos] = useState(null);
+  const [finalScrollPos, setFinalScrollPos] = useState(0);
   const [scrollDirection, setScrollDirection] = useState(null);
+  const [scrollAmount, setScrollAmount] = useState(0);
+  const [stage, setStage] = useState(1);
   const [scrollID, setScrollID] = useState();
   const [scrollEnded, setScrollEnded] = useState(false);
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef();
 
-  // console.log("initScrollPos", initScrollPos);
+  // console.log(
+  //   "direction",
+  //   scrollDirection,
+  //   "stage",
+  //   stage,
+  //   "initScrollPos",
+  //   initScrollPos,
+  //   "scrollAmount",
+  //   scrollAmount
+  // );
+
+  console.log("finalScrollPos", finalScrollPos, "initScrollPos", initScrollPos);
 
   useEffect(() => {
+    setInitScrollPos(0);
     if (data.movies) {
-      setList([...data.movies,...data.movies,...data.movies]);
+      setList([...data.movies, ...data.movies]);
       setMovieList([...data.movies]);
       setChildren([...Array(Math.floor(data.movies.length / count)).keys()]);
     }
@@ -162,116 +186,180 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
     }
   }, [list]);
 
-  useEffect(() => {
-    if (scrollDirection === "left") {
-      let viewElement = document.getElementById(scrollID[step + 5]);
-      setTrackedElement(viewElement);
-      scrollRef.current.scrollTo({
-        behavior: "smooth",
-        left: Math.floor(viewElement.getBoundingClientRect().left)
-      });
-    }
-
-    // if (scrollDirection === "right") {
-    //   let viewElement = document.getElementById(scrollID[step - 5]);
-    //   scrollRef.current.scrollTo({
-    //     behavior: "smooth",
-    //     left: `${viewElement.getBoundingClientRect().left}` * 1
-    //   });
-    // }
-  }, [scrollDirection]);
-
-  useEffect(() => {
-    
-    let lastChild
-    if(scrollID){
-      lastChild = document.getElementById(
-      scrollID[scrollID.length - 11]
-    );
-  }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          console.log('entry',entry,'Are dey equal?', entry.target === trackedElement)
-          if (entry.target === lastChild) {
-              console.log("Last Child is visible");
-              setList((prev) => [...prev, ...movieList]);
-          }
-          if (entry.target === trackedElement) {
-              console.log("scroll Ended");
-              setStep((prev) => prev + 5);
-              setTrackedElement(null);
-              setScrollDirection(null);
-          }
-        }
-      });
-    });
-
-    console.log('tracked element', trackedElement);
-
-    if (lastChild) {
-      observer.observe(lastChild);
-    }
-    if (trackedElement) {
-      observer.observe(trackedElement);
-    }
-
-    // Clean up the observer when the component unmounts
-    return () => {
-      observer.disconnect();
-    };
-  }, [finalScrollPos,trackedElement, movieList, scrollID]);
-
   // useEffect(() => {
-  //   if (scrollEnded) {
-  //     console.log("scrollEnded");
-  //     setStep((prev) => prev + 5);
-  //     setTrackedElement(null);
-  //     setScrollDirection(null);
-  //     setScrollEnded(false);
+  //   if (scrollDirection === "left" || scrollDirection === "right") {
+  //     console.log('scrolling direction')
+  //     setScrollAmount(
+  //       scrollDirection === "left" ? dvWidth * stage : dvWidth * (stage - 1)
+  //     );
+  //     scrollRef.current.scrollTo({
+  //       behavior: "smooth",
+  //       left: Math.floor(
+  //         scrollDirection === "left" ? dvWidth * stage : dvWidth * (stage - 1)
+  //       )
+  //     });
   //   }
-  // }, [scrollEnded]);
+  // }, [scrollDirection, stage, dvWidth]);
 
-  const scrollHandler = () => {
-    if (scrollTimeOut != null) {
+  const scrollHandler = useCallback(() => {
+    if (list) {
+      console.log("scrollRef", scrollRef.current.scrollLeft);
+      //get the scroll direction//////////////////////////////////////////////
+      // if (initScrollPos < scrollRef.current.scrollLeft) {
+      //   console.log('scrolling Left')
+      //   setScrollDirection("left");
+      // } else {
+      //   console.log('scrolling Right')
+      //   setScrollDirection("right");
+      // }
+
+      ///////////////////////////////////////////////////////////////////
+
+      //get last child position to create infinite scroll//////////////////
+      if (
+        document
+          .getElementById(scrollID[list.length - 10])
+          .getBoundingClientRect().left === 0
+      ) {
+        // console.log('lastChild reached')
+        setList((prev) => [...prev, ...movieList]);
+      }
+      //////////////////////////////////////////////////////////////////////
+
+      //get scrollEvent end//////////////////////////////////////////////
+      if (scrollRef.current.scrollLeft === scrollAmount) {
+        if (scrollDirection === "left") {
+          // console.log('scrollLeftEnd',scrollDirection)
+          setStage((prev) => prev + 1);
+          // setScrollAmount(dvWidth * stage);
+        }
+        if (scrollDirection === "right") {
+          // console.log('scrollRightEnd',scrollDirection)
+          setStage((prev) => {
+            if (prev === 1) {
+              return 1;
+            } else {
+              return prev - 1;
+            }
+          });
+          // setScrollAmount(dvWidth * (stage));
+        }
+        setScrollDirection((prev) => {
+          if (prev != null) {
+            return null;
+          }
+          return null;
+        });
+        setInitScrollPos(scrollRef.current.scrollLeft);
+        return;
+      }
+
+      //////////////////////////////////////////////////////////////////////
+
+      //get last child position to create infinite scroll//////////////////
+      // if (
+      //   document
+      //     .getElementById(scrollID[list.length - 10])
+      //     .getBoundingClientRect().left === 0
+      // ) {
+      //   // console.log('lastChild reached')
+      //   setList((prev) => [...prev, ...movieList]);
+      // }
+      //////////////////////////////////////////////////////////////////////
+
+      //get the scroll direction//////////////////////////////////////////////
+      if (initScrollPos < scrollRef.current.scrollLeft) {
+        // console.log("scrolling Left");
+        setScrollDirection("left");
+      } else {
+        // console.log("scrolling Right");
+        setScrollDirection("right");
+      }
+
+      ///////////////////////////////////////////////////////////////////
+    }
+  }, [
+    list,
+    scrollID,
+    scrollDirection,
+    initScrollPos,
+    movieList,
+    dvWidth,
+    stage,
+    scrollAmount
+  ]);
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
+  const newScrollHandler = () => {
+    if (scrollTimeOut) {
       clearTimeout(scrollTimeOut);
       setScrollTimeOut(null);
     }
 
-    //get the scroll direction//////////////////////////////////////////////
-    if (initScrollPos < scrollRef.current.scrollLeft) {
-      setScrollDirection("left");
-    } else {
-      setScrollDirection("right");
+    if (initScrollPos != null) {
+      const newTimeoutID = setTimeout(() => {
+
+        if (scrollRef.current.scrollLeft > initScrollPos) {
+          //for swipe left
+          if (
+            scrollRef.current.scrollLeft >
+            Math.floor(initScrollPos + dvWidth / 4)
+          ) {
+            scrollRef.current.scrollTo({
+              behavior: "smooth",
+              left: Math.floor(initScrollPos + dvWidth)
+            });
+
+            setInitScrollPos(null);
+          } else {
+            scrollRef.current.scrollTo({
+              behavior: "smooth",
+              left: Math.floor(initScrollPos)
+            });
+            setInitScrollPos(null);
+          }
+        }else if (scrollRef.current.scrollLeft < initScrollPos){
+          //for swipe right
+          if (
+            scrollRef.current.scrollLeft <
+            Math.floor(initScrollPos - dvWidth / 4)
+          ) {
+            scrollRef.current.scrollTo({
+              behavior: "smooth",
+              left: Math.floor(initScrollPos - dvWidth)
+            });
+            setInitScrollPos(null);
+          }else {
+            scrollRef.current.scrollTo({
+              behavior: "smooth",
+              left: Math.floor(initScrollPos)
+            });
+            setInitScrollPos(null);
+          }
+
+        }
+
+      }, 100);
+
+      setScrollTimeOut(newTimeoutID);
     }
 
-    const timeOutId = setTimeout(() => {
+    if (scrollRef.current.scrollLeft === finalScrollPos) {
+      console.log("scroll ended", scrollRef.current.scrollLeft);
       setInitScrollPos(scrollRef.current.scrollLeft);
-    }, 150);
+      setFinalScrollPos(scrollRef.current.scrollLeft);
+      return;
+    }
 
-    setScrollTimeOut(timeOutId);
-    ///////////////////////////////////////////////////////////////////
-
-    //get scrollEvent end//////////////////////////////////////////////
-
-    // console.log('scrollRef',scrollRef.current.scrollLeft,'scrollElement',trackedElement)
-
-    // if (scrollRef.current.scrollLeft === trackedElement) {
-    //   setScrollEnded(true);
-    // }
-
-    //////////////////////////////////////////////////////////////////////
-
-    //get last child position to create infinite scroll//////////////////
-    setFinalScrollPos(scrollRef.current.scrollLeft)
-    // let lastTrackedChild = document.getElementById(
-    //   scrollID[scrollID.length - 2]
-    // );
-    // setLastChild(lastTrackedChild);
-
-    // console.log("stepNum", step);
-    //////////////////////////////////////////////////////////////////////
+    if (scrollRef.current.scrollLeft === finalScrollPos + dvWidth || 
+      scrollRef.current.scrollLeft === finalScrollPos - dvWidth
+    ) {
+      console.log("scroll ended", scrollRef.current.scrollLeft);
+      setInitScrollPos(scrollRef.current.scrollLeft);
+      setFinalScrollPos(scrollRef.current.scrollLeft);
+    }
   };
+  ////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (data.movies) {
     return (
@@ -304,25 +392,35 @@ const NavScroll = ({ data, position, $id, hover, setHover }) => {
               {
                 <>
                   <Next
-                    count={count}
-                    setCount={setCount}
+                    // count={count}
+                    // setCount={setCount}
                     scrollRef={scrollRef}
+                    finalScrollPos={finalScrollPos}
                     isPC={isPC}
                     dvWidth={dvWidth}
+                    setScrollAmount={setScrollAmount}
+                    setScrollDirection={setScrollDirection}
+                    stage={stage}
+                    setStage={setStage}
                   />
                   <Prev
-                    count={count}
-                    setCount={setCount}
+                    // count={count}
+                    // setCount={setCount}
                     scrollRef={scrollRef}
+                    finalScrollPos={finalScrollPos}
                     isPC={isPC}
                     dvWidth={dvWidth}
+                    setScrollAmount={setScrollAmount}
+                    setScrollDirection={setScrollDirection}
+                    stage={stage}
+                    setStage={setStage}
                   />
                 </>
               }
 
               <div
                 ref={scrollRef}
-                onScroll={scrollHandler}
+                onScroll={newScrollHandler}
                 id="scrollNav"
                 className="flex relative flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
