@@ -247,7 +247,6 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        // style={{height: `${loaded?'110px':"auto"}`}}
         className={`relative scrollItem rounded-[3px] bg-[#3d3d3d] flex-none h-[auto] w-[calc((100%/4)-1%)] lg:w-[calc((100%/6)-1%)] overflow-hidden`}
       >
         <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">

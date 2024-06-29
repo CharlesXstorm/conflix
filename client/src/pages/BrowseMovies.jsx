@@ -6,6 +6,7 @@ import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
 import NavScroll from "../components/UI/NavScroll";
+import NavScrollPC from "../components/UI/NavScrollPC";
 
 const BrowseMovies = () => {
   const [hover, setHover] = useState(false);
@@ -135,10 +136,11 @@ const BrowseMovies = () => {
               ? browseMovies.map((item, index) => {
                   if (item.shortList) {
                     return (
-                      <NavScroll
+                      <NavScrollPC
                         key={index}
                         $id={index}
                         data={item}
+                        count = {5}
                         hover={hover}
                         setHover={setHover}
                       />
@@ -166,6 +168,7 @@ const BrowseMovies = () => {
                         key={index}
                         $id={index}
                         data={item}
+                        count = {5}
                         hover={hover}
                         setHover={setHover}
                       />

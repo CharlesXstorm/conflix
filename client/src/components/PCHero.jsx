@@ -98,12 +98,12 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
 
       {
         //hero info
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em]  flex flex-col bottom-[30vh] w-full">
+        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col bottom-[30vh] xl:bottom-[30vh] w-full">
           <div
           style={delayPlay?animate.title:initial.title}
-            className="flex flex-col transition-all duration-1000 ease-in-out  pointer-events-auto origin-[0%_100%]"
+            className="flex flex-col transition-all duration-1000 ease-in-out origin-[0%_100%]"
           >
-            <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%]">
+            <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%] pointer-events-none">
               <span className="flex">
                 <img
                   className="w-[20em] xl:w-[30em]"
