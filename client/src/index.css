@@ -32,7 +32,7 @@ html {
 
 #loader{
   background-image:linear-gradient(to left, transparent 40%, #b4b4b4 60%, transparent);
-  transform: translateX(-80%);
+  transform: translateX(0%);
   animation: load 1s linear infinite;
 }
 
@@ -43,10 +43,11 @@ html {
 }
 
 .scrollItem{
-  height: 10em;
+  height: 9em;
 }
 .scrollTopItem{
-  height: 12em;
+  /* height: 12em; */
+  height: auto;
 }
 
 #lang {
@@ -60,6 +61,24 @@ html {
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;
+  }
+}
+
+/* @media only screen and (max-width:2048px) {
+  .scrollItem{
+    height: 9em;
+  }
+} */
+
+@media only screen and (max-width:1920px) {
+  .scrollItem{
+    height: 9em;
+  }
+}
+
+@media only screen and (max-width:1440px) {
+  .scrollItem{
+    height: 8em;
   }
 }
 
@@ -109,7 +128,7 @@ html {
 
 @keyframes load {
   0%{
-    transform: translateX(-80%);
+    transform: translateX(0%);
   }
   100%{
     transform: translateX(100%);

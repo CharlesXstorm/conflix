@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 // import "./App.css";
 import { useEffect, useState } from "react";
-import { useDispatch,useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { getWidth } from "./utils/dvWidthSlice.js";
 
 import Home from "./pages/Home";
@@ -29,10 +29,13 @@ function App() {
   const [addProfile,setAddProfile] = useState()
   const dispatch = useDispatch();
 
-  const {dvWidth} = useSelector((state)=> state.dvWidth)
-
   const handleEvent = () => {
-    dispatch(getWidth(window.innerWidth));
+    dispatch(getWidth(
+      Math.max(
+        window.innerWidth,
+        document.body.offsetWidth,
+        document.body.clientWidth)
+    ));
   };
 
   useEffect(() => {

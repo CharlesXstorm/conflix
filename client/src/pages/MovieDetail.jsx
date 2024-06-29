@@ -136,7 +136,7 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
             <div className="w-[100%]">
               <p>
                 <span className="text-green-500">
-                  {$data.movie["vote_average"].toFixed(1)} Rating</span>{" "} 
+                  Rated: {$data.movie["vote_average"].toFixed(1)}/10</span>{" "} 
                   {($data.movie["first_air_date"]||$data.movie["release_date"]).slice(0,4)}{" "} 
                  {$data.movie["number_of_seasons"] &&
                   <> {`${$data.movie["number_of_seasons"]<2?`${$data.movie["number_of_seasons"]} Season`:`${$data.movie["number_of_seasons"]} Seasons`}`}{" "}</>}

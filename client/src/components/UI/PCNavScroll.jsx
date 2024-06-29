@@ -261,7 +261,7 @@ const ScrollItem = ({ bg, dvWidth, hover, setHover, id, data, movieType }) => {
           />
 
           <span
-            className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-4 pointer-events-none"
+            className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-8 pointer-events-none"
             style={{ fontFamily: "bebas_neueregular", letterSpacing: "3px" }}
           >
             {data.title || data.name}
