@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 // import "./App.css";
 import { useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { getWidth } from "./utils/dvWidthSlice.js";
 
 import Home from "./pages/Home";
@@ -27,6 +27,7 @@ function App() {
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
   const [addProfile,setAddProfile] = useState()
+  const { data, profile } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   const handleEvent = () => {
@@ -64,7 +65,7 @@ function App() {
 
       <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
         <Route path="browse" element={<BrowseShared accountClick={accountClick}/>}>
-          <Route index element={<Browse accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+          <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />

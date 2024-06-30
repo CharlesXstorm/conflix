@@ -13,14 +13,13 @@ const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
     scrollRef.current.scrollTo({
       behavior: "smooth",
       left: Math.floor(finalScrollPos + scrollWidth)
-      // left: Math.floor(finalScrollPos + (dvWidth-1))
     });
   };
 
   return (
     <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
-        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={nextHandler}
       >
         <img src="/images/left-arrow.svg" className="rotate-180 w-[1.5em]" />
@@ -36,14 +35,13 @@ const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev }) => {
     scrollRef.current.scrollTo({
       behavior: "smooth",
       left: Math.floor(finalScrollPos - scrollWidth)
-      // left: Math.floor(finalScrollPos - (dvWidth-1))
     });
   };
 
   return (
     <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
-        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
       >
         <img src="/images/left-arrow.svg" className="w-[1.5em]" />
@@ -141,7 +139,7 @@ const ScrollItem = ({
   id,
   data,
   movieType,
-  num
+  svgNum
 }) => {
   const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -149,7 +147,7 @@ const ScrollItem = ({
   // const [title, setTitle] = useState();
   const itemRef = useRef();
 
-  // console.log("num", num);
+  // console.log("row", row);
 
   const mouseOverHandler = () => {
     setHover(id);
@@ -206,8 +204,8 @@ const ScrollItem = ({
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
         className={
-          `${row === 2 ? "scrollTopItem" : "scrollItem"}
-           flex-none w-[calc((100%/5))] p-1 flex-none`}
+          // `${row === 2 ? "scrollTopItem" : "scrollItem"}
+           `flex-none ${row===2?"w-[calc((100%/5))]":"w-[calc((100%/6))]"} p-1 flex-none`}
       >
         <div
           className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
@@ -254,28 +252,17 @@ const ScrollItem = ({
             <div className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip">
               <span
                 style={{
-                  backgroundImage: `${num}`
+                  backgroundImage: `${svgNum}`
                 }}
                 className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
               ></span>
 
-              {/* <span className="absolute top-0 right-0 w-[50%] h-full border border-red-600">
-                <img
-                  style={{
-                    display: `${loaded ? "block" : "none"}`
-                  }}
-                  src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
-                  className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
-                  alt="bgImage"
-                  onLoad={() => setLoaded(true)}
-                />
-              </span> */}
               <span className="relative w-[50%] h-full">
                 <img
                   style={{
                     display: `${loaded ? "block" : "none"}`
                   }}
-                  src={`https://image.tmdb.org/t/p/w300/${bg_poster}` || "/images/nullPoster.jpg"}
+                  src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
                   className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
                   alt="bgImage"
                   onLoad={() => setLoaded(true)}
@@ -564,10 +551,10 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                   <ScrollItem
                     key={index}
                     id={scrollID[index]}
-                    num={`url('/images/svgNum/num_${index + 1}.svg')`}
+                    svgNum={`url('/images/svgNum/num_${index.toString().split('')[index.toString().split('').length-1]*1 + 1}.svg')`}
                     row={$id}
                     src={item.logo}
-                    bg={item["backdrop_path"] || item["poster_path"]}
+                    bg={item["backdrop_path"]}
                     bg_poster={item["poster_path"]}
                     data={item}
                     dvWidth={dvWidth}

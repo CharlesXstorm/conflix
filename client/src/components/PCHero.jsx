@@ -2,41 +2,39 @@
 import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
-import PCNavScroll from "./UI/PCNavScroll";
+// import PCNavScroll from "./UI/PCNavScroll";
+import NavScrollPC from "../components/UI/NavScrollPC";
 import VideoPlayer from "./VideoPlayer";
-
 
 const PCHero = ({ hover, setHover, movie, $data, title }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
-  const [delayPlay,setDelayPlay] = useState()
+  const [delayPlay, setDelayPlay] = useState();
   const [initial] = useState({
-    title:{
-    transform: 'scale(1)',
-    // paddingBottom:"20px"
-  },
-  overview:{
-    transform: "scale(1)",
-    opacity: 1,
-    paddingBottom: "14px",
-    paddingTop: "14px"
-
-  }
-})
+    title: {
+      transform: "scale(1)"
+      // paddingBottom:"20px"
+    },
+    overview: {
+      transform: "scale(1)",
+      opacity: 1,
+      paddingBottom: "14px",
+      paddingTop: "14px"
+    }
+  });
   const [animate] = useState({
-    title:{
-    transform: 'scale(0.5)',
-    // marginBottom:"0px"
-  },
-  overview:{
-    transform: "scale(0)",
-    opacity: 0,
-    paddingBottom: "0px",
-    paddingTop: "0px"
-
-  }
-})
+    title: {
+      transform: "scale(0.5)"
+      // marginBottom:"0px"
+    },
+    overview: {
+      transform: "scale(0)",
+      opacity: 0,
+      paddingBottom: "0px",
+      paddingTop: "0px"
+    }
+  });
 
   const playerRef = useRef();
 
@@ -50,22 +48,21 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
     }
   };
 
-
   useEffect(() => {
     if (playing) {
-      const timeOut = setTimeout(()=>{
-        setDelayPlay(true)
-      },4000)
+      const timeOut = setTimeout(() => {
+        setDelayPlay(true);
+      }, 4000);
       return () => clearTimeout(timeOut);
-    }else{
-      setDelayPlay(false)
+    } else {
+      setDelayPlay(false);
     }
   }, [playing]);
 
   return (
     <div
       id="hero"
-      style={{fontFamily:"roboto"}}
+      style={{ fontFamily: "roboto" }}
       className="relative h-[50vh] md:h-[40vh] lg:h-[100vh] overflow-hidden"
     >
       <AnimatePresence initial={false}>
@@ -88,10 +85,19 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-      <PCNavScroll
+      {/* <PCNavScroll
         position="absolute z-10 bottom-0 left-0"
         $id={"hero"}
         data={movie}
+        hover={hover}
+        setHover={setHover}
+      /> */}
+      <NavScrollPC
+        // key={index}
+        position="absolute z-10 bottom-0 left-0"
+        $id={'hero'}
+        data={movie}
+        count={6}
         hover={hover}
         setHover={setHover}
       />
@@ -100,7 +106,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
         //hero info
         <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col bottom-[30vh] xl:bottom-[30vh] w-full">
           <div
-          style={delayPlay?animate.title:initial.title}
+            style={delayPlay ? animate.title : initial.title}
             className="flex flex-col transition-all duration-1000 ease-in-out origin-[0%_100%]"
           >
             <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%] pointer-events-none">
@@ -114,7 +120,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
             </div>
 
             <div
-            style={delayPlay?animate.overview:initial.overview}
+              style={delayPlay ? animate.overview : initial.overview}
               className="transition-all duration-1000 ease-in-out w-[40%] text-[0.6em] xl:text-[1em] origin-[0%_100%]"
             >
               <span>{$data.overview}</span>

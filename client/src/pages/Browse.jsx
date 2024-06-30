@@ -12,10 +12,12 @@ const Browse = ({
   setEditClick,
   loaded,
   addProfile,
-  setAddProfile
+  setAddProfile,
+  // data,
+  // profile
 }) => {
   
-  const { data } = useSelector((state) => state.account);
+  const { data, profile } = useSelector((state) => state.account);
 
   return (
     <div>
@@ -43,7 +45,7 @@ const Browse = ({
 
       {accountClick && loaded && 
       <Suspense fallback={<div className="w-[100%] h-[100vh] bg-black ">loading...</div>}>
-      <LazyBrowseMovies />
+      <LazyBrowseMovies profile={profile} />
       </Suspense>
       }
     </div>

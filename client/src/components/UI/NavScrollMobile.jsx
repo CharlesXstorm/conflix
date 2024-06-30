@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
-import ItemModal from "./PCNavItemModal";
-// import { useNavigate } from "react-router-dom";
+// import ItemModal from "./PCNavItemModal";
+import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
 const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
@@ -54,170 +54,116 @@ const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev }) => {
 
 //Modal Container Component
 /////////////////////////////////////////////////////////////////////////////
-const ModalCont = ({
-  height,
-  onMouseOut,
-  setHover,
-  movieType,
-  // itemInfo,
-  dvWidth,
-  id,
-  bg,
-  title,
-  movieID,
-  itemHeight,
-  itemWidth,
-  show,
-  left,
-  right,
-  top
-}) => {
-  const [expand, setExpand] = useState(false);
-  // const dispatch = useDispatch();
+// const ModalCont = ({
+//   height,
+//   onMouseOut,
+//   setHover,
+//   movieType,
+//   dvWidth,
+//   id,
+//   bg,
+//   title,
+//   movieID,
+//   itemHeight,
+//   itemWidth,
+//   show,
+//   left,
+//   right,
+//   top
+// }) => {
+//   const [expand, setExpand] = useState(false);
 
-  return (
-    <div
-      style={{
-        height: `${height}`,
-        pointerEvents: `${expand ? "auto" : "none"}`
-      }}
-      className={`absolute top-0 left-0 z-[40] w-[100%]`}
-    >
-      <div
-        style={{
-          backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
-          overscrollBehavior: "contain",
-          overflowY: `${expand ? "auto" : "hidden"}`,
-          transition: "all 0.2s linear",
-          height: `${height}`,
-          pointerEvents: `${expand ? "auto" : "none"}`
-        }}
-        className="relative top-0 left-0 w-[100%]"
-      >
-        {/* <div 
-        onClick={()=> {
-          onMouseOut()
-          dispatch(setOverflow("auto"))
-        }}
-        className="top-0 left-0 h-full w-[100%]"
-        style={{
-          backgroundColor:`${expand?"rgb(0,0,0,0.6)":"transparent"}`,
-          transition: "all 0.2s linear",
-          pointerEvents: `${expand?"auto":"none"}`,
-          position: `${expand?"fixed":"absolute"}`,
-        }}></div> */}
-        <ItemModal
-          key={id}
-          onMouseEnter={() => setHover(id)}
-          onMouseLeave={onMouseOut}
-          height={itemHeight}
-          width={itemWidth}
-          show={show}
-          expand={expand}
-          dvWidth={dvWidth}
-          bg={bg}
-          title={title}
-          movieID={movieID}
-          top={top}
-          left={left}
-          right={right}
-          setExpand={setExpand}
-          movieType={movieType}
-        />
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div
+//       style={{
+//         height: `${height}`,
+//         pointerEvents: `${expand ? "auto" : "none"}`
+//       }}
+//       className={`absolute top-0 left-0 z-[40] w-[100%]`}
+//     >
+//       <div
+//         style={{
+//           backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
+//           overscrollBehavior: "contain",
+//           overflowY: `${expand ? "auto" : "hidden"}`,
+//           transition: "all 0.2s linear",
+//           height: `${height}`,
+//           pointerEvents: `${expand ? "auto" : "none"}`
+//         }}
+//         className="relative top-0 left-0 w-[100%]"
+//       >
+
+//         <ItemModal
+//           key={id}
+//           onMouseEnter={() => setHover(id)}
+//           onMouseLeave={onMouseOut}
+//           height={itemHeight}
+//           width={itemWidth}
+//           show={show}
+//           expand={expand}
+//           dvWidth={dvWidth}
+//           bg={bg}
+//           title={title}
+//           movieID={movieID}
+//           top={top}
+//           left={left}
+//           right={right}
+//           setExpand={setExpand}
+//           movieType={movieType}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
 
 //scroll Item Component
 ////////////////////////////////////////////////////////////////////////////////
 const ScrollItem = ({
-  bg,
   bg_poster,
   row,
-  dvWidth,
-  hover,
-  setHover,
+  // dvWidth,
   id,
-  data,
+  $id,
+  groupType,
   movieType,
   svgNum
 }) => {
-  const [ready, setReady] = useState(false);
+  // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [modalContHeight, setModalContHeight] = useState("");
-  // const [title, setTitle] = useState();
+  // const [modalContHeight, setModalContHeight] = useState("");
+
+  const navigate = useNavigate();
+  const data = { groupType, movieType };
+
+  const handleClick = ()=>{
+    navigate(`/browse/${$id}`,{state:data})
+  }
+
   const itemRef = useRef();
 
   // console.log("row", row);
 
-  const mouseOverHandler = () => {
-    setHover(id);
-  };
-
-  const mouseOutHandler = () => {
-    //reset hover onMouseOut
-    setHover(false);
-  };
-
-  useEffect(() => {
-    //get document height and save in a state
-    const body = document.body;
-    setModalContHeight(`${body.scrollHeight}px`);
-    setReady(true);
-  }, [hover]);
-
   return (
     <>
-      {
-        //display visible modal in portal div
-        ready &&
-          ReactDOM.createPortal(
-            <ModalCont
-              height={modalContHeight}
-              onMouseOut={mouseOutHandler}
-              movieType={movieType}
-              setHover={setHover}
-              id={id}
-              bg={bg}
-              title={data.title || data.name}
-              movieID={data.id}
-              dvWidth={dvWidth}
-              show={hover === id}
-              left={Math.floor(itemRef.current.getBoundingClientRect().left)}
-              right={Math.floor(itemRef.current.getBoundingClientRect().right)}
-              top={Math.floor(
-                itemRef.current.getBoundingClientRect().top + window.scrollY
-              )}
-              itemHeight={Math.floor(
-                itemRef.current.getBoundingClientRect().height
-              )}
-              itemWidth={Math.floor(
-                itemRef.current.getBoundingClientRect().width
-              )}
-            />,
-            document.getElementById("portal")
-          )
-      }
-
       <div
         id={id}
         ref={itemRef}
-        onMouseOver={mouseOverHandler}
-        onMouseOut={mouseOutHandler}
-        className={`${row === 2 ? "scrollTopItem" : "scrollItem"}
-           flex-none w-[calc((100%/2))] lg:w-[calc((100%/5))] p-1 flex-none`}
+        className={
+          // `${row === 2 ? "scrollTopItem" : "scrollItem"}
+           `flex-none ${row===2?"w-[calc((100%/2))]":"w-[calc((100%/3))] md:w-[calc((100%/4))]"} lg:w-[calc((100%/5))] p-1 flex-none`}
       >
         <div
           className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
         >
           {row != 2 && (
-            <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
+            <div 
+            onClick={handleClick}
+            className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
               <img
                 style={{
                   display: `${loaded ? "block" : "none"}`
                 }}
-                src={`https://image.tmdb.org/t/p/w300/${bg}`}
+                src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
                 className=" w-[100%] top-0 left-0 origin-[50%_0%]"
                 alt="bgImage"
                 onLoad={() => setLoaded(true)}
@@ -242,7 +188,7 @@ const ScrollItem = ({
                 <Loader />
                 <img
                   className="w-[100%]"
-                  src="/images/loaderBG.jpg"
+                  src="/images/nullPoster.jpg"
                   alt="loader"
                 />
               </div>
@@ -250,7 +196,9 @@ const ScrollItem = ({
           )}
 
           {row === 2 && (
-            <div className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip">
+            <div 
+            onClick={handleClick}
+            className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip">
               <span
                 style={{
                   backgroundImage: `${svgNum}`
@@ -555,6 +503,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                   <ScrollItem
                     key={index}
                     id={scrollID[index]}
+                    $id={item.id}
                     svgNum={`url('/images/svgNum/num_${
                       index.toString().split("")[
                         index.toString().split("").length - 1
@@ -570,7 +519,8 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                     dvWidth={dvWidth}
                     setHover={setHover}
                     hover={hover}
-                    movieType={data.type || item["media_type"]}
+                    groupType={data.type}
+                    movieType={item["media_type"]}
                   />
                 ))}
               </div>
