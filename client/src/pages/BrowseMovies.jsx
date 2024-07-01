@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setWatchList } from "../utils/profileSlice";
 // import MobileNavScroll from "../components/UI/MobileNavScroll";
 // import PCNavScroll from "../components/UI/PCNavScroll";
 import PCHero from "../components/PCHero";
@@ -10,7 +11,7 @@ import axios from "axios";
 import NavScrollPC from "../components/UI/NavScrollPC";
 import NavScrollMobile from "../components/UI/NavScrollMobile";
 
-const BrowseMovies = ({ profile }) => {
+const BrowseMovies = ({profile,data}) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
   const [title, setTitle] = useState();
@@ -18,12 +19,14 @@ const BrowseMovies = ({ profile }) => {
   const [$bg, set$bg] = useState();
 
   const { isPC, isTablet } = useSelector((state) => state.dvWidth);
+  const dispatch = useDispatch()
   // const { profile } = useSelector((state) => state.account);
   const { overflowValue } = useSelector((state) => state.feature);
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
 
   const getUpcomingMovies = async () => {
+    // console.log("loading Upcoming...");
     const config = {
       headers: {
         accept: "application/json",
@@ -60,9 +63,10 @@ const BrowseMovies = ({ profile }) => {
   };
 
   // get movie categories
-  const getBrowseMovies = async () => {
-    console.log('loading movies...');
-    let myList;
+  const getBrowseMovies = async (val) => {
+    // console.log("loading movies...",'profile',profile,'data',val);
+    let myList = null;
+    let watchList = null;
     let data = { myList: myList };
     const config = {
       headers: {
@@ -72,8 +76,8 @@ const BrowseMovies = ({ profile }) => {
     };
     try {
       //get user's watchList
-      const watchList = await axios.get(
-        `${import.meta.env.VITE_API_URL}/${profile.userID}/subProfiles/${
+      watchList = await axios.get(
+        `${import.meta.env.VITE_API_URL}/${val["_id"]}/subProfiles/${
           profile.id
         }/watchlist`,
         config
@@ -87,7 +91,7 @@ const BrowseMovies = ({ profile }) => {
         }
       }
       //get all movies and watchList data
-      const res = await axios.post(
+      let res = await axios.post(
         `${import.meta.env.VITE_API_URL}/browse`,
         data,
         config
@@ -105,20 +109,25 @@ const BrowseMovies = ({ profile }) => {
   }, [overflowValue]);
 
   useEffect(() => {
-    if (profile) {
-      set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
+    // if (profile.id) {
+    let movies = null;
+    setBrowseMovies(null);
+    setHero(null);
+    setTitle(null);
+    dispatch(setWatchList(profile.watchList));
+    set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
 
-      const fetch = async () => {
-        getUpcomingMovies();
-        const movies = await getBrowseMovies();
+    const fetch = async () => {
+      getUpcomingMovies();
+      movies = await getBrowseMovies(data);
 
-        if (movies) {
-          setBrowseMovies(movies);
-        }
-      };
-      fetch();
-      return;
-    }
+      if (movies) {
+        setBrowseMovies(movies);
+      }
+    };
+    fetch();
+    return;
+    // }
   }, [profile]);
 
   return (

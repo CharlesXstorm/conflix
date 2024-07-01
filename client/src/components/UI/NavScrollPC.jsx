@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
-import ItemModal from "./PCNavItemModal";
+import ItemModal from "./NavItemModal";
 // import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
@@ -59,6 +59,7 @@ const ModalCont = ({
   movieType,
   // itemInfo,
   dvWidth,
+  data,
   id,
   bg,
   title,
@@ -113,6 +114,7 @@ const ModalCont = ({
           show={show}
           expand={expand}
           dvWidth={dvWidth}
+          data={data}
           bg={bg}
           title={title}
           movieID={movieID}
@@ -176,6 +178,7 @@ const ScrollItem = ({
               onMouseOut={mouseOutHandler}
               movieType={movieType}
               setHover={setHover}
+              data={data}
               id={id}
               bg={bg}
               title={data.title || data.name}
@@ -205,7 +208,10 @@ const ScrollItem = ({
         onMouseOut={mouseOutHandler}
         className={
           // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-           `flex-none ${row===2?"w-[calc((100%/5))]":"w-[calc((100%/6))]"} p-1 flex-none`}
+          `flex-none ${
+            row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"
+          } p-1 flex-none`
+        }
       >
         <div
           className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
@@ -365,17 +371,27 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
 
+  const { watchList } = useSelector((state) => state.account);
+
   // console.log("row", $id, "title", data.title);
 
   useEffect(() => {
-    if (data.movies) {
+    // console.log('title',data.title,'movies',data.movies);
+    console.log("title", data.title, "watchlist", watchList);
+    // setMovieList(null);
+    // setChildren(null);
+    // setScrollID(null);
+    if (data.movies.length > 0 ||  watchList.length > 0) {
+      console.log('watchList is not empty')
       let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
-      setList([...data.movies]);
-      setMovieList([...data.movies]);
+      setList(data.title === "My List" ? [...watchList] : [...data.movies]);
+      setMovieList(
+        data.title === "My List" ? [...watchList] : [...data.movies]
+      );
       setChildren(children);
       setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
     }
-  }, []);
+  }, [watchList]);
 
   useEffect(() => {
     if (list) {
@@ -489,8 +505,11 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
 
     //get last child position to create infinite scroll///////////////////////////////////////////////
     if (
-      Math.ceil(document.getElementById(scrollID[list.length - 1]).getBoundingClientRect()
-        .right) === scrollWidth
+      Math.ceil(
+        document
+          .getElementById(scrollID[list.length - 1])
+          .getBoundingClientRect().right
+      ) === scrollWidth
     ) {
       setList((prev) => [...prev, ...movieList]);
     }
@@ -498,7 +517,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   };
   //scroll handler ends//////////////////////////////////////////////////////////////////////////////
 
-  if (data.movies) {
+  if (data.movies.length > 0 || watchList.length > 0) {
     return (
       <>
         {movieList && children && scrollID && (
@@ -551,7 +570,13 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                   <ScrollItem
                     key={index}
                     id={scrollID[index]}
-                    svgNum={`url('/images/svgNum/num_${index.toString().split('')[index.toString().split('').length-1]*1 + 1}.svg')`}
+                    svgNum={`url('/images/svgNum/num_${
+                      index.toString().split("")[
+                        index.toString().split("").length - 1
+                      ] *
+                        1 +
+                      1
+                    }.svg')`}
                     row={$id}
                     src={item.logo}
                     bg={item["backdrop_path"]}

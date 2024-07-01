@@ -44,8 +44,8 @@ const Browse = ({
         )}
 
       {accountClick && loaded && 
-      <Suspense fallback={<div className="w-[100%] h-[100vh] bg-black ">loading...</div>}>
-      <LazyBrowseMovies profile={profile} />
+      <Suspense fallback={<div className="absolute top-0 left-0 w-[100%] h-[100vh] bg-black ">loading...</div>}>
+      <LazyBrowseMovies profile={profile} data={data} />
       </Suspense>
       }
     </div>

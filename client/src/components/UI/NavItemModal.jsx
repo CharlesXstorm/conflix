@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setOverflow } from "../../utils/featureSlice";
+import {setWatchList } from "../../utils/profileSlice"
 import MovieDetail from "../../pages/MovieDetail"
 // import { motion } from "framer-motion";
 
@@ -9,6 +10,7 @@ const ItemModal = ({
   onMouseEnter,
   onMouseLeave,
   setExpand,
+  data,
   bg,
   title,
   movieID,
@@ -29,6 +31,7 @@ const ItemModal = ({
   const [itemWidth, setItemWidth] = useState();
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
+  const {watchList} = useSelector((state)=> state.account)
   const dispatch = useDispatch();
 
   const expandHandler = () => {
@@ -48,6 +51,11 @@ const ItemModal = ({
     }
     
   };
+
+  const watchListHandler = ()=>{
+    // console.log('watchlist',data)
+    dispatch(setWatchList([data,...watchList]));
+  }
 
   useEffect(() => {
     //reset default values on show change
@@ -150,14 +158,16 @@ const ItemModal = ({
         <div className="flex justify-between">
           <span className="flex gap-2">
             <button
-              onClick={() => {
-                onMouseLeave();
-              }}
+              // onClick={() => {
+              //   onMouseLeave();
+              // }}
               className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
             >
               <img src="/images/play.svg" alt="buttons" />
             </button>
-            <button className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center">
+            <button 
+            onClick={watchListHandler}
+            className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center">
               <img src="/images/add-icon.svg" alt="buttons" />
             </button>
             <button className="w-[2em] border-[2px] rounded-[50%] p-[6px] flex items-center justify-center">

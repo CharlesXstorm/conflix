@@ -63,7 +63,7 @@ function App() {
 
       <Route path="logout" element={<Logout />} />
 
-      <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} />}>
+      <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
         <Route path="browse" element={<BrowseShared accountClick={accountClick}/>}>
           <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
