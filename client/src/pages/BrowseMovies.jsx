@@ -155,7 +155,7 @@ const BrowseMovies = ({profile,data}) => {
                         key={index}
                         $id={index}
                         data={item}
-                        count={item.shortList ? 5 : 6}
+                        count={6}
                         hover={hover}
                         setHover={setHover}
                       />

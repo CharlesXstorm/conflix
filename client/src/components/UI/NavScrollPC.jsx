@@ -208,9 +208,8 @@ const ScrollItem = ({
         onMouseOut={mouseOutHandler}
         className={
           // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-          `flex-none ${
-            row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"
-          } p-1 flex-none`
+          // ${row === 2 ? "w-[calc((100%/6))]" : "w-[calc((100%/6))]"} 
+          `flex-none w-[calc((100%/6))] p-1 flex-none`
         }
       >
         <div
@@ -305,43 +304,7 @@ const ScrollItem = ({
   );
 };
 
-// //scroll items component ///////////////////////////////////////////////////////////////////
-// const ScrollItem = ({ bg, classes, $id, groupType, movieType }) => {
-//   const [loaded, setLoaded] = useState(true);
-
-//   const navigate = useNavigate();
-//   const data = { groupType, movieType };
-
-//   return (
-//     <div className="p-1 flex-none w-[calc((100%/5))]">
-//     <div
-//       id={$id}
-//       className={`${classes} relative rounded-md h-[13em] overflow-hidden`}
-//     >
-//       {loaded && <Loader />}
-
-//       <div
-//         className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip"
-//       >
-//         <img
-//           src={
-//             bg
-//               ? `https://image.tmdb.org/t/p/w300/${bg}`
-//               : "/images/nullPoster.jpg"
-//           }
-//           className="w-[100%] absolute top-0 left-0"
-//           alt="bgImage"
-//           onLoad={() => setLoaded(false)}
-//         />
-//       </div>
-
-//       <div className="absolute top-[10px] left-[10px]">
-//         <img src={"images/LOGO_C.svg"} className="w-[5%]" />
-//       </div>
-//     </div>
-//     </div>
-//   );
-// };
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 //scroll indicator component ////////////////////////////////////////////////////////////////
 const Span = ({ id, bgSpan }) => {
@@ -377,12 +340,11 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
 
   useEffect(() => {
     // console.log('title',data.title,'movies',data.movies);
-    console.log("title", data.title, "watchlist", watchList);
+    // console.log("title", data.title, "watchlist", watchList);
     // setMovieList(null);
     // setChildren(null);
     // setScrollID(null);
     if (data.movies.length > 0 ||  watchList.length > 0) {
-      console.log('watchList is not empty')
       let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
       setList(data.title === "My List" ? [...watchList] : [...data.movies]);
       setMovieList(
@@ -520,6 +482,10 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   if (data.movies.length > 0 || watchList.length > 0) {
     return (
       <>
+        {!movieList && 
+        <div className="w-[100%] h-[auto] ">
+          <img src='/images/loaderBG.jpg' />
+          </div>}
         {movieList && children && scrollID && (
           <div
             className={`${position || "relative"} w-full ${
