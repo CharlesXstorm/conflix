@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOverflow } from "../../utils/featureSlice";
 import { setWatchList } from "../../utils/profileSlice";
 import MovieDetail from "../../pages/MovieDetail";
+import axios from "axios";
 // import { motion } from "framer-motion";
 
 const ItemModal = ({
   onMouseEnter,
   onMouseLeave,
   setExpand,
-  data,
+  $data,
   bg,
   title,
   movieID,
@@ -33,7 +34,7 @@ const ItemModal = ({
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState();
 
-  const { watchList } = useSelector((state) => state.account);
+  const { watchList,profile,data} = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   const expandHandler = () => {
@@ -53,24 +54,78 @@ const ItemModal = ({
   };
 
   //handle watchList////////////////////////////////////////////////
+  //add watchList to database
+  const addWatchListDB = async(watchData,userID,subID) => {
+    try {
+      const data = { ...watchData };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/${userID}/subProfiles/${subID}/watchlist`,
+        data,
+        config
+      );
+      if(res){
+        console.log(res.data)
+      }
+    } catch (err) {
+      const error = err.response.data.message;
+      console.log(error)
+    }
+  };
+    //remove watchList from database
+    const removeWatchListDB = async(watchData,userID,subID) => {
+      try {
+        const data = { watchList: [...watchData] } ;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+            withCredentials: true
+          }
+        };
+  
+        const res = await axios.patch(
+          `${import.meta.env.VITE_API_URL}/${userID}/subProfiles/${subID}`,
+          data,
+          config
+        );
+        if(res){
+          console.log(res.data)
+        }
+      } catch (err) {
+        const error = err.response.data.message;
+        console.log(error)
+      }
+    };
+  //add watchList client/server side
   const addWatchList = () => {
-    let watchListData = { ...data, type: movieType };
+    let watchListData = { ...$data, type: movieType };
     dispatch(setWatchList([watchListData, ...watchList]));
     setWatchIcon("remove-icon");
+    addWatchListDB(watchListData,data['_id'],profile.id)
+    console.log("watchList added");
   };
+  //remove watchList client/server side
   const removeWatchList = () => {
     let watchListData = [...watchList]
-    watchListData.forEach((item)=>{
-      if (item.name === data.name) {
-        watchListData.splice(watchListData.indexOf(item), 1);
-      } else if (item.title === data.title) {
-        watchListData.splice(watchListData.indexOf(item), 1);
+    watchListData.forEach((item,index)=>{
+      if (item.name === $data.name) {
+        watchListData.splice(index, 1);
+      } else if (item.title === $data.title) {
+        watchListData.splice(index, 1);
       }
     })
     dispatch(setWatchList(watchListData));
-    console.log("watchList removed");
     setWatchIcon("add-icon");
+    // removeWatchListDB(watchListData,data['_id'],profile.id)
+    console.log("watchList removed");
   };
+  //handle watchList logic
   const watchListHandler = () => {
     if (watchIcon === "add-icon") {
       addWatchList();
@@ -84,7 +139,7 @@ const ItemModal = ({
     if (watchList.length != 0) {
       for (var item of watchList) {
         if (item.name) {
-          if (item.name === data.name) {
+          if (item.name === $data.name) {
             setWatchIcon("remove-icon");
             return;
           } else {
@@ -92,7 +147,7 @@ const ItemModal = ({
           }
         }
         if (item.title) {
-          if (item.title === data.title) {
+          if (item.title === $data.title) {
             setWatchIcon("remove-icon");
             return;
           } else {

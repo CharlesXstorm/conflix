@@ -57,7 +57,6 @@ const ModalCont = ({
   onMouseOut,
   setHover,
   movieType,
-  // itemInfo,
   dvWidth,
   data,
   id,
@@ -72,7 +71,6 @@ const ModalCont = ({
   top
 }) => {
   const [expand, setExpand] = useState(false);
-  // const dispatch = useDispatch();
 
   return (
     <div
@@ -93,18 +91,7 @@ const ModalCont = ({
         }}
         className="relative top-0 left-0 w-[100%]"
       >
-        {/* <div 
-        onClick={()=> {
-          onMouseOut()
-          dispatch(setOverflow("auto"))
-        }}
-        className="top-0 left-0 h-full w-[100%]"
-        style={{
-          backgroundColor:`${expand?"rgb(0,0,0,0.6)":"transparent"}`,
-          transition: "all 0.2s linear",
-          pointerEvents: `${expand?"auto":"none"}`,
-          position: `${expand?"fixed":"absolute"}`,
-        }}></div> */}
+        
         <ItemModal
           key={id}
           onMouseEnter={() => setHover(id)}
@@ -114,7 +101,7 @@ const ModalCont = ({
           show={show}
           expand={expand}
           dvWidth={dvWidth}
-          data={data}
+          $data={data}
           bg={bg}
           title={title}
           movieID={movieID}
@@ -146,10 +133,7 @@ const ScrollItem = ({
   const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [modalContHeight, setModalContHeight] = useState("");
-  // const [title, setTitle] = useState();
   const itemRef = useRef();
-
-  // console.log("row", row);
 
   const mouseOverHandler = () => {
     setHover(id);

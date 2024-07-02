@@ -67,7 +67,6 @@ const Form = ({
         navigate('/browse')
       }
     } catch (err) {
-      // console.log(err.response.data.message);
       const error = err.response.data.message;
 
       if (error.includes("password")) {

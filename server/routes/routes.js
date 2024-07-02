@@ -21,7 +21,6 @@ const {getAllUsers,
     deleteSubProfile,
     getAllWatchList,
     addWatchList,
-    deleteWatchList,
     getProfileIcons} = require("../controllers/controllers");
 
 
@@ -58,7 +57,6 @@ Router.route('/:id/subProfiles/:subId')
 Router.route('/:id/subProfiles/:subId/watchlist')
 .get(getSubProfile,getAllWatchList)
 .post(getSubProfile,addWatchList,updateSubProfile,updateUser)
-.delete(getSubProfile,deleteWatchList,updateSubProfile,updateUser)
 
 //profile Icons Routes
 Router.route('/profileIcons')

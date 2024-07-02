@@ -317,33 +317,22 @@ exports.addWatchList = async (req, res, next) => {
   }
 };
 
-exports.deleteWatchList = async (req, res, next) => {
-  try {
-    const subProfile = req.subProfile[0];
+// exports.deleteWatchList = async (req, res, next) => {
+//   try {
+//     const watchListData =  [...req.body] ;
 
-    let watchList = subProfile.watchList;
-    const watchListData = { ...req.body };
+//     req.params.id = req.profileId;
+//     req.params.subId = req.subId;
+//     req.body = { watchList: watchListData };
 
-    watchList.forEach((item, index) => {
-      if (item.name === watchListData.name) {
-        watchList.splice(index, 1);
-      } else if (item.title === watchListData.title) {
-        watchList.splice(index, 1);
-      }
-    });
-
-    req.params.id = req.profileId;
-    req.params.subId = req.subId;
-    req.body = { watchList };
-
-    next();
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.message
-    });
-  }
-};
+//     next();
+//   } catch (err) {
+//     res.status(404).json({
+//       status: "fail",
+//       message: err.message
+//     });
+//   }
+// };
 
 exports.getProfileIcons = async (req, res) => {
   try {
