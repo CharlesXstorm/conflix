@@ -59,6 +59,15 @@ const ItemModal = ({
     setWatchIcon("remove-icon");
   };
   const removeWatchList = () => {
+    let watchListData = [...watchList]
+    watchListData.forEach((item)=>{
+      if (item.name === data.name) {
+        watchListData.splice(watchListData.indexOf(item), 1);
+      } else if (item.title === data.title) {
+        watchListData.splice(watchListData.indexOf(item), 1);
+      }
+    })
+    dispatch(setWatchList(watchListData));
     console.log("watchList removed");
     setWatchIcon("add-icon");
   };
@@ -72,8 +81,6 @@ const ItemModal = ({
   /////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
-    // console.log('watchlist',watchList,'data',data)
-
     if (watchList.length != 0) {
       for (var item of watchList) {
         if (item.name) {
