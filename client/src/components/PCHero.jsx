@@ -95,7 +95,8 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
       <NavScrollPC
         // key={index}
         position="absolute z-10 bottom-0 left-0"
-        $id={'hero'}
+        $id={"hero"}
+        $scrollContID={"hero" + `scroll` + "hero"}
         data={movie}
         count={6}
         hover={hover}

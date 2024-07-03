@@ -7,10 +7,16 @@ import ItemModal from "./NavItemModal";
 // import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
+const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext,id }) => {
   const nextHandler = () => {
     setNext(true);
-    scrollRef.current.scrollTo({
+    console.log('clicked next button')
+    // scrollRef.current.scrollTo({
+    //   behavior: "smooth",
+    //   left: Math.floor(finalScrollPos + scrollWidth)
+    // });
+    console.log(document.getElementById(id))
+    document.getElementById(id).scrollTo({
       behavior: "smooth",
       left: Math.floor(finalScrollPos + scrollWidth)
     });
@@ -29,13 +35,18 @@ const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev }) => {
+const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev,id }) => {
   const prevHandler = () => {
     setPrev(true);
-    scrollRef.current.scrollTo({
+    // scrollRef.current.scrollTo({
+    //   behavior: "smooth",
+    //   left: Math.floor(finalScrollPos - scrollWidth)
+    // });
+    document.getElementById(id).scrollTo({
       behavior: "smooth",
       left: Math.floor(finalScrollPos - scrollWidth)
     });
+
   };
 
   return (
@@ -91,7 +102,6 @@ const ModalCont = ({
         }}
         className="relative top-0 left-0 w-[100%]"
       >
-        
         <ItemModal
           key={id}
           onMouseEnter={() => setHover(id)}
@@ -192,7 +202,7 @@ const ScrollItem = ({
         onMouseOut={mouseOutHandler}
         className={
           // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-          // ${row === 2 ? "w-[calc((100%/6))]" : "w-[calc((100%/6))]"} 
+          // ${row === 2 ? "w-[calc((100%/6))]" : "w-[calc((100%/6))]"}
           `flex-none w-[calc((100%/6))] p-1 flex-none`
         }
       >
@@ -302,7 +312,7 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
+const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID}) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
@@ -318,9 +328,11 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
 
-  const { watchList } = useSelector((state) => state.account);
+  const { watchList,profile} = useSelector((state) => state.account);
 
   // console.log("row", $id, "title", data.title);
+  
+  console.log(profile.name,next,prev,page)
 
   useEffect(() => {
     // console.log('title',data.title,'movies',data.movies);
@@ -328,14 +340,42 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
     // setMovieList(null);
     // setChildren(null);
     // setScrollID(null);
-    if (data.movies.length > 0 ||  watchList.length > 0) {
-      let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
-      setList(data.title === "My List" ? [...watchList] : [...data.movies]);
-      setMovieList(
-        data.title === "My List" ? [...watchList] : [...data.movies]
-      );
-      setChildren(children);
-      setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+
+    // setNext(false)
+    // setPrev(false);
+    // setPage(0);
+    // if (data.movies.length > 0 ||  watchList.length > 0) {
+    //   let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
+    //   setList(data.title === "My List" ? [...watchList] : [...data.movies]);
+    //   setMovieList(
+    //     data.title === "My List" ? [...watchList] : [...data.movies]
+    //   );
+    //   setChildren(children);
+    //   setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+    // }
+    // setNext(false);
+    // setPrev(false);
+    // setPage(0);
+    if (data.title != "My List") {
+      if (data.movies.length > 0) {
+        let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
+        setChildren(children);
+        setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+        setList([...data.movies]);
+        setMovieList([...data.movies]);
+      }
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (data.title === "My List") {
+      if (watchList.length > 0) {
+        let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
+        setChildren(children);
+        setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+        setList([...watchList]);
+        setMovieList([...watchList]);
+      }
     }
   }, [watchList]);
 
@@ -361,7 +401,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
         setScrollWidth(scrollRef.current.getBoundingClientRect().width);
       }
     }
-  }, [scrollRef, data.movies, list]);
+  }, [data.movies, list]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -369,8 +409,10 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
       clearTimeout(scrollTimeOut);
       setScrollTimeOut(null);
     }
+    console.log('scrolling')
     //implement elastic scrolling////////////////////////////////////////////////////////////////////////
     if (initScrollPos != null && !next && !prev) {
+      console.log('next is not true')
       const newTimeoutID = setTimeout(() => {
         if (scrollRef.current.scrollLeft > initScrollPos) {
           //for swipe left
@@ -466,10 +508,11 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   if (data.movies.length > 0 || watchList.length > 0) {
     return (
       <>
-        {!movieList && 
-        <div className="w-[100%] h-[auto] ">
-          <img src='/images/loaderBG.jpg' />
-          </div>}
+        {!movieList && (
+          <div className="w-[100%] h-[auto] ">
+            <img src="/images/loaderBG.jpg" />
+          </div>
+        )}
         {movieList && children && scrollID && (
           <div
             className={`${position || "relative"} w-full ${
@@ -499,6 +542,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                     isPC={isPC}
                     scrollWidth={scrollWidth}
                     setNext={setNext}
+                    id={$scrollContID}
                   />
                   <Prev
                     scrollRef={scrollRef}
@@ -506,6 +550,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                     isPC={isPC}
                     scrollWidth={scrollWidth}
                     setPrev={setPrev}
+                    id={$scrollContID}
                   />
                 </>
               }
@@ -513,7 +558,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
               <div
                 ref={scrollRef}
                 onScroll={scrollHandler}
-                id="scrollNav"
+                id={$scrollContID}
                 className="flex relative flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
                 {list.map((item, index) => (

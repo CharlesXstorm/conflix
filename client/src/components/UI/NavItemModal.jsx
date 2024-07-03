@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +35,7 @@ const ItemModal = ({
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState();
 
-  const { watchList,profile,data} = useSelector((state) => state.account);
+  const { watchList, profile, data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   const expandHandler = () => {
@@ -55,7 +56,7 @@ const ItemModal = ({
 
   //handle watchList////////////////////////////////////////////////
   //add watchList to database
-  const addWatchListDB = async(watchData,userID,subID) => {
+  const addWatchListDB = async (watchData, userID, subID) => {
     try {
       const data = { ...watchData };
       const config = {
@@ -65,65 +66,73 @@ const ItemModal = ({
         }
       };
 
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/${userID}/subProfiles/${subID}/watchlist`,
+      await axios.post(
+        `${
+          import.meta.env.VITE_API_URL
+        }/${userID}/subProfiles/${subID}/watchlist`,
         data,
         config
       );
-      if(res){
-        console.log(res.data)
-      }
+      // if (res) {
+      //   console.log(res.data);
+      // }
     } catch (err) {
       const error = err.response.data.message;
-      console.log(error)
+      console.log(error);
     }
   };
-    //remove watchList from database
-    const removeWatchListDB = async(watchData,userID,subID) => {
-      try {
-        const data = { watchList: [...watchData] } ;
-        const config = {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-            withCredentials: true
-          }
-        };
-  
-        const res = await axios.patch(
-          `${import.meta.env.VITE_API_URL}/${userID}/subProfiles/${subID}`,
-          data,
-          config
-        );
-        if(res){
-          console.log(res.data)
+  //remove watchList from database
+  const removeWatchListDB = async (watchData, userID, subID) => {
+    try {
+      const data = { watchList: [...watchData] };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
         }
-      } catch (err) {
-        const error = err.response.data.message;
-        console.log(error)
-      }
-    };
+      };
+
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/${userID}/subProfiles/${subID}`,
+        data,
+        config
+      );
+      
+    } catch (err) {
+      const error = err.response.data.message;
+      console.log(error);
+    }
+  };
   //add watchList client/server side
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
     dispatch(setWatchList([watchListData, ...watchList]));
     setWatchIcon("remove-icon");
-    addWatchListDB(watchListData,data['_id'],profile.id)
+    addWatchListDB(watchListData, data["_id"], profile.id);
     console.log("watchList added");
   };
   //remove watchList client/server side
   const removeWatchList = () => {
-    let watchListData = [...watchList]
+    let watchListData = [...watchList];
+
     watchListData.forEach((item,index)=>{
-      if (item.name === $data.name) {
-        watchListData.splice(index, 1);
-      } else if (item.title === $data.title) {
-        watchListData.splice(index, 1);
+      if (item.name) {
+        console.log("itemNameEqual", item.name, $data.name);
+        item.name === $data.name
+          ? watchListData.splice(index, 1)
+          : null;
       }
+      if (item.title) {
+        console.log("itemTitleEqual", item.title, $data.title);
+        item.title === $data.title
+          ? watchListData.splice(index, 1)
+          : null;
+      }
+
     })
     dispatch(setWatchList(watchListData));
     setWatchIcon("add-icon");
-    // removeWatchListDB(watchListData,data['_id'],profile.id)
-    console.log("watchList removed");
+    removeWatchListDB(watchListData,data['_id'],profile.id)
   };
   //handle watchList logic
   const watchListHandler = () => {

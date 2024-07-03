@@ -11,7 +11,7 @@ import axios from "axios";
 import NavScrollPC from "../components/UI/NavScrollPC";
 import NavScrollMobile from "../components/UI/NavScrollMobile";
 
-const BrowseMovies = ({profile,data}) => {
+const BrowseMovies = ({ profile, data }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
   const [title, setTitle] = useState();
@@ -19,7 +19,7 @@ const BrowseMovies = ({profile,data}) => {
   const [$bg, set$bg] = useState();
 
   const { isPC, isTablet } = useSelector((state) => state.dvWidth);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // const { profile } = useSelector((state) => state.account);
   const { overflowValue } = useSelector((state) => state.feature);
 
@@ -141,6 +141,7 @@ const BrowseMovies = ({profile,data}) => {
               movie={browseMovies[0]}
               $data={hero}
               title={title}
+              profile={profile}
             />
           ) : (
             <MobileHero $data={hero} $bg={$bg} title={title} />
@@ -154,6 +155,7 @@ const BrowseMovies = ({profile,data}) => {
                       <NavScrollPC
                         key={index}
                         $id={index}
+                        $scrollContID={index + `scroll` + index}
                         data={item}
                         count={6}
                         hover={hover}
