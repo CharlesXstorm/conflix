@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ReactDOM from 'react-dom';
 import ProfileModal from './ProfileModal';
 
-const MovieNav = ({bgColor}) => {
+const MovieNav = ({bgColor, setAccountLoader}) => {
   const [click,setClick] = useState(false)
   const [modal,setModal] = useState(false)
   const [timeoutId,setTimeoutId] = useState(null)
@@ -188,7 +188,7 @@ useEffect(()=>{
     </div>
     
     {modal && ReactDOM.createPortal(
-        <ProfileModal onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler} />,
+        <ProfileModal onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler} setAccountLoader={setAccountLoader} setModal={setModal} setStyle={setStyle} />,
         document.getElementById("portal")
       )}
     </>

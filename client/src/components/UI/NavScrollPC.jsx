@@ -7,15 +7,15 @@ import ItemModal from "./NavItemModal";
 // import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext,id }) => {
+const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext, id }) => {
   const nextHandler = () => {
     setNext(true);
-    console.log('clicked next button')
+    // console.log("clicked next button", finalScrollPos, scrollWidth);
     // scrollRef.current.scrollTo({
     //   behavior: "smooth",
     //   left: Math.floor(finalScrollPos + scrollWidth)
     // });
-    console.log(document.getElementById(id))
+    // console.log(document.getElementById(id));
     document.getElementById(id).scrollTo({
       behavior: "smooth",
       left: Math.floor(finalScrollPos + scrollWidth)
@@ -35,7 +35,7 @@ const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext,id }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev,id }) => {
+const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev, id }) => {
   const prevHandler = () => {
     setPrev(true);
     // scrollRef.current.scrollTo({
@@ -46,7 +46,6 @@ const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev,id }) => {
       behavior: "smooth",
       left: Math.floor(finalScrollPos - scrollWidth)
     });
-
   };
 
   return (
@@ -202,8 +201,8 @@ const ScrollItem = ({
         onMouseOut={mouseOutHandler}
         className={
           // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-          // ${row === 2 ? "w-[calc((100%/6))]" : "w-[calc((100%/6))]"}
-          `flex-none w-[calc((100%/6))] p-1 flex-none`
+          `${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
+          flex-none p-1 flex-none`
         }
       >
         <div
@@ -312,7 +311,15 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID}) => {
+const NavScroll = ({
+  data,
+  position,
+  $id,
+  count,
+  hover,
+  setHover,
+  $scrollContID
+}) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
@@ -328,11 +335,11 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
 
-  const { watchList,profile} = useSelector((state) => state.account);
+  const { watchList, profile } = useSelector((state) => state.account);
 
   // console.log("row", $id, "title", data.title);
-  
-  console.log(profile.name,next,prev,page)
+
+  // console.log(profile.name, next, prev, page);
 
   useEffect(() => {
     // console.log('title',data.title,'movies',data.movies);
@@ -358,7 +365,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
     // setPage(0);
     if (data.title != "My List") {
       if (data.movies.length > 0) {
-        let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
+        let children = [...Array(Math.ceil(data.movies.length / ($id === 2 ? 5 : count))).keys()];
         setChildren(children);
         setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
         setList([...data.movies]);
@@ -370,7 +377,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
   useEffect(() => {
     if (data.title === "My List") {
       if (watchList.length > 0) {
-        let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
+        let children = [...Array(Math.ceil(watchList.length / count)).keys()];
         setChildren(children);
         setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
         setList([...watchList]);
@@ -396,12 +403,17 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
   }, [page]);
 
   useEffect(() => {
-    if (data.movies && list) {
-      if (scrollRef.current) {
-        setScrollWidth(scrollRef.current.getBoundingClientRect().width);
-      }
+    // if (data.movies && list) {
+    // if (scrollRef.current) {
+    if (movieList && children && scrollID) {
+      setScrollWidth(
+        document.getElementById($scrollContID).getBoundingClientRect().width
+      );
     }
-  }, [data.movies, list]);
+    // setScrollWidth(scrollRef.current.getBoundingClientRect().width);
+    // }
+    // }
+  }, [movieList, children, scrollID,$scrollContID]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -409,10 +421,10 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
       clearTimeout(scrollTimeOut);
       setScrollTimeOut(null);
     }
-    console.log('scrolling')
+    console.log("scrolling");
     //implement elastic scrolling////////////////////////////////////////////////////////////////////////
     if (initScrollPos != null && !next && !prev) {
-      console.log('next is not true')
+      console.log("next is not true");
       const newTimeoutID = setTimeout(() => {
         if (scrollRef.current.scrollLeft > initScrollPos) {
           //for swipe left
@@ -559,7 +571,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover,$scrollContID})
                 ref={scrollRef}
                 onScroll={scrollHandler}
                 id={$scrollContID}
-                className="flex relative flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
+                className="flex relative scrollNav flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
                 {list.map((item, index) => (
                   <ScrollItem

@@ -21,7 +21,7 @@ const pageVariants = {
   }
 };
 
-const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile}) => {
+const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile, setAccountLoader}) => {
   const { data } = useSelector((state) => state.account);
 
   let count = data.subProfile.length;
@@ -59,6 +59,7 @@ const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile}) => {
                   setAccountClick={setAccountClick}
                   setEditClick={setEditClick}
                   setAddProfile={setAddProfile}
+                  setAccountLoader={setAccountLoader}
                 />
               );
             })}

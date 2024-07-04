@@ -135,13 +135,11 @@ const ScrollItem = ({
   const navigate = useNavigate();
   const data = { groupType, movieType };
 
-  const handleClick = ()=>{
-    navigate(`/browse/${$id}`,{state:data})
-  }
+  const handleClick = () => {
+    navigate(`/browse/${$id}`, { state: data });
+  };
 
   const itemRef = useRef();
-
-  // console.log("row", row);
 
   return (
     <>
@@ -150,15 +148,21 @@ const ScrollItem = ({
         ref={itemRef}
         className={
           // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-           `flex-none ${row===2?"w-[calc((100%/2))]":"w-[calc((100%/3))] md:w-[calc((100%/4))]"} lg:w-[calc((100%/5))] p-1 flex-none`}
+          `flex-none ${
+            row === 2
+              ? "w-[calc((100%/2))]"
+              : "w-[calc((100%/3))] md:w-[calc((100%/4))]"
+          } lg:w-[calc((100%/5))] p-1 flex-none`
+        }
       >
         <div
           className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
         >
           {row != 2 && (
-            <div 
-            onClick={handleClick}
-            className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
+            <div
+              onClick={handleClick}
+              className="relative flex justify-center font-bold text-[5em] items-center overflow-clip"
+            >
               <img
                 style={{
                   display: `${loaded ? "block" : "none"}`
@@ -196,9 +200,10 @@ const ScrollItem = ({
           )}
 
           {row === 2 && (
-            <div 
-            onClick={handleClick}
-            className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip">
+            <div
+              onClick={handleClick}
+              className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip"
+            >
               <span
                 style={{
                   backgroundImage: `${svgNum}`
@@ -298,7 +303,15 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
+const NavScroll = ({
+  data,
+  position,
+  $id,
+  count,
+  hover,
+  setHover,
+  $scrollContID
+}) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
@@ -314,17 +327,35 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
 
-  // console.log("row", $id, "title", data.title);
+  const { watchList, profile } = useSelector((state) => state.account);
+
+  // console.log($id*1,  data.title);
 
   useEffect(() => {
-    if (data.movies) {
-      let children = [...Array(Math.ceil(data.movies.length / count)).keys()];
-      setList([...data.movies]);
-      setMovieList([...data.movies]);
-      setChildren(children);
-      setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+    if (data.title != "My List") {
+      if (data.movies.length > 0) {
+        let children = [...Array(Math.ceil(data.movies.length / ($id === 2 ? 2 : count))).keys()];
+        setList([...data.movies]);
+        setMovieList([...data.movies]);
+        setChildren(children);
+        setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+      }
     }
-  }, []);
+  }, [profile]);
+
+  useEffect(() => {
+    if (data.title === "My List") {
+      if (watchList.length > 0) {
+        let children = [
+          ...Array(Math.ceil(watchList.length / count)).keys()
+        ];
+        setChildren(children);
+        setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+        setList([...watchList]);
+        setMovieList([...watchList]);
+      }
+    }
+  }, [watchList]);
 
   useEffect(() => {
     if (list) {
@@ -343,12 +374,12 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   }, [page]);
 
   useEffect(() => {
-    if (data.movies && list) {
+    if (movieList && children && scrollID) {
       if (scrollRef.current) {
         setScrollWidth(scrollRef.current.getBoundingClientRect().width);
       }
     }
-  }, [scrollRef, data.movies, list]);
+  }, [movieList, children, scrollID, $scrollContID]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -450,7 +481,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
   };
   //scroll handler ends//////////////////////////////////////////////////////////////////////////////
 
-  if (data.movies) {
+  if (data.movies.length > 0 || watchList.length > 0) {
     return (
       <>
         {movieList && children && scrollID && (
@@ -482,6 +513,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                     isPC={isPC}
                     scrollWidth={scrollWidth}
                     setNext={setNext}
+                    id={$scrollContID}
                   />
                   <Prev
                     scrollRef={scrollRef}
@@ -489,6 +521,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                     isPC={isPC}
                     scrollWidth={scrollWidth}
                     setPrev={setPrev}
+                    id={$scrollContID}
                   />
                 </>
               }
@@ -497,7 +530,7 @@ const NavScroll = ({ data, position, $id, count, hover, setHover }) => {
                 ref={scrollRef}
                 onScroll={scrollHandler}
                 id="scrollNav"
-                className="flex relative flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
+                className="flex relative scrollNav flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
                 {list.map((item, index) => (
                   <ScrollItem

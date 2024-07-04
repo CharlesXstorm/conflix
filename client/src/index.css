@@ -11,7 +11,7 @@
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
-  font-family: 'roboto';
+  font-family: "roboto";
 }
 body {
   background-color: black;
@@ -30,31 +30,34 @@ html {
   filter: invert(100%);
 }
 
-#loader{
-  background-image:linear-gradient(to left, transparent 40%, #b4b4b4 60%, transparent);
+#loader {
+  background-image: linear-gradient(
+    to left,
+    transparent 40%,
+    #b4b4b4 60%,
+    transparent
+  );
   transform: translateX(0%);
   animation: load 1s linear infinite;
 }
 
-.player-wrapper{
-  overflow: hidden; 
+.player-wrapper {
+  overflow: hidden;
   transform: scale(1.5);
-
 }
 
-.scrollItem{
+.scrollItem {
   height: 9em;
 }
-.scrollTopItem{
+.scrollTopItem {
   /* height: 12em; */
   height: auto;
 }
 
 #lang {
-  
 }
 
-#scrollNav::-webkit-scrollbar{
+.scrollNav::-webkit-scrollbar {
   display: none;
 }
 
@@ -70,68 +73,67 @@ html {
   }
 } */
 
-@media only screen and (max-width:1920px) {
-  .scrollItem{
+@media only screen and (max-width: 1920px) {
+  .scrollItem {
     height: 9em;
   }
 }
 
-@media only screen and (max-width:1440px) {
-  .scrollItem{
+@media only screen and (max-width: 1440px) {
+  .scrollItem {
     height: 8em;
   }
 }
 
-@media only screen and (max-width:1280px) {
-  .scrollItem{
+@media only screen and (max-width: 1280px) {
+  .scrollItem {
     height: 7em;
   }
 }
 
-@media only screen and (max-width:1024px) {
-  .scrollItem{
+@media only screen and (max-width: 1024px) {
+  .scrollItem {
     height: 5em;
   }
 }
 
-@media only screen and (max-width:980px) {
-  .player-wrapper{
+@media only screen and (max-width: 980px) {
+  .player-wrapper {
     transform: scale(1.6);
   }
-  .scrollItem{
+  .scrollItem {
     height: 5em;
   }
 }
 
-@media only screen and (max-width:680px) {
-  .player-wrapper{
+@media only screen and (max-width: 680px) {
+  .player-wrapper {
     transform: scale(1.6);
   }
 }
-@media only screen and (max-width:380px) {
-  .player-wrapper{
+@media only screen and (max-width: 380px) {
+  .player-wrapper {
     transform: scale(1.4);
   }
 }
 
-@media only screen and (max-width:400px) {
-  #hero{
-    height: 55vh
+@media only screen and (max-width: 400px) {
+  #hero {
+    height: 55vh;
   }
 }
 
-@media only screen and (max-width:380px) {
-  #hero{
-    height: 65vh
+@media only screen and (max-width: 380px) {
+  #hero {
+    height: 65vh;
   }
 }
 
 @keyframes load {
-  0%{
+  0% {
     transform: translateX(0%);
   }
-  100%{
+  100% {
     transform: translateX(100%);
   }
 }
-

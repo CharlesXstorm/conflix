@@ -2,16 +2,22 @@
 // import React from 'react'
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { setProfile } from "../utils/profileSlice";
 
 //Button component
-const Button = ({ name, src, profile }) => {
+const Button = ({ name, src, profile, setAccountLoader, setModal,setStyle }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const clickHandler = () => {
     dispatch(setProfile(profile));
+    setAccountLoader(true);
+    navigate("/browse");
+    setStyle((prev)=> ({...prev,arrow:'rotate-90'}))
+    setModal(false);
   };
   return (
     <button
@@ -27,7 +33,7 @@ const Button = ({ name, src, profile }) => {
 };
 
 //Modal component
-const ProfileModal = ({ onMouseOver, onMouseOut}) => {
+const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setStyle}) => {
   const { data } = useSelector((state) => state.account);
 
   const logout = async () => {
@@ -70,6 +76,9 @@ const ProfileModal = ({ onMouseOver, onMouseOut}) => {
                   name={item.name}
                   src={item.img}
                   profile={item}
+                  setAccountLoader={setAccountLoader}
+                  setModal={setModal}
+                  setStyle={setStyle}
                 />
               )
           )}

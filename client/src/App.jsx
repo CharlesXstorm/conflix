@@ -24,6 +24,7 @@ function App() {
   // const [profileClick, setProfileClick] = useState(false)
   const[editClick,setEditClick] = useState(false)
   const [accountClick,setAccountClick] = useState(false)
+  const [accountLoader, setAccountLoader] = useState(false);
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
   const [addProfile,setAddProfile] = useState()
@@ -64,8 +65,8 @@ function App() {
       <Route path="logout" element={<Logout />} />
 
       <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
-        <Route path="browse" element={<BrowseShared accountClick={accountClick}/>}>
-          <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setAccountClick={setAccountClick} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+        <Route path="browse" element={<BrowseShared setAccountLoader={setAccountLoader} accountClick={accountClick}/>}>
+          <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />

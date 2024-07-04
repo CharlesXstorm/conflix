@@ -30,7 +30,7 @@ const EpisodeButton = ({buttonTitle,setButtonTitle, seasons})=>{
             </span>
           </button>
           {dropDown &&
-            <div className="absolute h-[7em] lg:h-[15em] overflow-scroll top-[3em] right-0 flex flex-col gap-2 border p-4 w-[14em] bg-[rgb(55,55,55,0.9)]">
+            <div className="absolute max-h-[7em] lg:max-h-[15em] overflow-y-auto overfow-x-hidden top-[3em] right-0 flex flex-col gap-2 border p-4 w-[14em] bg-[rgb(55,55,55,0.9)]">
             {seasons.map((item,index)=> <EpisodeButtonItem key={index} item={item} setButtonTitle={setButtonTitle} />)}
           </div>}
     </div>

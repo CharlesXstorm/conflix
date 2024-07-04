@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setProfile} from "../../utils/profileSlice";
 // import { Link } from "react-router-dom";
 
-const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,setAddProfile}) => {
+const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,setAddProfile,setAccountLoader}) => {
   const dispatch = useDispatch();
 
   const clickHandler = () => {
@@ -23,6 +23,7 @@ const IconButton = ({ name, src, edit, profile, setAccountClick,setEditClick,set
       return
     }
     if(profile.isProfile){
+      setAccountLoader(true)
       setAccountClick(true)
       setAddProfile(false)
       return

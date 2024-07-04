@@ -23,18 +23,17 @@ isoCountries.forEach((item) => {
 
 //browse movie controller
 exports.getAllBrowse = async (req, res) => {
-  // let region = req.body.region;
   let myList = req.body.myList;
 
   try {
     //get country with geolocation
-    // let region = await axios.get(`${process.env.GEOLOCATION_URL}?api_key=${process.env.GEOLOCATION_KEY}`)
-    // if(region){
-    //   region = region.data['country_code']
-    // }else{
-    //   region = "US"
-    // }
-    let region = "NG";
+    let region = await axios.get(`${process.env.GEOLOCATION_URL}`)
+    if(region){
+      region = region.data['country']
+    }else{
+      region = "US"
+    }
+  
 
     const nextWatch = await axios.get(
       `${url}/trending/all/day?language=en-US`,

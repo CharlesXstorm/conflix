@@ -11,12 +11,13 @@ import axios from "axios";
 import NavScrollPC from "../components/UI/NavScrollPC";
 import NavScrollMobile from "../components/UI/NavScrollMobile";
 
-const BrowseMovies = ({ profile, data }) => {
+const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
   const [title, setTitle] = useState();
   const [browseMovies, setBrowseMovies] = useState(null);
   const [$bg, set$bg] = useState();
+  const [timeOutID, setTimeoutID] = useState(null);
 
   const { isPC, isTablet } = useSelector((state) => state.dvWidth);
   const dispatch = useDispatch();
@@ -110,6 +111,10 @@ const BrowseMovies = ({ profile, data }) => {
 
   useEffect(() => {
     // if (profile.id) {
+    if (timeOutID) {
+      clearTimeout(timeOutID);
+      setTimeoutID(null);
+    }
     let movies = null;
     setBrowseMovies(null);
     setHero(null);
@@ -120,13 +125,17 @@ const BrowseMovies = ({ profile, data }) => {
     const fetch = async () => {
       getUpcomingMovies();
       movies = await getBrowseMovies(data);
-
+      // let newTimeoutID;
       if (movies) {
         setBrowseMovies(movies);
+        let newTimeoutID = setTimeout(() => {
+          setAccountLoaded(true);
+        }, 500);
+        setTimeoutID(newTimeoutID);
       }
     };
     fetch();
-    return;
+    return () => clearTimeout(timeOutID);
     // }
   }, [profile]);
 
@@ -195,8 +204,10 @@ const BrowseMovies = ({ profile, data }) => {
                     <NavScrollMobile
                       key={index}
                       $id={index}
+                      $scrollContID={index + `scroll` + index}
                       data={item}
-                      count={item.shortList ? 2 : isTablet ? 4 : 3}
+                      // count={item.shortList ? 2 : isTablet ? 4 : 3}
+                      count={isTablet ? 4 : 3}
                       hover={hover}
                       setHover={setHover}
                     />
