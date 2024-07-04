@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
 
 import Footer from "../components/Footer";
@@ -21,6 +22,7 @@ const Signin = () => {
               inputId:"loginPass"
           }}
           desc={{detail:null}}
+          // setAccountClick={setAccountClick}
         />
       </div>
       <Footer border="border-t-[0.2em] " />

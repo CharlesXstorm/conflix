@@ -2,9 +2,8 @@
 import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
-// import PCNavScroll from "./UI/PCNavScroll";
-import NavScrollPC from "../components/UI/NavScrollPC";
 import VideoPlayer from "./VideoPlayer";
+import NavScroll from "./UI/NavScroll";
 
 const PCHero = ({ hover, setHover, movie, $data, title }) => {
   const [playing, setPlaying] = useState(false);
@@ -84,16 +83,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
         )}
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none top-0 left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
-
-      {/* <PCNavScroll
-        position="absolute z-10 bottom-0 left-0"
-        $id={"hero"}
-        data={movie}
-        hover={hover}
-        setHover={setHover}
-      /> */}
-      <NavScrollPC
-        // key={index}
+      <NavScroll
         position="absolute z-10 bottom-0 left-0"
         $id={"hero"}
         $scrollContID={"hero" + `scroll` + "hero"}

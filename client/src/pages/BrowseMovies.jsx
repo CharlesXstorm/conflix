@@ -2,26 +2,22 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setWatchList } from "../utils/profileSlice";
-// import MobileNavScroll from "../components/UI/MobileNavScroll";
-// import PCNavScroll from "../components/UI/PCNavScroll";
+
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
-// import NavScroll from "../components/UI/NavScroll";
-import NavScrollPC from "../components/UI/NavScrollPC";
-import NavScrollMobile from "../components/UI/NavScrollMobile";
+import NavScroll from "../components/UI/NavScroll";
 
 const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState(null);
   const [browseMovies, setBrowseMovies] = useState(null);
   const [$bg, set$bg] = useState();
   const [timeOutID, setTimeoutID] = useState(null);
 
   const { isPC, isTablet } = useSelector((state) => state.dvWidth);
   const dispatch = useDispatch();
-  // const { profile } = useSelector((state) => state.account);
   const { overflowValue } = useSelector((state) => state.feature);
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
@@ -65,7 +61,6 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
 
   // get movie categories
   const getBrowseMovies = async (val) => {
-    // console.log("loading movies...",'profile',profile,'data',val);
     let myList = null;
     let watchList = null;
     let data = { myList: myList };
@@ -110,11 +105,11 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
   }, [overflowValue]);
 
   useEffect(() => {
-    // if (profile.id) {
     if (timeOutID) {
       clearTimeout(timeOutID);
       setTimeoutID(null);
     }
+
     let movies = null;
     setBrowseMovies(null);
     setHero(null);
@@ -125,7 +120,6 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
     const fetch = async () => {
       getUpcomingMovies();
       movies = await getBrowseMovies(data);
-      // let newTimeoutID;
       if (movies) {
         setBrowseMovies(movies);
         let newTimeoutID = setTimeout(() => {
@@ -134,9 +128,10 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
         setTimeoutID(newTimeoutID);
       }
     };
+
     fetch();
+
     return () => clearTimeout(timeOutID);
-    // }
   }, [profile]);
 
   return (
@@ -157,83 +152,19 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
           )}
 
           <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">
-            {isPC
-              ? browseMovies.map((item, index) => {
-                  if (index != 0) {
-                    return (
-                      <NavScrollPC
-                        key={index}
-                        $id={index}
-                        $scrollContID={index + `scroll` + index}
-                        data={item}
-                        count={6}
-                        hover={hover}
-                        setHover={setHover}
-                      />
-                    );
-                  }
-                  // if (item.shortList) {
-                  //   return (
-                  //     <NavScrollPC
-                  //       key={index}
-                  //       $id={index}
-                  //       data={item}
-                  //       count={5}
-                  //       hover={hover}
-                  //       setHover={setHover}
-                  //     />
-                  //   );
-                  // } else {
-                  //   if (index != 0) {
-                  //     return (
-                  //       <PCNavScroll
-                  //         key={index}
-                  //         $id={index}
-                  //         data={item}
-                  //         hover={hover}
-                  //         setHover={setHover}
-                  //       />
-                  //     );
-                  //   } else {
-                  //     return;
-                  //   }
-                  // }
-                })
-              : browseMovies.map((item, index) => {
-                  return (
-                    <NavScrollMobile
-                      key={index}
-                      $id={index}
-                      $scrollContID={index + `scroll` + index}
-                      data={item}
-                      // count={item.shortList ? 2 : isTablet ? 4 : 3}
-                      count={isTablet ? 4 : 3}
-                      hover={hover}
-                      setHover={setHover}
-                    />
-                  );
-                  // if (item.shortList) {
-                  //   return (
-                  //     <NavScrollMobile
-                  //       key={index}
-                  //       $id={index}
-                  //       data={item}
-                  //       count = {2}
-                  //       hover={hover}
-                  //       setHover={setHover}
-                  //     />
-                  //   )
-                  // } else {
-                  //   return (
-                  //     <MobileNavScroll
-                  //       key={index}
-                  //       $id={index}
-                  //       data={item}
-                  //       $bg={$bg}
-                  //     />
-                  //   );
-                  // }
-                })}
+            {browseMovies.map((item, index) =>
+              isPC && index === 0 ? null : (
+                <NavScroll
+                  key={index}
+                  $id={index}
+                  $scrollContID={index + `scroll` + index}
+                  data={item}
+                  count={isPC ? 6 : isTablet ? 4 : 3}
+                  hover={hover}
+                  setHover={setHover}
+                />
+              )
+            )}
           </div>
         </div>
       )}

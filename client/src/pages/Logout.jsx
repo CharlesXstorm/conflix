@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import HomeNav from "../components/HomeNav";
 import Button from "../components/UI/Button";
 
-const Logout = ({ setLoaded }) => {
+const Logout = () => {
   let [count, setCount] = useState(30);
 
   let navigate = useNavigate();

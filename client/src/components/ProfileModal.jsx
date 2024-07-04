@@ -33,8 +33,9 @@ const Button = ({ name, src, profile, setAccountLoader, setModal,setStyle }) => 
 };
 
 //Modal component
-const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setStyle}) => {
+const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setStyle,setAccountClick}) => {
   const { data } = useSelector((state) => state.account);
+  const navigate = useNavigate();
 
   const logout = async () => {
     try {
@@ -51,8 +52,10 @@ const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setS
     }
   };
 
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     logout();
+    setAccountClick(false)
+    navigate('/logout')
   };
 
   return (
@@ -110,13 +113,12 @@ const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setS
             <span className="text-[0.8em]">Help Center</span>
           </button>
         </div>
-        <Link
-          to="/logout"
+        <button
           onClick={logoutHandler}
           className="border-t-[1px] hover:underline items-center justify-center flex bg-[rgb(10,10,10)] py-4 "
         >
           <span className="text-[0.8em]">Sign out of Conflix</span>
-        </Link>
+        </button>
       </div>
     </div>
   );

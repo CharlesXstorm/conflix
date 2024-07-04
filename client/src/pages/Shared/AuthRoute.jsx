@@ -9,7 +9,7 @@ import { setData } from "../../utils/profileSlice";
 
 // import jsonData from "../../utils/user.json";
 
-const AuthRoute = ({ setAccountClick }) => {
+const AuthRoute = () => {
   const [auth, setAuth] = useState();
   const [ready, setReady] = useState();
 
@@ -36,7 +36,6 @@ const AuthRoute = ({ setAccountClick }) => {
 
   //getUser ////////////////////////
   useEffect(() => {
-    setAccountClick(false);
     const fetchData = async () => {
       const user = await getUser();
       if (!user) {

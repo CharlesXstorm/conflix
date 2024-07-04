@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MovieNav from "../../components/MovieNav";
 
-const BrowseShared = ({ accountClick, setAccountLoader }) => {
+const BrowseShared = ({ accountClick, setAccountLoader, setAccountClick }) => {
   const [bgColor, setBgColor] = useState("transparent");
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const BrowseShared = ({ accountClick, setAccountLoader }) => {
 
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
-      {accountClick && <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} />}
+      {accountClick && <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} />}
       <Outlet />
     </div>
   );

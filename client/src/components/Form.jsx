@@ -24,15 +24,16 @@ const Form = ({
   buttonName,
   buttonType,
   buttonSize,
-  context
+  context,
+  // setAccountClick
 }) => {
-  const [email, setEmail] = useState(context||"");
+  const [email, setEmail] = useState(context || "");
   const [pass, setPass] = useState("");
 
   const emailRef = useRef();
   const passRef = useRef();
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   const { emailError, passwordError } = useSelector((state) => state.validator);
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Form = ({
   };
 
   //login ////////////////////////////////////////////////
-  const login = async() => {
+  const login = async () => {
     try {
       const data = { email: email, password: pass };
       const config = {
@@ -63,8 +64,8 @@ const Form = ({
         data,
         config
       );
-      if(res){
-        navigate('/browse')
+      if (res) {
+        navigate("/browse");
       }
     } catch (err) {
       const error = err.response.data.message;
@@ -93,8 +94,8 @@ const Form = ({
         data,
         config
       );
-      if(res){
-        navigate('/browse')
+      if (res) {
+        navigate("/browse");
       }
     } catch (err) {
       // console.log(err.response.data.message);
@@ -110,6 +111,7 @@ const Form = ({
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // setAccountClick(false)
     switch (type) {
       case "login":
         login();
@@ -185,6 +187,10 @@ const Form = ({
               width="w-[100%]"
               align="self-center justify-center mt-3"
               span={{ have: false }}
+              onClick={() => {
+                setEmail("guest@conflix.com");
+                setPass("123456");
+              }}
             />
 
             <p className="flex justify-center p-4">Forgot password?</p>

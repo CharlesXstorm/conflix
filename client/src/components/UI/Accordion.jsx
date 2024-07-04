@@ -48,12 +48,12 @@ const Accordion = ({ header, body, id, clickedId, setClickedId }) => {
     <div className="flex flex-col justify-center item-center px-[1em] md:px-[5em] xl:px-[10em] mb-[1em] w-[100%]">
       {
         //accordion heading
-        <div className={`flex ${bg} flex-row item-center justify-between p-5  text-white transition-all duration-500 ease-in-out`}>
+        <button onClick={handleClick} className={`flex ${bg} flex-row item-center justify-between p-5  text-white transition-all duration-500 ease-in-out`}>
           <p className="text-center">{header}</p>
-          <button className="flex" onClick={handleClick}>
+          <span className="flex">
             <span className="material-symbols-outlined">{btn}</span>
-          </button>
-        </div>
+          </span>
+        </button>
       }
       {
         //accordion body
