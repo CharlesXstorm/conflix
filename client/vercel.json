@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path(.*)",
+      "destination": "https://netflixclone-gclo.onrender.com:path"
+    },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}

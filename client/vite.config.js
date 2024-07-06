@@ -12,19 +12,10 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: `${process.env.VITE_PROXY_URL}`,
-        changeOrigin: true
+        changeOrigin: true,
         // secure: false,
-        // rewrite: (path) => path.replace(/^\/api\/v1\/conflix/, '')
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
-    // Proxying API requests to the backend server running on localhost:5000
-    // proxy: {
-    //   "/api": {
-    //     target: "http://localhost:5000",
-    //     secure: false,
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\/api\//, '')
-    //   }
-    // }
   }
 });
