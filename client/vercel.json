@@ -4,6 +4,6 @@
       "source": "/api/:path(.*)",
       "destination": "https://netflixclone-gclo.onrender.com:path"
     },
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
