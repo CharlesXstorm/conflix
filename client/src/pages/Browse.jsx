@@ -21,7 +21,7 @@ const Browse = ({
 }) => {
   const [accountLoaded,setAccountLoaded] = useState(false)
   const { data, profile } = useSelector((state) => state.account);
-  // console.log(profile)
+  // console.log('profile',profile)
 
   const [timeOutID, setTimeoutID] = useState();
   useEffect(() => {

@@ -2,9 +2,12 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MovieNav from "../../components/MovieNav";
+import { useSelector } from "react-redux";
 
 const BrowseShared = ({ accountClick, setAccountLoader, setAccountClick }) => {
   const [bgColor, setBgColor] = useState("transparent");
+  const { data, profile } = useSelector((state) => state.account);
+  // console.log('profile',profile)
 
   useEffect(() => {
     const scrollFn = () => {
@@ -22,7 +25,8 @@ const BrowseShared = ({ accountClick, setAccountLoader, setAccountClick }) => {
 
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
-      {accountClick && <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} />}
+      <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} />
+      {/* {accountClick && <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} />} */}
       <Outlet />
     </div>
   );

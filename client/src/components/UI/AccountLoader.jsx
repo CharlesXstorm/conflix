@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
+// import { useSelector } from "react-redux";
+
 // import { useEffect, useState } from "react";
 
 const AccountLoader = ({ src, accountLoaded}) => {
-  
+  // const {profile} = useSelector((state)=> state.account)
   return (
     <div
       style={{

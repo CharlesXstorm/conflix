@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setFocus } from "../utils/profileSlice";
 import ReactDOM from "react-dom";
 import ProfileModal from "./ProfileModal";
 
-const NavLink = ({ nav, name, setFocus, focus }) => {
+const NavLink = ({ nav, name,focus }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const onClickHandler = () => {
-    setFocus({ [name]: true });
+    setFocus({ [name]: true, nav });
+    dispatch(setFocus({ [name]: true, nav }))
     navigate(nav);
   };
 
@@ -31,14 +34,16 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
   const [style, setStyle] = useState({
     contWidth: "w-[10%]",
     inputWidth: "w-[0%]",
+    cancelWidth: "w-[0%]",
     arrow: "rotate-90"
   });
-  const [focus, setFocus] = useState({
-    Home: true
-  });
+  // const [focus, setFocus] = useState({
+  //   Home: true,
+  //   nav: "/browse"
+  // });
 
   const { isPC } = useSelector((state) => state.dvWidth);
-  const { profile } = useSelector((state) => state.account);
+  const { profile, focus } = useSelector((state) => state.account);
   const navigate = useNavigate();
 
   const [navLinks] = useState([
@@ -63,21 +68,29 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
   const searchHandler = (e) => {
     setSearch(e.target.value);
     if (e.target.value.length) {
-      console.log("searching");
+      // console.log("searching");
       navigate('search')
-      // console.log(e.target.value.length)
     }else{
-      navigate("..")
+      // console.log(focus.nav)
+      navigate(focus.nav)
     }
   };
+
+  const cancelHandler = ()=>{
+    setSearch("");
+  }
 
   useEffect(() => {
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
+      // setFocus({
+      //   Home: true,
+      //   nav: "/browse"
+      // })
     };
-  }, [timeoutId]);
+  }, [timeoutId,profile]);
 
   const clickHandler = () => {
     switch (click) {
@@ -85,7 +98,8 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
         setStyle((prev) => ({
           ...prev,
           contWidth: "w-[10%]",
-          inputWidth: "w-[0%]"
+          inputWidth: "w-[0%]",
+          cancelWidth: "w-[0%]"
         }));
         setClick(false);
         break;
@@ -93,9 +107,11 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
         setStyle((prev) => ({
           ...prev,
           contWidth: "w-[60%] lg:w-[55%] bg-[rgb(0,0,0,0.8)] border",
-          inputWidth: "w-[100%]"
+          inputWidth: "w-[100%]",
+          cancelWidth: "flex",
         }));
         setClick(true);
+        document.getElementById("search").focus();
         break;
       default:
         break;
@@ -224,7 +240,7 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
                   key={index}
                   name={item.name}
                   nav={item.nav}
-                  setFocus={setFocus}
+                  // setFocus={setFocus}
                   focus={focus}
                 />
               ))}
@@ -245,16 +261,22 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
               </button>
               <input
                 id="search"
-                type="search"
+                type="text"
                 placeholder="Title, people, genres"
                 value={search}
                 onChange={searchHandler}
                 className={`bg-[transparent] focus:outline-none text-[rgb(150,150,150)] transition-all duration-1 ease-in-out  ${style.inputWidth}`}
               />
+              <button className={`flex ${style.cancelWidth}`}
+              onClick={cancelHandler}>
+                <span className="align-center w-[1em]">
+                  <img src="/images/cancel.svg" />
+                </span>
+              </button>
             </div>
           }
 
-          {isPC && <div className="py-1 align-center">{profile.name}</div>}
+          {isPC && profile && <div className="py-1 align-center">{profile.name}</div>}
           <button className="py-1 align-center">
             <span className="align-center">
               <img src="/images/notification.svg" className="w-[1.5em]" />
@@ -265,7 +287,7 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
             onMouseEnter={mouseOverHandler}
             onMouseLeave={mouseOutHandler}
           >
-            <img src={profile.img} className="w-[2em]" />
+            {profile && <img src={profile.img} className="w-[2em]" />}
             <span className="items-center flex">
               <img
                 src="/images/arrow.svg"

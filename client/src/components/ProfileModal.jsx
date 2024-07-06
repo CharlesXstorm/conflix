@@ -8,13 +8,37 @@ import { Link } from "react-router-dom";
 import { setProfile } from "../utils/profileSlice";
 
 //Button component
-const Button = ({ name, src, profile, setAccountLoader, setModal,setStyle }) => {
+const Button = ({ name, src, profile, setAccountLoader,setAccountClick, setModal,setStyle }) => {
+  const { data } = useSelector((state) => state.account);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const updateSelectedProfile = async (userID,profileInfo) => {
+    try {
+      const data = { selectedProfile: profileInfo };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/${userID}`,
+        data,
+        config
+      );
+    } catch (err) {
+      const error = err.response.data.message;
+      console.log(error);
+    }
+  };
+
   const clickHandler = () => {
     dispatch(setProfile(profile));
+    updateSelectedProfile(data['_id'],profile);
     setAccountLoader(true);
+    setAccountClick(true);
     navigate("/browse");
     setStyle((prev)=> ({...prev,arrow:'rotate-90'}))
     setModal(false);
@@ -80,6 +104,7 @@ const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setS
                   src={item.img}
                   profile={item}
                   setAccountLoader={setAccountLoader}
+                  setAccountClick={setAccountClick}
                   setModal={setModal}
                   setStyle={setStyle}
                 />

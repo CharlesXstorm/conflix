@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWatchList } from "../utils/profileSlice";
+import { setWatchList,setFocus } from "../utils/profileSlice";
 
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
@@ -109,6 +109,7 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
       clearTimeout(timeOutID);
       setTimeoutID(null);
     }
+    dispatch(setFocus({ 'Home': true, nav:"/browse" }))
 
     let movies = null;
     setBrowseMovies(null);

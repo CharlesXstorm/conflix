@@ -29,7 +29,7 @@ const BrowseHome = ({ setAccountClick, setEditClick, setAddProfile, setAccountLo
   return (
    
       <div
-      className="absolute z-10 flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden"
+      className="absolute z-[60] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden"
     >
       <motion.div 
       variants={pageVariants}

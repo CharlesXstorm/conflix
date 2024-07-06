@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const profileSlice = createSlice({
   name: "account",
-  initialState: { profile: null, data: null, watchList: [] },
+  initialState: { profile: null, data: null, watchList: [], focus: {} },
   reducers: {
     setProfile: (state, action) => {
       state.profile = { ...action.payload };
@@ -13,11 +13,14 @@ export const profileSlice = createSlice({
     },
     setData: (state, action) => {
       state.data = action.payload;
+    },
+    setFocus: (state, action) => {
+      state.focus = action.payload;
     }
   }
 });
 
 //Action creators are generated for each case reducer function
-export const { setProfile, setData, setWatchList } = profileSlice.actions;
+export const { setProfile, setData, setWatchList,setFocus } = profileSlice.actions;
 
 export default profileSlice.reducer;
