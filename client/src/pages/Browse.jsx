@@ -15,7 +15,8 @@ const Browse = ({
   addProfile,
   setAddProfile,
   setAccountLoader,
-  accountLoader
+  accountLoader,
+  setNavView
   // data,
   // profile
 }) => {
@@ -79,7 +80,7 @@ const Browse = ({
             </div>
           }
         >
-          <LazyBrowseMovies profile={profile} data={data} setAccountLoaded={setAccountLoaded} />
+          <LazyBrowseMovies profile={profile} data={data} setNavView={setNavView} setAccountLoaded={setAccountLoaded} />
         </Suspense>
       )}
     </div>

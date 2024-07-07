@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWatchList,setFocus } from "../utils/profileSlice";
+import { setWatchList} from "../utils/profileSlice";
+import { setFocus } from "../utils/featureSlice";
 
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
 import NavScroll from "../components/UI/NavScroll";
 
-const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
+const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
   const [title, setTitle] = useState(null);
@@ -23,7 +24,6 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
 
   const getUpcomingMovies = async () => {
-    // console.log("loading Upcoming...");
     const config = {
       headers: {
         accept: "application/json",
@@ -109,7 +109,7 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
       clearTimeout(timeOutID);
       setTimeoutID(null);
     }
-    dispatch(setFocus({ 'Home': true, nav:"/browse" }))
+    dispatch(setFocus({ Home: true, nav: "/browse" }));
 
     let movies = null;
     setBrowseMovies(null);
@@ -118,7 +118,7 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
     dispatch(setWatchList(profile.watchList));
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
 
-    const fetch = async () => {
+    const fetchMovies = async () => {
       getUpcomingMovies();
       movies = await getBrowseMovies(data);
       if (movies) {
@@ -130,8 +130,8 @@ const BrowseMovies = ({ profile, data, setAccountLoaded }) => {
       }
     };
 
-    fetch();
-
+    fetchMovies();
+    setNavView(true);
     return () => clearTimeout(timeOutID);
   }, [profile]);
 

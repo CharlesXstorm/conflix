@@ -1,12 +1,14 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { setFocus } from "../utils/profileSlice"
+import { setFocus } from "../utils/featureSlice";
 
-const GenreTV = () => {
+const GenreTV = ({setNavView}) => {
   const dispatch = useDispatch()
     
     useEffect(()=>{
+      setNavView(true)
       dispatch(setFocus({ 'TV Shows': true, nav:"genre/tv_shows" }))
     },[])
   return (

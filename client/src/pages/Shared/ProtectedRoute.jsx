@@ -2,15 +2,19 @@
 // import React from 'react'
 import { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import axios from "axios";
 
 import { setData,setProfile } from "../../utils/profileSlice";
 // import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({ setLoaded, addProfile, editClick }) => {
+const ProtectedRoute = ({ setLoaded, 
+  addProfile, 
+  editClick }) => {
   const [auth, setAuth] = useState();
   const [ready, setReady] = useState();
+
+  // const {profile} = useSelector((state)=> state.account)
 
   const dispatch = useDispatch();
 
@@ -50,6 +54,7 @@ const ProtectedRoute = ({ setLoaded, addProfile, editClick }) => {
         setLoaded(true);
       }
     };
+    // console.log('profile present',profile)
     fetchData();
   }, [addProfile, editClick]);
 

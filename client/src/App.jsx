@@ -32,7 +32,8 @@ function App() {
   const [accountLoader, setAccountLoader] = useState(false);
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
-  const [addProfile,setAddProfile] = useState()
+  const [addProfile,setAddProfile] = useState(false)
+  const [navView,setNavView] = useState(false)
   const { data, profile } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
@@ -70,13 +71,13 @@ function App() {
       <Route path="logout" element={<Logout />} />
 
       <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
-        <Route path="browse" element={<BrowseShared setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
-          <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+        <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
+          <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
-          <Route path='genre/movies' element={<GenreMovies/>} />
-          <Route path='genre/tv_shows' element={<GenreTV/>} />
-          <Route path='search' element={<Search/>} />
-          <Route path='mylist' element={<Mylist/>} />
+          <Route path='genre/movies' element={<GenreMovies setNavView={setNavView}/>} />
+          <Route path='genre/tv_shows' element={<GenreTV setNavView={setNavView}/>} />
+          <Route path='search' element={<Search setNavView={setNavView}/>} />
+          <Route path='mylist' element={<Mylist setNavView={setNavView}/>} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />
       </Route>

@@ -40,7 +40,7 @@ const IconButton = ({
   };
 
   const clickHandler = () => {
-    console.log('profile',profile)
+    // console.log('profile',profile)
     dispatch(setProfile(profile));
     updateSelectedProfile(data['_id'],profile);
 

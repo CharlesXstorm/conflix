@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-// import { useEffect, useState } from "react";
-
-const AccountLoader = ({ src, accountLoaded}) => {
-  // const {profile} = useSelector((state)=> state.account)
+const AccountLoader = ({ accountLoaded}) => {
+  const {profile} = useSelector((state)=> state.account)
   return (
     <div
       style={{
@@ -23,13 +21,11 @@ const AccountLoader = ({ src, accountLoaded}) => {
           />
         )}
         <img
-          src={src}
+          src={profile.img}
           style={{
             transition: "transform 2s ease-in-out, opacity 0.3s linear 1.7s"
-            // transition-all duration-[2s] ease-in-out
           }}
           className={`absolute 
-             
             ${
               accountLoaded
                 ? "opacity-0 w-[2em] translate-y-[calc(-50vh+1em+0.75rem)] lg:translate-y-[calc(-50vh+1em+1.25rem)] translate-x-[calc(50vw-1em-2.5rem)] md:translate-x-[calc(50vw-1em-3.25rem)] xl:translate-x-[calc(50vw-1em-4em-1rem)] "

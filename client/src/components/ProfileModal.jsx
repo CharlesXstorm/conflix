@@ -8,12 +8,22 @@ import { Link } from "react-router-dom";
 import { setProfile } from "../utils/profileSlice";
 
 //Button component
-const Button = ({ name, src, profile, setAccountLoader,setAccountClick, setModal,setStyle }) => {
+const Button = ({
+  name,
+  id,
+  src,
+  item,
+  setAccountLoader,
+  setAccountClick,
+  setModal,
+  setStyle
+}) => {
   const { data } = useSelector((state) => state.account);
+  const {profile} = useSelector((state)=> state.account)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const updateSelectedProfile = async (userID,profileInfo) => {
+  const updateSelectedProfile = async (userID, profileInfo) => {
     try {
       const data = { selectedProfile: profileInfo };
       const config = {
@@ -35,13 +45,15 @@ const Button = ({ name, src, profile, setAccountLoader,setAccountClick, setModal
   };
 
   const clickHandler = () => {
-    dispatch(setProfile(profile));
-    updateSelectedProfile(data['_id'],profile);
-    setAccountLoader(true);
-    setAccountClick(true);
-    navigate("/browse");
-    setStyle((prev)=> ({...prev,arrow:'rotate-90'}))
-    setModal(false);
+    if (id != profile.id) {
+      dispatch(setProfile(item));
+      updateSelectedProfile(data["_id"], item);
+      setAccountLoader(true);
+      setAccountClick(true);
+      navigate("/browse");
+      setStyle((prev) => ({ ...prev, arrow: "rotate-90" }));
+      setModal(false);
+    }
   };
   return (
     <button
@@ -57,7 +69,14 @@ const Button = ({ name, src, profile, setAccountLoader,setAccountClick, setModal
 };
 
 //Modal component
-const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setStyle,setAccountClick}) => {
+const ProfileModal = ({
+  onMouseOver,
+  onMouseOut,
+  setAccountLoader,
+  setModal,
+  setStyle,
+  setAccountClick
+}) => {
   const { data } = useSelector((state) => state.account);
   const navigate = useNavigate();
 
@@ -78,8 +97,8 @@ const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setS
 
   const logoutHandler = () => {
     logout();
-    setAccountClick(false)
-    navigate('/logout')
+    setAccountClick(false);
+    navigate("/logout");
   };
 
   return (
@@ -100,9 +119,10 @@ const ProfileModal = ({ onMouseOver, onMouseOut, setAccountLoader, setModal,setS
               item.isProfile && (
                 <Button
                   key={item.id}
+                  id={item.id}
                   name={item.name}
                   src={item.img}
-                  profile={item}
+                  item={item}
                   setAccountLoader={setAccountLoader}
                   setAccountClick={setAccountClick}
                   setModal={setModal}

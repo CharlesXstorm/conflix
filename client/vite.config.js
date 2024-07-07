@@ -10,11 +10,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
+      "/proxy": {
         target: `${process.env.VITE_PROXY_URL}`,
         changeOrigin: true,
         // secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api')
+        rewrite: (path) => path.replace(/^\/proxy/, '')
       }
     }
   }
