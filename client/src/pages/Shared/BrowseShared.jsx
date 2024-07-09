@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MovieNav from "../../components/MovieNav";
+import Footer from "../../components/Footer";
 // import { useSelector } from "react-redux";
 
 const BrowseShared = ({ accountClick, setAccountLoader, setAccountClick, navView }) => {
@@ -24,6 +25,7 @@ const BrowseShared = ({ accountClick, setAccountLoader, setAccountClick, navView
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
       {navView && <MovieNav bgColor={bgColor} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} />}
       <Outlet />
+      {navView && <Footer />}
     </div>
   );
 };

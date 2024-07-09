@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "./VideoPlayer";
-import NavScroll from "./UI/NavScroll";
+import {NavScroll} from "./UI/NavScroll";
 
 const PCHero = ({ hover, setHover, movie, $data, title }) => {
   const [playing, setPlaying] = useState(false);

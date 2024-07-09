@@ -311,7 +311,7 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({
+const NavScrollPC = ({
   data,
   position,
   $id,
@@ -624,4 +624,4 @@ const NavScroll = ({
   }
 };
 
-export default NavScroll;
+export default NavScrollPC;

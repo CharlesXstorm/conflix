@@ -7,7 +7,8 @@ import { setFocus } from "../utils/featureSlice";
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
-import NavScroll from "../components/UI/NavScroll";
+import {NavScroll} from "../components/UI/NavScroll";
+// import NavScrollPC from "../components/UI/NavScrollPC";
 
 const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
   const [hover, setHover] = useState(false);

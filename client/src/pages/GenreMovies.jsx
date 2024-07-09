@@ -2,7 +2,7 @@
 // import React from 'react'
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setFocus } from "../utils/featureSlice";
+import { setFocus} from "../utils/featureSlice";
 
 const GenreMovies = ({setNavView}) => {
   const dispatch = useDispatch();

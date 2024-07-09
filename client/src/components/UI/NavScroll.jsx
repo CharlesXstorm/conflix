@@ -7,13 +7,19 @@ import ItemModal from "./NavItemModal";
 import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ finalScrollPos, scrollWidth, setNext, id }) => {
+const Next = ({ finalScrollPos, scrollWidth, setNext, scrollRef, id }) => {
   const nextHandler = () => {
-    setNext(true);
-    document.getElementById(id).scrollTo({
-      behavior: "smooth",
-      left: Math.floor(finalScrollPos + scrollWidth)
+    console.log("Next scrollWidth", scrollWidth);
+    setNext((prev) => {
+      if (!prev) {
+        return true;
+      }
+      return true;
     });
+    // document.getElementById(id).scrollTo({
+    //   behavior: "smooth",
+    //   left: Math.floor(finalScrollPos + scrollWidth)
+    // });
   };
 
   return (
@@ -32,10 +38,10 @@ const Next = ({ finalScrollPos, scrollWidth, setNext, id }) => {
 const Prev = ({ finalScrollPos, scrollWidth, setPrev, id }) => {
   const prevHandler = () => {
     setPrev(true);
-    document.getElementById(id).scrollTo({
-      behavior: "smooth",
-      left: Math.floor(finalScrollPos - scrollWidth)
-    });
+    // document.getElementById(id).scrollTo({
+    //   behavior: "smooth",
+    //   left: Math.floor(finalScrollPos - scrollWidth)
+    // });
   };
 
   return (
@@ -117,7 +123,7 @@ const ModalCont = ({
 
 //scroll PC Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItemPC = ({
+export const ScrollItemPC = ({
   bg,
   bg_poster,
   row,
@@ -125,6 +131,7 @@ const ScrollItemPC = ({
   hover,
   setHover,
   id,
+  mb,
   data,
   movieType,
   svgNum
@@ -190,6 +197,7 @@ const ScrollItemPC = ({
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
+          ${mb || ""}
           flex-none p-1 flex-none`}
       >
         <div
@@ -197,15 +205,29 @@ const ScrollItemPC = ({
         >
           {row != 2 && (
             <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
-              <img
-                style={{
-                  display: `${loaded ? "block" : "none"}`
-                }}
-                src={`https://image.tmdb.org/t/p/w300/${bg}`}
-                className=" w-[100%] top-0 left-0 origin-[50%_0%]"
-                alt="bgImage"
-                onLoad={() => setLoaded(true)}
-              />
+              {bg ? (
+                <img
+                  style={{
+                    display: `${loaded ? "block" : "none"}`
+                  }}
+                  src={`https://image.tmdb.org/t/p/w300/${bg}`}
+                  className=" w-[100%] top-0 left-0 origin-[50%_0%]"
+                  alt="bgImage"
+                  onLoad={() => setLoaded(true)}
+                />
+              ) : (
+                <span className="lg:h-[0.9em] xl:h-[1em]">
+                  <img
+                    style={{
+                      display: `${loaded ? "block" : "none"}`
+                    }}
+                    src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                    className=" w-[100%] top-0 left-0 origin-[50%_0%]"
+                    alt="bgImage"
+                    onLoad={() => setLoaded(true)}
+                  />
+                </span>
+              )}
 
               <span
                 className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-4 pointer-events-none"
@@ -288,7 +310,7 @@ const ScrollItemPC = ({
 
 //scroll mobile Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItemMobile = ({
+export const ScrollItemMobile = ({
   bg_poster,
   row,
   id,
@@ -428,7 +450,7 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({
+export const NavScroll = ({
   data,
   position,
   $id,
@@ -437,7 +459,7 @@ const NavScroll = ({
   setHover,
   $scrollContID
 }) => {
-  const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
   const [page, setPage] = useState(0);
@@ -453,6 +475,8 @@ const NavScroll = ({
   const scrollRef = useRef(null);
 
   const { watchList, profile } = useSelector((state) => state.account);
+
+  console.log("scrollWidth", scrollWidth);
 
   useEffect(() => {
     if (data.title != "My List") {
@@ -493,6 +517,21 @@ const NavScroll = ({
   }, [list]);
 
   useEffect(() => {
+    if (next) {
+      scrollRef.current.scrollTo({
+        behavior: "smooth",
+        left: Math.floor(finalScrollPos + scrollWidth)
+      });
+    }
+    if (prev) {
+      scrollRef.current.scrollTo({
+        behavior: "smooth",
+        left: Math.floor(finalScrollPos - scrollWidth)
+      });
+    }
+  }, [next, prev]);
+
+  useEffect(() => {
     setBgSpan({ [page]: "bg-[rgb(120,120,120)]" });
     setNext(false);
     setPrev(false);
@@ -504,7 +543,7 @@ const NavScroll = ({
         document.getElementById($scrollContID).getBoundingClientRect().width
       );
     }
-  }, [movieList, children, scrollID, $scrollContID]);
+  }, [scrollID]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -561,11 +600,21 @@ const NavScroll = ({
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //detect when scrolling ends////////////////////////////////////////////////////////////////////////
+    // console.log(
+    //   "scrollRef",
+    //   scrollRef.current.scrollLeft,
+    //   finalScrollPos + scrollWidth,
+    //   "finalPos",
+    //   finalScrollPos,
+    //   "scrollWidth",
+    //   scrollWidth
+    // );
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
       scrollRef.current.scrollLeft === finalScrollPos + scrollWidth ||
-      scrollRef.current.scrollLeft === finalScrollPos - scrollWidth
+      scrollRef.current.scrollLeft === finalScrollPos - scrollWidth 
     ) {
+      console.log("scrollEnded");
       setInitScrollPos(scrollRef.current.scrollLeft);
       setFinalScrollPos(scrollRef.current.scrollLeft);
 
@@ -575,35 +624,33 @@ const NavScroll = ({
         } else {
           setPage((prev) => prev + 1);
         }
-      } else if (
-        scrollRef.current.scrollLeft ===
-        finalScrollPos - scrollWidth
-      ) {
+      }
+      if (scrollRef.current.scrollLeft === finalScrollPos - scrollWidth) {
         if (page === 0) {
           setPage(children.length - 1);
         } else {
           setPage((prev) => prev - 1);
         }
       }
-
-      if (scrollTimeOut) {
-        clearTimeout(scrollTimeOut);
-        setScrollTimeOut(null);
+    //get last child position to create infinite scroll///////////////////////////////////////////////
+      if (
+        scrollWidth -
+          Math.floor(
+            document
+              .getElementById(scrollID[list.length - 1])
+              .getBoundingClientRect().right
+          ) <= 2
+      ) {
+        console.log("last child reached");
+        setList((prev) => [...prev, ...movieList]);
       }
+      return;
+      // if (scrollTimeOut) {
+      //   clearTimeout(scrollTimeOut);
+      //   setScrollTimeOut(null);
+      // }
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //get last child position to create infinite scroll///////////////////////////////////////////////
-    if (
-      Math.ceil(
-        document
-          .getElementById(scrollID[list.length - 1])
-          .getBoundingClientRect().right
-      ) === scrollWidth
-    ) {
-      setList((prev) => [...prev, ...movieList]);
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////
   };
   //scroll handler ends//////////////////////////////////////////////////////////////////////////////
 
@@ -663,7 +710,7 @@ const NavScroll = ({
                 id={$scrollContID}
                 className="flex relative scrollNav flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
-                {list.map((item, index) => 
+                {list.map((item, index) =>
                   isPC ? (
                     <ScrollItemPC
                       key={index}
@@ -680,7 +727,7 @@ const NavScroll = ({
                       bg={item["backdrop_path"]}
                       bg_poster={item["poster_path"]}
                       data={item}
-                      dvWidth={dvWidth}
+                      dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
                       movieType={data.type || item["media_type"]}
@@ -702,14 +749,13 @@ const NavScroll = ({
                       bg={item["backdrop_path"] || item["poster_path"]}
                       bg_poster={item["poster_path"]}
                       data={item}
-                      dvWidth={dvWidth}
+                      dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
                       groupType={data.type}
                       movieType={item["media_type"]}
                     />
                   )
-                
                 )}
               </div>
             </div>
@@ -740,4 +786,4 @@ const NavScroll = ({
   }
 };
 
-export default NavScroll;
+// export default NavScroll;
