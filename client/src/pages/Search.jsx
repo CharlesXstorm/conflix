@@ -7,6 +7,7 @@ import { useLocalStorage } from "../utils/customHooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
+import PageLoader from "../components/UI/PageLoader";
 
 const Search = ({ setNavView }) => {
   const [searchResult, setSearchResult] = useState();
@@ -84,24 +85,43 @@ const Search = ({ setNavView }) => {
 
     if (!search) {
       // check if search query exists
-      navigate(`/browse/${storage.nav}`);
+      navigate(
+        isPC
+          ? storage.nav === "/browse"
+            ? "/browse"
+            : `/browse/${storage.nav}`
+          : "/browse"
+      );
     } else {
       fetchSearch();
     }
   }, [search]);
   return (
     <>
-      {searchLoaded && searchResult && actors && (
-        <div className="flex flex-col md:text-lg xl:text-xl gap-4 w-full min-h-[80vh] bg-black px-[1em] pt-[5em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
-          <div className="flex gap-2">
-            <p className="flex-none">More to explore:</p>
+      <div className="flex flex-col md:text-lg xl:text-xl gap-4 w-full min-h-[80vh] bg-black px-[1em] pt-[5em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
+        <div className="flex gap-2">
+          <p className="flex-none">More to explore:</p>
+          {searchLoaded && searchResult && actors && (
             <span>
               movies | movies | movies | movies | movies | movies | movies |
             </span>
-          </div>
+          )}
+        </div>
 
-          <div className="flex flex-wrap w-full h-[auto] border">
-            {searchResult.map((item, index) =>
+        <div className="flex flex-wrap w-full h-[auto]">
+          {
+            <div>
+              <PageLoader
+                type="search"
+                loaded={searchLoaded && searchResult && actors}
+              />
+            </div>
+          }
+          {
+          searchLoaded &&
+            searchResult &&
+            actors &&
+            searchResult.map((item, index) =>
               isPC ? (
                 <ScrollItemPC
                   key={index}
@@ -136,9 +156,8 @@ const Search = ({ setNavView }) => {
                 />
               )
             )}
-          </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

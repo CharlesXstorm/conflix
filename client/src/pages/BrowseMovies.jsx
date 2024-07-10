@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWatchList} from "../utils/profileSlice";
+import { setWatchList } from "../utils/profileSlice";
 import { setFocus } from "../utils/featureSlice";
 
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
-import {NavScroll} from "../components/UI/NavScroll";
+import { NavScroll } from "../components/UI/NavScroll";
+import PageLoader from "../components/UI/PageLoader";
 // import NavScrollPC from "../components/UI/NavScrollPC";
 
 const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
@@ -132,12 +133,18 @@ const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
     };
 
     fetchMovies();
+    // setAccountLoaded(true); //this is a test, delete this line after
     setNavView(true);
     return () => clearTimeout(timeOutID);
   }, [profile]);
 
   return (
     <>
+      {
+        <div>
+          <PageLoader type="movies" loaded={hero && browseMovies && title} />
+        </div>
+      }
       {hero && browseMovies && title && (
         <div className="relative font-[roboto] pb-[1em]">
           {isPC ? (

@@ -66,7 +66,7 @@ const NavLink = ({ nav, name, focus, setStyle, setClick }) => {
   );
 };
 
-const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
+const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
   const [click, setClick] = useState(false);
   const [modal, setModal] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
@@ -91,25 +91,6 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
       navigate(focus.nav);
     }
   };
-
-  // useEffect(() => {
-  //   if (search.length === 0) {
-  //     setStyle((prev) => ({
-  //       ...prev,
-  //       contWidth: "w-[10%]",
-  //       inputWidth: "w-[0%]",
-  //       cancelWidth: "w-[0%]",
-  //     }));
-  //   }
-  // }, [search]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (timeoutId) {
-  //       clearTimeout(timeoutId);
-  //     }
-  //   };
-  // }, [timeoutId,profile]);
 
   const clickHandler = () => {
     switch (click) {
@@ -174,7 +155,7 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
           backgroundColor: bgColor,
           transition: "all 0.4s linear"
         }}
-        className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
+        className=" border text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
           <span>
@@ -248,6 +229,22 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick }) => {
             </span>
           </div>
         </div>
+      </div>
+
+      <div className="absolute text-[1em] pl-[2em] left-0 z-[20] border border-blue-600 flex gap-4 lg:hidden">
+        {navLinks.map((item, index) =>
+          index !== 0 ? (
+            <span className="border-[2px] rounded-[16px] py-1 px-4 " key={index}>
+              <NavLink
+                name={item.name}
+                nav={item.nav}
+                focus={focus}
+                setStyle={setStyle}
+                setClick={setClick}
+              />
+            </span>
+          ) : null
+        )}
       </div>
 
       {modal &&

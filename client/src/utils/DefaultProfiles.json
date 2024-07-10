@@ -1,0 +1,18 @@
+[
+  {
+    "name": "profile01",
+    "src": "/images/profiles/blue.png"
+  },
+  {
+    "name": "profile02",
+    "src": "/images/profiles/green.png"
+  },
+  {
+    "name": "profile03",
+    "src": "/images/profiles/red.png"
+  },
+  {
+    "name": "profile04",
+    "src": "/images/profiles/yellow.png"
+  }
+]
