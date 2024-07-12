@@ -16,8 +16,8 @@ const Logout = () => {
       setCount((prev) => {
         console.log("count: ", prev);
         if (prev <= 1) {
-        //   setLoaded(false);
-        //   console.log("loaded false");
+          //   setLoaded(false);
+          //   console.log("loaded false");
           navigate("/");
           return;
         }
@@ -31,7 +31,7 @@ const Logout = () => {
   }, []);
 
   return (
-    <div className="relative text-white w-[100%] bg-[url('images/login-the-crown_2.jpg')] h-[100vh] bg-cover">
+    <div className="relative text-white w-[100%] bg-[url('/images/login-the-crown_2.jpg')] h-[100vh] bg-cover">
       <HomeNav
         button="link"
         to="/login"

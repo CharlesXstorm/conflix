@@ -37,7 +37,7 @@ const MobileHero = ({ $data, $bg, title }) => {
       style={{
         backgroundImage: `linear-gradient(0deg,rgb(${$bg},0.2) 45%,transparent)`
       }}
-      className="w-[100%] pt-[5em] flex items-center justify-center"
+      className="w-[100%] pt-[8em] flex items-center justify-center"
     >
       <div className="relative flex justify-center items-center  w-[90%] md:w-[80%] border-[2px] border-[rgb(120,120,120)] rounded-[12px] overflow-hidden">
         {/* {ready &&

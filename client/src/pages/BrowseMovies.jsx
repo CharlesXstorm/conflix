@@ -166,6 +166,7 @@ const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
                 <NavScroll
                   key={index}
                   $id={index}
+                  $bg={$bg}
                   $scrollContID={index + `scroll` + index}
                   data={item}
                   count={isPC ? 6 : isTablet ? 4 : 3}

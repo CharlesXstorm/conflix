@@ -8,6 +8,7 @@ import Episodes from "../components/Episodes";
 import MoreMovies from "../components/MoreMovies";
 import AboutMovie from "../components/AboutMovie";
 import PageLoader from "../components/UI/PageLoader";
+// import { useLocation } from "react-router-dom";
 // import Loader from "../components/UI/Loader";
 
 const MovieDetail = ({ movieType, movieID, bg }) => {
@@ -21,6 +22,8 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
   const { id } = useParams();
   const location = useLocation();
   const data = location.state;
+
+  // console.log('location',location,location.pathname === `/browse/${id}`)
 
   const $movieType = data ? data.groupType || data.movieType : movieType;
   const $id = id ? id : movieID;
@@ -167,13 +170,17 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
               </div>
 
               <div className="w-[100%] ">
-                <p>{$data.movie["overview"]}</p>
+                <p>{$data.movie["overview"].length>350?`${$data.movie["overview"].slice(0,350)}...`:$data.movie["overview"]}</p>
               </div>
 
-              {$movieType === "tv" && <Episodes $data={$data.movie} />}
+              {$movieType === "tv" && 
+              <Episodes 
+              $movieType = {$movieType}
+              $id = {$id}
+              $data={$data.movie} />}
 
               <MoreMovies />
-              <AboutMovie />
+              <AboutMovie $data={$data.movie} $movieType = {$movieType} />
 
               <div></div>
             </div>

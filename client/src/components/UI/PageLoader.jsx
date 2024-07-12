@@ -7,15 +7,13 @@ import Loader from "./Loader";
 const PageLoader = ({ type, loaded }) => {
   const { isPC } = useSelector((state) => state.dvWidth);
 
-  console.log("PC", isPC);
-
   return (
     <div
       style={{ display: `${loaded ? "none" : "block"}` }}
       className="min-h-[100vh] w-full lg:pt-0 overflow-hidden "
     >
       {type === "movies" && (
-        <div className="relative flex justify-center mt-[5em]  h-[80vh]">
+        <div className="relative flex justify-center mt-[8em] h-[70vh] lg:mt-0 lg:h-[85vh]">
           <div className="relative flex  w-[90%] md:w-[80%] border-[2px] border-[rgb(120,120,120)] rounded-[12px] lg:border-0 lg:rounded-none lg:w-full overflow-hidden">
             <Loader />
           </div>

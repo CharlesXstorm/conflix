@@ -454,6 +454,7 @@ export const NavScroll = ({
   data,
   position,
   $id,
+  $bg,
   count,
   hover,
   setHover,
@@ -476,7 +477,7 @@ export const NavScroll = ({
 
   const { watchList, profile } = useSelector((state) => state.account);
 
-  console.log("scrollWidth", scrollWidth);
+  console.log("bgColor", $bg);
 
   useEffect(() => {
     if (data.title != "My List") {
@@ -664,8 +665,11 @@ export const NavScroll = ({
         )}
         {movieList && children && scrollID && (
           <div
+          style={{
+            backgroundColor: `${$id===0 && !isPC ?`rgb(${$bg},0.2)`:""}`
+          }}
             className={`${position || "relative"} w-full ${
-              $id === 0 ? "pt-6" : ""
+              $id === 0 ? 'pt-6' : ""
             }`}
           >
             <div className="flex flex-row justify-between">

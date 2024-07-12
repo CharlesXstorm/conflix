@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch } from "../utils/featureSlice";
 import { useLocalStorage } from "../utils/customHooks";
@@ -66,10 +66,12 @@ const NavLink = ({ nav, name, focus, setStyle, setClick }) => {
   );
 };
 
-const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
+const MovieNav = ({ setAccountLoader, setAccountClick }) => {
   const [click, setClick] = useState(false);
   const [modal, setModal] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
+  const [bgColor, setBgColor] = useState("transparent");
+  const [scrollUp, setScrollUp] = useState(4.5);
   const [style, setStyle] = useState({
     contWidth: "w-[10%]",
     inputWidth: "w-[0%]",
@@ -82,6 +84,43 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
   const { focus, search } = useSelector((state) => state.feature);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { id } = useParams();
+  const location = useLocation();
+
+  let pathName = location.pathname;
+  console.log('path',pathName);
+
+  // console.log('location',location,location.pathname !== `/browse/${id}`)
+
+  ////////////////////////////////////////////////////
+
+  let initScrollY = 0;
+
+  console.log("scrolling up", scrollUp);
+
+  useEffect(() => {
+    const scrollFn = () => {
+      console.log("scroll", window.scrollY);
+      if (window.scrollY > 100) {
+        setBgColor("black");
+      } else {
+        setBgColor("transparent");
+      }
+
+      if (window.scrollY < initScrollY) {
+        setScrollUp((prev) => (prev > 4.4 ? 4.5 : prev + 0.1));
+      } else {
+        setScrollUp((prev) => (prev < 0.1 ? 0 : prev - 0.1));
+      }
+      initScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", scrollFn);
+
+    return () => removeEventListener("scroll", scrollFn);
+  }, []);
+  /////////////////////////////////////////////////
 
   const searchHandler = (e) => {
     dispatch(setSearch(e.target.value));
@@ -133,7 +172,6 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
-
     // Set a new timeout and save its ID
     if (isPC) {
       const newTimeoutId = setTimeout(() => {
@@ -155,7 +193,7 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
           backgroundColor: bgColor,
           transition: "all 0.4s linear"
         }}
-        className=" border text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
+        className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
           <span>
@@ -231,10 +269,27 @@ const MovieNav = ({ bgColor, setAccountLoader, setAccountClick,scrollUp }) => {
         </div>
       </div>
 
-      <div className="absolute text-[1em] pl-[2em] left-0 z-[20] border border-blue-600 flex gap-4 lg:hidden">
+      <div
+        style={{
+          top: `${scrollUp}em`,
+          opacity: `${scrollUp < 2 ? 0 : 1}`,
+          transition: "opacity 0.2s linear",
+          display: `${
+            !isPC
+              ? pathName !== `/browse/${id}`
+                ? "flex"
+                : "none"
+              : "none"
+          }`
+        }}
+        className="fixed text-[1em] pl-[2em] left-0 z-[10] gap-4"
+      >
         {navLinks.map((item, index) =>
           index !== 0 ? (
-            <span className="border-[2px] rounded-[16px] py-1 px-4 " key={index}>
+            <span
+              className="border-[2px] rounded-[16px] py-1 px-4 "
+              key={index}
+            >
               <NavLink
                 name={item.name}
                 nav={item.nav}

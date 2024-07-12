@@ -20,13 +20,13 @@ const Mylist = ({ setNavView }) => {
   return (
     <>
       {profile && (
-        <div className="flex flex-col md:text-lg xl:text-xl gap-4 xl:gap-8 w-full min-h-[80vh] bg-black px-[1em] pt-[5em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
+        <div className="flex flex-col md:text-lg xl:text-xl gap-4 xl:gap-8 w-full min-h-[80vh] bg-black px-[1em] pt-[8em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
           <div className="flex gap-2">
             <p className="flex-none text-[1.5em] xl:text-[2em]">My List</p>
           </div>
 
           {profile.watchList.length !== 0 ?
-            <div className="flex flex-wrap w-full h-[auto] border">
+            <div className="flex flex-wrap w-full h-[auto]">
             {profile.watchList.map((item, index) =>
               isPC ? (
                 <ScrollItemPC

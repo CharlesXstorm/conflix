@@ -11,42 +11,42 @@ const BrowseShared = ({
   setAccountClick,
   navView
 }) => {
-  const [bgColor, setBgColor] = useState("transparent");
-  const [scrollUp, setScrollUp] = useState()
-  let initScrollY = 0;
+  // const [bgColor, setBgColor] = useState("transparent");
+  // const [scrollUp, setScrollUp] = useState()
+  // let initScrollY = 0;
 
-  console.log('scrolling up',scrollUp)
+  // console.log('scrolling up',scrollUp)
 
-  useEffect(() => {
-    const scrollFn = () => {
-      // console.log('scrollEvent',window.scrollY,window);
-      if (window.scrollY > 100) {
-        setBgColor("black");
-      } else {
-        setBgColor("transparent");
-      }
+  // useEffect(() => {
+  //   const scrollFn = () => {
+  //     // console.log('scrollEvent',window.scrollY,window);
+  //     if (window.scrollY > 100) {
+  //       setBgColor("black");
+  //     } else {
+  //       setBgColor("transparent");
+  //     }
 
-      if (window.scrollY < initScrollY) {
-        setScrollUp(true);
-      } else {
-        setScrollUp(false);
-      }
-      initScrollY = window.scrollY;
-    };
+  //     if (window.scrollY < initScrollY) {
+  //       setScrollUp(true);
+  //     } else {
+  //       setScrollUp(false);
+  //     }
+  //     initScrollY = window.scrollY;
+  //   };
 
-    window.addEventListener("scroll", scrollFn);
+  //   window.addEventListener("scroll", scrollFn);
 
-    return () => removeEventListener("scroll", scrollFn);
-  }, []);
+  //   return () => removeEventListener("scroll", scrollFn);
+  // }, []);
 
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
       {navView && (
         <MovieNav
-          bgColor={bgColor}
+          // bgColor={bgColor}
           setAccountLoader={setAccountLoader}
           setAccountClick={setAccountClick}
-          scrollUp={scrollUp}
+          // scrollUp={scrollUp}
         />
       )}
       <Outlet />
