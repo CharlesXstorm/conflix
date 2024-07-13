@@ -3,6 +3,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from "../../utils/profileSlice";
 import axios from "axios";
+import { useSyncLocalStorage } from "../../utils/customHooks";
 // import { Link } from "react-router-dom";
 
 const IconButton = ({
@@ -18,31 +19,35 @@ const IconButton = ({
   const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
-  const updateSelectedProfile = async (userID,profileInfo) => {
-    try {
-      const data = { selectedProfile: profileInfo };
-      const config = {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-          withCredentials: true
-        }
-      };
+  // const [storages, setStorages] = useSyncLocalStorage({ key: "Profile", value: {"name":""} });
 
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/${userID}`,
-        data,
-        config
-      );
-    } catch (err) {
-      const error = err.response.data.message;
-      console.log(error);
-    }
-  };
+  // const updateSelectedProfile = async (userID,profileInfo) => {
+  //   try {
+  //     const data = { selectedProfile: profileInfo };
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+  //         withCredentials: true
+  //       }
+  //     };
+
+  //     await axios.patch(
+  //       `${import.meta.env.VITE_API_URL}/${userID}`,
+  //       data,
+  //       config
+  //     );
+  //   } catch (err) {
+  //     const error = err.response.data.message;
+  //     console.log(error);
+  //   }
+  // };
 
   const clickHandler = () => {
     // console.log('profile',profile)
+    setStorages({ key: "Profile", value: {"name":'boss'} });
+    // localStorage.setItem('Profile', JSON.stringify(profile));
     dispatch(setProfile(profile));
-    updateSelectedProfile(data['_id'],profile);
+    // updateSelectedProfile(data['_id'],profile);
 
     if (edit) {
       setEditClick((prev) => !prev);

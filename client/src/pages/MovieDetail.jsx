@@ -11,7 +11,7 @@ import PageLoader from "../components/UI/PageLoader";
 // import { useLocation } from "react-router-dom";
 // import Loader from "../components/UI/Loader";
 
-const MovieDetail = ({ movieType, movieID, bg }) => {
+const MovieDetail = ({ movieType, movieID, bg, genres }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [$data, set$Data] = useState(null);
@@ -23,14 +23,11 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
   const location = useLocation();
   const data = location.state;
 
-  // console.log('location',location,location.pathname === `/browse/${id}`)
-
   const $movieType = data ? data.groupType || data.movieType : movieType;
+  const $genres = data? data.genres : genres
   const $id = id ? id : movieID;
 
   const { isPC } = useSelector((state) => state.dvWidth);
-
-  // console.log('data',$data)
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -50,31 +47,51 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
       }
     };
     let result = {};
+    let moreMovies;
     try {
       let res;
+      let moreRes;
       if ($movieType === "movie") {
         res = await axios.get(
           `${import.meta.env.VITE_TMDB_URL}/movie/${$id}?language=en-US`,
           config
         );
+        moreRes = await axios.get(
+          `${
+            import.meta.env.VITE_TMDB_URL
+          }/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${$genres}`,
+          config
+        );
+
         result = { ...result, movieType: "movie" };
+        moreMovies = [...moreRes.data.results]
       } else {
         res = await axios.get(
           `${import.meta.env.VITE_TMDB_URL}/tv/${$id}?language=en-US`,
           config
         );
+        moreRes = await axios.get(
+          `${
+            import.meta.env.VITE_TMDB_URL
+          }/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${$genres}`,
+          config
+        );
         result = { ...result, movieType: "tv" };
+        moreMovies = [...moreRes.data.results]
+        // console.log('more like this', moreRes.data.results);
       }
 
       if (!res) {
         throw new Error("movie details not found");
       }
 
+    // console.log('more like this: ' + moreMovies)
       result = {
         ...result,
         movieSrc: `${res.data["backdrop_path"] || res.data["poster_path"]}`,
         movie: res.data,
-        movieID: `${res.data.id}`
+        movieID: `${res.data.id}`,
+        moreMovies: moreMovies
       };
 
       return result;
@@ -170,17 +187,23 @@ const MovieDetail = ({ movieType, movieID, bg }) => {
               </div>
 
               <div className="w-[100%] ">
-                <p>{$data.movie["overview"].length>350?`${$data.movie["overview"].slice(0,350)}...`:$data.movie["overview"]}</p>
+                <p>
+                  {$data.movie["overview"].length > 350
+                    ? `${$data.movie["overview"].slice(0, 350)}...`
+                    : $data.movie["overview"]}
+                </p>
               </div>
 
-              {$movieType === "tv" && 
-              <Episodes 
-              $movieType = {$movieType}
-              $id = {$id}
-              $data={$data.movie} />}
+              {$movieType === "tv" && (
+                <Episodes
+                  $movieType={$movieType}
+                  $id={$id}
+                  $data={$data.movie}
+                />
+              )}
 
-              <MoreMovies />
-              <AboutMovie $data={$data.movie} $movieType = {$movieType} />
+              <MoreMovies moreMovies={$data.moreMovies.slice(0,6)} />
+              <AboutMovie $data={$data.movie} $movieType={$movieType} />
 
               <div></div>
             </div>

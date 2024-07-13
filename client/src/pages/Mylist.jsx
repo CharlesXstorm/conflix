@@ -39,7 +39,7 @@ const Mylist = ({ setNavView }) => {
                   setHover={setHover}
                   id={index}
                   mb={"mb-[2em]"}
-                  data={item}
+                  $data={item}
                   movieType={item["media_type"]}
                   svgNum={null}
                 />
@@ -53,7 +53,7 @@ const Mylist = ({ setNavView }) => {
                   src={item.logo}
                   bg={item["backdrop_path"] || item["poster_path"]}
                   bg_poster={item["poster_path"]}
-                  data={item}
+                  $data={item}
                   dvWidth={dvWidth}
                   setHover={setHover}
                   hover={hover}

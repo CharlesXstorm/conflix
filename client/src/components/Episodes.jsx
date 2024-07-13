@@ -2,20 +2,22 @@
 // import React from 'react'
 
 import axios from "axios";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect,useRef, useState } from "react";
 
 //Episode Button Item//////////////////////////////////////////////////////////////////////////////////////////////
 const EpisodeButtonItem = ({ item, setButtonTitle }) => {
   return (
     <button
-      onClick={() => setButtonTitle({
-        "title": item.title,
-        "season_number": item['season_number']
-      })}
+      onClick={() =>
+        setButtonTitle({
+          title: item["name"],
+          season_number: item["season_number"]
+        })
+      }
       className="flex justify-between items-center"
     >
-      {item.title}
-      <span className="text-sm font-[400]">{`(${item.episodeCount} Episodes)`}</span>
+      {item.name}
+      <span className="text-sm font-[400]">{`(${item["episode_count"]} Episodes)`}</span>
     </button>
   );
 };
@@ -54,13 +56,13 @@ const EpisodeButton = ({ buttonTitle, setButtonTitle, seasons }) => {
 };
 
 //Episode List//////////////////////////////////////////////////////////////
-const EpisodeList = ({ seasons, $movieType, $id }) => {
+const EpisodeList = ({ seasonNum, $movieType, $id }) => {
   const [episodes, setEpisodes] = useState();
   const [click, setClick] = useState(true);
 
   const listRef = useRef();
 
-  console.log('episodeList seasons',seasons,'id',$id);
+  console.log("episodeList seasons", seasonNum, "id", $id);
 
   const btnClickHandler = () => {
     setClick((prev) => {
@@ -85,10 +87,11 @@ const EpisodeList = ({ seasons, $movieType, $id }) => {
         return;
       } else {
         res = await axios.get(
-          `${import.meta.env.VITE_TMDB_URL}/tv/${$id}/season/${seasons}?language=en-US`,
+          `${
+            import.meta.env.VITE_TMDB_URL
+          }/tv/${$id}/season/${seasonNum}?language=en-US`,
           config
         );
-        console.log("episode Results", res.data);
         setEpisodes(res.data);
       }
 
@@ -102,13 +105,13 @@ const EpisodeList = ({ seasons, $movieType, $id }) => {
 
   useEffect(() => {
     const fetch = async () => {
-      console.log("season", seasons);
       await getEpisodeDetails();
     };
-    if (seasons) {
+    if (seasonNum !== null) {
       fetch();
     }
-  }, [seasons]);
+  }, [seasonNum]);
+
   return (
     <>
       <div
@@ -180,77 +183,37 @@ const EpisodeItem = ({ item, id }) => {
 //Episode Component//////////////////////////////////////////////////////////////
 
 const Episodes = ({ $data, $movieType, $id }) => {
-  // const [buttonTitle, setButtonTitle] = useState("Season 1");
-  // const [seasons, setSeasons] = useState();
- 
-  const [buttonTitle, setButtonTitle] = useState(
-    {"title":$data['seasons'][0]['name'],"season_number":$data['seasons'][0]['season_number']});
-  
-   let seasons =  $data['seasons'].map((item)=>{
-      return {
-              "id": item["id"],
-              "title": item['name'],
-              "season_number": item['season_number'],
-              "episodeCount": item["episode_count"]
-            }
-    });
-  
-  console.log('dataSeasons', seasons)
-  console.log('btnTitle',buttonTitle)
-  // let seasons = [];
-  // for (var any of $data["seasons"]) {
-  //   seasons = [
-  //     ...seasons,
-  //     {
-  //       id: any["id"],
-  //       title: any['name'],
-  //       episodeCount: any["episode_count"]
-  //     }
-  //   ];
-  // }
+  const [buttonTitle, setButtonTitle] = useState({
+    title: $data["seasons"][0]["name"],
+    season_number: $data["seasons"][0]["season_number"]
+  });
 
-  // useEffect(() => {
-  //   let seasonList = [];
-  //   for (var i = 0; i < $data["number_of_seasons"]; i++) {
-  //     seasonList = [
-  //       ...seasonList,
-  //       {
-  //         id: $data["seasons"][i]["id"],
-  //         title: `Season ${i + 1}`,
-  //         episodeCount: $data["seasons"][i]["episode_count"]
-  //       }
-  //     ];
-  //   }
-  //   setSeasons(seasonList);
-  // }, [$data]);
   return (
     <>
-      { 
-      // seasons &&
-      (
+      {
         <div className="flex flex-col w-full gap-2 mt-4">
           <div className="flex justify-between items-center w-full">
             <p className="text-xl font-bold">Episodes</p>
             <EpisodeButton
-              seasons={seasons}
+              seasons={$data["seasons"]}
               buttonTitle={buttonTitle}
               setButtonTitle={setButtonTitle}
             />
           </div>
 
           <p className="text-sm mb-1">
-            {buttonTitle['title']}:{" "}
+            {buttonTitle["title"]}:{" "}
             <span className="border p-[0.5px] px-1 mx-1">18+</span>
             sex, nudity, language, suicide
           </p>
 
           <EpisodeList
-            seasons={buttonTitle['season_number']}
+            seasonNum={buttonTitle["season_number"]}
             $movieType={$movieType}
             $id={$id}
           />
         </div>
-      )}
+      }
     </>
   );
 };

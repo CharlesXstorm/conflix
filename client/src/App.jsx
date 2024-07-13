@@ -24,6 +24,8 @@ import GenreTV from "./pages/GenreTV.jsx";
 import Search from "./pages/Search.jsx";
 import Mylist from "./pages/Mylist.jsx";
 
+// let auth = true
+
 function App() {
   // const [profileClick, setProfileClick] = useState(false)
   const[editClick,setEditClick] = useState(false)
@@ -47,6 +49,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log('app renderings...')
     window.addEventListener("load", handleEvent);
     window.addEventListener("resize", handleEvent);
 
@@ -70,7 +73,7 @@ function App() {
 
       <Route path="logout" element={<Logout />} />
 
-      <Route element={<ProtectedRoute setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
+      <Route element={<ProtectedRoute  setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
         <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
           <Route index element={<Browse data={data} profile={profile} accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />

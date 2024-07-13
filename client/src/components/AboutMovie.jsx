@@ -16,7 +16,7 @@ const AboutItem = ({item}) => {
 };
 
 const AboutMovie = ({$data,$movieType}) => {
-  console.log("Episodes",$data,$movieType)
+
   let about
   if($movieType ==='tv'){
   about = [{'name':'Creators','info':$data['created_by'].map((item)=> item.name+', ')},

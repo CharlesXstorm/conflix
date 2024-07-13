@@ -89,19 +89,13 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
   const location = useLocation();
 
   let pathName = location.pathname;
-  console.log('path',pathName);
-
-  // console.log('location',location,location.pathname !== `/browse/${id}`)
 
   ////////////////////////////////////////////////////
 
   let initScrollY = 0;
 
-  console.log("scrolling up", scrollUp);
-
   useEffect(() => {
     const scrollFn = () => {
-      console.log("scroll", window.scrollY);
       if (window.scrollY > 100) {
         setBgColor("black");
       } else {

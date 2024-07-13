@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 // import React from 'react'
 
 //more item//////////////////////////////////////
-const MoreItem = ()=>{
+const MoreItem = ({item})=>{
 
   return(
     <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em]">
-          <div className="w-full"><img src="https://image.tmdb.org/t/p/w300/yWKPYjbkV8Bb9JLSKsX7KEQCuoh.jpg" alt="backdrop"/></div>
+          <div className="w-full"><img src={`https://image.tmdb.org/t/p/w300${item['backdrop_path']}`} alt="backdrop"/></div>
 
           <div className="flex flex-col">
 
@@ -20,9 +21,7 @@ const MoreItem = ()=>{
             </div>
 
             <p className="text-[0.8em]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              quis lacinia lectus, id posuere velit. Vestibulum ut libero nec dui
-              malesuada pellentesque. Nam pharetra congue lacus.
+            {`${item['overview'].slice(0,150)}...`}
             </p>
             
           </div>
@@ -31,18 +30,15 @@ const MoreItem = ()=>{
 }
 
 //more movies component//////////////////////////////////////////////////////////////
-const MoreMovies = () => {
+const MoreMovies = ({moreMovies}) => {
+  console.log('moreMovies', moreMovies)
   return (
     <div className="flex flex-col gap-4 mt-4 font-bold">
       <p className="text-xl">More Like This</p>
 
-      <div className="w-full flex gap-2 flex-wrap items-center justify-center">
-        <MoreItem />
-        <MoreItem />
-        <MoreItem />
-        <MoreItem />
-        <MoreItem />
-        <MoreItem />
+      <div className="w-full flex gap-2 flex-wrap justify-center">
+        
+       {moreMovies.map((item,index)=> <MoreItem key={index} item={item} />)}
       </div>
 
     </div>

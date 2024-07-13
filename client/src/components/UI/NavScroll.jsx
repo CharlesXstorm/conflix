@@ -7,19 +7,9 @@ import ItemModal from "./NavItemModal";
 import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ finalScrollPos, scrollWidth, setNext, scrollRef, id }) => {
+const Next = ({setNext}) => {
   const nextHandler = () => {
-    console.log("Next scrollWidth", scrollWidth);
-    setNext((prev) => {
-      if (!prev) {
-        return true;
-      }
-      return true;
-    });
-    // document.getElementById(id).scrollTo({
-    //   behavior: "smooth",
-    //   left: Math.floor(finalScrollPos + scrollWidth)
-    // });
+    setNext(true);
   };
 
   return (
@@ -35,13 +25,9 @@ const Next = ({ finalScrollPos, scrollWidth, setNext, scrollRef, id }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ finalScrollPos, scrollWidth, setPrev, id }) => {
+const Prev = ({ setPrev}) => {
   const prevHandler = () => {
     setPrev(true);
-    // document.getElementById(id).scrollTo({
-    //   behavior: "smooth",
-    //   left: Math.floor(finalScrollPos - scrollWidth)
-    // });
   };
 
   return (
@@ -132,7 +118,7 @@ export const ScrollItemPC = ({
   setHover,
   id,
   mb,
-  data,
+  $data,
   movieType,
   svgNum
 }) => {
@@ -168,11 +154,11 @@ export const ScrollItemPC = ({
               onMouseOut={mouseOutHandler}
               movieType={movieType}
               setHover={setHover}
-              data={data}
+              data={$data}
               id={id}
               bg={bg}
-              title={data.title || data.name}
-              movieID={data.id}
+              title={$data.title || $data.name}
+              movieID={$data.id}
               dvWidth={dvWidth}
               show={hover === id}
               left={Math.floor(itemRef.current.getBoundingClientRect().left)}
@@ -236,7 +222,7 @@ export const ScrollItemPC = ({
                   letterSpacing: "3px"
                 }}
               >
-                {data.title || data.name}
+                {$data.title || $data.name}
               </span>
 
               <div
@@ -317,11 +303,12 @@ export const ScrollItemMobile = ({
   $id,
   groupType,
   movieType,
-  svgNum
+  svgNum,
+  $data
 }) => {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-  const data = { groupType, movieType };
+  const data = { groupType, movieType, genres: $data["genre_ids"].join("%2C") };
 
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
@@ -477,8 +464,6 @@ export const NavScroll = ({
 
   const { watchList, profile } = useSelector((state) => state.account);
 
-  console.log("bgColor", $bg);
-
   useEffect(() => {
     if (data.title != "My List") {
       if (data.movies.length > 0) {
@@ -613,7 +598,7 @@ export const NavScroll = ({
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
       scrollRef.current.scrollLeft === finalScrollPos + scrollWidth ||
-      scrollRef.current.scrollLeft === finalScrollPos - scrollWidth 
+      scrollRef.current.scrollLeft === finalScrollPos - scrollWidth
     ) {
       console.log("scrollEnded");
       setInitScrollPos(scrollRef.current.scrollLeft);
@@ -633,14 +618,15 @@ export const NavScroll = ({
           setPage((prev) => prev - 1);
         }
       }
-    //get last child position to create infinite scroll///////////////////////////////////////////////
+      //get last child position to create infinite scroll///////////////////////////////////////////////
       if (
         scrollWidth -
           Math.floor(
             document
               .getElementById(scrollID[list.length - 1])
               .getBoundingClientRect().right
-          ) <= 2
+          ) <=
+        2
       ) {
         console.log("last child reached");
         setList((prev) => [...prev, ...movieList]);
@@ -665,11 +651,11 @@ export const NavScroll = ({
         )}
         {movieList && children && scrollID && (
           <div
-          style={{
-            backgroundColor: `${$id===0 && !isPC ?`rgb(${$bg},0.2)`:""}`
-          }}
+            style={{
+              backgroundColor: `${$id === 0 && !isPC ? `rgb(${$bg},0.2)` : ""}`
+            }}
             className={`${position || "relative"} w-full ${
-              $id === 0 ? 'pt-6' : ""
+              $id === 0 ? "pt-6" : ""
             }`}
           >
             <div className="flex flex-row justify-between">
@@ -730,7 +716,7 @@ export const NavScroll = ({
                       src={item.logo}
                       bg={item["backdrop_path"]}
                       bg_poster={item["poster_path"]}
-                      data={item}
+                      $data={item}
                       dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
@@ -752,7 +738,7 @@ export const NavScroll = ({
                       src={item.logo}
                       bg={item["backdrop_path"] || item["poster_path"]}
                       bg_poster={item["poster_path"]}
-                      data={item}
+                      $data={item}
                       dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}

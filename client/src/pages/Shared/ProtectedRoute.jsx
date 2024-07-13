@@ -8,7 +8,9 @@ import axios from "axios";
 import { setData,setProfile } from "../../utils/profileSlice";
 // import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({ setLoaded, 
+const ProtectedRoute = ({ 
+  // auths,
+  setLoaded, 
   addProfile, 
   editClick }) => {
   const [auth, setAuth] = useState();
@@ -54,8 +56,9 @@ const ProtectedRoute = ({ setLoaded,
         setLoaded(true);
       }
     };
+    fetchData()
     // console.log('profile present',profile)
-    fetchData();
+    // if(!auths){fetchData();}
   }, [addProfile, editClick]);
 
   return <>{ready && <>{auth ? <Outlet /> : <Navigate to="/" />}</>}</>;

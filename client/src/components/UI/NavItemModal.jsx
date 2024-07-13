@@ -215,12 +215,9 @@ const ItemModal = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={mouseLeave}
       style={{
-        // `calc(${window.scrollY}px + 4em)`
         top: `${!show ? top + "px" : show && !expand ? itemTop : expandTop}`,
         transition: "all 0.2s linear",
         opacity: `${show ? 1 : expandOpacity}`,
-        // width: `${show ? itemWidth : width + "px"}`,
-        // height: `${show ? itemHeight : height + "px"}`,
         width: `${!show ? width + "px" : show && !expand ? itemWidth : "50%"}`,
         height: `${
           !show ? height + "px" : show && !expand ? itemHeight : "110%"
@@ -233,7 +230,8 @@ const ItemModal = ({
     >
       {expand && (
         <>
-          <MovieDetail movieType={movieType} movieID={movieID} bg={bg} />
+          <MovieDetail movieType={movieType} movieID={movieID} bg={bg} 
+          genres={$data['genre_ids'].join('%2C')} />
           {
             //cancel button///////////
             <button
