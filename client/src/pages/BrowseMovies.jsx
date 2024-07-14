@@ -7,7 +7,7 @@ import { setFocus } from "../utils/featureSlice";
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
-import { NavScroll } from "../components/UI/NavScroll";
+import { NavScroll } from "../components/UI/NavScrollNew";
 import PageLoader from "../components/UI/PageLoader";
 // import NavScrollPC from "../components/UI/NavScrollPC";
 
