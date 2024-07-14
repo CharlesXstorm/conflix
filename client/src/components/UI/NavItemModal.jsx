@@ -35,8 +35,11 @@ const ItemModal = ({
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState();
 
-  const { watchList, profile, data } = useSelector((state) => state.account);
+  const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
+
+  let profile = JSON.parse(localStorage.getItem('Profile'));
+  let watchList = profile['watchList']
 
   const expandHandler = () => {
     // setTimeout(() => {setExpandTop("0px")},300)
@@ -73,9 +76,6 @@ const ItemModal = ({
         data,
         config
       );
-      // if (res) {
-      //   console.log(res.data);
-      // }
     } catch (err) {
       const error = err.response.data.message;
       console.log(error);
@@ -106,7 +106,8 @@ const ItemModal = ({
   //add watchList client/server side
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
-    dispatch(setWatchList([watchListData, ...watchList]));
+    // dispatch(setWatchList([watchListData, ...watchList]));
+    localStorage.setItem('Profile',JSON.stringify({...profile,watchList:[watchListData, ...watchList]}))
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
     console.log("watchList added");
@@ -130,7 +131,8 @@ const ItemModal = ({
       }
 
     })
-    dispatch(setWatchList(watchListData));
+    // dispatch(setWatchList(watchListData));
+    localStorage.setItem('Profile',JSON.stringify({...profile,watchList:watchListData}))
     setWatchIcon("add-icon");
     removeWatchListDB(watchListData,data['_id'],profile.id)
   };

@@ -7,18 +7,6 @@ import { useLocalStorage } from "../utils/customHooks";
 import ReactDOM from "react-dom";
 import ProfileModal from "./ProfileModal";
 
-// const useLocalStorage = (key,initValue)=>{
-//   const storedValue = localStorage.getItem(key);
-//   const init = storedValue? JSON.parse(storedValue) : initValue;
-
-//   const [value,setValue] = useState(init)
-
-//   useEffect(()=>{
-//     localStorage.setItem(key,JSON.stringify(value))
-//   },[key,value])
-
-//   return [value,setValue]
-// }
 const navLinks = [
   {
     name: "Home",
@@ -80,7 +68,6 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
   });
 
   const { isPC } = useSelector((state) => state.dvWidth);
-  const { profile } = useSelector((state) => state.account);
   const { focus, search } = useSelector((state) => state.feature);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -89,6 +76,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
   const location = useLocation();
 
   let pathName = location.pathname;
+  let profile = JSON.parse(localStorage.getItem("Profile"));
 
   ////////////////////////////////////////////////////
 
@@ -263,38 +251,34 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
         </div>
       </div>
 
-      <div
-        style={{
-          top: `${scrollUp}em`,
-          opacity: `${scrollUp < 2 ? 0 : 1}`,
-          transition: "opacity 0.2s linear",
-          display: `${
-            !isPC
-              ? pathName !== `/browse/${id}`
-                ? "flex"
-                : "none"
-              : "none"
-          }`
-        }}
-        className="fixed text-[1em] pl-[2em] left-0 z-[10] gap-4"
-      >
-        {navLinks.map((item, index) =>
-          index !== 0 ? (
-            <span
-              className="border-[2px] rounded-[16px] py-1 px-4 "
-              key={index}
-            >
-              <NavLink
-                name={item.name}
-                nav={item.nav}
-                focus={focus}
-                setStyle={setStyle}
-                setClick={setClick}
-              />
-            </span>
-          ) : null
-        )}
-      </div>
+      {!isPC && (
+        <div
+          style={{
+            top: `${scrollUp}em`,
+            opacity: `${scrollUp < 2 ? 0 : 1}`,
+            transition: "opacity 0.2s linear",
+            display: `${pathName !== `/browse/${id}` ? "flex" : "none"}`
+          }}
+          className="fixed text-[1em] pl-[2em] left-0 z-[10] gap-4"
+        >
+          {navLinks.map((item, index) =>
+            index !== 0 ? (
+              <span
+                className="border-[2px] rounded-[16px] py-1 px-4 "
+                key={index}
+              >
+                <NavLink
+                  name={item.name}
+                  nav={item.nav}
+                  focus={focus}
+                  setStyle={setStyle}
+                  setClick={setClick}
+                />
+              </span>
+            ) : null
+          )}
+        </div>
+      )}
 
       {modal &&
         ReactDOM.createPortal(

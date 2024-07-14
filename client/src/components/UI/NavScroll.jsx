@@ -586,15 +586,6 @@ export const NavScroll = ({
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //detect when scrolling ends////////////////////////////////////////////////////////////////////////
-    // console.log(
-    //   "scrollRef",
-    //   scrollRef.current.scrollLeft,
-    //   finalScrollPos + scrollWidth,
-    //   "finalPos",
-    //   finalScrollPos,
-    //   "scrollWidth",
-    //   scrollWidth
-    // );
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
       scrollRef.current.scrollLeft === finalScrollPos + scrollWidth ||
@@ -628,14 +619,10 @@ export const NavScroll = ({
           ) <=
         2
       ) {
-        console.log("last child reached");
         setList((prev) => [...prev, ...movieList]);
       }
       return;
-      // if (scrollTimeOut) {
-      //   clearTimeout(scrollTimeOut);
-      //   setScrollTimeOut(null);
-      // }
+
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
   };

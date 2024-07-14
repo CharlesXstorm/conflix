@@ -6,12 +6,11 @@ import { setFocus } from "../utils/featureSlice";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 
 const Mylist = ({ setNavView }) => {
-  const {profile } = useSelector((state) => state.account);
   const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
   const [hover, setHover] = useState(false);
   const dispatch = useDispatch();
 
-  // console.log('watchList', watchList,'profile',profile);
+  let profile = JSON.parse(localStorage.getItem('Profile'));
 
   useEffect(() => {
     setNavView(true);

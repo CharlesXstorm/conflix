@@ -35,16 +35,6 @@ const userSchema = new mongoose.Schema({
       }
     ]
   },
-  selectedProfile:{
-    type: Object,
-    default:{
-      id: 1,
-        name: "kids",
-        img: "https://dl.dropboxusercontent.com/scl/fi/k2lrec356rb6ecrjlh46c/kids.png?rlkey=t0wwdggp85hj0g562vc6u4apz&dl=0",
-        isProfile: true,
-        watchList: []
-    }
-  },
   createdAt: {
     type: Date,
     default: () => new Date(new Date().getTime() + 60 * 60 * 1000),

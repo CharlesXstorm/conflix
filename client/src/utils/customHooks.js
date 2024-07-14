@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 import { useEffect, useState } from "react";
 
 //custom Hook for local storage
@@ -16,18 +17,3 @@ export const useLocalStorage = (key, initValue) => {
   return [value, setValue];
 };
 
-//custom Hook for local storage
-export const useSyncLocalStorage = (file) => {
-  const storedValue = localStorage.getItem(file.key);
-  const init = storedValue? JSON.parse(storedValue): file.value;
-
-  //create a state variable
-  const [values, setValues] = useState(init);
-
-  //update local storage whenever state changes
-  // useEffect(() => {
-    localStorage.setItem(file.key, JSON.stringify(values));
-  // }, [file, values]);
-
-  return [values, setValues];
-};
