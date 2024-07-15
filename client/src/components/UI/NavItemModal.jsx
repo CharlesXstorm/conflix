@@ -106,7 +106,7 @@ const ItemModal = ({
   //add watchList client/server side
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
-    // dispatch(setWatchList([watchListData, ...watchList]));
+    dispatch(setWatchList([watchListData, ...watchList]));
     localStorage.setItem('Profile',JSON.stringify({...profile,watchList:[watchListData, ...watchList]}))
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
@@ -131,7 +131,7 @@ const ItemModal = ({
       }
 
     })
-    // dispatch(setWatchList(watchListData));
+    dispatch(setWatchList(watchListData));
     localStorage.setItem('Profile',JSON.stringify({...profile,watchList:watchListData}))
     setWatchIcon("add-icon");
     removeWatchListDB(watchListData,data['_id'],profile.id)

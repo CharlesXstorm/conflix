@@ -455,14 +455,14 @@ export const NavScroll = ({
   setHover,
   $scrollContID
 }) => {
-  // const { watchList } = useSelector((state) => state.account);
-  let watchList = JSON.parse(localStorage.getItem("Profile"))["watchList"];
+  const { watchList } = useSelector((state) => state.account);
+  // let watchList = JSON.parse(localStorage.getItem("Profile"))["watchList"];
 
   // let movieList = $data;
   const { isPC } = useSelector((state) => state.dvWidth);
-  const [list, setList] = useState(
-    data.title != "My List" ? [...data.movies] : [...watchList]
-  );
+  // const [list, setList] = useState(
+  //   data.title != "My List" ? [...data.movies] : [...watchList]
+  // );
   const [page, setPage] = useState(0);
 
   const [initScrollPos, setInitScrollPos] = useState(0);
@@ -474,7 +474,7 @@ export const NavScroll = ({
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
 
-  // let list = data.title != "My List" ? [...data.movies] : [...watchList];
+  let list = data.title != "My List" ? [...data.movies] : [...watchList];
   let $data = data.title != "My List" ? [...data.movies] : [...watchList];
 
   let bgSpan = { [page]: "bg-[rgb(120,120,120)]" };
@@ -488,6 +488,11 @@ export const NavScroll = ({
       Math.ceil($data.length / ($id === 2 ? (isPC ? 5 : 2) : count))
     ).keys()
   ];
+
+  const setList = () => {
+    //writ some code here
+    list.push($data)
+  };
 
   // console.log('page',page)
   console.log(
@@ -606,9 +611,9 @@ export const NavScroll = ({
           ) <=
         2
       ) {
-        setList((prev) => [...prev, ...$data]);
-        // list = [...list, ...$data];
-        // list.push($data)
+        // setList((prev) => [...prev, ...$data]);
+        setList()
+
       }
       return;
     }
