@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOverflow } from "../../utils/featureSlice";
 import { setWatchList } from "../../utils/profileSlice";
 import MovieDetail from "../../pages/MovieDetail";
+import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
+import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";
 // import { motion } from "framer-motion";
 
@@ -35,11 +37,29 @@ const ItemModal = ({
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState();
 
-  const { data } = useSelector((state) => state.account);
+  const { data, profile, watchList } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
-  let profile = JSON.parse(localStorage.getItem('Profile'));
-  let watchList = profile['watchList']
+  // let genres = movieType === 'movie'?$data['genre_ids'].map((item)=> {
+  //   movieGenre['genres'].forEach((genre)=> {
+  //     if(genre['id'] === item){
+  //       return genre['name']
+  //     }
+  //   })
+  // }):""
+
+  let genres = $data["genre_ids"].map((item) => {
+    (movieType === "movie" ? movieGenre["genres"] : tvGenre["genres"]).forEach(
+      (genre) => {
+        if (genre["id"] === item) {
+          return genre["name"];
+        }
+      }
+    );
+  });
+
+  // let profile = JSON.parse(localStorage.getItem('Profile'));
+  // let watchList = profile['watchList']
 
   const expandHandler = () => {
     // setTimeout(() => {setExpandTop("0px")},300)
@@ -97,7 +117,6 @@ const ItemModal = ({
         data,
         config
       );
-      
     } catch (err) {
       const error = err.response.data.message;
       console.log(error);
@@ -107,34 +126,35 @@ const ItemModal = ({
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
     dispatch(setWatchList([watchListData, ...watchList]));
-    localStorage.setItem('Profile',JSON.stringify({...profile,watchList:[watchListData, ...watchList]}))
+    localStorage.setItem(
+      "Profile",
+      JSON.stringify({ ...profile, watchList: [watchListData, ...watchList] })
+    );
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
-    console.log("watchList added");
+    // console.log("watchList added");
   };
   //remove watchList client/server side
   const removeWatchList = () => {
     let watchListData = [...watchList];
 
-    watchListData.forEach((item,index)=>{
+    watchListData.forEach((item, index) => {
       if (item.name) {
         console.log("itemNameEqual", item.name, $data.name);
-        item.name === $data.name
-          ? watchListData.splice(index, 1)
-          : null;
+        item.name === $data.name ? watchListData.splice(index, 1) : null;
       }
       if (item.title) {
         console.log("itemTitleEqual", item.title, $data.title);
-        item.title === $data.title
-          ? watchListData.splice(index, 1)
-          : null;
+        item.title === $data.title ? watchListData.splice(index, 1) : null;
       }
-
-    })
+    });
     dispatch(setWatchList(watchListData));
-    localStorage.setItem('Profile',JSON.stringify({...profile,watchList:watchListData}))
+    localStorage.setItem(
+      "Profile",
+      JSON.stringify({ ...profile, watchList: watchListData })
+    );
     setWatchIcon("add-icon");
-    removeWatchListDB(watchListData,data['_id'],profile.id)
+    removeWatchListDB(watchListData, data["_id"], profile.id);
   };
   //handle watchList logic
   const watchListHandler = () => {
@@ -172,10 +192,12 @@ const ItemModal = ({
   }, [show]);
 
   useEffect(() => {
+    console.log('dataModal',$data,'genres',genres)
     //reset default values on show change
-    setItemTop(`${top - 300 / 4}px`);
-    setItemWidth("300px");
-    setItemHeight("300px");
+
+    setItemWidth("400px");
+    setItemHeight("400px");
+    setItemTop(`${top - 400 / 6}px`);
     setMouseLeave(() => onMouseLeave);
 
     if (!show) {
@@ -201,13 +223,13 @@ const ItemModal = ({
     //check if screen size is below xl for elements between extreme right and left
     if (dvWidth <= 1680) {
       show
-        ? setInitPosition({ left: `${left - 300 / 12}px` })
+        ? setInitPosition({ left: `${left - 400 / 12}px` })
         : setInitPosition({ left: `${left}px` });
       return;
     }
     //otherwise, for elements between extreme right and left in a screen size of xl
     show
-      ? setInitPosition({ left: `${left - 300 / 60}px` })
+      ? setInitPosition({ left: `${left - 400 / 60}px` })
       : setInitPosition({ left: `${left}px` });
     return;
   }, [show, dvWidth, left, right]);
@@ -232,8 +254,12 @@ const ItemModal = ({
     >
       {expand && (
         <>
-          <MovieDetail movieType={movieType} movieID={movieID} bg={bg} 
-          genres={$data['genre_ids'].join('%2C')} />
+          <MovieDetail
+            movieType={movieType}
+            movieID={movieID}
+            bg={bg}
+            genres={$data["genre_ids"].join("%2C")}
+          />
           {
             //cancel button///////////
             <button

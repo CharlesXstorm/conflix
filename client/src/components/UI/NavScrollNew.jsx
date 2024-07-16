@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import ReactDOM from "react-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 import ItemModal from "./NavItemModal";
@@ -29,7 +29,7 @@ const Next = ({ setNext, scrollRef, finalScrollPos, scrollWidth }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth }) => {
+const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
   const prevHandler = () => {
     setPrev(true);
     scrollRef.current.scrollTo({
@@ -39,7 +39,14 @@ const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth }) => {
   };
 
   return (
-    <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
+    <div 
+    style={{
+      // display: `${prevBtn?'flex':'none'}`,
+      width : `${prevBtn?'3em':'0em'}`,
+    opacity: `${prevBtn?1:0}`,
+  transition: "all 0.2s linear"
+  }}
+    className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
@@ -456,27 +463,22 @@ export const NavScroll = ({
   $scrollContID
 }) => {
   const { watchList } = useSelector((state) => state.account);
-  // let watchList = JSON.parse(localStorage.getItem("Profile"))["watchList"];
+  let $data = data.title != "My List" ? [...data.movies] : [...watchList];
 
-  // let movieList = $data;
   const { isPC } = useSelector((state) => state.dvWidth);
-  // const [list, setList] = useState(
-  //   data.title != "My List" ? [...data.movies] : [...watchList]
-  // );
+  const [list, setList] = useState($data);
+
   const [page, setPage] = useState(0);
 
   const [initScrollPos, setInitScrollPos] = useState(0);
   const [finalScrollPos, setFinalScrollPos] = useState(0);
   const [next, setNext] = useState(false);
   const [prev, setPrev] = useState(false);
-  const [scrollWidth, setScrollWidth] = useState();
+  const[prevBtn,setPrevBtn] = useState(false)
+  const [scrollWidth, setScrollWidth] = useState(null);
 
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
-
-  let list = data.title != "My List" ? [...data.movies] : [...watchList];
-  let $data = data.title != "My List" ? [...data.movies] : [...watchList];
-
   let bgSpan = { [page]: "bg-[rgb(120,120,120)]" };
 
   let scrollID = [...Array(list.length).fill(`scrollID_${$id}`)].map(
@@ -489,31 +491,14 @@ export const NavScroll = ({
     ).keys()
   ];
 
-  const setList = () => {
-    //writ some code here
-    list.push($data)
-  };
-
-  // console.log('page',page)
-  console.log(
-    data.title === "My List"
-      ? "watchList" +
-          " " +
-          watchList.length +
-          " " +
-          $data.length +
-          " List " +
-          list.length
-      : null
-  );
-
   useEffect(() => {
-    if ($data && children) {
-      setScrollWidth(
-        document.getElementById($scrollContID).getBoundingClientRect().width
+    if (scrollRef.current && scrollWidth === null) {
+       setScrollWidth(
+        scrollRef.current.getBoundingClientRect().width
       );
     }
-  }, []);
+    setList($data);
+  }, [watchList]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -568,7 +553,7 @@ export const NavScroll = ({
       setScrollTimeOut(newTimeoutID);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    // console.log('scrolling',scrollRef.current.scrollLeft,finalScrollPos,scrollWidth)
     //detect when scrolling ends////////////////////////////////////////////////////////////////////////
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
@@ -582,7 +567,12 @@ export const NavScroll = ({
         setNext(false);
         setPrev(false);
       };
-
+      if(scrollRef.current.scrollLeft===0){
+        setPrevBtn(false)
+      }
+      if(scrollRef.current.scrollLeft===scrollWidth){
+        setPrevBtn(true)
+      }
       if (scrollRef.current.scrollLeft === finalScrollPos + scrollWidth) {
         if (page === children.length - 1) {
           setPage(0);
@@ -611,9 +601,7 @@ export const NavScroll = ({
           ) <=
         2
       ) {
-        // setList((prev) => [...prev, ...$data]);
-        setList()
-
+        setList((prev) => [...prev, ...$data]);
       }
       return;
     }
@@ -663,13 +651,14 @@ export const NavScroll = ({
                     setNext={setNext}
                     id={$scrollContID}
                   />
-                  <Prev
+                   <Prev
                     scrollRef={scrollRef}
                     finalScrollPos={finalScrollPos}
                     isPC={isPC}
                     scrollWidth={scrollWidth}
                     setPrev={setPrev}
                     id={$scrollContID}
+                    prevBtn={prevBtn}
                   />
                 </>
               }

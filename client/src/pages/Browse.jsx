@@ -17,20 +17,19 @@ const Browse = ({
   setAccountLoader,
   accountLoader,
   setNavView
-  // data,
-  // profile
 }) => {
-  const [accountLoaded,setAccountLoaded] = useState(false)
+  const [accountLoaded, setAccountLoaded] = useState(false);
   const { data, profile } = useSelector((state) => state.account);
-  // console.log('profile',profile)
 
   const [timeOutID, setTimeoutID] = useState();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (timeOutID) {
       clearTimeout(timeOutID);
     }
     if (accountLoaded) {
-        console.log('setAccountLoader')
       let newTimeoutID = setTimeout(() => {
         setAccountLoader(false);
         setAccountLoaded(false);
@@ -68,7 +67,11 @@ const Browse = ({
       {accountLoader &&
         loaded &&
         ReactDOM.createPortal(
-          <AccountLoader src={profile.img} accountLoaded={accountLoaded} setAccountLoader />,
+          <AccountLoader
+            src={profile.img}
+            accountLoaded={accountLoaded}
+            setAccountLoader
+          />,
           document.getElementById("portal")
         )}
 
@@ -80,7 +83,12 @@ const Browse = ({
             </div>
           }
         >
-          <LazyBrowseMovies profile={profile} data={data} setNavView={setNavView} setAccountLoaded={setAccountLoaded} />
+          <LazyBrowseMovies
+            profile={profile}
+            data={data}
+            setNavView={setNavView}
+            setAccountLoaded={setAccountLoaded}
+          />
         </Suspense>
       )}
     </div>

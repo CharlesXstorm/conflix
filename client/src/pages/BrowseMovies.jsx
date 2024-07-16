@@ -82,7 +82,9 @@ const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
       );
 
       if (watchList) {
+        // console.log('watchList Fetch',watchList.data.data.length)
         if (watchList.data.data.length > 0) {
+          dispatch(setWatchList(watchList.data.data));
           myList = watchList.data.data;
         } else {
           myList = null;
@@ -111,13 +113,13 @@ const BrowseMovies = ({ profile, data, setNavView, setAccountLoaded }) => {
       clearTimeout(timeOutID);
       setTimeoutID(null);
     }
+   
     dispatch(setFocus({ Home: true, nav: "/browse" }));
 
     let movies = null;
     setBrowseMovies(null);
     setHero(null);
     setTitle(null);
-    dispatch(setWatchList(profile.watchList));
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
 
     const fetchMovies = async () => {

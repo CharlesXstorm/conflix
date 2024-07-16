@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch } from "../utils/featureSlice";
 import { useLocalStorage } from "../utils/customHooks";
@@ -178,9 +178,9 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
         className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
-          <span>
+          <Link to='/browse'>
             <img className="w-[5em] xl:w-[6em]" src="/images/conflix.svg" />
-          </span>
+          </Link>
           {isPC && (
             <div className="flex flex-row text-sm justify-center gap-4">
               {navLinks.map((item, index) => (
