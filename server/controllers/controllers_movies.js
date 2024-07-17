@@ -30,13 +30,12 @@ exports.getAllBrowse = async (req, res) => {
 
   try {
     //get country with geolocation
-    let region = await axios.get(`${process.env.GEOLOCATION_URL}`)
-    if(region){
-      region = region.data['country']
-    }else{
-      region = "US"
+    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
+    if (region) {
+      region = region.data["country"];
+    } else {
+      region = "US";
     }
-  
 
     const nextWatch = await axios.get(
       `${url}/trending/all/day?language=en-US`,
@@ -222,16 +221,15 @@ exports.getAllTvshows = async (req, res) => {
 
   try {
     //get country with geolocation
-    let region = await axios.get(`${process.env.GEOLOCATION_URL}`)
-    if(region){
-      region = region.data['country']
-    }else{
-      region = "US"
+    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
+    if (region) {
+      region = region.data["country"];
+    } else {
+      region = "US";
     }
-  
 
     const nextWatch = await axios.get(
-      `${url}/trending/all/day?language=en-US`,
+      `${url}/trending/tv/day?language=en-US`,
       config
     );
     const crimeTvshows = await axios.get(
@@ -254,7 +252,7 @@ exports.getAllTvshows = async (req, res) => {
       `${url}/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&screened_theatrically=true&sort_by=popularity.desc&vote_average.gte=9&with_genres=18`,
       config
     );
-    
+
     const myList = req.body.myList || [];
 
     const olderKids = await axios.get(
@@ -324,7 +322,7 @@ exports.getAllTvshows = async (req, res) => {
       },
       {
         _id: 5,
-        title: `Bingeworth TV Dramas`,
+        title: `Bingeworthy TV Dramas`,
         type: "tv",
         shortList: false,
         movies: bingWorthy.data.results.slice(0, 18)

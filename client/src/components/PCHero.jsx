@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "./VideoPlayer";
 import {NavScroll} from "./UI/NavScrollNew";
 
-const PCHero = ({ hover, setHover, movie, $data, title }) => {
+const PCHero = ({ hover, setHover, movie,movieType, $data, title }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
@@ -101,7 +101,8 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
             className="flex flex-col transition-all duration-1000 ease-in-out origin-[0%_100%]"
           >
             <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%] pointer-events-none">
-              <span className="flex">
+              <span 
+              className="flex">
                 <img
                   className="w-[20em] xl:w-[30em]"
                   src={`https://image.tmdb.org/t/p/w300${title}`}
@@ -152,7 +153,7 @@ const PCHero = ({ hover, setHover, movie, $data, title }) => {
         setPlaying={setPlaying}
         playerRef={playerRef}
         id={$data.id}
-        movieType={"movie"}
+        movieType={movieType}
       />
     </div>
   );

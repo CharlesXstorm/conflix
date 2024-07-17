@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useLocalStorage } from "../utils/customHooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
+import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScrollNew";
 import PageLoader from "../components/UI/PageLoader";
 
 const Search = ({ setNavView }) => {
@@ -133,7 +133,7 @@ const Search = ({ setNavView }) => {
                   setHover={setHover}
                   id={index}
                   mb={"mb-[2em]"}
-                  data={item}
+                  $data={item}
                   movieType={item["media_type"]}
                   svgNum={null}
                 />
@@ -147,7 +147,7 @@ const Search = ({ setNavView }) => {
                   src={item.logo}
                   bg={item["backdrop_path"] || item["poster_path"]}
                   bg_poster={item["poster_path"]}
-                  data={item}
+                  $data={item}
                   dvWidth={dvWidth}
                   setHover={setHover}
                   hover={hover}

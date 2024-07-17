@@ -8,6 +8,10 @@ const LazyBrowseHome = lazy(() => import("./BrowseHome"));
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
 const Browse = ({
+  heroMovie,
+  movieType,
+  route,
+  linkFocus,
   accountClick,
   setAccountClick,
   setEditClick,
@@ -16,9 +20,11 @@ const Browse = ({
   setAddProfile,
   setAccountLoader,
   accountLoader,
-  setNavView
+  setNavView,
+  setAccountLoaded,
+  accountLoaded
 }) => {
-  const [accountLoaded, setAccountLoaded] = useState(false);
+  // const [accountLoaded, setAccountLoaded] = useState(false);
   const { data, profile } = useSelector((state) => state.account);
 
   const [timeOutID, setTimeoutID] = useState();
@@ -70,7 +76,7 @@ const Browse = ({
           <AccountLoader
             src={profile.img}
             accountLoaded={accountLoaded}
-            setAccountLoader
+            setAccountLoader = {setAccountLoader}
           />,
           document.getElementById("portal")
         )}
@@ -84,6 +90,10 @@ const Browse = ({
           }
         >
           <LazyBrowseMovies
+            heroMovie={heroMovie}
+            movieType={movieType}
+            route={route}
+            linkFocus={linkFocus}
             profile={profile}
             data={data}
             setNavView={setNavView}
