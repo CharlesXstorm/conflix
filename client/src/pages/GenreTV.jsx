@@ -1,21 +1,22 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useEffect} from "react";
+import { useDispatch} from "react-redux";
 import { setFocus } from "../utils/featureSlice";
+import BrowseContent from "../components/BrowseContent";
 
-const GenreTV = ({setNavView}) => {
+const GenreTV = ({ profile, data, setNavView, setAccountLoaded }) => {
   const dispatch = useDispatch()
-    
-    useEffect(()=>{
-      setNavView(true)
-      dispatch(setFocus({ 'TV Shows': true, nav:"genre/tv_shows" }))
-    },[])
+
+  useEffect(()=>{
+    setNavView(true)
+    dispatch(setFocus({ 'TV Shows': true, nav:"genre/tv_shows" }))
+  },[])
   return (
-    <div
-    className="w-full h-full bg-black"
-    >GenreTV</div>
+    <>
+    <BrowseContent />
+    </>
   )
 }
 
-export default GenreTV
+export default GenreTV;

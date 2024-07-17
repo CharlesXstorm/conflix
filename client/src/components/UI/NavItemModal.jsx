@@ -35,27 +35,22 @@ const ItemModal = ({
   const [itemWidth, setItemWidth] = useState();
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
-  const [watchIcon, setWatchIcon] = useState();
+  // const [watchIcon, setWatchIcon] = useState()
 
   const { data, profile, watchList } = useSelector((state) => state.account);
+  const [watchIcon, setWatchIcon] = useState(
+    watchList.includes($data) ? "remove-icon" : "add-icon"
+  );
   const dispatch = useDispatch();
 
-  // let genres = movieType === 'movie'?$data['genre_ids'].map((item)=> {
-  //   movieGenre['genres'].forEach((genre)=> {
-  //     if(genre['id'] === item){
-  //       return genre['name']
-  //     }
-  //   })
-  // }):""
-
   let genres = $data["genre_ids"].map((item) => {
-    (movieType === "movie" ? movieGenre["genres"] : tvGenre["genres"]).forEach(
-      (genre) => {
-        if (genre["id"] === item) {
-          return genre["name"];
-        }
+    let genreType =
+      movieType === "movie" ? movieGenre["genres"] : tvGenre["genres"];
+    for (var genre of genreType) {
+      if (genre["id"] === item) {
+        return genre["name"];
       }
-    );
+    }
   });
 
   // let profile = JSON.parse(localStorage.getItem('Profile'));
@@ -132,7 +127,6 @@ const ItemModal = ({
     );
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
-    // console.log("watchList added");
   };
   //remove watchList client/server side
   const removeWatchList = () => {
@@ -166,38 +160,46 @@ const ItemModal = ({
   };
   /////////////////////////////////////////////////////////////////////
 
-  useEffect(() => {
-    if (watchList.length != 0) {
-      for (var item of watchList) {
-        if (item.name) {
-          if (item.name === $data.name) {
-            setWatchIcon("remove-icon");
-            return;
-          } else {
-            setWatchIcon("add-icon");
-          }
-        }
-        if (item.title) {
-          if (item.title === $data.title) {
-            setWatchIcon("remove-icon");
-            return;
-          } else {
-            setWatchIcon("add-icon");
-          }
-        }
-      }
-    } else {
-      setWatchIcon("add-icon");
-    }
-  }, [show]);
+  // useEffect(() => {
+  //   if (watchList.length != 0) {
+  //     for (var item of watchList) {
+  //       if (item.name) {
+  //         if (item.name === $data.name) {
+  //           setWatchIcon("remove-icon");
+  //           return;
+  //         } else {
+  //           setWatchIcon("add-icon");
+  //         }
+  //       }
+  //       if (item.title) {
+  //         if (item.title === $data.title) {
+  //           setWatchIcon("remove-icon");
+  //           return;
+  //         } else {
+  //           setWatchIcon("add-icon");
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     setWatchIcon("add-icon");
+  //   }
+  // }, [show]);
 
   useEffect(() => {
-    console.log('dataModal',$data,'genres',genres)
+    // console.log(
+    //   "watchlist available",
+    //   watchList.map((item) =>
+    //     item.name || item.title
+    //       ? item.name === $data.name || item.title === $data.title
+    //         ? true
+    //         : false
+    //       : null
+    //   )
+    // );
     //reset default values on show change
-
     setItemWidth("400px");
     setItemHeight("400px");
-    setItemTop(`${top - 400 / 6}px`);
+    setItemTop(`${top - Math.floor(400 / 6)}px`);
     setMouseLeave(() => onMouseLeave);
 
     if (!show) {
@@ -220,16 +222,9 @@ const ItemModal = ({
         : setInitPosition({ right: `4px` });
       return;
     }
-    //check if screen size is below xl for elements between extreme right and left
-    if (dvWidth <= 1680) {
-      show
-        ? setInitPosition({ left: `${left - 400 / 12}px` })
-        : setInitPosition({ left: `${left}px` });
-      return;
-    }
-    //otherwise, for elements between extreme right and left in a screen size of xl
+    //check for elements between extreme right and left
     show
-      ? setInitPosition({ left: `${left - 400 / 60}px` })
+      ? setInitPosition({ left: `${left - (200 - width / 2)}px` })
       : setInitPosition({ left: `${left}px` });
     return;
   }, [show, dvWidth, left, right]);
@@ -337,11 +332,14 @@ const ItemModal = ({
             </div>
 
             <div className="flex items-center gap-2 text-[0.8em]">
-              <span>Mind-Bending</span>
-              <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
-              <span>Chilling</span>
-              <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
-              <span>Sci-Fi TV</span>
+              {genres.map((item, index) => (
+                <span className="flex items-center gap-2" key={index}>
+                  <span>{item}</span>
+                  {index !== genres.length - 1 && (
+                    <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
+                  )}
+                </span>
+              ))}
             </div>
           </div>
         </>
