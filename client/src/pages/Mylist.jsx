@@ -4,51 +4,21 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFocus } from "../utils/featureSlice";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScrollNew";
-import axios from "axios";
 
 const Mylist = ({ setNavView }) => {
   const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
   const [hover, setHover] = useState(false);
-  const [myList, setMyList] = useState();
+
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.account);
+  const { profile} = useSelector((state) => state.account);
 
-  let selectedProfile = JSON.parse(localStorage.getItem("Profile"));
+  console.log('profileList', profile);
 
-  const getWatchList = async () => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-          withCredentials: true
-        }
-      };
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/${data["_id"]}/subProfiles/${
-          selectedProfile.id
-        }/watchlist`,
-        config
-      );
-      console.log("MYLIST", res.data.data);
-      return res.data.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  let myList = profile.watchList
 
   useEffect(() => {
     setNavView(true);
     dispatch(setFocus({ "My List": true, nav: "mylist" }));
-    let myList;
-
-    const fetch = async () => {
-      myList = await getWatchList();
-      if (myList) {
-        setMyList(myList);
-      }
-    };
-
-    fetch();
   }, []);
   return (
     <>
@@ -74,7 +44,6 @@ const Mylist = ({ setNavView }) => {
                     mb={"mb-[2em]"}
                     $data={item}
                     movieType={item["media_type"]}
-                    isList={true}
                     svgNum={null}
                   />
                 ) : (
@@ -93,7 +62,6 @@ const Mylist = ({ setNavView }) => {
                     hover={hover}
                     groupType={null}
                     movieType={item["media_type"]}
-                    isList={true}
                   />
                 )
               )}

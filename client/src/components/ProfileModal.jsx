@@ -18,37 +18,14 @@ const Button = ({
   setModal,
   setStyle
 }) => {
-  // const { data } = useSelector((state) => state.account);
-  const {profile} = useSelector((state)=> state.account)
+  const { profile } = useSelector((state) => state.account);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const updateSelectedProfile = async (userID, profileInfo) => {
-  //   try {
-  //     const data = { selectedProfile: profileInfo };
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-  //         withCredentials: true
-  //       }
-  //     };
-
-  //     await axios.patch(
-  //       `${import.meta.env.VITE_API_URL}/${userID}`,
-  //       data,
-  //       config
-  //     );
-  //   } catch (err) {
-  //     const error = err.response.data.message;
-  //     console.log(error);
-  //   }
-  // };
 
   const clickHandler = () => {
     if (id != profile.id) {
       dispatch(setProfile(item));
-      localStorage.setItem('Profile', JSON.stringify(item));
-      // updateSelectedProfile(data["_id"], item);
+      localStorage.setItem("Profile", JSON.stringify(item));
       setAccountLoader(true);
       setAccountClick(true);
       navigate("/browse");
@@ -92,12 +69,13 @@ const ProfileModal = ({
 
       await axios.post(`${import.meta.env.VITE_API_URL}/logout`, "", config);
     } catch (err) {
-      // console.log(err.response.data.message);
+      console.log(err);
     }
   };
 
   const logoutHandler = () => {
     logout();
+    localStorage.clear();
     setAccountClick(false);
     navigate("/logout");
   };

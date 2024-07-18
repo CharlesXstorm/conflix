@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 // import "./App.css";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { getWidth } from "./utils/dvWidthSlice.js";
 
 import Home from "./pages/Home";
@@ -23,7 +23,7 @@ import GenreMovies from "./pages/GenreMovies.jsx";
 import GenreTV from "./pages/GenreTV.jsx";
 import Search from "./pages/Search.jsx";
 import Mylist from "./pages/Mylist.jsx";
-import BrowseMovies from "./pages/BrowseMovies.jsx";
+// import BrowseMovies from "./pages/BrowseMovies.jsx";
 
 // let auth = true
 
@@ -38,7 +38,7 @@ function App() {
   const [accountLoaded, setAccountLoaded] = useState(false);
   const [addProfile,setAddProfile] = useState(false)
   const [navView,setNavView] = useState(false)
-  const { data, profile } = useSelector((state) => state.account);
+
   const dispatch = useDispatch();
 
   const handleEvent = () => {
@@ -77,12 +77,10 @@ function App() {
 
       <Route element={<ProtectedRoute  setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
         <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
-          <Route index element={<Browse accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/upcoming?language=en-US&page=1"} movieType={"movie"} route={"browse"} linkFocus = {{ 'Home': true, nav:"/browse" } } data={data} profile={profile} accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+          <Route index element={<Browse accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/upcoming?language=en-US&page=1"} movieType={"movie"} route={"browse"} linkFocus = {{ 'Home': true, nav:"/browse" } } accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
-          <Route path='genre/movies' element={<BrowseMovies accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } data={data} profile={profile} setNavView={setNavView}/>} />
-          <Route path='genre/tv_shows' element={<BrowseMovies accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } data={data} profile={profile} setNavView={setNavView}/>} />
-          {/* <Route path='genre/movies' element={<GenreMovies setNavView={setNavView}/>} />
-          <Route path='genre/tv_shows' element={<GenreTV setNavView={setNavView}/>} /> */}
+          <Route path='genre/movies' element={<GenreMovies setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } setNavView={setNavView}/>} />
+          <Route path='genre/tv_shows' element={<GenreTV setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } setNavView={setNavView}/>} />
           <Route path='search' element={<Search setNavView={setNavView}/>} />
           <Route path='mylist' element={<Mylist setNavView={setNavView}/>} />
         </Route>

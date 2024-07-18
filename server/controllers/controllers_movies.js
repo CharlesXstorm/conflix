@@ -16,26 +16,34 @@ const url = process.env.TMDB_URL;
 //create region object
 let countries = {};
 
+let region;
+
 isoCountries.forEach((item) => {
   let country = { [item["iso_3166_1"]]: item["english_name"] };
   countries = { ...countries, ...country };
 });
 
-// //get user's region using geolocation API
-// let region = await axios.get(`${process.env.GEOLOCATION_URL}`)
+//get user's region using geolocation API
+const getRegion = async () => {
+  try {
+    //get country with geolocation
+    region = await axios.get(`${process.env.GEOLOCATION_URL}`);
+    if (region) {
+      region = region.data["country"];
+    } else {
+      region = "US";
+    }
+  } catch (err) {
+    return;
+  }
+};
+getRegion()
 
 //browse movie controller
 exports.getAllBrowse = async (req, res) => {
   let myList = req.body.myList;
 
   try {
-    //get country with geolocation
-    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
-    if (region) {
-      region = region.data["country"];
-    } else {
-      region = "US";
-    }
 
     const nextWatch = await axios.get(
       `${url}/trending/all/day?language=en-US`,
@@ -220,14 +228,6 @@ exports.getAllTvshows = async (req, res) => {
   let myList = req.body.myList;
 
   try {
-    //get country with geolocation
-    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
-    if (region) {
-      region = region.data["country"];
-    } else {
-      region = "US";
-    }
-
     const nextWatch = await axios.get(
       `${url}/trending/tv/day?language=en-US`,
       config
@@ -401,14 +401,6 @@ exports.getAllMovies = async (req, res) => {
   let myList = req.body.myList;
 
   try {
-    //get country with geolocation
-    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
-    if (region) {
-      region = region.data["country"];
-    } else {
-      region = "US";
-    }
-
     const nextWatch = await axios.get(
       `${url}/trending/movie/day?language=en-US`,
       config
@@ -430,21 +422,18 @@ exports.getAllMovies = async (req, res) => {
       config
     );
     const epic = await axios.get(
-      `${url}discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=14%2C878`,
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=14%2C878`,
       config
     );
     const topPick = await axios.get(
-      `${url}/movie/airing_today?language=en-US&page=1`,
+      `${url}/movie/upcoming?language=en-US&page=1`,
       config
     );
-
     const action = await axios.get(
       `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=28&without_genres=16`,
       config
     );
-
     const myList = req.body.myList || [];
-
     const onlyConflix = await axios.get(
       `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=vote_average.desc`,
       config
@@ -457,7 +446,6 @@ exports.getAllMovies = async (req, res) => {
       `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=27`,
       config
     );
-
     const newConflix = await axios.get(
       `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2024-07-01&sort_by=vote_average.desc`,
       config

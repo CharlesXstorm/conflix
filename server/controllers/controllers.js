@@ -241,8 +241,6 @@ exports.updateSubProfile = async (req, res, next) => {
     //update the document with the new subQuery
     req.body = { subProfile: newSubQuery };
 
-    console.log(req.body);
-
     next();
   } catch (err) {
     res.status(400).json({

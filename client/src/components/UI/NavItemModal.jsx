@@ -8,7 +8,6 @@ import MovieDetail from "../../pages/MovieDetail";
 import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
 import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";
-// import { motion } from "framer-motion";
 
 const ItemModal = ({
   onMouseEnter,
@@ -26,8 +25,7 @@ const ItemModal = ({
   left,
   right,
   height,
-  width,
-  isList
+  width
 }) => {
   const [initPosition, setInitPosition] = useState();
   const [itemTop, setItemTop] = useState();
@@ -36,14 +34,10 @@ const ItemModal = ({
   const [itemWidth, setItemWidth] = useState();
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
-  // const [watchIcon, setWatchIcon] = useState()
-  // let profile = JSON.parse(localStorage.getItem("Profile"));
-  // let watchList = profile["watchList"];
+  const [watchIcon, setWatchIcon] = useState("add-icon");
 
-  const { data, profile} = useSelector((state) => state.account);
-  const [watchIcon, setWatchIcon] = useState(
-    profile.watchList.includes($data) || isList ? "remove-icon" : "add-icon"
-  );
+  const { data, profile } = useSelector((state) => state.account);
+
   const dispatch = useDispatch();
 
   let genres = $data["genre_ids"].map((item) => {
@@ -56,13 +50,7 @@ const ItemModal = ({
     }
   });
 
-  // console.log("watchList", profile.watchList, "data", $data, "profile", profile);
-
-  // let profile = JSON.parse(localStorage.getItem('Profile'));
-  // let watchList = profile['watchList']
-
   const expandHandler = () => {
-    // setTimeout(() => {setExpandTop("0px")},300)
     setExpandTop(`calc(${window.scrollY}px + 4em)`);
     setExpandOpacity(1);
     dispatch(setOverflow("hidden"));
@@ -71,7 +59,6 @@ const ItemModal = ({
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
       setInitPosition({ right: "25%" });
-      // return;
     } else {
       setInitPosition({ left: "25%" });
     }
@@ -126,10 +113,6 @@ const ItemModal = ({
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
     dispatch(setWatchList([watchListData, ...profile.watchList]));
-    // localStorage.setItem(
-    //   "Profile",
-    //   JSON.stringify({ ...profile, watchList: [watchListData, ...profile.watchList] })
-    // );
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
   };
@@ -139,20 +122,13 @@ const ItemModal = ({
 
     watchListData.forEach((item, index) => {
       if (item.name) {
-        console.log("itemNameEqual", item.name, $data.name);
         item.name === $data.name ? watchListData.splice(index, 1) : null;
       }
       if (item.title) {
-        console.log("itemTitleEqual", item.title, $data.title);
         item.title === $data.title ? watchListData.splice(index, 1) : null;
       }
     });
     dispatch(setWatchList(watchListData));
-    // localStorage.setItem(
-    //   "Profile",
-    //   JSON.stringify({ ...profile, watchList: watchListData })
-    // );
-    setWatchIcon("add-icon");
     removeWatchListDB(watchListData, data["_id"], profile.id);
   };
   //handle watchList logic
@@ -165,43 +141,18 @@ const ItemModal = ({
   };
   /////////////////////////////////////////////////////////////////////
 
-  // useEffect(() => {
-  //   if (watchList.length != 0) {
-  //     for (var item of watchList) {
-  //       if (item.name) {
-  //         if (item.name === $data.name) {
-  //           setWatchIcon("remove-icon");
-  //           return;
-  //         } else {
-  //           setWatchIcon("add-icon");
-  //         }
-  //       }
-  //       if (item.title) {
-  //         if (item.title === $data.title) {
-  //           setWatchIcon("remove-icon");
-  //           return;
-  //         } else {
-  //           setWatchIcon("add-icon");
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     setWatchIcon("add-icon");
-  //   }
-  // }, [show]);
-
   useEffect(() => {
-    // console.log(
-    //   "watchlist available",
-    //   watchList.map((item) =>
-    //     item.name || item.title
-    //       ? item.name === $data.name || item.title === $data.title
-    //         ? true
-    //         : false
-    //       : null
-    //   )
-    // );
     //reset default values on show change
+    console.log("showingEffect");
+    for (var any of profile.watchList) {
+      if (any.name && any.name === $data.name) {
+        setWatchIcon("remove-icon");
+        break;
+      } else if (any.title && any.title === $data.title) {
+        setWatchIcon("remove-icon");
+        break;
+      }
+    }
     setItemWidth("400px");
     setItemHeight("400px");
     setItemTop(`${top - Math.floor(400 / 6)}px`);

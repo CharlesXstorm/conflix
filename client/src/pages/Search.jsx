@@ -19,7 +19,6 @@ const Search = ({ setNavView }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [storage] = useLocalStorage("Nav");
   const navigate = useNavigate();
-  // console.log("storage", storage);
 
   const getSearchedMovies = async (query) => {
     const config = {
@@ -73,7 +72,6 @@ const Search = ({ setNavView }) => {
       //fetch search results
       searchedMovies = await getSearchedMovies(search);
       if (searchedMovies) {
-        console.log("searchedMovies", searchedMovies);
         setSearchResult(searchedMovies.movies);
         setActors(searchedMovies.person);
         let newTimeoutID = setTimeout(() => {

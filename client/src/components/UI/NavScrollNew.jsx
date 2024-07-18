@@ -59,7 +59,7 @@ const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
 
 //Modal Container Component
 /////////////////////////////////////////////////////////////////////////////
-const ModalCont = ({
+export const ModalCont = ({
   height,
   onMouseOut,
   setHover,
@@ -559,7 +559,6 @@ export const NavScroll = ({
       setScrollTimeOut(newTimeoutID);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // console.log('scrolling',scrollRef.current.scrollLeft,finalScrollPos,scrollWidth)
     //detect when scrolling ends////////////////////////////////////////////////////////////////////////
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
@@ -751,4 +750,3 @@ export const NavScroll = ({
   }
 };
 
-// export default NavScroll;

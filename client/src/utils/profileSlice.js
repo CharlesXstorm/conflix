@@ -11,9 +11,6 @@ export const profileSlice = createSlice({
     setWatchList: (state, action) => {
       state.profile = {...state.profile, watchList: action.payload};
     },
-    // setWatchList: (state, action) => {
-    //   state.watchList = [...action.payload];
-    // },
     setData: (state, action) => {
       state.data = action.payload;
     }

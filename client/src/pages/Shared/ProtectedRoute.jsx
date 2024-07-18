@@ -2,23 +2,26 @@
 // import React from 'react'
 import { useEffect, useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setData,setProfile } from "../../utils/profileSlice";
+import { setData, setProfile } from "../../utils/profileSlice";
 // import jsonData from "../../utils/user.json";
 
-const ProtectedRoute = ({ 
+const ProtectedRoute = ({
   // auths,
-  setLoaded, 
-  addProfile, 
-  editClick }) => {
+  setLoaded,
+  addProfile,
+  editClick
+}) => {
   const [auth, setAuth] = useState();
   const [ready, setReady] = useState();
 
   // const {profile} = useSelector((state)=> state.account)
 
   const dispatch = useDispatch();
+
+  let selectedProfile = JSON.parse(localStorage.getItem("Profile")) ?? null;
 
   const getUser = async () => {
     try {
@@ -48,15 +51,15 @@ const ProtectedRoute = ({
         setAuth(false);
         setReady(true);
       } else {
-        console.log('setting data')
+        console.log("setting data");
         dispatch(setData(user));
-        dispatch(setProfile(user.selectedProfile));
+        dispatch(setProfile(selectedProfile));
         setAuth(true);
         setReady(true);
         setLoaded(true);
       }
     };
-    fetchData()
+    fetchData();
     // console.log('profile present',profile)
     // if(!auths){fetchData();}
   }, [addProfile, editClick]);
