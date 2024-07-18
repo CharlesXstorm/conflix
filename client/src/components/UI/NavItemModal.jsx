@@ -26,7 +26,8 @@ const ItemModal = ({
   left,
   right,
   height,
-  width
+  width,
+  isList
 }) => {
   const [initPosition, setInitPosition] = useState();
   const [itemTop, setItemTop] = useState();
@@ -36,10 +37,12 @@ const ItemModal = ({
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
   // const [watchIcon, setWatchIcon] = useState()
+  // let profile = JSON.parse(localStorage.getItem("Profile"));
+  // let watchList = profile["watchList"];
 
-  const { data, profile, watchList } = useSelector((state) => state.account);
+  const { data, profile} = useSelector((state) => state.account);
   const [watchIcon, setWatchIcon] = useState(
-    watchList.includes($data) ? "remove-icon" : "add-icon"
+    profile.watchList.includes($data) || isList ? "remove-icon" : "add-icon"
   );
   const dispatch = useDispatch();
 
@@ -52,6 +55,8 @@ const ItemModal = ({
       }
     }
   });
+
+  // console.log("watchList", profile.watchList, "data", $data, "profile", profile);
 
   // let profile = JSON.parse(localStorage.getItem('Profile'));
   // let watchList = profile['watchList']
@@ -120,17 +125,17 @@ const ItemModal = ({
   //add watchList client/server side
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
-    dispatch(setWatchList([watchListData, ...watchList]));
-    localStorage.setItem(
-      "Profile",
-      JSON.stringify({ ...profile, watchList: [watchListData, ...watchList] })
-    );
+    dispatch(setWatchList([watchListData, ...profile.watchList]));
+    // localStorage.setItem(
+    //   "Profile",
+    //   JSON.stringify({ ...profile, watchList: [watchListData, ...profile.watchList] })
+    // );
     setWatchIcon("remove-icon");
     addWatchListDB(watchListData, data["_id"], profile.id);
   };
   //remove watchList client/server side
   const removeWatchList = () => {
-    let watchListData = [...watchList];
+    let watchListData = [...profile.watchList];
 
     watchListData.forEach((item, index) => {
       if (item.name) {
@@ -143,10 +148,10 @@ const ItemModal = ({
       }
     });
     dispatch(setWatchList(watchListData));
-    localStorage.setItem(
-      "Profile",
-      JSON.stringify({ ...profile, watchList: watchListData })
-    );
+    // localStorage.setItem(
+    //   "Profile",
+    //   JSON.stringify({ ...profile, watchList: watchListData })
+    // );
     setWatchIcon("add-icon");
     removeWatchListDB(watchListData, data["_id"], profile.id);
   };

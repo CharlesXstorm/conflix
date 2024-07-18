@@ -396,3 +396,185 @@ exports.getAllTvshows = async (req, res) => {
     });
   }
 };
+
+exports.getAllMovies = async (req, res) => {
+  let myList = req.body.myList;
+
+  try {
+    //get country with geolocation
+    let region = await axios.get(`${process.env.GEOLOCATION_URL}`);
+    if (region) {
+      region = region.data["country"];
+    } else {
+      region = "US";
+    }
+
+    const nextWatch = await axios.get(
+      `${url}/trending/movie/day?language=en-US`,
+      config
+    );
+    const drama = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=18`,
+      config
+    );
+    const topRegion = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2024-01-01&sort_by=popularity.desc&with_origin_country=${region}`,
+      config
+    );
+    const family = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=10751&without_genres=16`,
+      config
+    );
+    const comedy = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=35&without_genres=16`,
+      config
+    );
+    const epic = await axios.get(
+      `${url}discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=14%2C878`,
+      config
+    );
+    const topPick = await axios.get(
+      `${url}/movie/airing_today?language=en-US&page=1`,
+      config
+    );
+
+    const action = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=28&without_genres=16`,
+      config
+    );
+
+    const myList = req.body.myList || [];
+
+    const onlyConflix = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=vote_average.desc`,
+      config
+    );
+    const regionMovies = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=vote_average.desc&with_origin_country=${region}`,
+      config
+    );
+    const horror = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=27`,
+      config
+    );
+
+    const newConflix = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2024-07-01&sort_by=vote_average.desc`,
+      config
+    );
+    const romance = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=10749`,
+      config
+    );
+
+    const movieData = [
+      {
+        _id: 0,
+        title: "Your Next Watch",
+        shortList: false,
+        movies: nextWatch.data.results.slice(0, 18)
+      },
+      {
+        _id: 1,
+        title: "Drama Movies",
+        type: "movie",
+        shortList: false,
+        movies: drama.data.results.slice(0, 18)
+      },
+      {
+        _id: 2,
+        title: `Top 10 Movies in ${countries[region]} Today`,
+        type: "movie",
+        shortList: true,
+        movies: topRegion.data.results.slice(0, 10)
+      },
+      {
+        _id: 3,
+        title: `Family Movies`,
+        type: "movie",
+        shortList: false,
+        movies: family.data.results.slice(0, 18)
+      },
+      {
+        _id: 4,
+        title: `Comedy Movies`,
+        type: "movie",
+        shortList: false,
+        movies: comedy.data.results.slice(0, 18)
+      },
+      {
+        _id: 5,
+        title: `Epic Worlds`,
+        type: "movie",
+        shortList: false,
+        movies: epic.data.results.slice(0, 18)
+      },
+      {
+        _id: 6,
+        title: `Today's Top Picks for You`,
+        type: "movie",
+        shortList: false,
+        movies: topPick.data.results.slice(0, 18)
+      },
+      {
+        _id: 7,
+        title: `Action Movies`,
+        type: "movie",
+        shortList: false,
+        movies: action.data.results.slice(0, 18)
+      },
+      {
+        _id: 8,
+        title: `My List`,
+        shortList: false,
+        movies: myList
+      },
+      {
+        _id: 9,
+        title: `Only on Conflix`,
+        type: "movie",
+        shortList: false,
+        movies: onlyConflix.data.results.slice(0, 18)
+      },
+      {
+        _id: 10,
+        title: `Latest Movies in ${countries[region]}`,
+        type: "movie",
+        shortList: false,
+        movies: regionMovies.data.results.slice(0, 18)
+      },
+      {
+        _id: 11,
+        title: `Horror Movies`,
+        type: "movie",
+        shortList: false,
+        movies: horror.data.results.slice(0, 18)
+      },
+      {
+        _id: 12,
+        title: `New on Conflix`,
+        type: "movie",
+        shortList: false,
+        movies: newConflix.data.results.slice(0, 18)
+      },
+      {
+        _id: 12,
+        title: `Romance Movies`,
+        type: "movie",
+        shortList: false,
+        movies: romance.data.results.slice(0, 18)
+      }
+    ];
+
+    res.status(200).json({
+      status: "success",
+      result: movieData.length,
+      data: movieData
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message
+    });
+  }
+};

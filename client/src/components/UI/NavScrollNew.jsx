@@ -64,6 +64,7 @@ const ModalCont = ({
   onMouseOut,
   setHover,
   movieType,
+  isList,
   dvWidth,
   data,
   id,
@@ -116,6 +117,7 @@ const ModalCont = ({
           right={right}
           setExpand={setExpand}
           movieType={movieType}
+          isList={isList}
         />
       </div>
     </div>
@@ -135,6 +137,7 @@ export const ScrollItemPC = ({
   mb,
   $data,
   movieType,
+  isList,
   svgNum
 }) => {
   const [ready, setReady] = useState(false);
@@ -168,6 +171,7 @@ export const ScrollItemPC = ({
               height={modalContHeight}
               onMouseOut={mouseOutHandler}
               movieType={movieType}
+              isList={isList}
               setHover={setHover}
               data={$data}
               id={id}
@@ -318,6 +322,7 @@ export const ScrollItemMobile = ({
   $id,
   groupType,
   movieType,
+  // isList,
   svgNum,
   $data
 }) => {
@@ -462,8 +467,9 @@ export const NavScroll = ({
   setHover,
   $scrollContID
 }) => {
-  const { watchList } = useSelector((state) => state.account);
-  let $data = data.title != "My List" ? [...data.movies] : [...watchList];
+  // const { watchList } = useSelector((state) => state.account);
+  const { profile } = useSelector((state) => state.account);
+  let $data = data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
   const { isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState($data);
@@ -498,7 +504,7 @@ export const NavScroll = ({
       );
     }
     setList($data);
-  }, [watchList]);
+  }, [profile]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {

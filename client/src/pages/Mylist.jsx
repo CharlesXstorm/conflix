@@ -3,73 +3,110 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFocus } from "../utils/featureSlice";
-import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
+import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScrollNew";
+import axios from "axios";
 
 const Mylist = ({ setNavView }) => {
   const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
   const [hover, setHover] = useState(false);
+  const [myList, setMyList] = useState();
   const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.account);
 
-  let profile = JSON.parse(localStorage.getItem('Profile'));
+  let selectedProfile = JSON.parse(localStorage.getItem("Profile"));
+
+  const getWatchList = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+          withCredentials: true
+        }
+      };
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/${data["_id"]}/subProfiles/${
+          selectedProfile.id
+        }/watchlist`,
+        config
+      );
+      console.log("MYLIST", res.data.data);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     setNavView(true);
     dispatch(setFocus({ "My List": true, nav: "mylist" }));
+    let myList;
+
+    const fetch = async () => {
+      myList = await getWatchList();
+      if (myList) {
+        setMyList(myList);
+      }
+    };
+
+    fetch();
   }, []);
   return (
     <>
-      {profile && (
+      {
         <div className="flex flex-col md:text-lg xl:text-xl gap-4 xl:gap-8 w-full min-h-[80vh] bg-black px-[1em] pt-[8em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
           <div className="flex gap-2">
             <p className="flex-none text-[1.5em] xl:text-[2em]">My List</p>
           </div>
 
-          {profile.watchList.length !== 0 ?
+          {myList && myList.length !== 0 ? (
             <div className="flex flex-wrap w-full h-[auto]">
-            {profile.watchList.map((item, index) =>
-              isPC ? (
-                <ScrollItemPC
-                  key={index}
-                  bg={item["backdrop_path"]}
-                  bg_poster={item["poster_path"]}
-                  row={null}
-                  dvWidth={dvWidth}
-                  hover={hover}
-                  setHover={setHover}
-                  id={index}
-                  mb={"mb-[2em]"}
-                  $data={item}
-                  movieType={item["media_type"]}
-                  svgNum={null}
-                />
-              ) : (
-                <ScrollItemMobile
-                  key={index}
-                  id={index}
-                  $id={item.id}
-                  svgNum={null}
-                  row={null}
-                  src={item.logo}
-                  bg={item["backdrop_path"] || item["poster_path"]}
-                  bg_poster={item["poster_path"]}
-                  $data={item}
-                  dvWidth={dvWidth}
-                  setHover={setHover}
-                  hover={hover}
-                  groupType={null}
-                  movieType={item["media_type"]}
-                />
-              )
-            )}
-          </div>
-        :
-        <div className="w-full bg-zinc-700 p-[2em]">
-          <p>Add movies to your list to see them here</p>
-        </div>  
-        }
-
+              {myList.map((item, index) =>
+                isPC ? (
+                  <ScrollItemPC
+                    key={index}
+                    bg={item["backdrop_path"]}
+                    bg_poster={item["poster_path"]}
+                    row={null}
+                    dvWidth={dvWidth}
+                    hover={hover}
+                    setHover={setHover}
+                    id={index}
+                    mb={"mb-[2em]"}
+                    $data={item}
+                    movieType={item["media_type"]}
+                    isList={true}
+                    svgNum={null}
+                  />
+                ) : (
+                  <ScrollItemMobile
+                    key={index}
+                    id={index}
+                    $id={item.id}
+                    svgNum={null}
+                    row={null}
+                    src={item.logo}
+                    bg={item["backdrop_path"] || item["poster_path"]}
+                    bg_poster={item["poster_path"]}
+                    $data={item}
+                    dvWidth={dvWidth}
+                    setHover={setHover}
+                    hover={hover}
+                    groupType={null}
+                    movieType={item["media_type"]}
+                    isList={true}
+                  />
+                )
+              )}
+            </div>
+          ) : myList && myList.length === 0 ? (
+            <div className="w-full bg-zinc-700 p-[2em]">
+              <p>Add movies to your list to see them here</p>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-      )}
+      }
     </>
   );
 };

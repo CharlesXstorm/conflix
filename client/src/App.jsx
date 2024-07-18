@@ -79,8 +79,8 @@ function App() {
         <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
           <Route index element={<Browse accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/upcoming?language=en-US&page=1"} movieType={"movie"} route={"browse"} linkFocus = {{ 'Home': true, nav:"/browse" } } data={data} profile={profile} accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
-          <Route path='genre/movies' element={<BrowseMovies setNavView={setNavView}/>} />
-          <Route path='genre/tv_shows' element={<BrowseMovies setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } data={data} profile={profile} setNavView={setNavView}/>} />
+          <Route path='genre/movies' element={<BrowseMovies accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } data={data} profile={profile} setNavView={setNavView}/>} />
+          <Route path='genre/tv_shows' element={<BrowseMovies accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } data={data} profile={profile} setNavView={setNavView}/>} />
           {/* <Route path='genre/movies' element={<GenreMovies setNavView={setNavView}/>} />
           <Route path='genre/tv_shows' element={<GenreTV setNavView={setNavView}/>} /> */}
           <Route path='search' element={<Search setNavView={setNavView}/>} />

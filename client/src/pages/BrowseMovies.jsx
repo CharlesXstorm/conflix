@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setWatchList } from "../utils/profileSlice";
+// import { setWatchList } from "../utils/profileSlice";
 import { setFocus } from "../utils/featureSlice";
 
 import PCHero from "../components/PCHero";
@@ -19,6 +19,7 @@ const BrowseMovies = ({
   profile,
   data,
   setNavView,
+  accountLoaded,
   setAccountLoaded
 }) => {
   const [hover, setHover] = useState(false);
@@ -34,7 +35,8 @@ const BrowseMovies = ({
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
 
-  console.log("browse", browseMovies, "hero", hero, "title", title);
+  // console.log("browse", browseMovies, "hero", hero, "title", title);
+  console.log('heroMovies', heroMovie,'router', route,'accountLoaded',accountLoaded)
 
   const getUpcomingMovies = async () => {
     const config = {
@@ -60,7 +62,6 @@ const BrowseMovies = ({
 
       if (res && logo) {
         for (var any of logo) {
-          console.log("any", any);
           if (any["iso_639_1"] === "en") {
             setHero(res);
             setTitle(any["file_path"]);
@@ -98,9 +99,8 @@ const BrowseMovies = ({
       );
 
       if (watchList) {
-        // console.log('watchList Fetch',watchList.data.data.length)
         if (watchList.data.data.length > 0) {
-          dispatch(setWatchList(watchList.data.data));
+          // dispatch(setWatchList(watchList.data.data));
           myList = watchList.data.data;
         } else {
           myList = null;

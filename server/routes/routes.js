@@ -61,6 +61,6 @@ Router.route("/profileIcons").get(getProfileIcons);
 Router.route("/browse").post(getAllBrowse);
 
 Router.route("/browse/genre/tv_shows").post(getAllTvshows);
-// Router.route("/browse/genre/movies").post(getAllMovies);
+Router.route("/browse/genre/movies").post(getAllMovies);
 
 module.exports = Router;
