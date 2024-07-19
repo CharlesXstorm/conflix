@@ -191,8 +191,8 @@ const ItemModal = ({
       style={{
         top: `${!show ? top + "px" : show && !expand ? itemTop : expandTop}`,
         transition: "all 0.2s linear",
-        paddingTop: `${!show ? '0em' : show && !expand ? '0px' : '4em'}`,
-        overflow: `${!show ? 'hidden' : show && !expand ? 'hidden' : 'auto'}`,
+        paddingTop: `${!show ? "0em" : show && !expand ? "0px" : "4em"}`,
+        overflow: `${!show ? "hidden" : show && !expand ? "hidden" : "auto"}`,
         opacity: `${show ? 1 : expandOpacity}`,
         width: `${!show ? width + "px" : show && !expand ? itemWidth : "100%"}`,
         height: `${
@@ -204,32 +204,128 @@ const ItemModal = ({
         show ? "pointer-events-auto" : "pointer-events-none"
       } absolute flex flex-col border border-red-600 z-[50] rounded-[6px] text-white `}
     >
-
-      {expand && (
-        <div
-        className="relative pb-[4em] w-[50%] ml-[25%] rounded-[6px] bg-[rgb(25,25,25)] overflow-clip">
-          <MovieDetail
+      {/* <MovieDetail
             movieType={movieType}
             movieID={movieID}
             bg={bg}
             genres={$data["genre_ids"].join("%2C")}
-          />
+          /> */}
+
+      {
+        <div
+          style={{
+            width: `${!show ? "100%" : show && !expand ? "100%" : "50%"}`,
+            marginLeft: `${!show ? "0%" : show && !expand ? "0%" : "25%"}`,
+            paddingBottom: `${!show ? "0px" : show && !expand ? "0px" : "4em"}`
+          }}
+          className="relative rounded-[6px] h-full bg-[rgb(25,25,25)] overflow-clip"
+        >
           {
-            //cancel button///////////
-            <button
-              onClick={() => {
-                onMouseLeave();
-                setExpand(false);
-                dispatch(setOverflow("auto"));
+            //backdrop and video
+            <div
+              style={{
+                height: `${!show ? "100%" : show && !expand ? "60%" : "50vh"}`
               }}
-              className="absolute z-[60] top-0 right-0 p-2 mr-[0.5em] mt-[0.5em] w-[2em] h-[2em] rounded-[50%] bg-[rgb(40,40,40)] "
+              className="relative border"
             >
-              <img className="w-full" src="/images/cancel.svg" alt="cancel" />
-            </button>
+              {
+                //backdrop image
+                <span
+                  style={{
+                    backgroundImage: `url(https://image.tmdb.org/t/p/w500/${bg})`
+                  }}
+                  className="border border-blue-600 absolute left-0 top-0 w-full h-full bg-cover"
+                ></span>
+              }
+              {
+                //movie title
+                <span
+                  className="absolute bottom-[10%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center p-2 font-[500] pointer-events-none"
+                  style={{
+                    fontFamily: "bebas_neueregular",
+                    letterSpacing: "5px"
+                  }}
+                >
+                  {title}
+                </span>
+              }
+            </div>
+          }
+          {
+            ///////////////////////////////////////////////////////////////////////////////////
+          }
+          {
+            //movie details
+            <div
+              className="flex flex-col gap-3 w-[100%] p-4 bg-[rgb(25,25,25)]"
+              style={{
+                height: `${!show ? "0%" : "40%"}`
+              }}
+            >
+              <div className="flex justify-between">
+                <span className="flex gap-2">
+                  <button className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
+                    <img src="/images/play.svg" alt="buttons" />
+                  </button>
+                  <button
+                    onClick={watchListHandler}
+                    className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
+                  >
+                    <img src={`/images/${watchIcon}.svg`} alt="buttons" />
+                  </button>
+                  <button className="w-[2em] border-[2px] rounded-[50%] p-[6px] flex items-center justify-center">
+                    <img src="/images/like.svg" alt="buttons" />
+                  </button>
+                </span>
+
+                <span className="flex">
+                  <button
+                    onClick={expandHandler}
+                    className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
+                  >
+                    <img src="/images/arrow-down.svg" alt="buttons" />
+                  </button>
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 text-[0.8em]">
+                <span className="text-green-600 font-[500]">64% Match</span>
+                <span className="border px-[0.5em]">18+</span>
+                <span>3 Seasons</span>
+                <span className="border px-[0.5em]">HD</span>
+              </div>
+
+              <div className="flex items-center gap-2 text-[0.8em]">
+                {genres.map((item, index) => (
+                  <span className="flex items-center gap-2" key={index}>
+                    <span>{item}</span>
+                    {index !== genres.length - 1 && (
+                      <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+          }
+
+          {
+            //cancel button
+            expand && (
+              <button
+                onClick={() => {
+                  onMouseLeave();
+                  setExpand(false);
+                  dispatch(setOverflow("auto"));
+                }}
+                className="absolute z-[60] top-0 right-0 p-2 mr-[0.5em] mt-[0.5em] w-[2em] h-[2em] rounded-[50%] bg-[rgb(40,40,40)] "
+              >
+                <img className="w-full" src="/images/cancel.svg" alt="cancel" />
+              </button>
+            )
           }
         </div>
-      )}
-      {!expand && (
+      }
+      {/* {!expand && (
         <>
           <div
             className="relative flex-none w-[100%] bg-cover bg-[rgb(15,15,15)]"
@@ -255,9 +351,6 @@ const ItemModal = ({
             <div className="flex justify-between">
               <span className="flex gap-2">
                 <button
-                  // onClick={() => {
-                  //   onMouseLeave();
-                  // }}
                   className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
                 >
                   <img src="/images/play.svg" alt="buttons" />
@@ -302,8 +395,7 @@ const ItemModal = ({
             </div>
           </div>
         </>
-      )}
-
+      )} */}
     </div>
   );
 };

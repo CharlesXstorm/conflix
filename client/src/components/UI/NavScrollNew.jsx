@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
-import ItemModal from "./NavItemModal";
+import ItemModal from "./NavItemModalNew";
 import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ export const ScrollItemPC = ({
               setHover={setHover}
               data={$data}
               id={id}
-              bg={bg}
+              bg={bg||bg_poster}
               title={$data.title || $data.name}
               movieID={$data.id}
               dvWidth={dvWidth}
