@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import ReactDOM from "react-dom";
-import { useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 import ItemModal from "./NavItemModal";
@@ -29,7 +29,7 @@ const Next = ({ setNext, scrollRef, finalScrollPos, scrollWidth }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
+const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth, prevBtn }) => {
   const prevHandler = () => {
     setPrev(true);
     scrollRef.current.scrollTo({
@@ -39,14 +39,14 @@ const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
   };
 
   return (
-    <div 
-    style={{
-      // display: `${prevBtn?'flex':'none'}`,
-      width : `${prevBtn?'3em':'0em'}`,
-    opacity: `${prevBtn?1:0}`,
-  transition: "all 0.2s linear"
-  }}
-    className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
+    <div
+      style={{
+        width: `${prevBtn ? "3em" : "0em"}`,
+        opacity: `${prevBtn ? 1 : 0}`,
+        transition: "all 0.2s linear"
+      }}
+      className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]"
+    >
       <button
         className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
@@ -201,6 +201,7 @@ export const ScrollItemPC = ({
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
+        style={{ opacity: `${hover === id ? 0 : 1}` }}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
           ${mb || ""}
           flex-none p-1 flex-none`}
@@ -467,9 +468,9 @@ export const NavScroll = ({
   setHover,
   $scrollContID
 }) => {
-  // const { watchList } = useSelector((state) => state.account);
   const { profile } = useSelector((state) => state.account);
-  let $data = data.title != "My List" ? [...data.movies] : [...profile.watchList];
+  let $data =
+    data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
   const { isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState($data);
@@ -480,7 +481,7 @@ export const NavScroll = ({
   const [finalScrollPos, setFinalScrollPos] = useState(0);
   const [next, setNext] = useState(false);
   const [prev, setPrev] = useState(false);
-  const[prevBtn,setPrevBtn] = useState(false)
+  const [prevBtn, setPrevBtn] = useState(false);
   const [scrollWidth, setScrollWidth] = useState(null);
 
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
@@ -499,12 +500,10 @@ export const NavScroll = ({
 
   useEffect(() => {
     if (scrollRef.current && scrollWidth === null) {
-       setScrollWidth(
-        scrollRef.current.getBoundingClientRect().width
-      );
+      setScrollWidth(scrollRef.current.getBoundingClientRect().width);
     }
     setList($data);
-  }, [profile]);
+  }, [profile.id]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -572,11 +571,11 @@ export const NavScroll = ({
         setNext(false);
         setPrev(false);
       };
-      if(scrollRef.current.scrollLeft===0){
-        setPrevBtn(false)
+      if (scrollRef.current.scrollLeft === 0) {
+        setPrevBtn(false);
       }
-      if(scrollRef.current.scrollLeft===scrollWidth){
-        setPrevBtn(true)
+      if (scrollRef.current.scrollLeft === scrollWidth) {
+        setPrevBtn(true);
       }
       if (scrollRef.current.scrollLeft === finalScrollPos + scrollWidth) {
         if (page === children.length - 1) {
@@ -656,7 +655,7 @@ export const NavScroll = ({
                     setNext={setNext}
                     id={$scrollContID}
                   />
-                   <Prev
+                  <Prev
                     scrollRef={scrollRef}
                     finalScrollPos={finalScrollPos}
                     isPC={isPC}
@@ -749,4 +748,3 @@ export const NavScroll = ({
     );
   }
 };
-

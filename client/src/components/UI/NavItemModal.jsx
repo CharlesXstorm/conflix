@@ -51,16 +51,16 @@ const ItemModal = ({
   });
 
   const expandHandler = () => {
-    setExpandTop(`calc(${window.scrollY}px + 4em)`);
+    setExpandTop(`calc(${window.scrollY}px)`);
     setExpandOpacity(1);
     dispatch(setOverflow("hidden"));
     setExpand(true);
 
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
-      setInitPosition({ right: "25%" });
+      setInitPosition({ right: "0%" });
     } else {
-      setInitPosition({ left: "25%" });
+      setInitPosition({ left: "0%" });
     }
   };
 
@@ -143,7 +143,6 @@ const ItemModal = ({
 
   useEffect(() => {
     //reset default values on show change
-    console.log("showingEffect");
     for (var any of profile.watchList) {
       if (any.name && any.name === $data.name) {
         setWatchIcon("remove-icon");
@@ -192,19 +191,23 @@ const ItemModal = ({
       style={{
         top: `${!show ? top + "px" : show && !expand ? itemTop : expandTop}`,
         transition: "all 0.2s linear",
+        paddingTop: `${!show ? '0em' : show && !expand ? '0px' : '4em'}`,
+        overflow: `${!show ? 'hidden' : show && !expand ? 'hidden' : 'auto'}`,
         opacity: `${show ? 1 : expandOpacity}`,
-        width: `${!show ? width + "px" : show && !expand ? itemWidth : "50%"}`,
+        width: `${!show ? width + "px" : show && !expand ? itemWidth : "100%"}`,
         height: `${
-          !show ? height + "px" : show && !expand ? itemHeight : "110%"
+          !show ? height + "px" : show && !expand ? itemHeight : "100vh"
         }`,
         ...initPosition
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
-      } absolute z-[50] rounded-[6px] overflow-hidden text-white bg-[rgb(25,25,25)]`}
+      } absolute flex flex-col border border-red-600 z-[50] rounded-[6px] text-white `}
     >
+
       {expand && (
-        <>
+        <div
+        className="relative pb-[4em] w-[50%] ml-[25%] rounded-[6px] bg-[rgb(25,25,25)] overflow-clip">
           <MovieDetail
             movieType={movieType}
             movieID={movieID}
@@ -224,12 +227,12 @@ const ItemModal = ({
               <img className="w-full" src="/images/cancel.svg" alt="cancel" />
             </button>
           }
-        </>
+        </div>
       )}
       {!expand && (
         <>
           <div
-            className="relative w-[100%] bg-cover"
+            className="relative flex-none w-[100%] bg-cover"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/w300/${bg})`,
               height: `${!show ? "100%" : show && !expand ? "60%" : "50vh"}`
@@ -244,9 +247,9 @@ const ItemModal = ({
           </div>
 
           <div
-            className="flex flex-col gap-3 w-[100%] p-4 "
+            className="flex flex-col gap-3 w-[100%] p-4 bg-[rgb(25,25,25)]"
             style={{
-              height: `${show ? "40%" : "0%"}`
+              height: `${!show ? "0%" : "40%"}`
             }}
           >
             <div className="flex justify-between">
@@ -300,6 +303,7 @@ const ItemModal = ({
           </div>
         </>
       )}
+
     </div>
   );
 };

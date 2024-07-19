@@ -1,26 +1,21 @@
 /* eslint-disable react/prop-types */
-// import ReactDOM from "react-dom";
+import ReactDOM from "react-dom";
 import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
-// import ItemModal from "./PCNavItemModal";
+import ItemModal from "./NavItemModal";
 import { useNavigate } from "react-router-dom";
 
 //next button component /////////////////////////////////////////////////////////
-const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
+const Next = ({setNext}) => {
   const nextHandler = () => {
     setNext(true);
-    scrollRef.current.scrollTo({
-      behavior: "smooth",
-      left: Math.floor(finalScrollPos + scrollWidth)
-      // left: Math.floor(finalScrollPos + (dvWidth-1))
-    });
   };
 
   return (
     <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
-        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={nextHandler}
       >
         <img src="/images/left-arrow.svg" className="rotate-180 w-[1.5em]" />
@@ -30,20 +25,15 @@ const Next = ({ scrollRef, finalScrollPos, scrollWidth, setNext }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev }) => {
+const Prev = ({ setPrev}) => {
   const prevHandler = () => {
     setPrev(true);
-    scrollRef.current.scrollTo({
-      behavior: "smooth",
-      left: Math.floor(finalScrollPos - scrollWidth)
-      // left: Math.floor(finalScrollPos - (dvWidth-1))
-    });
   };
 
   return (
     <div className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
-        className="w-[3em] xl:w-[5em] h-[100%] flex justify-center items-center"
+        className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
       >
         <img src="/images/left-arrow.svg" className="w-[1.5em]" />
@@ -54,86 +44,271 @@ const Prev = ({ scrollRef, finalScrollPos, scrollWidth, setPrev }) => {
 
 //Modal Container Component
 /////////////////////////////////////////////////////////////////////////////
-// const ModalCont = ({
-//   height,
-//   onMouseOut,
-//   setHover,
-//   movieType,
-//   dvWidth,
-//   id,
-//   bg,
-//   title,
-//   movieID,
-//   itemHeight,
-//   itemWidth,
-//   show,
-//   left,
-//   right,
-//   top
-// }) => {
-//   const [expand, setExpand] = useState(false);
+const ModalCont = ({
+  height,
+  onMouseOut,
+  setHover,
+  movieType,
+  dvWidth,
+  data,
+  id,
+  bg,
+  title,
+  movieID,
+  itemHeight,
+  itemWidth,
+  show,
+  left,
+  right,
+  top
+}) => {
+  const [expand, setExpand] = useState(false);
 
-//   return (
-//     <div
-//       style={{
-//         height: `${height}`,
-//         pointerEvents: `${expand ? "auto" : "none"}`
-//       }}
-//       className={`absolute top-0 left-0 z-[40] w-[100%]`}
-//     >
-//       <div
-//         style={{
-//           backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
-//           overscrollBehavior: "contain",
-//           overflowY: `${expand ? "auto" : "hidden"}`,
-//           transition: "all 0.2s linear",
-//           height: `${height}`,
-//           pointerEvents: `${expand ? "auto" : "none"}`
-//         }}
-//         className="relative top-0 left-0 w-[100%]"
-//       >
+  return (
+    <div
+      style={{
+        height: `${height}`,
+        pointerEvents: `${expand ? "auto" : "none"}`
+      }}
+      className={`absolute top-0 left-0 z-[40] w-[100%]`}
+    >
+      <div
+        style={{
+          backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
+          overscrollBehavior: "contain",
+          overflowY: `${expand ? "auto" : "hidden"}`,
+          transition: "all 0.2s linear",
+          height: `${height}`,
+          pointerEvents: `${expand ? "auto" : "none"}`
+        }}
+        className="relative top-0 left-0 w-[100%]"
+      >
+        <ItemModal
+          key={id}
+          onMouseEnter={() => setHover(id)}
+          onMouseLeave={onMouseOut}
+          height={itemHeight}
+          width={itemWidth}
+          show={show}
+          expand={expand}
+          dvWidth={dvWidth}
+          $data={data}
+          bg={bg}
+          title={title}
+          movieID={movieID}
+          top={top}
+          left={left}
+          right={right}
+          setExpand={setExpand}
+          movieType={movieType}
+        />
+      </div>
+    </div>
+  );
+};
 
-//         <ItemModal
-//           key={id}
-//           onMouseEnter={() => setHover(id)}
-//           onMouseLeave={onMouseOut}
-//           height={itemHeight}
-//           width={itemWidth}
-//           show={show}
-//           expand={expand}
-//           dvWidth={dvWidth}
-//           bg={bg}
-//           title={title}
-//           movieID={movieID}
-//           top={top}
-//           left={left}
-//           right={right}
-//           setExpand={setExpand}
-//           movieType={movieType}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-//scroll Item Component
+//scroll PC Item Component
 ////////////////////////////////////////////////////////////////////////////////
-const ScrollItem = ({
+export const ScrollItemPC = ({
+  bg,
   bg_poster,
   row,
-  // dvWidth,
+  dvWidth,
+  hover,
+  setHover,
+  id,
+  mb,
+  $data,
+  movieType,
+  svgNum
+}) => {
+  const [ready, setReady] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [modalContHeight, setModalContHeight] = useState("");
+  const itemRef = useRef();
+
+  const mouseOverHandler = () => {
+    setHover(id);
+  };
+
+  const mouseOutHandler = () => {
+    //reset hover onMouseOut
+    setHover(false);
+  };
+
+  useEffect(() => {
+    //get document height and save in a state
+    const body = document.body;
+    setModalContHeight(`${body.scrollHeight}px`);
+    setReady(true);
+  }, [hover]);
+
+  return (
+    <>
+      {
+        //display visible modal in portal div
+        ready &&
+          ReactDOM.createPortal(
+            <ModalCont
+              height={modalContHeight}
+              onMouseOut={mouseOutHandler}
+              movieType={movieType}
+              setHover={setHover}
+              data={$data}
+              id={id}
+              bg={bg}
+              title={$data.title || $data.name}
+              movieID={$data.id}
+              dvWidth={dvWidth}
+              show={hover === id}
+              left={Math.floor(itemRef.current.getBoundingClientRect().left)}
+              right={Math.floor(itemRef.current.getBoundingClientRect().right)}
+              top={Math.floor(
+                itemRef.current.getBoundingClientRect().top + window.scrollY
+              )}
+              itemHeight={Math.floor(
+                itemRef.current.getBoundingClientRect().height
+              )}
+              itemWidth={Math.floor(
+                itemRef.current.getBoundingClientRect().width
+              )}
+            />,
+            document.getElementById("portal")
+          )
+      }
+
+      <div
+        id={id}
+        ref={itemRef}
+        onMouseOver={mouseOverHandler}
+        onMouseOut={mouseOutHandler}
+        className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
+          ${mb || ""}
+          flex-none p-1 flex-none`}
+      >
+        <div
+          className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
+        >
+          {row != 2 && (
+            <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
+              {bg ? (
+                <img
+                  style={{
+                    display: `${loaded ? "block" : "none"}`
+                  }}
+                  src={`https://image.tmdb.org/t/p/w300/${bg}`}
+                  className=" w-[100%] top-0 left-0 origin-[50%_0%]"
+                  alt="bgImage"
+                  onLoad={() => setLoaded(true)}
+                />
+              ) : (
+                <span className="lg:h-[0.9em] xl:h-[1em]">
+                  <img
+                    style={{
+                      display: `${loaded ? "block" : "none"}`
+                    }}
+                    src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                    className=" w-[100%] top-0 left-0 origin-[50%_0%]"
+                    alt="bgImage"
+                    onLoad={() => setLoaded(true)}
+                  />
+                </span>
+              )}
+
+              <span
+                className="flex items-center justify-center px-[1em] absolute bottom-0 left-0 w-[100%] text-[0.2em] font-[800] text-center pb-4 pointer-events-none"
+                style={{
+                  fontFamily: "bebas_neueregular",
+                  letterSpacing: "3px"
+                }}
+              >
+                {$data.title || $data.name}
+              </span>
+
+              <div
+                className="relative"
+                style={{
+                  display: `${loaded ? "none" : "block"}`
+                }}
+              >
+                <Loader />
+                <img
+                  className="w-[100%]"
+                  src="/images/loaderBG.jpg"
+                  alt="loader"
+                />
+              </div>
+            </div>
+          )}
+
+          {row === 2 && (
+            <div className="relative w-full h-full flex justify-end font-bold text-[5em] items-center overflow-clip">
+              <span
+                style={{
+                  backgroundImage: `${svgNum}`
+                }}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
+              ></span>
+
+              <span className="relative w-[50%] h-full">
+                <img
+                  style={{
+                    display: `${loaded ? "block" : "none"}`
+                  }}
+                  src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                  className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
+                  alt="bgImage"
+                  onLoad={() => setLoaded(true)}
+                />
+              </span>
+
+              <span
+                className="relative w-[50%] h-full"
+                style={{
+                  display: `${loaded ? "none" : "block"}`
+                }}
+              >
+                <span className="absolute w-full h-full top-0 left-0">
+                  <Loader />
+                </span>
+
+                <img
+                  className="w-[100%]"
+                  src="/images/nullPoster.jpg"
+                  alt="loader"
+                />
+              </span>
+            </div>
+          )}
+
+          {row != 2 && (
+            <div className="absolute top-[10px] left-[10px]">
+              <img src={"/images/LOGO_C.svg"} className="w-[5%]" />
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+//scroll mobile Item Component
+////////////////////////////////////////////////////////////////////////////////
+export const ScrollItemMobile = ({
+  bg_poster,
+  row,
   id,
   $id,
   groupType,
   movieType,
-  svgNum
+  svgNum,
+  $data
 }) => {
-  // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  // const [modalContHeight, setModalContHeight] = useState("");
-
   const navigate = useNavigate();
-  const data = { groupType, movieType };
+  const data = { groupType, movieType, genres: $data["genre_ids"].join("%2C") };
 
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
@@ -146,14 +321,11 @@ const ScrollItem = ({
       <div
         id={id}
         ref={itemRef}
-        className={
-          // `${row === 2 ? "scrollTopItem" : "scrollItem"}
-          `flex-none ${
-            row === 2
-              ? "w-[calc((100%/2))]"
-              : "w-[calc((100%/3))] md:w-[calc((100%/4))]"
-          } lg:w-[calc((100%/5))] p-1 flex-none`
-        }
+        className={`flex-none ${
+          row === 2
+            ? "w-[calc((100%/2))]"
+            : "w-[calc((100%/3))] md:w-[calc((100%/4))]"
+        } lg:w-[calc((100%/5))] p-1 flex-none`}
       >
         <div
           className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
@@ -253,44 +425,6 @@ const ScrollItem = ({
   );
 };
 
-// //scroll items component ///////////////////////////////////////////////////////////////////
-// const ScrollItem = ({ bg, classes, $id, groupType, movieType }) => {
-//   const [loaded, setLoaded] = useState(true);
-
-//   const navigate = useNavigate();
-//   const data = { groupType, movieType };
-
-//   return (
-//     <div className="p-1 flex-none w-[calc((100%/5))]">
-//     <div
-//       id={$id}
-//       className={`${classes} relative rounded-md h-[13em] overflow-hidden`}
-//     >
-//       {loaded && <Loader />}
-
-//       <div
-//         className="relative flex justify-center font-bold text-[5em] items-center h-[inherit] overflow-clip"
-//       >
-//         <img
-//           src={
-//             bg
-//               ? `https://image.tmdb.org/t/p/w300/${bg}`
-//               : "/images/nullPoster.jpg"
-//           }
-//           className="w-[100%] absolute top-0 left-0"
-//           alt="bgImage"
-//           onLoad={() => setLoaded(false)}
-//         />
-//       </div>
-
-//       <div className="absolute top-[10px] left-[10px]">
-//         <img src={"images/LOGO_C.svg"} className="w-[5%]" />
-//       </div>
-//     </div>
-//     </div>
-//   );
-// };
-
 //scroll indicator component ////////////////////////////////////////////////////////////////
 const Span = ({ id, bgSpan }) => {
   return (
@@ -303,16 +437,17 @@ const Span = ({ id, bgSpan }) => {
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const NavScroll = ({
+export const NavScroll = ({
   data,
   position,
   $id,
+  $bg,
   count,
   hover,
   setHover,
   $scrollContID
 }) => {
-  const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.dvWidth);
   const [list, setList] = useState();
   const [movieList, setMovieList] = useState();
   const [page, setPage] = useState(0);
@@ -329,16 +464,18 @@ const NavScroll = ({
 
   const { watchList, profile } = useSelector((state) => state.account);
 
-  // console.log($id*1,  data.title);
-
   useEffect(() => {
     if (data.title != "My List") {
       if (data.movies.length > 0) {
-        let children = [...Array(Math.ceil(data.movies.length / ($id === 2 ? 2 : count))).keys()];
-        setList([...data.movies]);
-        setMovieList([...data.movies]);
+        let children = [
+          ...Array(
+            Math.ceil(data.movies.length / ($id === 2 ? (isPC ? 5 : 2) : count))
+          ).keys()
+        ];
         setChildren(children);
         setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
+        setList([...data.movies]);
+        setMovieList([...data.movies]);
       }
     }
   }, [profile]);
@@ -346,9 +483,7 @@ const NavScroll = ({
   useEffect(() => {
     if (data.title === "My List") {
       if (watchList.length > 0) {
-        let children = [
-          ...Array(Math.ceil(watchList.length / count)).keys()
-        ];
+        let children = [...Array(Math.ceil(watchList.length / count)).keys()];
         setChildren(children);
         setBgSpan({ 0: "bg-[rgb(120,120,120)]" });
         setList([...watchList]);
@@ -368,6 +503,21 @@ const NavScroll = ({
   }, [list]);
 
   useEffect(() => {
+    if (next) {
+      scrollRef.current.scrollTo({
+        behavior: "smooth",
+        left: Math.floor(finalScrollPos + scrollWidth)
+      });
+    }
+    if (prev) {
+      scrollRef.current.scrollTo({
+        behavior: "smooth",
+        left: Math.floor(finalScrollPos - scrollWidth)
+      });
+    }
+  }, [next, prev]);
+
+  useEffect(() => {
     setBgSpan({ [page]: "bg-[rgb(120,120,120)]" });
     setNext(false);
     setPrev(false);
@@ -375,11 +525,11 @@ const NavScroll = ({
 
   useEffect(() => {
     if (movieList && children && scrollID) {
-      if (scrollRef.current) {
-        setScrollWidth(scrollRef.current.getBoundingClientRect().width);
-      }
+      setScrollWidth(
+        document.getElementById($scrollContID).getBoundingClientRect().width
+      );
     }
-  }, [movieList, children, scrollID, $scrollContID]);
+  }, [scrollID]);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -389,6 +539,7 @@ const NavScroll = ({
     }
     //implement elastic scrolling////////////////////////////////////////////////////////////////////////
     if (initScrollPos != null && !next && !prev) {
+      console.log("next is not true");
       const newTimeoutID = setTimeout(() => {
         if (scrollRef.current.scrollLeft > initScrollPos) {
           //for swipe left
@@ -440,6 +591,7 @@ const NavScroll = ({
       scrollRef.current.scrollLeft === finalScrollPos + scrollWidth ||
       scrollRef.current.scrollLeft === finalScrollPos - scrollWidth
     ) {
+      console.log("scrollEnded");
       setInitScrollPos(scrollRef.current.scrollLeft);
       setFinalScrollPos(scrollRef.current.scrollLeft);
 
@@ -449,43 +601,46 @@ const NavScroll = ({
         } else {
           setPage((prev) => prev + 1);
         }
-      } else if (
-        scrollRef.current.scrollLeft ===
-        finalScrollPos - scrollWidth
-      ) {
+      }
+      if (scrollRef.current.scrollLeft === finalScrollPos - scrollWidth) {
         if (page === 0) {
           setPage(children.length - 1);
         } else {
           setPage((prev) => prev - 1);
         }
       }
-
-      if (scrollTimeOut) {
-        clearTimeout(scrollTimeOut);
-        setScrollTimeOut(null);
+      //get last child position to create infinite scroll///////////////////////////////////////////////
+      if (
+        scrollWidth -
+          Math.floor(
+            document
+              .getElementById(scrollID[list.length - 1])
+              .getBoundingClientRect().right
+          ) <=
+        2
+      ) {
+        setList((prev) => [...prev, ...movieList]);
       }
+      return;
+
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //get last child position to create infinite scroll///////////////////////////////////////////////
-    if (
-      Math.ceil(
-        document
-          .getElementById(scrollID[list.length - 1])
-          .getBoundingClientRect().right
-      ) === scrollWidth
-    ) {
-      setList((prev) => [...prev, ...movieList]);
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////
   };
   //scroll handler ends//////////////////////////////////////////////////////////////////////////////
 
   if (data.movies.length > 0 || watchList.length > 0) {
     return (
       <>
+        {!movieList && (
+          <div className="w-[100%] h-[auto] ">
+            <img src="/images/loaderBG.jpg" />
+          </div>
+        )}
         {movieList && children && scrollID && (
           <div
+            style={{
+              backgroundColor: `${$id === 0 && !isPC ? `rgb(${$bg},0.2)` : ""}`
+            }}
             className={`${position || "relative"} w-full ${
               $id === 0 ? "pt-6" : ""
             }`}
@@ -529,33 +684,56 @@ const NavScroll = ({
               <div
                 ref={scrollRef}
                 onScroll={scrollHandler}
-                id="scrollNav"
+                id={$scrollContID}
                 className="flex relative scrollNav flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
               >
-                {list.map((item, index) => (
-                  <ScrollItem
-                    key={index}
-                    id={scrollID[index]}
-                    $id={item.id}
-                    svgNum={`url('/images/svgNum/num_${
-                      index.toString().split("")[
-                        index.toString().split("").length - 1
-                      ] *
-                        1 +
-                      1
-                    }.svg')`}
-                    row={$id}
-                    src={item.logo}
-                    bg={item["backdrop_path"] || item["poster_path"]}
-                    bg_poster={item["poster_path"]}
-                    data={item}
-                    dvWidth={dvWidth}
-                    setHover={setHover}
-                    hover={hover}
-                    groupType={data.type}
-                    movieType={item["media_type"]}
-                  />
-                ))}
+                {list.map((item, index) =>
+                  isPC ? (
+                    <ScrollItemPC
+                      key={index}
+                      id={scrollID[index]}
+                      svgNum={`url('/images/svgNum/num_${
+                        index.toString().split("")[
+                          index.toString().split("").length - 1
+                        ] *
+                          1 +
+                        1
+                      }.svg')`}
+                      row={$id}
+                      src={item.logo}
+                      bg={item["backdrop_path"]}
+                      bg_poster={item["poster_path"]}
+                      $data={item}
+                      dvWidth={scrollWidth}
+                      setHover={setHover}
+                      hover={hover}
+                      movieType={data.type || item["media_type"]}
+                    />
+                  ) : (
+                    <ScrollItemMobile
+                      key={index}
+                      id={scrollID[index]}
+                      $id={item.id}
+                      svgNum={`url('/images/svgNum/num_${
+                        index.toString().split("")[
+                          index.toString().split("").length - 1
+                        ] *
+                          1 +
+                        1
+                      }.svg')`}
+                      row={$id}
+                      src={item.logo}
+                      bg={item["backdrop_path"] || item["poster_path"]}
+                      bg_poster={item["poster_path"]}
+                      $data={item}
+                      dvWidth={scrollWidth}
+                      setHover={setHover}
+                      hover={hover}
+                      groupType={data.type}
+                      movieType={item["media_type"]}
+                    />
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -585,4 +763,4 @@ const NavScroll = ({
   }
 };
 
-export default NavScroll;
+// export default NavScroll;
