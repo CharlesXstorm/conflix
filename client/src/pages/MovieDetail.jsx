@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import MovieDetailHero from "../components/MovieDetailHero";
@@ -32,6 +32,10 @@ const MovieDetail = ({ movieType, movieID, bg, genres }) => {
       setVolume(1);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

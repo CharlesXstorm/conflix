@@ -508,8 +508,6 @@ export const NavScroll = ({
     ).keys()
   ];
 
-  console.log('navscrollData',data)
-
   useEffect(() => {
     if (data.title === "My List") {
       setList($data);
@@ -517,7 +515,7 @@ export const NavScroll = ({
   }, [profile.watchList]);
 
   useEffect(() => {
-    console.log("loading navscroll");
+
     if (scrollRef.current && scrollWidth === null) {
       setScrollWidth(scrollRef.current.getBoundingClientRect().width);
     }

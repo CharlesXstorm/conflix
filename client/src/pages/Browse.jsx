@@ -28,9 +28,7 @@ const Browse = ({
   const { data, profile } = useSelector((state) => state.account);
 
   const [timeOutID, setTimeoutID] = useState();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   useEffect(() => {
     if (timeOutID) {
       clearTimeout(timeOutID);

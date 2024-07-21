@@ -92,7 +92,7 @@ const MovieDetailInfo = ({$movieType,$id,$genres}) => {
         </div>
       }
    {$data && 
-    <div className="flex flex-col gap-[1em] px-[4%]">
+    <div className="flex flex-col gap-[1em] px-[4%] lg:mt-4">
     <div className="w-[100%]">
       <p>
         <span className="text-green-500">

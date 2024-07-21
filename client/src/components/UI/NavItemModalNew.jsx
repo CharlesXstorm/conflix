@@ -11,6 +11,7 @@ import axios from "axios";
 import HeroInfo from "../HeroInfo";
 import VideoPlayer from "../VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
+import MovieDetailInfo from "../MovieDetailInfo";
 
 const ItemModal = ({
   onMouseEnter,
@@ -36,6 +37,7 @@ const ItemModal = ({
   const [expandOpacity, setExpandOpacity] = useState();
   const [itemWidth, setItemWidth] = useState();
   const [shrinkWidth, setShrinkWidth] = useState("100%");
+  const [expandHeight, setExpandHeight] = useState("100%");
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState("add-icon");
@@ -73,6 +75,11 @@ const ItemModal = ({
     } else {
       setInitPosition({ left: "0%" });
     }
+
+    const newTimeoutID = setTimeout(() => {
+      setExpandHeight('auto')
+    }, 200);
+    setTimeoutID(newTimeoutID);
   };
 
   //volume control
@@ -193,10 +200,11 @@ const ItemModal = ({
 
     if (!show) {
       setExpand(false);
-      // setPlaying(false);
+      setPlaying(false);
       const newTimeoutID = setTimeout(() => {
         setExpandOpacity(0);
         setShrinkWidth("100%");
+        setExpandHeight("100%")
       }, 200);
       setTimeoutID(newTimeoutID);
     }
@@ -241,21 +249,17 @@ const ItemModal = ({
         show ? "pointer-events-auto" : "pointer-events-none"
       } absolute flex flex-col items-center z-[50] rounded-[6px] text-white `}
     >
-      {/* <MovieDetail
-            movieType={movieType}
-            movieID={movieID}
-            bg={bg}
-            genres={$data["genre_ids"].join("%2C")}
-          /> */}
 
       {
         <div
           style={{
             width: `${!show ? shrinkWidth : show && !expand ? "100%" : "50%"}`,
-            // marginLeft: `${!show ? "0%" : show && !expand ? "0%" : "25%"}`,
+            height: `${
+              !show ? "100%" : show && !expand ? "100%" : expandHeight
+            }`,
             paddingBottom: `${!show ? "0px" : show && !expand ? "0px" : "4em"}`
           }}
-          className="relative rounded-[6px] h-full bg-[rgb(25,25,25)] overflow-clip"
+          className="relative rounded-[6px] bg-[rgb(25,25,25)] overflow-clip"
         >
           {
             //backdrop and video
@@ -263,7 +267,7 @@ const ItemModal = ({
               style={{
                 height: `${!show ? "100%" : show && !expand ? "60%" : "50vh"}`
               }}
-              className="relative border border-blue-600 overflow-clip"
+              className="relative overflow-clip"
             >
               {
                 //video player
@@ -330,61 +334,69 @@ const ItemModal = ({
           }
           {
             //movie details
-            !expand && <div
-              className="flex flex-col gap-3 w-[100%] p-4 bg-[rgb(25,25,25)]"
-              style={{
-                height: `${!show ? "0%" : "40%"}`
-              }}
-            >
-              <div className="flex justify-between">
-                <span className="flex gap-2">
-                  <button className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
-                    <img src="/images/play.svg" alt="buttons" />
-                  </button>
-                  <button
-                    onClick={watchListHandler}
-                    className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
-                  >
-                    <img src={`/images/${watchIcon}.svg`} alt="buttons" />
-                  </button>
-                  <button className="w-[2em] border-[2px] rounded-[50%] p-[6px] flex items-center justify-center">
-                    <img src="/images/like.svg" alt="buttons" />
-                  </button>
-                </span>
-
-                <span className="flex">
-                  <button
-                    onClick={expandHandler}
-                    className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
-                  >
-                    <img src="/images/arrow-down.svg" alt="buttons" />
-                  </button>
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-[0.8em]">
-                <span className="text-green-600 font-[500]">64% Match</span>
-                <span className="border px-[0.5em]">18+</span>
-                <span>3 Seasons</span>
-                <span className="border px-[0.5em]">HD</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-[0.8em]">
-                {genres.map((item, index) => (
-                  <span className="flex items-center gap-2" key={index}>
-                    <span>{item}</span>
-                    {index !== genres.length - 1 && (
-                      <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
-                    )}
+            !expand && (
+              <div
+                className="flex flex-col gap-3 w-[100%] p-4 bg-[rgb(25,25,25)]"
+                style={{
+                  height: `${!show ? "0%" : "40%"}`
+                }}
+              >
+                <div className="flex justify-between">
+                  <span className="flex gap-2">
+                    <button className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
+                      <img src="/images/play.svg" alt="buttons" />
+                    </button>
+                    <button
+                      onClick={watchListHandler}
+                      className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
+                    >
+                      <img src={`/images/${watchIcon}.svg`} alt="buttons" />
+                    </button>
+                    <button className="w-[2em] border-[2px] rounded-[50%] p-[6px] flex items-center justify-center">
+                      <img src="/images/like.svg" alt="buttons" />
+                    </button>
                   </span>
-                ))}
+
+                  <span className="flex">
+                    <button
+                      onClick={expandHandler}
+                      className="w-[2em] border-[2px] rounded-[50%] p-[4px] flex items-center justify-center"
+                    >
+                      <img src="/images/arrow-down.svg" alt="buttons" />
+                    </button>
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[0.8em]">
+                  <span className="text-green-600 font-[500]">64% Match</span>
+                  <span className="border px-[0.5em]">18+</span>
+                  <span>3 Seasons</span>
+                  <span className="border px-[0.5em]">HD</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-[0.8em]">
+                  {genres.map((item, index) => (
+                    <span className="flex items-center gap-2" key={index}>
+                      <span>{item}</span>
+                      {index !== genres.length - 1 && (
+                        <span className="p-[1px] w-1 h-1 rounded-[50%] bg-[rgb(120,120,120)] "></span>
+                      )}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )
           }
 
           {
             //expand movie detail
-            
+            expand && (
+              <MovieDetailInfo
+                $movieType={movieType}
+                $id={movieID}
+                $genres={$data["genre_ids"].join("%2C")}
+              />
+            )
           }
 
           {

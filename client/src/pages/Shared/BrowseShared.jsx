@@ -13,8 +13,6 @@ const BrowseShared = ({
 }) => {
   const { overflowValue } = useSelector((state) => state.feature);
 
-  // const dispatch = useDispatch();
-
   useEffect(() => {
     const moviePage = document.body.style;
     moviePage.overflow = overflowValue;

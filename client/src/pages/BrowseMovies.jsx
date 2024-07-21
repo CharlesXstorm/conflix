@@ -119,6 +119,7 @@ const BrowseMovies = ({
       clearTimeout(timeOutID);
       setTimeoutID(null);
     }
+    window.scrollTo(0, 0);
     setNavView(true);
     dispatch(setFocus(linkFocus));
 
