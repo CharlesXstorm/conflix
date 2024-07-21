@@ -1,6 +1,6 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOverflow } from "../../utils/featureSlice";
 import { setWatchList } from "../../utils/profileSlice";
@@ -9,6 +9,8 @@ import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
 import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";
 import HeroInfo from "../HeroInfo";
+import VideoPlayer from "../VideoPlayer";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ItemModal = ({
   onMouseEnter,
@@ -33,14 +35,19 @@ const ItemModal = ({
   const [expandTop, setExpandTop] = useState(0);
   const [expandOpacity, setExpandOpacity] = useState();
   const [itemWidth, setItemWidth] = useState();
+  const [shrinkWidth, setShrinkWidth] = useState("100%");
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState("add-icon");
+  const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [timeoutID, setTimeoutID] = useState();
 
+  const playerRef = useRef();
+
   const { data, profile } = useSelector((state) => state.account);
+  // console.log('modalPlaying',playing)
 
   const dispatch = useDispatch();
 
@@ -186,9 +193,11 @@ const ItemModal = ({
 
     if (!show) {
       setExpand(false);
+      // setPlaying(false);
       const newTimeoutID = setTimeout(() => {
         setExpandOpacity(0);
-      }, 300);
+        setShrinkWidth("100%");
+      }, 200);
       setTimeoutID(newTimeoutID);
     }
     //check if element is at extreme left of scroll
@@ -230,7 +239,7 @@ const ItemModal = ({
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
-      } absolute flex flex-col border border-red-600 z-[50] rounded-[6px] text-white `}
+      } absolute flex flex-col items-center z-[50] rounded-[6px] text-white `}
     >
       {/* <MovieDetail
             movieType={movieType}
@@ -242,8 +251,8 @@ const ItemModal = ({
       {
         <div
           style={{
-            width: `${!show ? "100%" : show && !expand ? "100%" : "50%"}`,
-            marginLeft: `${!show ? "0%" : show && !expand ? "0%" : "25%"}`,
+            width: `${!show ? shrinkWidth : show && !expand ? "100%" : "50%"}`,
+            // marginLeft: `${!show ? "0%" : show && !expand ? "0%" : "25%"}`,
             paddingBottom: `${!show ? "0px" : show && !expand ? "0px" : "4em"}`
           }}
           className="relative rounded-[6px] h-full bg-[rgb(25,25,25)] overflow-clip"
@@ -254,17 +263,39 @@ const ItemModal = ({
               style={{
                 height: `${!show ? "100%" : show && !expand ? "60%" : "50vh"}`
               }}
-              className="relative border"
+              className="relative border border-blue-600 overflow-clip"
             >
               {
-                //backdrop image
-                <span
-                  style={{
-                    backgroundImage: `url(https://image.tmdb.org/t/p/w500/${bg})`
-                  }}
-                  className="border border-blue-600 absolute left-0 top-0 w-full h-full bg-cover"
-                ></span>
+                //video player
+                show && (
+                  <VideoPlayer
+                    volume={volume}
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    playerRef={playerRef}
+                    id={movieID}
+                    movieType={movieType}
+                  />
+                )
               }
+              <AnimatePresence initial={false}>
+                {
+                  //backdrop image
+                  !playing && (
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1, ease: "linear" }}
+                      style={{
+                        backgroundImage: `url(https://image.tmdb.org/t/p/w500/${bg})`
+                      }}
+                      onClick={() => setPlaying(true)}
+                      className="absolute left-0 top-0 w-full h-full bg-cover"
+                    ></motion.span>
+                  )
+                }
+              </AnimatePresence>
               {
                 //movie title
                 !expand && (
@@ -299,7 +330,7 @@ const ItemModal = ({
           }
           {
             //movie details
-            <div
+            !expand && <div
               className="flex flex-col gap-3 w-[100%] p-4 bg-[rgb(25,25,25)]"
               style={{
                 height: `${!show ? "0%" : "40%"}`
@@ -352,6 +383,11 @@ const ItemModal = ({
           }
 
           {
+            //expand movie detail
+            
+          }
+
+          {
             //cancel button
             expand && (
               <button
@@ -362,6 +398,7 @@ const ItemModal = ({
                   } else {
                     setInitPosition({ left: "auto" });
                   }
+                  setShrinkWidth("50%");
                   setExpand(false);
                   dispatch(setOverflow("auto"));
                 }}

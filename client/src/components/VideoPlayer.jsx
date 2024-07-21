@@ -14,6 +14,8 @@ const VideoPlayer = ({
 }) => {
   const [key, setKey] = useState();
 
+  console.log("play", playing, "id", id, "movieType", movieType, "key", key);
+
   const delay = () => {
     setTimeout(() => {
       setPlaying(true);
@@ -41,8 +43,7 @@ const VideoPlayer = ({
     const config = {
       headers: {
         accept: "application/json",
-        Authorization:
-          `Bearer ${import.meta.env.VITE_TMDB_AUTH}`
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_AUTH}`
       }
     };
     try {
@@ -53,7 +54,7 @@ const VideoPlayer = ({
           config
         );
       }
-      if(movieType==="tv"){
+      if (movieType === "tv") {
         movie = await axios.get(
           `${import.meta.env.VITE_TMDB_URL}/tv/${id}/videos?language=en-US`,
           config
@@ -76,7 +77,9 @@ const VideoPlayer = ({
   };
 
   useEffect(() => {
-    getKey();
+    if (!key) {
+      getKey();
+    }
   }, []);
 
   return (

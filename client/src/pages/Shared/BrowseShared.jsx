@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MovieNav from "../../components/MovieNav";
 import Footer from "../../components/Footer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// import { setBodyHeight } from "../../utils/dvWidthSlice";
 
 const BrowseShared = ({
   setAccountLoader,
@@ -11,6 +12,8 @@ const BrowseShared = ({
   navView
 }) => {
   const { overflowValue } = useSelector((state) => state.feature);
+
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     const moviePage = document.body.style;

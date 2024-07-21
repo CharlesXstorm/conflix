@@ -143,11 +143,13 @@ export const ScrollItemPC = ({
   isList,
   svgNum
 }) => {
-  const [ready, setReady] = useState(false);
+  // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [modalContHeight, setModalContHeight] = useState("");
+  // const [modalContHeight, setModalContHeight] = useState("");
   const [expand, setExpand] = useState(false);
   const itemRef = useRef();
+
+  let modalContHeight = `${document.body.scrollHeight}px`
 
   const mouseOverHandler = () => {
     setHover(id);
@@ -158,18 +160,19 @@ export const ScrollItemPC = ({
     setHover(false);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     //get document height and save in a state
-    const body = document.body;
-    setModalContHeight(`${body.scrollHeight}px`);
-    setReady(true);
-  }, [hover]);
+    // const body = document.body;
+    // setModalContHeight(`${body.scrollHeight}px`);
+    // setReady(true);
+  // }, [hover]);
 
   return (
     <>
       {
         //display visible modal in portal div
-        ready &&
+        // ready &&
+        itemRef.current &&
           ReactDOM.createPortal(
             <ModalCont
               height={modalContHeight}
@@ -337,7 +340,7 @@ export const ScrollItemMobile = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-  const data = { groupType, movieType, genres: $data["genre_ids"].join("%2C") };
+  const data = { groupType, movieType, $data, genres: $data["genre_ids"].join("%2C") };
 
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
@@ -504,6 +507,9 @@ export const NavScroll = ({
       Math.ceil($data.length / ($id === 2 ? (isPC ? 5 : 2) : count))
     ).keys()
   ];
+
+  console.log('navscrollData',data)
+
   useEffect(() => {
     if (data.title === "My List") {
       setList($data);
@@ -515,9 +521,7 @@ export const NavScroll = ({
     if (scrollRef.current && scrollWidth === null) {
       setScrollWidth(scrollRef.current.getBoundingClientRect().width);
     }
-    // setList($data);
   }, []);
-  // [profile.watchList]
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {

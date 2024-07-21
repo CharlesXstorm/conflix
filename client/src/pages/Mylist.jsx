@@ -12,7 +12,7 @@ const Mylist = ({ setNavView }) => {
   const dispatch = useDispatch();
   const { profile} = useSelector((state) => state.account);
 
-  console.log('profileList', profile);
+  // console.log('profileList', profile);
 
   let myList = profile.watchList
 
@@ -43,7 +43,7 @@ const Mylist = ({ setNavView }) => {
                     id={index}
                     mb={"mb-[2em]"}
                     $data={item}
-                    movieType={item["media_type"]}
+                    movieType={item["type"]}
                     svgNum={null}
                   />
                 ) : (
@@ -61,7 +61,7 @@ const Mylist = ({ setNavView }) => {
                     setHover={setHover}
                     hover={hover}
                     groupType={null}
-                    movieType={item["media_type"]}
+                    movieType={item["type"]}
                   />
                 )
               )}

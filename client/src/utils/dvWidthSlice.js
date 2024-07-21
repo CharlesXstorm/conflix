@@ -8,6 +8,7 @@ export const dvWidthSlice = createSlice({
     isTablet: false,
     isPC: false,
     dvWidth: 0,
+    bodyHeight:0
   },
   reducers: {
     getWidth: (state, action) => {
@@ -21,6 +22,9 @@ export const dvWidthSlice = createSlice({
         default:
           return;
       }
+    },
+    setBodyHeight: (state,action) => {
+      state.bodyHeight = action.payload
     }
 
     // incrementByAmount: (state, action) => {
@@ -30,6 +34,6 @@ export const dvWidthSlice = createSlice({
 });
 
 //Action creators are generated for each case reducer function
-export const { getWidth } = dvWidthSlice.actions;
+export const { getWidth,setBodyHeight } = dvWidthSlice.actions;
 
 export default dvWidthSlice.reducer;
