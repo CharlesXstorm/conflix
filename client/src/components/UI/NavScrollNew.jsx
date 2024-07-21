@@ -63,6 +63,11 @@ export const ModalCont = ({
   height,
   onMouseOut,
   setHover,
+  expand,
+  setExpand,
+  setNext,
+  setPrev,
+  scrollRef,
   movieType,
   isList,
   dvWidth,
@@ -78,8 +83,6 @@ export const ModalCont = ({
   right,
   top
 }) => {
-  const [expand, setExpand] = useState(false);
-
   return (
     <div
       style={{
@@ -97,7 +100,7 @@ export const ModalCont = ({
           height: `${height}`,
           pointerEvents: `${expand ? "auto" : "none"}`
         }}
-        className="relative top-0 left-0 w-[100%]"
+        className="relative  top-0 left-0 w-[100%]"
       >
         <ItemModal
           key={id}
@@ -143,6 +146,7 @@ export const ScrollItemPC = ({
   const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [modalContHeight, setModalContHeight] = useState("");
+  const [expand, setExpand] = useState(false);
   const itemRef = useRef();
 
   const mouseOverHandler = () => {
@@ -173,9 +177,11 @@ export const ScrollItemPC = ({
               movieType={movieType}
               isList={isList}
               setHover={setHover}
+              expand={expand}
+              setExpand={setExpand}
               data={$data}
               id={id}
-              bg={bg||bg_poster}
+              bg={bg || bg_poster}
               title={$data.title || $data.name}
               movieID={$data.id}
               dvWidth={dvWidth}
@@ -201,7 +207,9 @@ export const ScrollItemPC = ({
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
-        style={{ opacity: `${hover === id ? 0 : 1}` }}
+        style={{
+          opacity: `${hover === id && !expand ? 0 : hover === id && expand ? 1 : 1}`
+        }}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
           ${mb || ""}
           flex-none p-1 flex-none`}
@@ -473,8 +481,7 @@ export const NavScroll = ({
     data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
   const { isPC } = useSelector((state) => state.dvWidth);
-  const [list, setList] = useState($data);
-
+  const [list, setList] = useState([...$data]);
   const [page, setPage] = useState(0);
 
   const [initScrollPos, setInitScrollPos] = useState(0);
@@ -497,13 +504,20 @@ export const NavScroll = ({
       Math.ceil($data.length / ($id === 2 ? (isPC ? 5 : 2) : count))
     ).keys()
   ];
+  useEffect(() => {
+    if (data.title === "My List") {
+      setList($data);
+    }
+  }, [profile.watchList]);
 
   useEffect(() => {
+    console.log("loading navscroll");
     if (scrollRef.current && scrollWidth === null) {
       setScrollWidth(scrollRef.current.getBoundingClientRect().width);
     }
-    setList($data);
-  }, [profile.id]);
+    // setList($data);
+  }, []);
+  // [profile.watchList]
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {

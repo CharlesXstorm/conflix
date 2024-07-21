@@ -8,6 +8,7 @@ import MovieDetail from "../../pages/MovieDetail";
 import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
 import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";
+import HeroInfo from "../HeroInfo";
 
 const ItemModal = ({
   onMouseEnter,
@@ -35,6 +36,9 @@ const ItemModal = ({
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
   const [watchIcon, setWatchIcon] = useState("add-icon");
+  const [volume, setVolume] = useState(1);
+  const [volumeIcon, setVolumeIcon] = useState("max");
+  const [timeoutID, setTimeoutID] = useState();
 
   const { data, profile } = useSelector((state) => state.account);
 
@@ -61,6 +65,17 @@ const ItemModal = ({
       setInitPosition({ right: "0%" });
     } else {
       setInitPosition({ left: "0%" });
+    }
+  };
+
+  //volume control
+  const volumeHandler = () => {
+    if (volume === 1) {
+      setVolumeIcon("off");
+      setVolume(0);
+    } else {
+      setVolumeIcon("max");
+      setVolume(1);
     }
   };
 
@@ -135,13 +150,23 @@ const ItemModal = ({
   const watchListHandler = () => {
     if (watchIcon === "add-icon") {
       addWatchList();
+      onMouseLeave();
+      setExpand(false);
+      dispatch(setOverflow("auto"));
     } else {
       removeWatchList();
+      onMouseLeave();
+      setExpand(false);
+      dispatch(setOverflow("auto"));
     }
   };
   /////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
+    //clear any timeout
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+    }
     //reset default values on show change
     for (var any of profile.watchList) {
       if (any.name && any.name === $data.name) {
@@ -150,6 +175,8 @@ const ItemModal = ({
       } else if (any.title && any.title === $data.title) {
         setWatchIcon("remove-icon");
         break;
+      } else {
+        setWatchIcon("add-icon");
       }
     }
     setItemWidth("400px");
@@ -159,9 +186,10 @@ const ItemModal = ({
 
     if (!show) {
       setExpand(false);
-      setTimeout(() => {
+      const newTimeoutID = setTimeout(() => {
         setExpandOpacity(0);
       }, 300);
+      setTimeoutID(newTimeoutID);
     }
     //check if element is at extreme left of scroll
     if (left <= 40) {
@@ -239,15 +267,30 @@ const ItemModal = ({
               }
               {
                 //movie title
-                <span
-                  className="absolute bottom-[10%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center p-2 font-[500] pointer-events-none"
-                  style={{
-                    fontFamily: "bebas_neueregular",
-                    letterSpacing: "5px"
-                  }}
-                >
-                  {title}
-                </span>
+                !expand && (
+                  <span
+                    className="absolute bottom-[10%] left-0 w-[100%] text-[1em] xl:text-[1.5em] text-center p-2 font-[500] pointer-events-none"
+                    style={{
+                      fontFamily: "bebas_neueregular",
+                      letterSpacing: "5px"
+                    }}
+                  >
+                    {title}
+                  </span>
+                )
+              }
+              {
+                //movie hero info
+                expand && (
+                  <HeroInfo
+                    volumeIcon={volumeIcon}
+                    volumeHandler={volumeHandler}
+                    movie={$data}
+                    watchListHandler={watchListHandler}
+                    expandHandler={expandHandler}
+                    watchIcon={watchIcon}
+                  />
+                )
               }
             </div>
           }
@@ -314,6 +357,11 @@ const ItemModal = ({
               <button
                 onClick={() => {
                   onMouseLeave();
+                  if (right >= dvWidth - 50) {
+                    setInitPosition({ right: "auto" });
+                  } else {
+                    setInitPosition({ left: "auto" });
+                  }
                   setExpand(false);
                   dispatch(setOverflow("auto"));
                 }}

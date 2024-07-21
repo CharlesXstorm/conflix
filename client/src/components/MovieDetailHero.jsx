@@ -5,12 +5,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "./VideoPlayer";
 import Loader from "./UI/Loader";
 import { useState } from "react";
+import HeroInfo from "./HeroInfo";
 
 const MovieDetailHero = ({
   playing,
   setPlaying,
   playerRef,
-  isPC,
   volume,
   volumeHandler,
   volumeIcon,
@@ -20,21 +20,16 @@ const MovieDetailHero = ({
   src,
   bg
 }) => {
-
-  const [loaded,setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   return (
-
-    <div
-      className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden "
-    >
-      
-      {!loaded &&
+    <div className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden ">
+      {!loaded && (
         <div className="absolute top-0 left-0 h-full w-full z-[40]">
-        <Loader />
-      </div>
-      }
-       
+          <Loader />
+        </div>
+      )}
+
       <AnimatePresence initial={false}>
         {!playing && (
           <motion.div
@@ -49,71 +44,23 @@ const MovieDetailHero = ({
               className="scale-[1.4] md:scale-125 origin-[50%_20%]"
               src={`https://image.tmdb.org/t/p/original${bg || src}`}
               alt="thumbnail"
-              onLoad={()=>setLoaded(true)}
+              onLoad={() => setLoaded(true)}
             />
           </motion.div>
         )}
       </AnimatePresence>
       <div className="absolute z-10 pointer-events-none bottom-[-0.5em] left-0 w-[100%] h-[100%] bg-[linear-gradient(0deg,rgb(0,0,0,0.8)1%,rgb(0,0,0,0),rgb(0,0,0,0))]"></div>
 
-      
-       { //hero info
-       
-        <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col top-[16vh] gap-4 items-start lg:top-[20vh] w-full">
-          <div className="flex flex-col gap-4 pointer-events-auto">
-
-            <div className="movieTitle flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <img
-                  src="/images/LOGO_C.svg"
-                  className="w-[0.8em] lg:w-[1em] align-center"
-                />
-                <span className="flex items-center">Series</span>{" "}
-              </div>
-              <div>
-                <span className="font-bold text-[1.5em] lg:text-[2em]">
-                  {movie.title || movie.name}
-                </span>
-              </div>
-            </div>
-
-
-          </div>
-
-          {isPC && (
-            <div className="flex flex-row justify-between pointer-events-auto w-full">
-
-              <div className="flex flex-row justify-between gap-4 items-left">
-                <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
-                  <span>
-                    <img src="/images/play.svg" className="w-[1em]" />
-                  </span>
-                  Play
-                </button>
-                <button className="border p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
-                  More Info
-                </button>
-              </div>
-
-
-              <div className="flex mt-2 ml-2 gap-2 ">
-                <button className="" onClick={volumeHandler}>
-                  <img
-                    src={`/images/volume-${volumeIcon}.svg`}
-                    className="w-[2em]"
-                  />
-                </button>
-                <span className="bg-[rgb(0,0,0,0.5)] flex items-center border-l-4 p-2 lg:px-4 pr-6 lg:pr-10">
-                  18+
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+      {
+        //hero info
+        <HeroInfo
+          volumeIcon={volumeIcon}
+          volumeHandler={volumeHandler}
+          movie={movie}
+        />
       }
 
-     
-        <VideoPlayer
+      <VideoPlayer
         volume={volume}
         playing={playing}
         setPlaying={setPlaying}

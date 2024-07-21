@@ -127,7 +127,6 @@ const MovieDetail = ({ movieType, movieID, bg, genres }) => {
               playerRef={playerRef}
               playing={playing}
               setPlaying={setPlaying}
-              isPC={isPC}
               volume={volume}
               volumeHandler={volumeHandler}
               volumeIcon={volumeIcon}

@@ -122,6 +122,8 @@ const BrowseMovies = ({
     setNavView(true);
     dispatch(setFocus(linkFocus));
 
+    setHero(null)
+
     let movies = null;
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
 
