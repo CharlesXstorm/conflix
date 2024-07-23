@@ -412,10 +412,10 @@ export const ScrollItemMobile = ({
                 style={{
                   backgroundImage: `${svgNum}`
                 }}
-                className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-2 w-[60%] h-[80%]`}
               ></span>
 
-              <span className="relative w-[50%] h-full">
+              <span className="border relative w-[50%] h-full">
                 <img
                   style={{
                     display: `${loaded ? "block" : "none"}`

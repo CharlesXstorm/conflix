@@ -30,21 +30,21 @@ const AuthRoute = () => {
       );
       return res.data.data;
     } catch (err) {
-      return err.response.data.data;
+      return null;
     }
   };
 
   //getUser ////////////////////////
   useEffect(() => {
-    const fetchData = async () => {
-      const user = await getUser();
-      if (!user) {
+    const fetchData = () => {
+      const user = getUser();
+      if (user) {
+        setAuth(true);
+        setReady(true);
+      } else {
         setAuth(false);
         setReady(true);
         dispatch(setData(null));
-      } else {
-        setAuth(true);
-        setReady(true);
       }
     };
     fetchData();
