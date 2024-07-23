@@ -178,7 +178,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
         className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
-          <Link to='/browse'>
+          <Link to="/browse">
             <img className="w-[5em] xl:w-[6em]" src="/images/conflix.svg" />
           </Link>
           {isPC && (
@@ -235,8 +235,13 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
               <img src="/images/notification.svg" className="w-[1.5em]" />
             </span>
           </button>
-          <div
-            className="py-1 flex gap-[0.5em]"
+          <button
+            className="py-1 flex gap-[0.5em] items-center"
+            onClick={() => {
+              console.log('clicked')
+              setStyle((prev) => ({ ...prev, arrow: "rotate-[270deg]" }));
+              setModal(true);
+            }}
             onMouseEnter={mouseOverHandler}
             onMouseLeave={mouseOutHandler}
           >
@@ -247,7 +252,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
                 className={`w-[0.5em] transition-all duration-500 ${style.arrow}`}
               />
             </span>
-          </div>
+          </button>
         </div>
       </div>
 

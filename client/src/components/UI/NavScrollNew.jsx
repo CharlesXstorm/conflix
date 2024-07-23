@@ -421,7 +421,7 @@ export const ScrollItemMobile = ({
                     display: `${loaded ? "block" : "none"}`
                   }}
                   src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
-                  className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
+                  className="w[auto] top-0 right-0 origin-[50%_0%]"
                   alt="bgImage"
                   onLoad={() => setLoaded(true)}
                 />

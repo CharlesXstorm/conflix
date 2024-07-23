@@ -82,6 +82,15 @@ const ProfileModal = ({
 
   return (
     <div className="w-full h-[100vh] fixed z-[60]">
+      <button
+      className="absolute w-full h-full"
+      onClick={() => {
+        setStyle((prev) => ({ ...prev, arrow: "rotate-90" }));
+        setModal(false);
+      }}
+      >
+
+      </button>
       <div
         onMouseEnter={onMouseOver}
         onMouseLeave={onMouseOut}

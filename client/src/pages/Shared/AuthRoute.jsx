@@ -50,7 +50,10 @@ const AuthRoute = () => {
     fetchData();
   }, []);
 
-  return <>{ready && <>{auth ? <Navigate to="/browse" /> : <Outlet />}</>}</>;
+  return <>
+  {ready && <>{auth ? <Navigate to="/browse" /> : <Outlet />}</>}
+  
+  </>;
 };
 
 export default AuthRoute;
