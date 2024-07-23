@@ -36,8 +36,8 @@ const AuthRoute = () => {
 
   //getUser ////////////////////////
   useEffect(() => {
-    const fetchData = () => {
-      const user = getUser();
+    const fetchData = async () => {
+      const user = await getUser();
       if (user) {
         setAuth(true);
         setReady(true);
