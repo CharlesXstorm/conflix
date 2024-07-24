@@ -4,12 +4,16 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "./VideoPlayer";
 import {NavScroll} from "./UI/NavScrollNew";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIntro } from "../utils/featureSlice";
 
-const PCHero = ({ hover, setHover, movie,movieType, $data, title }) => {
+const PCHero = ({ hover, setHover, movie,movieType, $data, title, setAccountClick, setNavView}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [delayPlay, setDelayPlay] = useState();
+  const navigate = useNavigate()
   const [initial] = useState({
     title: {
       transform: "scale(1)"
@@ -35,6 +39,8 @@ const PCHero = ({ hover, setHover, movie,movieType, $data, title }) => {
     }
   });
 
+  const dispatch = useDispatch()
+
   const playerRef = useRef();
 
   const volumeHandler = () => {
@@ -46,6 +52,14 @@ const PCHero = ({ hover, setHover, movie,movieType, $data, title }) => {
       setVolume(1);
     }
   };
+
+  const playHandler = ()=>{
+    // console.log('playBTN')
+    dispatch(setIntro(true))
+    setNavView(false)
+    setAccountClick(false)
+    navigate('/browse')
+  }
 
   useEffect(() => {
     if (playing) {
@@ -121,7 +135,9 @@ const PCHero = ({ hover, setHover, movie,movieType, $data, title }) => {
 
           <div className="flex flex-row justify-between pointer-events-auto">
             <div className="flex flex-row justify-between gap-4 items-left">
-              <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
+              <button 
+              onClick={playHandler}
+              className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
                 <span>
                   <img src="/images/play.svg" className="w-[1em]" />
                 </span>

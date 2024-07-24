@@ -11,6 +11,7 @@ const GenreMovies = ({
   linkFocus,
   setNavView,
   setAccountLoaded,
+  setAccountClick,
 }) => {
   
   const { data, profile } = useSelector((state) => state.account);
@@ -39,6 +40,7 @@ const GenreMovies = ({
             data={data}
             setNavView={setNavView}
             setAccountLoaded={setAccountLoaded}
+            setAccountClick={setAccountClick}
           />
         </Suspense>
 

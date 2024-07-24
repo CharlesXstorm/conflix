@@ -14,8 +14,6 @@ const VideoPlayer = ({
 }) => {
   const [key, setKey] = useState();
 
-  console.log("play", playing, "id", id, "movieType", movieType, "key", key);
-
   const delay = () => {
     setTimeout(() => {
       setPlaying(true);

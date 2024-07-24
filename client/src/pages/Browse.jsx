@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import BrowseAdd from "./BrowseAdd";
 import { useSelector } from "react-redux";
 import AccountLoader from "../components/UI/AccountLoader";
+import IntroAnim from "../components/UI/ConflixIntroAnim/IntroAnim";
 const LazyBrowseHome = lazy(() => import("./BrowseHome"));
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
@@ -24,8 +25,8 @@ const Browse = ({
   setAccountLoaded,
   accountLoaded
 }) => {
-  // const [accountLoaded, setAccountLoaded] = useState(false);
   const { data, profile } = useSelector((state) => state.account);
+  const { intro } = useSelector((state) => state.feature);
 
   const [timeOutID, setTimeoutID] = useState();
 
@@ -33,6 +34,7 @@ const Browse = ({
     if (timeOutID) {
       clearTimeout(timeOutID);
     }
+
     if (accountLoaded) {
       let newTimeoutID = setTimeout(() => {
         setAccountLoader(false);
@@ -46,6 +48,14 @@ const Browse = ({
 
   return (
     <div>
+      {
+        intro &&
+          loaded &&
+          ReactDOM.createPortal(
+            <IntroAnim timeOutID={timeOutID} setTimeoutID={setTimeoutID} />,
+            document.getElementById("portal")
+          )
+      }
       {!accountClick &&
         loaded &&
         data != null &&
@@ -74,7 +84,7 @@ const Browse = ({
           <AccountLoader
             src={profile.img}
             accountLoaded={accountLoaded}
-            setAccountLoader = {setAccountLoader}
+            setAccountLoader={setAccountLoader}
           />,
           document.getElementById("portal")
         )}
@@ -96,6 +106,7 @@ const Browse = ({
             data={data}
             setNavView={setNavView}
             setAccountLoaded={setAccountLoaded}
+            setAccountClick={setAccountClick}
           />
         </Suspense>
       )}

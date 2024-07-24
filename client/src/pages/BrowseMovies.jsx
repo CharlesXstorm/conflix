@@ -18,7 +18,9 @@ const BrowseMovies = ({
   profile,
   data,
   setNavView,
-  setAccountLoaded
+  setAccountLoaded,
+  setAccountClick,
+  setLoaded
 }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
@@ -164,6 +166,9 @@ const BrowseMovies = ({
               $data={hero}
               title={title}
               profile={profile}
+              setLoaded={setLoaded}
+              setAccountClick={setAccountClick}
+              setNavView={setNavView}
             />
           ) : (
             <MobileHero $data={hero} $bg={$bg} title={title} />

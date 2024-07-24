@@ -76,11 +76,11 @@ function App() {
       <Route path="logout" element={<Logout />} />
 
       <Route element={<ProtectedRoute  setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
-        <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader} setAccountClick={setAccountClick} accountClick={accountClick}/>}>
+        <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader}  setAccountClick={setAccountClick} accountClick={accountClick}/>}>
           <Route index element={<Browse accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded} heroMovie={"movie/upcoming?language=en-US&page=1"} movieType={"movie"} route={"browse"} linkFocus = {{ 'Home': true, nav:"/browse" } } accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
-          <Route path='genre/movies' element={<GenreMovies setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } setNavView={setNavView}/>} />
-          <Route path='genre/tv_shows' element={<GenreTV setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } setNavView={setNavView}/>} />
+          <Route path='genre/movies' element={<GenreMovies setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } setNavView={setNavView} setAccountClick={setAccountClick}/>} />
+          <Route path='genre/tv_shows' element={<GenreTV setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } setNavView={setNavView} setAccountClick={setAccountClick}/>} />
           <Route path='search' element={<Search setNavView={setNavView}/>} />
           <Route path='mylist' element={<Mylist setNavView={setNavView}/>} />
         </Route>
