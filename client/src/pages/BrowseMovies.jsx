@@ -124,7 +124,7 @@ const BrowseMovies = ({
     window.scrollTo(0, 0);
     setNavView(true);
     dispatch(setFocus(linkFocus));
-
+    setBrowseMovies(null)
     setHero(null)
 
     let movies = null;

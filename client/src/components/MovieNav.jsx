@@ -228,7 +228,13 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           }
 
           {isPC && profile && (
-            <div className="py-1 align-center">{profile.name}</div>
+            <>
+           {profile.name !== "kids" && <div className="py-1 align-center">{profile.name}</div>}
+           {profile.name === "kids" && 
+           <button
+           onClick={()=>setAccountClick(false)}
+           className="py-1 align-center bg-red-600 px-6 rounded flex-none">Exit Kids</button>}
+           </>
           )}
           <button className="py-1 align-center">
             <span className="align-center">

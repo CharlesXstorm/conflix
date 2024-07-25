@@ -37,14 +37,13 @@ const getRegion = async () => {
     return;
   }
 };
-getRegion()
+getRegion();
 
 //browse movie controller
 exports.getAllBrowse = async (req, res) => {
   let myList = req.body.myList;
 
   try {
-
     const nextWatch = await axios.get(
       `${url}/trending/all/day?language=en-US`,
       config
@@ -558,6 +557,178 @@ exports.getAllMovies = async (req, res) => {
       status: "success",
       result: movieData.length,
       data: movieData
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message
+    });
+  }
+};
+
+exports.getAllKids = async (req, res) => {
+  let myList = req.body.myList;
+
+  try {
+    const nextWatch = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2014-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C16`,
+      config
+    );
+    const funny = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2018-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C35`,
+      config
+    );
+    const topRegion = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2020-01-01&sort_by=popularity.desc&vote_average.gte=7.5&with_genres=10751%2C18%2C16`,
+      config
+    );
+    const animated = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2024-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C16`,
+      config
+    );
+    const topPick = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2023-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&vote_average.gte=8&with_genres=10762`,
+      config
+    );
+    const family = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2019-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C10751`,
+      config
+    );
+    const mystery = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2020-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=9648%2C10762`,
+      config
+    );
+
+    const action = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2020-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10759%2C10762`,
+      config
+    );
+    const myList = req.body.myList || [];
+    const onlyConflix = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=16%2C10751`,
+      config
+    );
+    const scifi = await axios.get(
+      `${url}/discover/tv?first_air_date.gte=2021-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10765%2C10762`,
+      config
+    );
+    const adventure = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=16%2C12%2C18`,
+      config
+    );
+    const fantasy = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=14%2C16`,
+      config
+    );
+    const music = await axios.get(
+      `${url}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&with_genres=10402%2C16`,
+      config
+    );
+
+    const kidsData = [
+      {
+        _id: 0,
+        title: "Your Next Watch",
+        type: "tv",
+        shortList: false,
+        movies: nextWatch.data.results.slice(0, 18)
+      },
+      {
+        _id: 1,
+        title: "Funny",
+        type: "tv",
+        shortList: false,
+        movies: funny.data.results.slice(0, 18)
+      },
+      {
+        _id: 2,
+        title: `Top 10 Kids Movies in ${countries[region]} Today`,
+        type: "movie",
+        shortList: true,
+        movies: topRegion.data.results.slice(0, 10)
+      },
+      {
+        _id: 3,
+        title: `Animated`,
+        type: "tv",
+        shortList: false,
+        movies: animated.data.results.slice(0, 18)
+      },
+      {
+        _id: 4,
+        title: `Today's Top Picks for You`,
+        type: "tv",
+        shortList: false,
+        movies: topPick.data.results.slice(0, 18)
+      },
+      {
+        _id: 5,
+        title: `Family`,
+        type: "tv",
+        shortList: false,
+        movies: family.data.results.slice(0, 18)
+      },
+      {
+        _id: 6,
+        title: `Mystery`,
+        type: "tv",
+        shortList: false,
+        movies: mystery.data.results.slice(0, 18)
+      },
+      {
+        _id: 7,
+        title: `Action`,
+        type: "tv",
+        shortList: false,
+        movies: action.data.results.slice(0, 18)
+      },
+      {
+        _id: 8,
+        title: `My List`,
+        shortList: false,
+        movies: myList
+      },
+      {
+        _id: 9,
+        title: `Only on Conflix`,
+        type: "movie",
+        shortList: false,
+        movies: onlyConflix.data.results.slice(0, 18)
+      },
+      {
+        _id: 10,
+        title: `Sci-Fi`,
+        type: "tv",
+        shortList: false,
+        movies: scifi.data.results.slice(0, 18)
+      },
+      {
+        _id: 11,
+        title: `Adventures`,
+        type: "movie",
+        shortList: false,
+        movies: adventure.data.results.slice(0, 18)
+      },
+      {
+        _id: 12,
+        title: `Fantasy`,
+        type: "movie",
+        shortList: false,
+        movies: fantasy.data.results.slice(0, 18)
+      },
+      {
+        _id: 12,
+        title: `Music`,
+        type: "movie",
+        shortList: false,
+        movies: music.data.results.slice(0, 18)
+      }
+    ];
+
+    res.status(200).json({
+      status: "success",
+      result: kidsData.length,
+      data: kidsData
     });
   } catch (err) {
     res.status(404).json({

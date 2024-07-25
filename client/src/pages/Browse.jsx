@@ -9,10 +9,6 @@ const LazyBrowseHome = lazy(() => import("./BrowseHome"));
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
 const Browse = ({
-  heroMovie,
-  movieType,
-  route,
-  linkFocus,
   accountClick,
   setAccountClick,
   setEditClick,
@@ -29,6 +25,14 @@ const Browse = ({
   const { intro } = useSelector((state) => state.feature);
 
   const [timeOutID, setTimeoutID] = useState();
+
+  let heroMovie =
+    profile.name === "kids"
+      ? "discover/tv?first_air_date.gte=2014-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C16"
+      : "movie/upcoming?language=en-US&page=1";
+  let movieType = profile.name === "kids" ? "tv" : "movie";
+  let route = profile.name === "kids" ? "browse/kids" : "browse";
+  let linkFocus = { Home: true, nav: "/browse" };
 
   useEffect(() => {
     if (timeOutID) {
@@ -48,14 +52,12 @@ const Browse = ({
 
   return (
     <div>
-      {
-        intro &&
-          loaded &&
-          ReactDOM.createPortal(
-            <IntroAnim timeOutID={timeOutID} setTimeoutID={setTimeoutID} />,
-            document.getElementById("portal")
-          )
-      }
+      {intro &&
+        loaded &&
+        ReactDOM.createPortal(
+          <IntroAnim timeOutID={timeOutID} setTimeoutID={setTimeoutID} />,
+          document.getElementById("portal")
+        )}
       {!accountClick &&
         loaded &&
         data != null &&

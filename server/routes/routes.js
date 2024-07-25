@@ -6,7 +6,8 @@ const { requireAuth } = require("../middlewares/authMiddleware");
 const {
   getAllBrowse,
   getAllTvshows,
-  getAllMovies
+  getAllMovies,
+  getAllKids
 } = require("../controllers/controllers_movies");
 
 const {
@@ -62,5 +63,6 @@ Router.route("/browse").post(getAllBrowse);
 
 Router.route("/browse/genre/tv_shows").post(getAllTvshows);
 Router.route("/browse/genre/movies").post(getAllMovies);
+Router.route("/browse/kids").post(getAllKids);
 
 module.exports = Router;

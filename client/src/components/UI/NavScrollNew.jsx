@@ -218,7 +218,7 @@ export const ScrollItemPC = ({
           flex-none p-1 flex-none`}
       >
         <div
-          className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
+          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
         >
           {row != 2 && (
             <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
@@ -278,7 +278,7 @@ export const ScrollItemPC = ({
                 style={{
                   backgroundImage: `${svgNum}`
                 }}
-                className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-8 w-[60%] h-[80%]`}
               ></span>
 
               <span className="relative w-[50%] h-full">
@@ -360,7 +360,7 @@ export const ScrollItemMobile = ({
         } lg:w-[calc((100%/5))] p-1 flex-none`}
       >
         <div
-          className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
+          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
         >
           {row != 2 && (
             <div
@@ -412,10 +412,10 @@ export const ScrollItemMobile = ({
                 style={{
                   backgroundImage: `${svgNum}`
                 }}
-                className={`absolute bg-contain bg-no-repeat top-[10%] left-2 w-[60%] h-[80%]`}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-6 w-[60%] h-[80%]`}
               ></span>
 
-              <span className="border relative w-[50%] h-full">
+              <span className="relative w-[50%] h-full">
                 <img
                   style={{
                     display: `${loaded ? "block" : "none"}`
