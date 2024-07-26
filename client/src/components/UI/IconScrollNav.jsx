@@ -71,14 +71,11 @@ const ScrollItem = ({ src, setProfileIcons }) => {
   const { profile } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
-  console.log("profileIcons", profile);
-
   const updateIcon = () => {
     if (profile.isProfile) {
       dispatch(setProfile({ ...profile, img: src }));
       setProfileIcons((prev) => ({ ...prev, state: false }));
     } else {
-      console.log('notProfile init')
       setProfileIcons((prev) => ({ ...prev, state: false, icon: src }));
     }
   };
@@ -169,7 +166,6 @@ const IconScrollNav = ({ data, position, setProfileIcons }) => {
               key={index}
               src={item}
               setProfileIcons={setProfileIcons}
-              // bg={item.bg}
             />
           ))}
         </div>

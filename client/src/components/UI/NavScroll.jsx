@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import ReactDOM from "react-dom";
-import { useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 import ItemModal from "./NavItemModal";
@@ -29,7 +29,7 @@ const Next = ({ setNext, scrollRef, finalScrollPos, scrollWidth }) => {
 };
 
 //previous button component //////////////////////////////////////////////////////
-const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
+const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth, prevBtn }) => {
   const prevHandler = () => {
     setPrev(true);
     scrollRef.current.scrollTo({
@@ -39,14 +39,14 @@ const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth,prevBtn }) => {
   };
 
   return (
-    <div 
-    style={{
-      // display: `${prevBtn?'flex':'none'}`,
-      width : `${prevBtn?'3em':'0em'}`,
-    opacity: `${prevBtn?1:0}`,
-  transition: "all 0.2s linear"
-  }}
-    className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
+    <div
+      style={{
+        width: `${prevBtn ? "3em" : "0em"}`,
+        opacity: `${prevBtn ? 1 : 0}`,
+        transition: "all 0.2s linear"
+      }}
+      className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]"
+    >
       <button
         className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={prevHandler}
@@ -63,6 +63,8 @@ export const ModalCont = ({
   height,
   onMouseOut,
   setHover,
+  expand,
+  setExpand,
   movieType,
   isList,
   dvWidth,
@@ -78,8 +80,6 @@ export const ModalCont = ({
   right,
   top
 }) => {
-  const [expand, setExpand] = useState(false);
-
   return (
     <div
       style={{
@@ -97,7 +97,7 @@ export const ModalCont = ({
           height: `${height}`,
           pointerEvents: `${expand ? "auto" : "none"}`
         }}
-        className="relative top-0 left-0 w-[100%]"
+        className="relative  top-0 left-0 w-[100%]"
       >
         <ItemModal
           key={id}
@@ -140,10 +140,13 @@ export const ScrollItemPC = ({
   isList,
   svgNum
 }) => {
-  const [ready, setReady] = useState(false);
+  // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [modalContHeight, setModalContHeight] = useState("");
+  // const [modalContHeight, setModalContHeight] = useState("");
+  const [expand, setExpand] = useState(false);
   const itemRef = useRef();
+
+  let modalContHeight = `${document.body.scrollHeight}px`
 
   const mouseOverHandler = () => {
     setHover(id);
@@ -154,18 +157,19 @@ export const ScrollItemPC = ({
     setHover(false);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     //get document height and save in a state
-    const body = document.body;
-    setModalContHeight(`${body.scrollHeight}px`);
-    setReady(true);
-  }, [hover]);
+    // const body = document.body;
+    // setModalContHeight(`${body.scrollHeight}px`);
+    // setReady(true);
+  // }, [hover]);
 
   return (
     <>
       {
         //display visible modal in portal div
-        ready &&
+        // ready &&
+        itemRef.current &&
           ReactDOM.createPortal(
             <ModalCont
               height={modalContHeight}
@@ -173,9 +177,11 @@ export const ScrollItemPC = ({
               movieType={movieType}
               isList={isList}
               setHover={setHover}
+              expand={expand}
+              setExpand={setExpand}
               data={$data}
               id={id}
-              bg={bg}
+              bg={bg || bg_poster}
               title={$data.title || $data.name}
               movieID={$data.id}
               dvWidth={dvWidth}
@@ -201,12 +207,15 @@ export const ScrollItemPC = ({
         ref={itemRef}
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
+        style={{
+          opacity: `${hover === id && !expand ? 0 : hover === id && expand ? 1 : 1}`
+        }}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
           ${mb || ""}
           flex-none p-1 flex-none`}
       >
         <div
-          className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
+          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
         >
           {row != 2 && (
             <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
@@ -266,7 +275,7 @@ export const ScrollItemPC = ({
                 style={{
                   backgroundImage: `${svgNum}`
                 }}
-                className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-8 w-[60%] h-[80%]`}
               ></span>
 
               <span className="relative w-[50%] h-full">
@@ -328,7 +337,7 @@ export const ScrollItemMobile = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-  const data = { groupType, movieType, genres: $data["genre_ids"].join("%2C") };
+  const data = { groupType, movieType, $data, genres: $data["genre_ids"].join("%2C") };
 
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
@@ -348,7 +357,7 @@ export const ScrollItemMobile = ({
         } lg:w-[calc((100%/5))] p-1 flex-none`}
       >
         <div
-          className={`relative rounded-[3px] w-full h-full bg-[#3d3d3d] overflow-hidden`}
+          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
         >
           {row != 2 && (
             <div
@@ -400,7 +409,7 @@ export const ScrollItemMobile = ({
                 style={{
                   backgroundImage: `${svgNum}`
                 }}
-                className={`absolute bg-contain bg-no-repeat top-[10%] left-0 w-[60%] h-[80%]`}
+                className={`absolute bg-contain bg-no-repeat top-[10%] left-6 w-[60%] h-[80%]`}
               ></span>
 
               <span className="relative w-[50%] h-full">
@@ -409,7 +418,7 @@ export const ScrollItemMobile = ({
                     display: `${loaded ? "block" : "none"}`
                   }}
                   src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
-                  className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
+                  className="w[auto] top-0 right-0 origin-[50%_0%]"
                   alt="bgImage"
                   onLoad={() => setLoaded(true)}
                 />
@@ -467,20 +476,19 @@ export const NavScroll = ({
   setHover,
   $scrollContID
 }) => {
-
   const { profile } = useSelector((state) => state.account);
-  let $data = data.title != "My List" ? [...data.movies] : [...profile.watchList];
+  let $data =
+    data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
   const { isPC } = useSelector((state) => state.dvWidth);
-  const [list, setList] = useState($data);
-
+  const [list, setList] = useState([...$data]);
   const [page, setPage] = useState(0);
 
   const [initScrollPos, setInitScrollPos] = useState(0);
   const [finalScrollPos, setFinalScrollPos] = useState(0);
   const [next, setNext] = useState(false);
   const [prev, setPrev] = useState(false);
-  const[prevBtn,setPrevBtn] = useState(false)
+  const [prevBtn, setPrevBtn] = useState(false);
   const [scrollWidth, setScrollWidth] = useState(null);
 
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
@@ -498,13 +506,17 @@ export const NavScroll = ({
   ];
 
   useEffect(() => {
-    if (scrollRef.current && scrollWidth === null) {
-       setScrollWidth(
-        scrollRef.current.getBoundingClientRect().width
-      );
+    if (data.title === "My List") {
+      setList($data);
     }
-    setList($data);
-  }, [profile.id]);
+  }, [profile.watchList]);
+
+  useEffect(() => {
+
+    if (scrollRef.current && scrollWidth === null) {
+      setScrollWidth(scrollRef.current.getBoundingClientRect().width);
+    }
+  }, []);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -572,11 +584,11 @@ export const NavScroll = ({
         setNext(false);
         setPrev(false);
       };
-      if(scrollRef.current.scrollLeft===0){
-        setPrevBtn(false)
+      if (scrollRef.current.scrollLeft === 0) {
+        setPrevBtn(false);
       }
-      if(scrollRef.current.scrollLeft===scrollWidth){
-        setPrevBtn(true)
+      if (scrollRef.current.scrollLeft === scrollWidth) {
+        setPrevBtn(true);
       }
       if (scrollRef.current.scrollLeft === finalScrollPos + scrollWidth) {
         if (page === children.length - 1) {
@@ -656,7 +668,7 @@ export const NavScroll = ({
                     setNext={setNext}
                     id={$scrollContID}
                   />
-                   <Prev
+                  <Prev
                     scrollRef={scrollRef}
                     finalScrollPos={finalScrollPos}
                     isPC={isPC}
@@ -694,7 +706,7 @@ export const NavScroll = ({
                       dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
-                      movieType={data.type || item["media_type"]}
+                      movieType={data.type || item["media_type"] || item["type"]}
                     />
                   ) : (
                     <ScrollItemMobile
@@ -717,7 +729,7 @@ export const NavScroll = ({
                       setHover={setHover}
                       hover={hover}
                       groupType={data.type}
-                      movieType={item["media_type"]}
+                      movieType={item["media_type"] || item["type"]}
                     />
                   )
                 )}
@@ -749,4 +761,3 @@ export const NavScroll = ({
     );
   }
 };
-

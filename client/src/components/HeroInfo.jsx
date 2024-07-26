@@ -3,7 +3,7 @@
 
 import { useSelector } from "react-redux";
 
-const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon }) => {
+const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon,rated }) => {
   const { isPC } = useSelector((state) => state.dvWidth);
 
   return (
@@ -58,7 +58,7 @@ const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon
               />
             </button>
             <span className="bg-[rgb(0,0,0,0.5)] flex items-center border-l-4 p-2 lg:px-4 pr-6 lg:pr-10">
-              18+
+              {rated}
             </span>
           </div>
         </div>

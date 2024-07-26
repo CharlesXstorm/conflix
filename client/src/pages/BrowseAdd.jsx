@@ -16,13 +16,14 @@ const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
     value: "Please enter a name",
     style: "border border-red-600"
   });
-  const { data} = useSelector((state) => state.account);
-
-console.log('browseAdd_ProfileIcons',profileIcons)
+  const { data } = useSelector((state) => state.account);
 
   const postData = async () => {
     try {
-      const Newdata = { name, img: profileIcon };
+      const Newdata = {
+        name,
+        img: `${profileIcons.icon ? profileIcons.icon : profileIcon}`
+      };
       const config = {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
@@ -83,7 +84,7 @@ console.log('browseAdd_ProfileIcons',profileIcons)
     console.log("rendering");
   }, []);
 
-  // console.log('icon',profileIcon)
+  console.log("icon", profileIcons);
 
   return (
     <div className="absolute z-[60] top-0 left-0 w-[100%] h-[100vh] text-white bg-[#121212]">
@@ -102,13 +103,26 @@ console.log('browseAdd_ProfileIcons',profileIcons)
               <span className="relative">
                 <img
                   className="w-[10em] lg:w-[16em]"
-                  src={profileIcons?profileIcons.icon:profileIcon}
+                  src={profileIcons.icon ? profileIcons.icon : profileIcon}
                   alt="icon"
                 />
 
-                <button className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1" 
-                onClick={()=>setProfileIcons((prev)=>({...prev,state:true,icon:profileIcon,name}))}>
-                  <img src="images/pencilSVG.svg" alt="icon" className="w-[1.5em]"/>
+                <button
+                  className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1"
+                  onClick={() =>
+                    setProfileIcons((prev) => ({
+                      ...prev,
+                      state: true,
+                      icon: profileIcon,
+                      name
+                    }))
+                  }
+                >
+                  <img
+                    src="images/pencilSVG.svg"
+                    alt="icon"
+                    className="w-[1.5em]"
+                  />
                 </button>
               </span>
 

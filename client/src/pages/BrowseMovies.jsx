@@ -7,7 +7,7 @@ import { setFocus } from "../utils/featureSlice";
 import PCHero from "../components/PCHero";
 import MobileHero from "../components/MobileHero";
 import axios from "axios";
-import { NavScroll } from "../components/UI/NavScrollNew";
+import { NavScroll } from "../components/UI/NavScroll";
 import PageLoader from "../components/UI/PageLoader";
 
 const BrowseMovies = ({
@@ -21,14 +21,6 @@ const BrowseMovies = ({
   setAccountLoaded,
   setAccountClick,
   setLoaded
-  // hover,
-  // setHover,
-  // hero,
-  // setHero,
-  // title,
-  // setTitle,
-  // browseMovies,
-  // setBrowseMovies
 }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
@@ -41,8 +33,6 @@ const BrowseMovies = ({
   const dispatch = useDispatch();
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
-
-  console.log("heroMovie", heroMovie, "movieType", movieType, "route", route);
 
   const getUpcomingMovies = async () => {
     const config = {
@@ -113,9 +103,9 @@ const BrowseMovies = ({
     window.scrollTo(0, 0);
     setNavView(true);
     dispatch(setFocus(linkFocus));
-    setBrowseMovies(null)
-    setHero(null)
-    setTitle(null)
+    setBrowseMovies(null);
+    setHero(null);
+    setTitle(null);
 
     let movies = null;
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);

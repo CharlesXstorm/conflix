@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useLocalStorage } from "../utils/customHooks";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScrollNew";
+import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 import PageLoader from "../components/UI/PageLoader";
 
 const Search = ({ setNavView }) => {
@@ -115,8 +115,7 @@ const Search = ({ setNavView }) => {
               />
             </div>
           }
-          {
-          searchLoaded &&
+          {searchLoaded &&
             searchResult &&
             actors &&
             searchResult.map((item, index) =>

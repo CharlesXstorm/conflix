@@ -3,17 +3,26 @@ import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "./VideoPlayer";
-import {NavScroll} from "./UI/NavScrollNew";
+import { NavScroll } from "./UI/NavScroll";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIntro } from "../utils/featureSlice";
 
-const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClick, setNavView}) => {
+const PCHero = ({
+  hover,
+  setHover,
+  movie,
+  movieType,
+  $data,
+  title,
+  setAccountClick,
+  setNavView
+}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [delayPlay, setDelayPlay] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [initial] = useState({
     title: {
       transform: "scale(1)"
@@ -39,7 +48,33 @@ const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClic
     }
   });
 
-  const dispatch = useDispatch()
+  let rated =
+  movieType === "movie"
+    ? $data["genre_ids"].includes(10749) ||
+      $data["genre_ids"].includes(27) ||
+      $data["genre_ids"].includes(80) ||
+      $data["genre_ids"].includes(10752) ||
+      $data["genre_ids"].includes(53)
+      ? "18+"
+      : $data["genre_ids"].includes(10751) ||
+        $data["genre_ids"].includes(16) ||
+        $data["genre_ids"].includes(18) ||
+        $data["genre_ids"].includes(35)
+      ? "All"
+      : "18+"
+    : movieType === "tv"
+    ? $data["genre_ids"].includes(80) || $data["genre_ids"].includes(10768)
+      ? "18+"
+      : $data["genre_ids"].includes(10762) ||
+        $data["genre_ids"].includes(10751) ||
+        $data["genre_ids"].includes(18) ||
+        $data["genre_ids"].includes(35) ||
+        $data["genre_ids"].includes(16)
+      ? "All"
+      : "18+"
+    : null;
+
+  const dispatch = useDispatch();
 
   const playerRef = useRef();
 
@@ -53,13 +88,13 @@ const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClic
     }
   };
 
-  const playHandler = ()=>{
+  const playHandler = () => {
     // console.log('playBTN')
-    dispatch(setIntro(true))
-    setNavView(false)
-    setAccountClick(false)
-    navigate('/browse')
-  }
+    dispatch(setIntro(true));
+    setNavView(false);
+    setAccountClick(false);
+    navigate("/browse");
+  };
 
   useEffect(() => {
     if (playing) {
@@ -115,8 +150,7 @@ const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClic
             className="flex flex-col transition-all duration-1000 ease-in-out origin-[0%_100%]"
           >
             <div className="movieTitle flex flex-col w-[100%] origin-[0%_100%] pointer-events-none">
-              <span 
-              className="flex">
+              <span className="flex">
                 <img
                   className="w-[20em] xl:w-[30em]"
                   src={`https://image.tmdb.org/t/p/w300${title}`}
@@ -135,9 +169,10 @@ const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClic
 
           <div className="flex flex-row justify-between pointer-events-auto">
             <div className="flex flex-row justify-between gap-4 items-left">
-              <button 
-              onClick={playHandler}
-              className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
+              <button
+                onClick={playHandler}
+                className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold"
+              >
                 <span>
                   <img src="/images/play.svg" className="w-[1em]" />
                 </span>
@@ -156,7 +191,7 @@ const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClic
                 />
               </button>
               <span className="bg-[rgb(0,0,0,0.5)] flex items-center border-l-4 p-2 lg:px-4 pr-6 lg:pr-10">
-                18+
+                {rated}
               </span>
             </div>
           </div>

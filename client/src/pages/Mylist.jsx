@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFocus } from "../utils/featureSlice";
-import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScrollNew";
+import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 
 const Mylist = ({ setNavView }) => {
   const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
