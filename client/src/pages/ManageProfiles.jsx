@@ -11,7 +11,7 @@ const ManageProfiles = ({
   setAccountClick,
   loaded
 }) => {
-  const [profileIcons, setProfileIcons] = useState();
+  const [profileIcons, setProfileIcons] = useState({state:false});
 
   useEffect(() => {
     setProfileIcons(false);
@@ -30,11 +30,12 @@ const ManageProfiles = ({
           document.getElementById("portal")
         )}
 
-      {profileIcons &&
+      {profileIcons.state &&
       loaded &&
         ReactDOM.createPortal(
           <ManageProfilesIcons
             setProfileIcons={setProfileIcons}
+            profileIcons={profileIcons}
           />,
           document.getElementById("portal")
         )}

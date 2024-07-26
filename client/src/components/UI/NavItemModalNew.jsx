@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOverflow } from "../../utils/featureSlice";
 import { setWatchList } from "../../utils/profileSlice";
-import MovieDetail from "../../pages/MovieDetail";
 import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
 import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";

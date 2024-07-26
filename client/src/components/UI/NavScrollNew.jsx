@@ -65,9 +65,6 @@ export const ModalCont = ({
   setHover,
   expand,
   setExpand,
-  setNext,
-  setPrev,
-  scrollRef,
   movieType,
   isList,
   dvWidth,
@@ -709,7 +706,7 @@ export const NavScroll = ({
                       dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
-                      movieType={data.type || item["media_type"]}
+                      movieType={data.type || item["media_type"] || item["type"]}
                     />
                   ) : (
                     <ScrollItemMobile
@@ -732,7 +729,7 @@ export const NavScroll = ({
                       setHover={setHover}
                       hover={hover}
                       groupType={data.type}
-                      movieType={item["media_type"]}
+                      movieType={item["media_type"] || item["type"]}
                     />
                   )
                 )}

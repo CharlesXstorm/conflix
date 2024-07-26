@@ -67,43 +67,40 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 };
 
 //scroll items component ///////////////////////////////////////////////////////////////////
-const ScrollItem = ({ src,setProfileIcons }) => {
+const ScrollItem = ({ src, setProfileIcons }) => {
+  const { profile } = useSelector((state) => state.account);
+  const dispatch = useDispatch();
 
-  const {profile} = useSelector((state)=> state.account)
-  const dispatch = useDispatch()
+  console.log("profileIcons", profile);
 
-  const updateIcon = ()=>{
-    dispatch(setProfile({...profile, img:src}))
-    setProfileIcons(false)
-
-  }
+  const updateIcon = () => {
+    if (profile.isProfile) {
+      dispatch(setProfile({ ...profile, img: src }));
+      setProfileIcons((prev) => ({ ...prev, state: false }));
+    } else {
+      console.log('notProfile init')
+      setProfileIcons((prev) => ({ ...prev, state: false, icon: src }));
+    }
+  };
 
   return (
     <>
       {
-        src?
         <button
-        onClick={updateIcon}
+          onClick={updateIcon}
           className={` relative rounded-md bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/8)-1%)] overflow-hidden`}
         >
           <div className="">
             <img src={src} />
           </div>
         </button>
-        :<div
-        className={` relative rounded-md bg-[orange] flex-none w-[calc((100%/4)-1%)] lg:w-[calc((100%/8)-1%)] overflow-hidden`}
-      >
-        <div className="">
-          <img src="images/profiles/yellow.png" />
-        </div>
-      </div>
       }
     </>
   );
 };
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
-const IconScrollNav = ({ data, position,setProfileIcons }) => {
+const IconScrollNav = ({ data, position, setProfileIcons }) => {
   const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
   const [list] = useState([...data.src]);
   const [listLength] = useState([...data.src].length);
@@ -165,7 +162,7 @@ const IconScrollNav = ({ data, position,setProfileIcons }) => {
           ref={scrollRef}
           onScroll={scrollHandler}
           id="scrollNav"
-          className="flex relative flex-row gap-[1%] lg:gap-[1%] mb-[1em] w-[100%] overflow-scroll"
+          className="flex scrollNav relative flex-row gap-[1%] lg:gap-[1%] mb-[1em] w-[100%] overflow-scroll"
         >
           {list.map((item, index) => (
             <ScrollItem

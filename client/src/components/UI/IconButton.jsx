@@ -2,6 +2,7 @@
 // import React from 'react'
 import { useDispatch} from "react-redux";
 import { setProfile } from "../../utils/profileSlice";
+import { useState } from "react";
 
 const IconButton = ({
   name,
@@ -13,6 +14,7 @@ const IconButton = ({
   setAddProfile,
   setAccountLoader
 }) => {
+  const [iconLoaded,setIconLoaded]= useState(false)
   const dispatch = useDispatch();
 
   const clickHandler = () => {
@@ -61,7 +63,18 @@ const IconButton = ({
           onClick={clickHandler}
         >
           <img
+          src='/images/iconNull.jpg'
+          style={{
+            display: `${iconLoaded?'none':'flex'}`
+          }}
+          className="w-[6.5em] md:w-[8em] xl:w-[10em]"
+          />
+          <img
             src={`${src}`}
+            onLoad={()=>setIconLoaded(true)}
+            style={{
+              display: `${iconLoaded?'flex':'none'}`
+            }}
             className="relative w-[6.5em] md:w-[8em] xl:w-[10em]"
           />
           {edit && (

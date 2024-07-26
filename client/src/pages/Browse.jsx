@@ -5,6 +5,7 @@ import BrowseAdd from "./BrowseAdd";
 import { useSelector } from "react-redux";
 import AccountLoader from "../components/UI/AccountLoader";
 import IntroAnim from "../components/UI/ConflixIntroAnim/IntroAnim";
+import ManageProfilesIcons from "./ManageProfilesIcons";
 const LazyBrowseHome = lazy(() => import("./BrowseHome"));
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
@@ -18,11 +19,11 @@ const Browse = ({
   setAccountLoader,
   accountLoader,
   setNavView,
-  setAccountLoaded,
-  accountLoaded
 }) => {
   const { data, profile } = useSelector((state) => state.account);
   const { intro } = useSelector((state) => state.feature);
+  const [accountLoaded, setAccountLoaded] = useState(false);
+  const [profileIcons, setProfileIcons] = useState({state:false});
 
   const [timeOutID, setTimeoutID] = useState();
 
@@ -58,6 +59,7 @@ const Browse = ({
           <IntroAnim timeOutID={timeOutID} setTimeoutID={setTimeoutID} />,
           document.getElementById("portal")
         )}
+
       {!accountClick &&
         loaded &&
         data != null &&
@@ -73,10 +75,20 @@ const Browse = ({
           document.getElementById("portal")
         )}
 
+        {profileIcons.state &&
+      loaded &&
+        ReactDOM.createPortal(
+          <ManageProfilesIcons
+            setProfileIcons={setProfileIcons}
+            profileIcons={profileIcons}
+          />,
+          document.getElementById("portal")
+        )}
+
       {addProfile &&
         loaded &&
         ReactDOM.createPortal(
-          <BrowseAdd setAddProfile={setAddProfile} />,
+          <BrowseAdd setAddProfile={setAddProfile} setProfileIcons={setProfileIcons} profileIcons={profileIcons} />,
           document.getElementById("portal")
         )}
 
@@ -109,6 +121,15 @@ const Browse = ({
             setNavView={setNavView}
             setAccountLoaded={setAccountLoaded}
             setAccountClick={setAccountClick}
+
+            // hover={hover}
+            // hero={hero}
+            // title={title}
+            // browseMovies={browseMovies}
+            // setHover={setHover}
+            // setHero={setHero}
+            // setTitle={setTitle}
+            // setBrowseMovies={setBrowseMovies}
           />
         </Suspense>
       )}

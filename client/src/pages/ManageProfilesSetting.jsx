@@ -73,11 +73,9 @@ const ManageProfilesSetting = ({setEditClick,setProfileIcons}) => {
 
 //show available profile Icons
   const iconChange = ()=>{
-    setProfileIcons(true)
+    setProfileIcons({state:true,icon:profile.img,name:userName})
+    // setProfileIcons(true)
   }
-
-  // console.log('isProfile: ',profile)
-  // console.log('subProfile: : ',data.subProfile)
 
   return (
 
@@ -91,7 +89,8 @@ const ManageProfilesSetting = ({setEditClick,setProfileIcons}) => {
             <div className="w-[30%] xl:w-[20%] h-[auto]">
               <div className="relative">
                 <img src={`${profile.img}`} className="w-[100%]" />
-                <button className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1" onClick={iconChange}>
+                <button className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1" 
+                onClick={iconChange}>
                   <img src="images/pencilSVG.svg" alt="icon" className="w-[1.5em]"/>
                 </button>
               </div>

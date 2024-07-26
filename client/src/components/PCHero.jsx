@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIntro } from "../utils/featureSlice";
 
-const PCHero = ({ hover, setHover, movie,movieType, $data, title, setAccountClick, setNavView}) => {
+const PCHero = ({hover, setHover,  movie,movieType, $data, title, setAccountClick, setNavView}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");

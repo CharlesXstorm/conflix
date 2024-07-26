@@ -1,20 +1,28 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
 const GenreTV = ({ 
-  heroMovie,
-  movieType,
-  route,
-  linkFocus,
   setNavView,
-  setAccountLoaded,
+  // setAccountLoaded,
   setAccountClick
 }) => {
   
   const { data, profile } = useSelector((state) => state.account);
+  //   const [hover,setHover]= useState(false)
+  // const [hero, setHero] = useState(null);
+  // const [title, setTitle] = useState(null);
+  // const [browseMovies, setBrowseMovies] = useState(null);
+
+  let heroMovie =
+  profile.name === "kids"
+    ? "discover/tv?first_air_date.gte=2020-01-01&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=10762%2C16"
+    : "tv/top_rated?language=en-US&page=1";
+let movieType = profile.name === "kids" ? "tv" : "tv";
+let route = profile.name === "kids" ? "browse/kids/tv" : "browse/genre/tv_shows";
+let linkFocus = { 'TV Shows': true, nav:"genre/tv_shows" };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,8 +47,17 @@ const GenreTV = ({
             profile={profile}
             data={data}
             setNavView={setNavView}
-            setAccountLoaded={setAccountLoaded}
+            setAccountLoaded={()=>null}
             setAccountClick={setAccountClick}
+
+            // hover={hover}
+            // hero={hero}
+            // title={title}
+            // browseMovies={browseMovies}
+            // setHover={setHover}
+            // setHero={setHero}
+            // setTitle={setTitle}
+            // setBrowseMovies={setBrowseMovies}
           />
         </Suspense>
 

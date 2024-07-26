@@ -7,7 +7,7 @@ import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";
 import axios from "axios";
 
-const BrowseAdd = ({ setAddProfile }) => {
+const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
   const [profileIcon, setProfileIcon] = useState();
   const [readyColor, setReadyColor] = useState();
   const [name, setName] = useState("");
@@ -16,10 +16,9 @@ const BrowseAdd = ({ setAddProfile }) => {
     value: "Please enter a name",
     style: "border border-red-600"
   });
-  const { data } = useSelector((state) => state.account);
+  const { data} = useSelector((state) => state.account);
 
-  // console.log("data", data._id);
-  // console.log("defaultProfile", jsonData);
+console.log('browseAdd_ProfileIcons',profileIcons)
 
   const postData = async () => {
     try {
@@ -77,6 +76,7 @@ const BrowseAdd = ({ setAddProfile }) => {
     for (var any of jsonData) {
       if (!images.includes(any.src)) {
         setProfileIcon(any.src);
+        // setProfileIcons((prev)=> ({...prev,icon:any.src}));
         break;
       }
     }
@@ -99,12 +99,17 @@ const BrowseAdd = ({ setAddProfile }) => {
 
           <div className="w-full flex flex-col gap-4 py-4 lg:py-0 mt-4 lg:mt-8">
             <div className="flex flex-col md:flex-row gap-4 lg:gap-6 justify-left md:items-center">
-              <span>
+              <span className="relative">
                 <img
                   className="w-[10em] lg:w-[16em]"
-                  src={profileIcon}
+                  src={profileIcons?profileIcons.icon:profileIcon}
                   alt="icon"
                 />
+
+                <button className="absolute bottom-1 left-1 bg-black rounded-[50%] p-1" 
+                onClick={()=>setProfileIcons((prev)=>({...prev,state:true,icon:profileIcon,name}))}>
+                  <img src="images/pencilSVG.svg" alt="icon" className="w-[1.5em]"/>
+                </button>
               </span>
 
               <div className="w-full flex flex-col">

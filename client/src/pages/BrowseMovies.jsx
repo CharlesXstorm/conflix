@@ -21,6 +21,14 @@ const BrowseMovies = ({
   setAccountLoaded,
   setAccountClick,
   setLoaded
+  // hover,
+  // setHover,
+  // hero,
+  // setHero,
+  // title,
+  // setTitle,
+  // browseMovies,
+  // setBrowseMovies
 }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
@@ -33,6 +41,8 @@ const BrowseMovies = ({
   const dispatch = useDispatch();
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
+
+  console.log("heroMovie", heroMovie, "movieType", movieType, "route", route);
 
   const getUpcomingMovies = async () => {
     const config = {
@@ -57,7 +67,7 @@ const BrowseMovies = ({
       logo = logo.data["logos"];
 
       if (res && logo) {
-        console.log('loading upcoming movies')
+        console.log("loading upcoming movies");
         for (var any of logo) {
           if (any["iso_639_1"] === "en") {
             setHero(res);
@@ -69,17 +79,13 @@ const BrowseMovies = ({
         setTitle(logo[0]["file_path"]);
         return;
       }
-
     } catch (err) {
       console.log(err);
     }
   };
 
   // get movie categories
-  const getBrowseMovies = async (val) => {
-    let myList = null;
-    let watchList = null;
-    let data = { myList: myList };
+  const getBrowseMovies = async () => {
     const config = {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
@@ -87,25 +93,9 @@ const BrowseMovies = ({
       }
     };
     try {
-      //get user's watchList
-      watchList = await axios.get(
-        `${import.meta.env.VITE_API_URL}/${val["_id"]}/subProfiles/${
-          profile.id
-        }/watchlist`,
-        config
-      );
-
-      if (watchList) {
-        if (watchList.data.data.length > 0) {
-          myList = watchList.data.data;
-        } else {
-          myList = null;
-        }
-      }
       //get all movies and watchList data
-      let res = await axios.post(
+      let res = await axios.get(
         `${import.meta.env.VITE_API_URL}/${route}`,
-        data,
         config
       );
 
@@ -114,7 +104,6 @@ const BrowseMovies = ({
       console.log(err);
     }
   };
-
 
   useEffect(() => {
     if (timeOutID) {
@@ -126,6 +115,7 @@ const BrowseMovies = ({
     dispatch(setFocus(linkFocus));
     setBrowseMovies(null)
     setHero(null)
+    setTitle(null)
 
     let movies = null;
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);

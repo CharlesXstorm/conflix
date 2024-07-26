@@ -28,14 +28,12 @@ import Mylist from "./pages/Mylist.jsx";
 // let auth = true
 
 function App() {
-  // const [profileClick, setProfileClick] = useState(false)
+
   const[editClick,setEditClick] = useState(false)
-  // const [accountClick,setAccountClick] = useState(false)
   const [accountClick,setAccountClick] = useState(false)
   const [accountLoader, setAccountLoader] = useState(false);
   const [email,setEmail] = useState("")
   const [loaded,setLoaded] = useState(false)
-  const [accountLoaded, setAccountLoaded] = useState(false);
   const [addProfile,setAddProfile] = useState(false)
   const [navView,setNavView] = useState(false)
 
@@ -77,10 +75,10 @@ function App() {
 
       <Route element={<ProtectedRoute  setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
         <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader}  setAccountClick={setAccountClick} accountClick={accountClick}/>}>
-          <Route index element={<Browse accountLoaded={accountLoaded} setAccountLoaded={setAccountLoaded}  accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
+          <Route index element={<Browse accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
           <Route path=":id" element={<MovieDetail/>} />
-          <Route path='genre/movies' element={<GenreMovies setAccountLoaded={setAccountLoaded} heroMovie={"movie/now_playing?language=en-US&page=1"} movieType={"movie"} route={"browse/genre/movies"} linkFocus = {{ 'Movies': true, nav:"genre/movies" } } setNavView={setNavView} setAccountClick={setAccountClick}/>} />
-          <Route path='genre/tv_shows' element={<GenreTV setAccountLoaded={setAccountLoaded} heroMovie={"tv/top_rated?language=en-US&page=1"} movieType={"tv"} route={"browse/genre/tv_shows"} linkFocus = {{ 'TV Shows': true, nav:"genre/tv_shows" } } setNavView={setNavView} setAccountClick={setAccountClick}/>} />
+          <Route path='genre/movies' element={<GenreMovies setNavView={setNavView} setAccountClick={setAccountClick}/>} />
+          <Route path='genre/tv_shows' element={<GenreTV setNavView={setNavView} setAccountClick={setAccountClick}/>} />
           <Route path='search' element={<Search setNavView={setNavView}/>} />
           <Route path='mylist' element={<Mylist setNavView={setNavView}/>} />
         </Route>

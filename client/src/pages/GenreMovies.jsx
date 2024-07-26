@@ -1,20 +1,28 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
 const GenreMovies = ({
-  heroMovie,
-  movieType,
-  route,
-  linkFocus,
   setNavView,
-  setAccountLoaded,
+  // setAccountLoaded,
   setAccountClick,
 }) => {
   
   const { data, profile } = useSelector((state) => state.account);
+  //   const [hover,setHover]= useState(false)
+  // const [hero, setHero] = useState(null);
+  // const [title, setTitle] = useState(null);
+  // const [browseMovies, setBrowseMovies] = useState(null);
+
+  let heroMovie =
+  profile.name === "kids"
+    ? "discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=18%2C16"
+    : "movie/now_playing?language=en-US&page=1";
+let movieType = profile.name === "kids" ? "movie" : "movie";
+let route = profile.name === "kids" ? "browse/kids/movies" : "browse/genre/movies";
+let linkFocus = { 'Movies': true, nav:"genre/movies" };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,8 +47,17 @@ const GenreMovies = ({
             profile={profile}
             data={data}
             setNavView={setNavView}
-            setAccountLoaded={setAccountLoaded}
+            setAccountLoaded={()=>null}
             setAccountClick={setAccountClick}
+
+            // hover={hover}
+            // hero={hero}
+            // title={title}
+            // browseMovies={browseMovies}
+            // setHover={setHover}
+            // setHero={setHero}
+            // setTitle={setTitle}
+            // setBrowseMovies={setBrowseMovies}
           />
         </Suspense>
 
