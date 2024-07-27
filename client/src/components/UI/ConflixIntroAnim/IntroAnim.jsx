@@ -38,7 +38,7 @@ const IntroAnim = ({timeOutID,setTimeoutID}) => {
       <audio autoPlay src="/audio/introAudio.mp3"></audio>
     <div id="container">
 
-      <conflixintro letter="C">
+      <div className="conflixintro" letter="C">
         <div className="helper-1">
           <div className="effect-brush">
             <span className="fur-31"></span>
@@ -209,7 +209,7 @@ const IntroAnim = ({timeOutID,setTimeoutID}) => {
             <span className="fur-1"></span>
           </div>
         </div>
-      </conflixintro>
+      </div>
     </div>
     </>
     }

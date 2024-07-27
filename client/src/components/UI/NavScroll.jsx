@@ -65,8 +65,9 @@ export const ModalCont = ({
   setHover,
   expand,
   setExpand,
+  setAccountClick,
+  setNavView,
   movieType,
-  isList,
   dvWidth,
   data,
   id,
@@ -117,7 +118,8 @@ export const ModalCont = ({
           right={right}
           setExpand={setExpand}
           movieType={movieType}
-          isList={isList}
+          setAccountClick={setAccountClick}
+          setNavView={setNavView}
         />
       </div>
     </div>
@@ -137,8 +139,9 @@ export const ScrollItemPC = ({
   mb,
   $data,
   movieType,
-  isList,
-  svgNum
+  svgNum,
+  setAccountClick,
+  setNavView
 }) => {
   // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -146,7 +149,7 @@ export const ScrollItemPC = ({
   const [expand, setExpand] = useState(false);
   const itemRef = useRef();
 
-  let modalContHeight = `${document.body.scrollHeight}px`
+  let modalContHeight = `${document.body.scrollHeight}px`;
 
   const mouseOverHandler = () => {
     setHover(id);
@@ -156,13 +159,6 @@ export const ScrollItemPC = ({
     //reset hover onMouseOut
     setHover(false);
   };
-
-  // useEffect(() => {
-    //get document height and save in a state
-    // const body = document.body;
-    // setModalContHeight(`${body.scrollHeight}px`);
-    // setReady(true);
-  // }, [hover]);
 
   return (
     <>
@@ -175,10 +171,11 @@ export const ScrollItemPC = ({
               height={modalContHeight}
               onMouseOut={mouseOutHandler}
               movieType={movieType}
-              isList={isList}
               setHover={setHover}
               expand={expand}
               setExpand={setExpand}
+              setAccountClick={setAccountClick}
+              setNavView={setNavView}
               data={$data}
               id={id}
               bg={bg || bg_poster}
@@ -208,15 +205,15 @@ export const ScrollItemPC = ({
         onMouseOver={mouseOverHandler}
         onMouseOut={mouseOutHandler}
         style={{
-          opacity: `${hover === id && !expand ? 0 : hover === id && expand ? 1 : 1}`
+          opacity: `${
+            hover === id && !expand ? 0 : hover === id && expand ? 1 : 1
+          }`
         }}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
           ${mb || ""}
           flex-none p-1 flex-none`}
       >
-        <div
-          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
-        >
+        <div className={`relative rounded-[3px] w-full h-full overflow-hidden`}>
           {row != 2 && (
             <div className="relative flex justify-center font-bold text-[5em] items-center overflow-clip">
               {bg ? (
@@ -337,7 +334,12 @@ export const ScrollItemMobile = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-  const data = { groupType, movieType, $data, genres: $data["genre_ids"].join("%2C") };
+  const data = {
+    groupType,
+    movieType,
+    $data,
+    genres: $data["genre_ids"].join("%2C")
+  };
 
   const handleClick = () => {
     navigate(`/browse/${$id}`, { state: data });
@@ -356,9 +358,7 @@ export const ScrollItemMobile = ({
             : "w-[calc((100%/3))] md:w-[calc((100%/4))]"
         } lg:w-[calc((100%/5))] p-1 flex-none`}
       >
-        <div
-          className={`relative rounded-[3px] w-full h-full overflow-hidden`}
-        >
+        <div className={`relative rounded-[3px] w-full h-full overflow-hidden`}>
           {row != 2 && (
             <div
               onClick={handleClick}
@@ -474,6 +474,8 @@ export const NavScroll = ({
   count,
   hover,
   setHover,
+  setAccountClick,
+  setNavView,
   $scrollContID
 }) => {
   const { profile } = useSelector((state) => state.account);
@@ -512,7 +514,6 @@ export const NavScroll = ({
   }, [profile.watchList]);
 
   useEffect(() => {
-
     if (scrollRef.current && scrollWidth === null) {
       setScrollWidth(scrollRef.current.getBoundingClientRect().width);
     }
@@ -706,7 +707,11 @@ export const NavScroll = ({
                       dvWidth={scrollWidth}
                       setHover={setHover}
                       hover={hover}
-                      movieType={data.type || item["media_type"] || item["type"]}
+                      movieType={
+                        data.type || item["media_type"] || item["type"]
+                      }
+                      setAccountClick={setAccountClick}
+                      setNavView={setNavView}
                     />
                   ) : (
                     <ScrollItemMobile

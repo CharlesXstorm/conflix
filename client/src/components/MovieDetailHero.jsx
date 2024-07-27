@@ -15,12 +15,13 @@ const MovieDetailHero = ({
   volumeHandler,
   volumeIcon,
   id,
-  movie,
   movieType,
+  movie,
   src,
   bg
 }) => {
   const [loaded, setLoaded] = useState(false);
+  const [title, setTitle] = useState()
 
   return (
     <div className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden ">
@@ -56,7 +57,9 @@ const MovieDetailHero = ({
         <HeroInfo
           volumeIcon={volumeIcon}
           volumeHandler={volumeHandler}
+          title={title}
           movie={movie}
+          movieType={movieType}
         />
       }
 
@@ -67,6 +70,7 @@ const MovieDetailHero = ({
         playerRef={playerRef}
         id={id}
         movieType={movieType}
+        setTitle={setTitle}
       />
     </div>
   );

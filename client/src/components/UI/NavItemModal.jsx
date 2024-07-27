@@ -11,11 +11,15 @@ import HeroInfo from "../HeroInfo";
 import VideoPlayer from "../VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import MovieDetailInfo from "../MovieDetailInfo";
+import { setIntro } from "../../utils/featureSlice";
+import { useNavigate } from "react-router-dom";
 
 const ItemModal = ({
   onMouseEnter,
   onMouseLeave,
   setExpand,
+  setAccountClick,
+  setNavView,
   $data,
   bg,
   title,
@@ -44,12 +48,15 @@ const ItemModal = ({
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [timeoutID, setTimeoutID] = useState();
+  const [titleSrc, setTitleSrc] = useState()
 
   const playerRef = useRef();
 
   const { data, profile } = useSelector((state) => state.account);
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate()
 
   let genres = $data["genre_ids"].map((item) => {
     let genreType =
@@ -116,6 +123,25 @@ const ItemModal = ({
       setVolume(1);
     }
   };
+
+  const playHandler = () => {
+    dispatch(setIntro(true));
+    setNavView(false);
+    setAccountClick(false);
+    navigate("/browse");
+  };
+
+  const cancelHandler = () => {
+    onMouseLeave();
+    if (right >= dvWidth - 50) {
+      setInitPosition({ right: "auto" });
+    } else {
+      setInitPosition({ left: "auto" });
+    }
+    setShrinkWidth("50%");
+    setExpand(false);
+    dispatch(setOverflow("auto"));
+  }
 
   //handle watchList////////////////////////////////////////////////
   //add watchList to database
@@ -302,6 +328,7 @@ const ItemModal = ({
                     playerRef={playerRef}
                     id={movieID}
                     movieType={movieType}
+                    setTitle={setTitleSrc}
                   />
                 )
               }
@@ -346,8 +373,12 @@ const ItemModal = ({
                     movie={$data}
                     watchListHandler={watchListHandler}
                     expandHandler={expandHandler}
+                    playHandler={playHandler}
+                    cancelHandler={cancelHandler}
                     watchIcon={watchIcon}
                     rated={rated}
+                    title={titleSrc}
+                    movieType={movieType}
                   />
                 )
               }
@@ -367,7 +398,9 @@ const ItemModal = ({
               >
                 <div className="flex justify-between">
                   <span className="flex gap-2">
-                    <button className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
+                    <button 
+                    onClick={playHandler}
+                    className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
                       <img src="/images/play.svg" alt="buttons" />
                     </button>
                     <button
@@ -429,17 +462,7 @@ const ItemModal = ({
             //cancel button
             expand && (
               <button
-                onClick={() => {
-                  onMouseLeave();
-                  if (right >= dvWidth - 50) {
-                    setInitPosition({ right: "auto" });
-                  } else {
-                    setInitPosition({ left: "auto" });
-                  }
-                  setShrinkWidth("50%");
-                  setExpand(false);
-                  dispatch(setOverflow("auto"));
-                }}
+                onClick={cancelHandler}
                 className="absolute z-[60] top-0 right-0 p-2 mr-[0.5em] mt-[0.5em] w-[2em] h-[2em] rounded-[50%] bg-[rgb(40,40,40)] "
               >
                 <img className="w-full" src="/images/cancel.svg" alt="cancel" />

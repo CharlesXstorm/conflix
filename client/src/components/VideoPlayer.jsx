@@ -10,7 +10,8 @@ const VideoPlayer = ({
   setPlaying,
   playerRef,
   id,
-  movieType
+  movieType,
+  setTitle
 }) => {
   const [key, setKey] = useState();
 
@@ -46,6 +47,8 @@ const VideoPlayer = ({
     };
     try {
       let movie;
+      let logo;
+
       if (movieType === "movie") {
         movie = await axios.get(
           `${import.meta.env.VITE_TMDB_URL}/movie/${id}/videos?language=en-US`,
@@ -59,6 +62,13 @@ const VideoPlayer = ({
         );
       }
 
+      logo = await axios.get(
+        `${import.meta.env.VITE_TMDB_URL}/${movieType}/${id}/images`,
+        config
+      );
+
+      logo = logo.data["logos"];
+
       if (!movie) {
         throw new Error("video not found");
       }
@@ -68,6 +78,16 @@ const VideoPlayer = ({
           setKey(item.key);
           break;
         }
+      }
+
+      if (logo) {
+        for (var any of logo) {
+          if (any["iso_639_1"] === "en") {
+            setTitle(any["file_path"]);
+            return;
+          }
+        }
+        setTitle(logo[0]["file_path"]);
       }
     } catch (err) {
       console.log(err);

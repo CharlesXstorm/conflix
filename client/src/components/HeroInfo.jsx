@@ -3,14 +3,16 @@
 
 import { useSelector } from "react-redux";
 
-const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon,rated }) => {
+const HeroInfo = ({ volumeHandler, volumeIcon, movieType, movie, watchListHandler,playHandler,cancelHandler,watchIcon,rated,title }) => {
   const { isPC } = useSelector((state) => state.dvWidth);
 
   return (
-    <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col top-[16vh] gap-4 items-start lg:top-[20vh] w-full">
+    <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col bottom-8 gap-4 items-start lg:top-[20vh] w-full">
       <div className="flex flex-col gap-4 pointer-events-auto">
         <div className="movieTitle flex flex-col gap-2">
-          <div className="flex items-center gap-2">
+          <div 
+          style={{display:`${movieType==='tv'?"flex":"none"}`}}
+          className="items-center gap-2">
             <img
               src="/images/LOGO_C.svg"
               className="w-[0.8em] lg:w-[1em] align-center"
@@ -18,7 +20,14 @@ const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon
             <span className="flex items-center">Series</span>{" "}
           </div>
           <div>
-            <span className="font-bold text-[1.5em] lg:text-[2em]">
+            <span 
+            style={{display: `${title?"flex":"none"}`}}
+            className="font-bold text-[1.5em] lg:text-[2em]">
+              <img className="w-[5em]" src={`https://image.tmdb.org/t/p/w185${title}`} />
+            </span>
+            <span 
+            style={{display: `${title?"none":"flex"}`}}
+            className="font-bold text-[1.5em] lg:text-[2em]">
               {movie.title || movie.name}
             </span>
           </div>
@@ -28,7 +37,14 @@ const HeroInfo = ({ volumeHandler, volumeIcon, movie, watchListHandler,watchIcon
       {isPC && (
         <div className="flex flex-row justify-between pointer-events-auto w-full">
           <div className="flex flex-row justify-between items-center gap-4 items-left">
-            <button className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
+            <button 
+            onClick={()=>{
+              if(cancelHandler){
+                cancelHandler();
+              }
+              playHandler()
+            }}
+            className="border p-2 px-4 rounded text-black bg-white flex align-center items-center gap-2 font-bold">
               <span>
                 <img src="/images/play.svg" className="w-[1em]" />
               </span>

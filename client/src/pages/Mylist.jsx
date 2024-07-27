@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFocus } from "../utils/featureSlice";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 
-const Mylist = ({ setNavView }) => {
+const Mylist = ({ setNavView, setAccountClick }) => {
   const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
   const [hover, setHover] = useState(false);
 
   const dispatch = useDispatch();
-  const { profile} = useSelector((state) => state.account);
+  const { profile } = useSelector((state) => state.account);
 
   // console.log('profileList', profile);
 
-  let myList = profile.watchList
+  let myList = profile.watchList;
 
   useEffect(() => {
     setNavView(true);
@@ -45,6 +45,8 @@ const Mylist = ({ setNavView }) => {
                     $data={item}
                     movieType={item["type"]}
                     svgNum={null}
+                    setAccountClick={setAccountClick}
+                    setNavView={setNavView}
                   />
                 ) : (
                   <ScrollItemMobile

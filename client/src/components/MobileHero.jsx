@@ -22,11 +22,11 @@ const GenreSpan = ({ index, length, genre }) => {
   );
 };
 
-const MobileHero = ({ $data, $bg, title }) => {
+const MobileHero = ({ $data, $bg}) => {
   // const [ready,setReady] = useState(true)
   //  console.log('MobileHerodata',$data['genre_ids'].join('%'))
   const navigate = useNavigate();
-  const data = { movieType: "movie", genres: $data["genre_ids"].join("%2C") };
+  const data = { movieType: "movie", $data, genres: $data["genre_ids"].join("%2C") };
 
   const handleClick = () => {
     navigate(`/browse/${$data["id"]}`, { state: data });

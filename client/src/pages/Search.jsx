@@ -9,7 +9,7 @@ import axios from "axios";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 import PageLoader from "../components/UI/PageLoader";
 
-const Search = ({ setNavView }) => {
+const Search = ({ setNavView, setAccountClick }) => {
   const [searchResult, setSearchResult] = useState();
   const [actors, setActors] = useState();
   const [searchLoaded, setSearchLoaded] = useState(false);
@@ -99,11 +99,7 @@ const Search = ({ setNavView }) => {
       <div className="flex flex-col md:text-lg xl:text-xl gap-4 w-full min-h-[80vh] bg-black px-[1em] pt-[5em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
         <div className="flex gap-2">
           <p className="flex-none">More to explore:</p>
-          {searchLoaded && searchResult && actors && (
-            <span>
-              movies | movies | movies | movies | movies | movies | movies |
-            </span>
-          )}
+          
         </div>
 
         <div className="flex flex-wrap w-full h-[auto]">
@@ -133,6 +129,8 @@ const Search = ({ setNavView }) => {
                   $data={item}
                   movieType={item["media_type"]}
                   svgNum={null}
+                  setAccountClick={setAccountClick}
+                  setNavView={setNavView}
                 />
               ) : (
                 <ScrollItemMobile

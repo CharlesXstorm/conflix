@@ -76,11 +76,11 @@ function App() {
       <Route element={<ProtectedRoute  setLoaded={setLoaded} addProfile={addProfile} editClick={editClick}/>}>
         <Route path="browse" element={<BrowseShared navView={navView} setAccountLoader={setAccountLoader}  setAccountClick={setAccountClick} accountClick={accountClick}/>}>
           <Route index element={<Browse accountClick={accountClick} setNavView={setNavView} setAccountClick={setAccountClick} accountLoader={accountLoader} setAccountLoader={setAccountLoader} setEditClick={setEditClick} loaded={loaded} addProfile={addProfile} setAddProfile={setAddProfile} />} />
-          <Route path=":id" element={<MovieDetail/>} />
+          <Route path=":id" element={<MovieDetail setAccountClick={setAccountClick} setNavView={setNavView}/>} />
           <Route path='genre/movies' element={<GenreMovies setNavView={setNavView} setAccountClick={setAccountClick}/>} />
           <Route path='genre/tv_shows' element={<GenreTV setNavView={setNavView} setAccountClick={setAccountClick}/>} />
-          <Route path='search' element={<Search setNavView={setNavView}/>} />
-          <Route path='mylist' element={<Mylist setNavView={setNavView}/>} />
+          <Route path='search' element={<Search setNavView={setNavView} setAccountClick={setAccountClick}/>} />
+          <Route path='mylist' element={<Mylist setNavView={setNavView} setAccountClick={setAccountClick}/>} />
         </Route>
         <Route path="ManageProfiles" element={<ManageProfiles editClick={editClick} setEditClick={setEditClick} setAccountClick={setAccountClick} loaded={loaded} />} />
       </Route>

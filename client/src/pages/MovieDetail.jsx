@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieDetailHero from "../components/MovieDetailHero";
 import MovieDetailInfo from "../components/MovieDetailInfo";
+import { setIntro } from "../utils/featureSlice";
 
-const MovieDetail = ({ movieType, movieID, bg, genres }) => {
+const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavView}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
@@ -22,6 +23,8 @@ const MovieDetail = ({ movieType, movieID, bg, genres }) => {
   const $data = data.$data;
 
   const { isPC } = useSelector((state) => state.dvWidth);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -31,6 +34,13 @@ const MovieDetail = ({ movieType, movieID, bg, genres }) => {
       setVolumeIcon("max");
       setVolume(1);
     }
+  };
+
+  const playHandler = () => {
+    dispatch(setIntro(true));
+    setNavView(false);
+    setAccountClick(false);
+    navigate("/browse");
   };
 
   useEffect(() => {
@@ -58,7 +68,9 @@ const MovieDetail = ({ movieType, movieID, bg, genres }) => {
 
             {!isPC && (
               <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
-                <button className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
+                <button 
+                onClick={playHandler}
+                className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
                   <span>
                     <img
                       src="/images/play.svg"

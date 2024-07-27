@@ -151,7 +151,7 @@ const BrowseMovies = ({
               setNavView={setNavView}
             />
           ) : (
-            <MobileHero $data={hero} $bg={$bg} title={title} />
+            <MobileHero $data={hero} $bg={$bg} />
           )}
 
           <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">
@@ -166,6 +166,8 @@ const BrowseMovies = ({
                   count={isPC ? 6 : isTablet ? 4 : 3}
                   hover={hover}
                   setHover={setHover}
+                  setAccountClick={setAccountClick}
+                  setNavView={setNavView}
                 />
               )
             )}

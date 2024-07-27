@@ -1,18 +1,23 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-// import React from 'react'
+import React from 'react'
 
 import axios from "axios";
-import { useEffect,useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 //Episode Button Item//////////////////////////////////////////////////////////////////////////////////////////////
-const EpisodeButtonItem = ({ item, setButtonTitle }) => {
+const EpisodeButtonItem = ({ item, setButtonTitle,setDropDown,btnClickHandler }) => {
   return (
     <button
-      onClick={() =>
+      onClick={() =>{
         setButtonTitle({
           title: item["name"],
           season_number: item["season_number"]
         })
+        setDropDown((prev) => !prev)
+        btnClickHandler(false)
+      }
       }
       className="flex justify-between items-center"
     >
@@ -23,7 +28,7 @@ const EpisodeButtonItem = ({ item, setButtonTitle }) => {
 };
 
 //Episode Button//////////////////////////////////////////////////////////////
-const EpisodeButton = ({ buttonTitle, setButtonTitle, seasons }) => {
+const EpisodeButton = ({ buttonTitle, setButtonTitle, seasons, btnClickHandler }) => {
   const [dropDown, setDropDown] = useState(false);
   return (
     <div className="relative text-md font-bold flex flex-col">
@@ -47,6 +52,8 @@ const EpisodeButton = ({ buttonTitle, setButtonTitle, seasons }) => {
               key={index}
               item={item}
               setButtonTitle={setButtonTitle}
+              btnClickHandler={btnClickHandler}
+              setDropDown={setDropDown}
             />
           ))}
         </div>
@@ -56,23 +63,14 @@ const EpisodeButton = ({ buttonTitle, setButtonTitle, seasons }) => {
 };
 
 //Episode List//////////////////////////////////////////////////////////////
-const EpisodeList = ({ seasonNum, $movieType, $id }) => {
+const EpisodeList = React.forwardRef(({
+  seasonNum,
+  $movieType,
+  $id,
+  click,
+  btnClickHandler
+},ref) => {
   const [episodes, setEpisodes] = useState();
-  const [click, setClick] = useState(true);
-
-  const listRef = useRef();
-
-  console.log("episodeList seasons", seasonNum, "id", $id);
-
-  const btnClickHandler = () => {
-    setClick((prev) => {
-      if (!prev) {
-        listRef.current.scrollTo({ top: 0, behavior: "smooth" });
-        return true;
-      }
-      return false;
-    });
-  };
 
   const getEpisodeDetails = async () => {
     const config = {
@@ -115,7 +113,7 @@ const EpisodeList = ({ seasonNum, $movieType, $id }) => {
   return (
     <>
       <div
-        ref={listRef}
+        ref={ref}
         className={`w-full ${
           click ? "max-h-[26em] overflow-hidden" : "max-h-[60em] overflow-auto"
         } transition-all duration-2000 ease-linear`}
@@ -136,7 +134,7 @@ const EpisodeList = ({ seasonNum, $movieType, $id }) => {
       </div>
     </>
   );
-};
+})
 
 //Episode Item//////////////////////////////////////////////////////////////
 const EpisodeItem = ({ item, id }) => {
@@ -188,6 +186,25 @@ const Episodes = ({ $data, $movieType, $id }) => {
     season_number: $data["seasons"][0]["season_number"]
   });
 
+  const [click, setClick] = useState(true);
+
+  const listRef = useRef();
+
+  const btnClickHandler = (val) => {
+    if(!val){
+      setClick(!val)
+      listRef.current.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
+    setClick((prev) => {
+      if (!prev) {
+        listRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        return true;
+      }
+      return false;
+    });
+  };
+
   return (
     <>
       {
@@ -198,6 +215,7 @@ const Episodes = ({ $data, $movieType, $id }) => {
               seasons={$data["seasons"]}
               buttonTitle={buttonTitle}
               setButtonTitle={setButtonTitle}
+              btnClickHandler={btnClickHandler}
             />
           </div>
 
@@ -211,6 +229,9 @@ const Episodes = ({ $data, $movieType, $id }) => {
             seasonNum={buttonTitle["season_number"]}
             $movieType={$movieType}
             $id={$id}
+            click={click}
+            btnClickHandler={btnClickHandler}
+            ref={listRef}
           />
         </div>
       }
