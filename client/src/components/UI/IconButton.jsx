@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from "../../utils/profileSlice";
 import { useState } from "react";
 
@@ -12,13 +12,15 @@ const IconButton = ({
   setAccountClick,
   setEditClick,
   setAddProfile,
-  setAccountLoader
+  setAccountLoader,
+  setGuest
 }) => {
-  const [iconLoaded,setIconLoaded]= useState(false)
+  const [iconLoaded, setIconLoaded] = useState(false);
+  const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   const clickHandler = () => {
-    localStorage.setItem('Profile', JSON.stringify(profile));
+    localStorage.setItem("Profile", JSON.stringify(profile));
     dispatch(setProfile(profile));
 
     if (edit) {
@@ -28,9 +30,14 @@ const IconButton = ({
     }
 
     if (!profile.isProfile) {
-      setAccountClick(false);
-      setAddProfile(true);
-      return;
+      if (data["email"] === "guest@conflix.com") {
+        setGuest({state:true,message:"Guest account cannot add profile."})
+        return;
+      } else {
+        setAccountClick(false);
+        setAddProfile(true);
+        return;
+      }
     }
     if (profile.isProfile) {
       setAccountLoader(true);
@@ -63,17 +70,17 @@ const IconButton = ({
           onClick={clickHandler}
         >
           <img
-          src='/images/iconNull.jpg'
-          style={{
-            display: `${iconLoaded?'none':'flex'}`
-          }}
-          className="w-[6.5em] md:w-[8em] xl:w-[10em]"
+            src="/images/iconNull.jpg"
+            style={{
+              display: `${iconLoaded ? "none" : "flex"}`
+            }}
+            className="w-[6.5em] md:w-[8em] xl:w-[10em]"
           />
           <img
             src={`${src}`}
-            onLoad={()=>setIconLoaded(true)}
+            onLoad={() => setIconLoaded(true)}
             style={{
-              display: `${iconLoaded?'flex':'none'}`
+              display: `${iconLoaded ? "flex" : "none"}`
             }}
             className="relative w-[6.5em] md:w-[8em] xl:w-[10em]"
           />
@@ -81,10 +88,12 @@ const IconButton = ({
             <>
               <div className="bg-[rgb(0,0,0,0.5)] w-[100%] h-[100%] absolute top-0 "></div>
               <div className=" absolute top-0 p-[2em] xl:p-[3.5em]">
-                <img 
-                className="stroke-[14px]"
-                id='pencil'
-                src="/images/pencilSVG.svg" alt="pen" />
+                <img
+                  className="stroke-[14px]"
+                  id="pencil"
+                  src="/images/pencilSVG.svg"
+                  alt="pen"
+                />
               </div>
             </>
           )}

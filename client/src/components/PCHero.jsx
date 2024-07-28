@@ -49,30 +49,30 @@ const PCHero = ({
   });
 
   let rated =
-  movieType === "movie"
-    ? $data["genre_ids"].includes(10749) ||
-      $data["genre_ids"].includes(27) ||
-      $data["genre_ids"].includes(80) ||
-      $data["genre_ids"].includes(10752) ||
-      $data["genre_ids"].includes(53)
-      ? "18+"
-      : $data["genre_ids"].includes(10751) ||
-        $data["genre_ids"].includes(16) ||
-        $data["genre_ids"].includes(18) ||
-        $data["genre_ids"].includes(35)
-      ? "All"
-      : "18+"
-    : movieType === "tv"
-    ? $data["genre_ids"].includes(80) || $data["genre_ids"].includes(10768)
-      ? "18+"
-      : $data["genre_ids"].includes(10762) ||
-        $data["genre_ids"].includes(10751) ||
-        $data["genre_ids"].includes(18) ||
-        $data["genre_ids"].includes(35) ||
-        $data["genre_ids"].includes(16)
-      ? "All"
-      : "18+"
-    : null;
+    movieType === "movie"
+      ? $data["genre_ids"].includes(10749) ||
+        $data["genre_ids"].includes(27) ||
+        $data["genre_ids"].includes(80) ||
+        $data["genre_ids"].includes(10752) ||
+        $data["genre_ids"].includes(53)
+        ? "18+"
+        : $data["genre_ids"].includes(10751) ||
+          $data["genre_ids"].includes(16) ||
+          $data["genre_ids"].includes(18) ||
+          $data["genre_ids"].includes(35)
+        ? "All"
+        : "18+"
+      : movieType === "tv"
+      ? $data["genre_ids"].includes(80) || $data["genre_ids"].includes(10768)
+        ? "18+"
+        : $data["genre_ids"].includes(10762) ||
+          $data["genre_ids"].includes(10751) ||
+          $data["genre_ids"].includes(18) ||
+          $data["genre_ids"].includes(35) ||
+          $data["genre_ids"].includes(16)
+        ? "All"
+        : "18+"
+      : null;
 
   const dispatch = useDispatch();
 
@@ -140,6 +140,8 @@ const PCHero = ({
         count={6}
         hover={hover}
         setHover={setHover}
+        setAccountClick={setAccountClick}
+        setNavView={setNavView}
       />
 
       {

@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
-// import {useState} from 'react'
+import { useDispatch } from "react-redux";
 
-// import Loader from "./UI/Loader"
-import json from "../utils/TMDBconfig/Genres/movieList.json";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import json from "../utils/TMDBconfig/Genres/movieList.json";
+import { setIntro } from "../utils/featureSlice";
+import {
+  addWatchList,
+  removeWatchList
+} from "../utils/reusableFunctions/watchList";
 
 const GenreSpan = ({ index, length, genre }) => {
   return (
@@ -22,15 +27,59 @@ const GenreSpan = ({ index, length, genre }) => {
   );
 };
 
-const MobileHero = ({ $data, $bg}) => {
-  // const [ready,setReady] = useState(true)
-  //  console.log('MobileHerodata',$data['genre_ids'].join('%'))
+const MobileHero = ({
+  $data,
+  $bg,
+  setNavView,
+  setAccountClick,
+  title,
+  movieType,
+  profile,
+  dataID
+}) => {
+  const [watchIcon, setWatchIcon] = useState("add-icon");
   const navigate = useNavigate();
-  const data = { movieType: "movie", $data, genres: $data["genre_ids"].join("%2C") };
+  const data = {
+    movieType: "movie",
+    $data,
+    genres: $data["genre_ids"].join("%2C")
+  };
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     navigate(`/browse/${$data["id"]}`, { state: data });
   };
+
+  const playHandler = () => {
+    dispatch(setIntro(true));
+    setNavView(false);
+    setAccountClick(false);
+    navigate("/browse");
+  };
+
+  //handle watchList logic
+  const watchListHandler = () => {
+    if (watchIcon === "add-icon") {
+      addWatchList(movieType, dispatch, setWatchIcon, profile, $data, dataID);
+    } else {
+      removeWatchList(dispatch, setWatchIcon, profile, $data, dataID);
+    }
+  };
+
+  useEffect(() => {
+    //reset default values on show change
+    for (var any of profile.watchList) {
+      if (any.name && any.name === $data.name) {
+        setWatchIcon("remove-icon");
+        break;
+      } else if (any.title && any.title === $data.title) {
+        setWatchIcon("remove-icon");
+        break;
+      } else {
+        setWatchIcon("add-icon");
+      }
+    }
+  }, []);
 
   return (
     <div
@@ -40,13 +89,9 @@ const MobileHero = ({ $data, $bg}) => {
       className="w-[100%] pt-[8em] flex items-center justify-center"
     >
       <div className="relative flex justify-center items-center  w-[90%] md:w-[80%] border-[2px] border-[rgb(120,120,120)] rounded-[12px] overflow-hidden">
-        {/* {ready &&
-                <Loader />
-                } */}
         <div onClick={handleClick}>
           <img
-            src={`https://image.tmdb.org/t/p/original${$data["poster_path"]}`}
-            // onLoad={()=> setReady(false)}
+            src={`https://image.tmdb.org/t/p/w500${$data["poster_path"]}`}
             className="w-[100%]"
             alt="mobile hero"
           />
@@ -61,19 +106,22 @@ const MobileHero = ({ $data, $bg}) => {
 
         <div className="absolute left-0 bottom-[10%] w-[100%] py-[1em] flex flex-col gap-2 justify-start items-center">
           <div className="flex flex-col justify-center items-center gap-1">
-            <span className="flex items-center gap-2">
-              <img src="/images/LOGO_C.svg" className="w-[1em]" alt="logo" />
-              <span className="font-[500] tracking-[0.3em] text-[rgb(220,220,220)] text-[1em]">
-                SERIES
+            {movieType === "tv" && (
+              <span className="flex items-center gap-2">
+                <img src="/images/LOGO_C.svg" className="w-[1em]" alt="logo" />
+                <span className="font-[500] tracking-[0.3em] text-[rgb(220,220,220)] text-[1em]">
+                  SERIES
+                </span>
               </span>
-            </span>
+            )}
+
             <span className="text-[2em] md:text-[2.5em] font-[800] w-[100%] px-2 text-center">
-              {$data.title}
-              {/* <img
-            src={`https://image.tmdb.org/t/p/w300${title}`}
-            className="w-[100%]"
-            alt="mobile hero"
-          /> */}
+              {/* {$data.title} */}
+              <img
+                src={`https://image.tmdb.org/t/p/w185${title}`}
+                className="w-[100%]"
+                alt="mobile hero"
+              />
             </span>
           </div>
 
@@ -89,17 +137,23 @@ const MobileHero = ({ $data, $bg}) => {
           </div>
 
           <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%] pt-[0.5em] ">
-            <button className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
+            <button
+              onClick={playHandler}
+              className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 "
+            >
               <span>
                 <img src="/images/play.svg" alt="play" className="w-[1em]" />
               </span>
               <span>Play</span>
             </button>
 
-            <button className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 ">
+            <button
+              onClick={watchListHandler}
+              className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 "
+            >
               <span>
                 <img
-                  src="/images/add-icon.svg"
+                  src={`/images/${watchIcon}.svg`}
                   alt="play"
                   className="w-[1.5em]"
                 />

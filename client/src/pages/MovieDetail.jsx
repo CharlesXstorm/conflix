@@ -5,26 +5,39 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieDetailHero from "../components/MovieDetailHero";
 import MovieDetailInfo from "../components/MovieDetailInfo";
 import { setIntro } from "../utils/featureSlice";
+import {
+  addWatchList,
+  removeWatchList
+} from "../utils/reusableFunctions/watchList";
 
-const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavView}) => {
+const MovieDetail = ({
+  movieType,
+  movieID,
+  bg,
+  genres,
+  setAccountClick,
+  setNavView
+}) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
+  const [watchIcon, setWatchIcon] = useState("add-icon");
 
   const playerRef = useRef();
 
   const { id } = useParams();
   const location = useLocation();
-  const data = location.state;
+  const state = location.state;
 
-  const $movieType = data ? data.groupType || data.movieType : movieType;
-  const $genres = data ? data.genres : genres;
+  const $movieType = state ? state.groupType || state.movieType : movieType;
+  const $genres = state ? state.genres : genres;
   const $id = id ? id : movieID;
-  const $data = data.$data;
+  const $data = state.$data;
 
   const { isPC } = useSelector((state) => state.dvWidth);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const { data, profile } = useSelector((state) => state.account);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -43,8 +56,36 @@ const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavVi
     navigate("/browse");
   };
 
+  //handle watchList logic
+  const watchListHandler = () => {
+    if (watchIcon === "add-icon") {
+      addWatchList(
+        movieType,
+        dispatch,
+        setWatchIcon,
+        profile,
+        $data,
+        data["_id"]
+      );
+    } else {
+      removeWatchList(dispatch, setWatchIcon, profile, $data, data["_id"]);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    //reset default values on show change
+    for (var any of profile.watchList) {
+      if (any.name && any.name === $data.name) {
+        setWatchIcon("remove-icon");
+        break;
+      } else if (any.title && any.title === $data.title) {
+        setWatchIcon("remove-icon");
+        break;
+      } else {
+        setWatchIcon("add-icon");
+      }
+    }
   }, []);
 
   return (
@@ -68,9 +109,10 @@ const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavVi
 
             {!isPC && (
               <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
-                <button 
-                onClick={playHandler}
-                className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 ">
+                <button
+                  onClick={playHandler}
+                  className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 "
+                >
                   <span>
                     <img
                       src="/images/play.svg"
@@ -81,10 +123,13 @@ const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavVi
                   <span>Play</span>
                 </button>
 
-                <button className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 ">
+                <button
+                  onClick={watchListHandler}
+                  className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 "
+                >
                   <span>
                     <img
-                      src="/images/add-icon.svg"
+                      src={`/images/${watchIcon}.svg`}
                       alt="add"
                       className="w-[1.5em]"
                     />
@@ -99,7 +144,6 @@ const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavVi
               $id={id}
               $genres={$genres}
             />
-            
           </>
         }
       </div>

@@ -7,7 +7,7 @@ const HeroInfo = ({ volumeHandler, volumeIcon, movieType, movie, watchListHandle
   const { isPC } = useSelector((state) => state.dvWidth);
 
   return (
-    <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col bottom-8 gap-4 items-start lg:top-[20vh] w-full">
+    <div className="absolute z-10 left-0 pointer-events-none pl-5 md:pl-10 xl:pl-[4em] flex flex-col bottom-8 gap-4 items-start lg:bottom-20 w-full">
       <div className="flex flex-col gap-4 pointer-events-auto">
         <div className="movieTitle flex flex-col gap-2">
           <div 

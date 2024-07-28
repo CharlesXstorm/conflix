@@ -60,15 +60,11 @@ const BrowseMovies = ({
         console.log("loading upcoming movies");
         for (var any of logo) {
           if (any["iso_639_1"] === "en") {
-            setHero({movie:res,title:any["file_path"]})
-            // setHero(res);
-            // setTitle(any["file_path"]);
+            setHero({ movie: res, title: any["file_path"] });
             return;
           }
         }
-        setHero({movie:res,title:logo[0]["file_path"]})
-        // setHero(res);
-        // setTitle(logo[0]["file_path"]);
+        setHero({ movie: res, title: logo[0]["file_path"] });
         return;
       }
     } catch (err) {
@@ -106,7 +102,6 @@ const BrowseMovies = ({
     setNavView(true);
     dispatch(setFocus(linkFocus));
 
-    // setTitle(null);
     setHero(null);
     setBrowseMovies(null);
 
@@ -154,7 +149,16 @@ const BrowseMovies = ({
               setNavView={setNavView}
             />
           ) : (
-            <MobileHero $data={hero.movie} $bg={$bg} />
+            <MobileHero
+              $data={hero.movie}
+              title={hero.title}
+              movieType={movieType}
+              profile={profile}
+              dataID= {data["_id"]}
+              $bg={$bg}
+              setAccountClick={setAccountClick}
+              setNavView={setNavView}
+            />
           )}
 
           <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">

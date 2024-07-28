@@ -6,6 +6,7 @@ import { setSearch } from "../utils/featureSlice";
 import { useLocalStorage } from "../utils/customHooks";
 import ReactDOM from "react-dom";
 import ProfileModal from "./ProfileModal";
+import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
   {
@@ -60,6 +61,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
   const [timeoutId, setTimeoutId] = useState(null);
   const [bgColor, setBgColor] = useState("transparent");
   const [scrollUp, setScrollUp] = useState(4.5);
+  const [guest, setGuest] = useState(false);
   const [style, setStyle] = useState({
     contWidth: "w-[10%]",
     inputWidth: "w-[0%]",
@@ -170,6 +172,48 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
 
   return (
     <>
+      <AnimatePresence>
+        {guest.state && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, type: "linear" }}
+            onClick={() => setGuest(false)}
+            className="text-white flex justify-center items-center fixed z-[80] left-0 top-0 w-full h-[100vh] bg-[rgb(0,0,0,0.8)] "
+          >
+            <motion.div
+              initial={{ scale: 0.2 }}
+              exit={{ scale: 0.2 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.2, type: "spring" }}
+              className="flex flex-col gap-2 rounded-[6px] p-6 w-[fit-content] bg-yellow-600 "
+            >
+              <h1 className="font-bold lg:text-2xl">
+                You&apos;re signed in as a guest
+              </h1>
+              <p className=" lg:text-lg">{guest.message}</p>
+              <p className=" lg:text-lg text-black mt-2">
+                Do you want to signup?
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => navigate("/")}
+                  className="bg-white text-black px-4 py-1 rounded"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setGuest(false)}
+                  className="bg-white text-black px-4 py-1 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div
         style={{
           backgroundColor: bgColor,
@@ -229,16 +273,21 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
 
           {isPC && profile && (
             <>
-           {profile.name !== "kids" && <div className="py-1 align-center">{profile.name}</div>}
-           {profile.name === "kids" && 
-           <button
-           onClick={()=>{
-            setAccountClick(false)
-            navigate('/browse')
-          }
-          }
-           className="py-1 align-center bg-red-600 px-6 rounded flex-none">Exit Kids</button>}
-           </>
+              {profile.name !== "kids" && (
+                <div className="py-1 align-center">{profile.name}</div>
+              )}
+              {profile.name === "kids" && (
+                <button
+                  onClick={() => {
+                    setAccountClick(false);
+                    navigate("/browse");
+                  }}
+                  className="py-1 align-center bg-red-600 px-6 rounded flex-none"
+                >
+                  Exit Kids
+                </button>
+              )}
+            </>
           )}
           <button className="py-1 align-center">
             <span className="align-center">
@@ -248,7 +297,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           <button
             className="py-1 flex gap-[0.5em] items-center"
             onClick={() => {
-              console.log('clicked')
+              console.log("clicked");
               setStyle((prev) => ({ ...prev, arrow: "rotate-[270deg]" }));
               setModal(true);
             }}
@@ -304,6 +353,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
             setModal={setModal}
             setStyle={setStyle}
             setAccountClick={setAccountClick}
+            setGuest={setGuest}
           />,
           document.getElementById("portal")
         )}

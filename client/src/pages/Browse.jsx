@@ -96,9 +96,7 @@ const Browse = ({
         loaded &&
         ReactDOM.createPortal(
           <AccountLoader
-            src={profile.img}
             accountLoaded={accountLoaded}
-            setAccountLoader={setAccountLoader}
           />,
           document.getElementById("portal")
         )}
@@ -121,15 +119,6 @@ const Browse = ({
             setNavView={setNavView}
             setAccountLoaded={setAccountLoaded}
             setAccountClick={setAccountClick}
-
-            // hover={hover}
-            // hero={hero}
-            // title={title}
-            // browseMovies={browseMovies}
-            // setHover={setHover}
-            // setHero={setHero}
-            // setTitle={setTitle}
-            // setBrowseMovies={setBrowseMovies}
           />
         </Suspense>
       )}

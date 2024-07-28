@@ -178,7 +178,7 @@ const Form = ({
             <p className="flex justify-center mt-3">OR</p>
 
             <Button
-              name="Use a Sign-In Code"
+              name="Sign-In as a Guest"
               button="button"
               bgColor="bg-[rgb(45,45,45)]"
               color="text-white"

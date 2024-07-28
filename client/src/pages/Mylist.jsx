@@ -17,6 +17,7 @@ const Mylist = ({ setNavView, setAccountClick }) => {
   let myList = profile.watchList;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setNavView(true);
     dispatch(setFocus({ "My List": true, nav: "mylist" }));
   }, []);

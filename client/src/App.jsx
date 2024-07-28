@@ -62,14 +62,14 @@ function App() {
   return (
     <Routes>
 
-    <Route element={<AuthRoute setAccountClick={setAccountClick} />}>
+    {/* <Route element={<AuthRoute setAccountClick={setAccountClick} />}> */}
       <Route index element={<Home />} />
       <Route path="login" element={<Signin />} />
       <Route path="signup" element={<Signup setEmail={setEmail} />}>
         <Route index element={<Registration />} />
         <Route path="regform" element={<Regform email={email} />} />
       </Route>
-    </Route>
+    {/* </Route> */}
 
       <Route path="logout" element={<Logout />} />
 
