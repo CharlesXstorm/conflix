@@ -23,7 +23,7 @@ const HeroInfo = ({ volumeHandler, volumeIcon, movieType, movie, watchListHandle
             <span 
             style={{display: `${title?"flex":"none"}`}}
             className="font-bold text-[1.5em] lg:text-[2em]">
-              <img className="w-[5em]" src={`https://image.tmdb.org/t/p/w185${title}`} />
+              <img className="w-[5em]" src={`https://image.tmdb.org/t/p/w92${title}`} />
             </span>
             <span 
             style={{display: `${title?"none":"flex"}`}}

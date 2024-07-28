@@ -9,7 +9,8 @@ const MoreItem = ({ item }) => {
 
   return (
     <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em]">
-      <div className="w-full">
+      <div className="w-full relative flex justify-center items-center">
+        <span className="absolute p-4">{item.name}</span>
         <img
           className="w-full"
           src={`https://image.tmdb.org/t/p/w300${item["backdrop_path"]}`}
@@ -17,14 +18,22 @@ const MoreItem = ({ item }) => {
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col pt-2">
         <div>
           <p className="text-sm mb-1 flex items-center gap-2 ">
-            <span className="border p-[0.5px] px-1">18+</span>
+            <span className="text-green-600 font-[500]">
+              {"Rated: " + item["vote_average"].toFixed(1) + "/10"}
+            </span>
             <span>
               <span className="p-[0.5px] px-1 text-[0.6em]">HD</span>
             </span>
-            <span className="flex items-center">2022</span>
+            <span>
+              {item["release_date"]
+                ? item["release_date"].slice(0, 4)
+                : item["first_air_date"]
+                ? item["first_air_date"].slice(0, 4)
+                : null}
+            </span>
           </p>
         </div>
 

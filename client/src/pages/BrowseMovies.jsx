@@ -24,7 +24,7 @@ const BrowseMovies = ({
 }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
-  const [title, setTitle] = useState(null);
+  // const [title, setTitle] = useState(null);
   const [browseMovies, setBrowseMovies] = useState(null);
   const [$bg, set$bg] = useState();
   const [timeOutID, setTimeoutID] = useState(null);
@@ -60,13 +60,15 @@ const BrowseMovies = ({
         console.log("loading upcoming movies");
         for (var any of logo) {
           if (any["iso_639_1"] === "en") {
-            setHero(res);
-            setTitle(any["file_path"]);
+            setHero({movie:res,title:any["file_path"]})
+            // setHero(res);
+            // setTitle(any["file_path"]);
             return;
           }
         }
-        setHero(res);
-        setTitle(logo[0]["file_path"]);
+        setHero({movie:res,title:logo[0]["file_path"]})
+        // setHero(res);
+        // setTitle(logo[0]["file_path"]);
         return;
       }
     } catch (err) {
@@ -103,9 +105,10 @@ const BrowseMovies = ({
     window.scrollTo(0, 0);
     setNavView(true);
     dispatch(setFocus(linkFocus));
-    setBrowseMovies(null);
+
+    // setTitle(null);
     setHero(null);
-    setTitle(null);
+    setBrowseMovies(null);
 
     let movies = null;
     set$bg(colorSet[Math.floor(Math.random() * (colorSet.length - 1))]);
@@ -132,10 +135,10 @@ const BrowseMovies = ({
     <>
       {
         <div>
-          <PageLoader type="movies" loaded={hero && browseMovies && title} />
+          <PageLoader type="movies" loaded={hero && browseMovies} />
         </div>
       }
-      {hero && browseMovies && title && (
+      {hero && browseMovies && (
         <div className="relative font-[roboto] pb-[1em]">
           {isPC ? (
             <PCHero
@@ -143,15 +146,15 @@ const BrowseMovies = ({
               setHover={setHover}
               movie={browseMovies[0]}
               movieType={movieType}
-              $data={hero}
-              title={title}
+              $data={hero.movie}
+              title={hero.title}
               profile={profile}
               setLoaded={setLoaded}
               setAccountClick={setAccountClick}
               setNavView={setNavView}
             />
           ) : (
-            <MobileHero $data={hero} $bg={$bg} />
+            <MobileHero $data={hero.movie} $bg={$bg} />
           )}
 
           <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">

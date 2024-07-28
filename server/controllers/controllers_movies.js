@@ -258,7 +258,7 @@ exports.getAllTvshows = async (req, res) => {
     const myList = [];
 
     const olderKids = await axios.get(
-      `${url}/discover/tv?include_adult=true&include_null_first_air_dates=false&language=en-US&page=1&screened_theatrically=false&sort_by=popularity.desc&vote_average.gte=9&with_genres=18%2C16%2C10762`,
+      `${url}/discover/tv?first_air_date.gte=2002-01-01&include_adult=true&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=18%2C16&without_genres=10762`,
       config
     );
     const tvDramas = await axios.get(

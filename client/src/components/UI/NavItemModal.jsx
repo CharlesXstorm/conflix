@@ -97,7 +97,6 @@ const ItemModal = ({
   const expandHandler = () => {
     setExpandTop(`calc(${window.scrollY}px)`);
     setExpandOpacity(1);
-    dispatch(setOverflow("hidden"));
     setExpand(true);
 
     setMouseLeave(null);
@@ -108,8 +107,9 @@ const ItemModal = ({
     }
 
     const newTimeoutID = setTimeout(() => {
+      dispatch(setOverflow("hidden"));
       setExpandHeight("auto");
-    }, 200);
+    }, 300);
     setTimeoutID(newTimeoutID);
   };
 

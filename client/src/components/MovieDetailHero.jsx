@@ -43,7 +43,7 @@ const MovieDetailHero = ({
           >
             <img
               className="scale-[1.4] md:scale-125 origin-[50%_20%]"
-              src={`https://image.tmdb.org/t/p/original${bg || src}`}
+              src={`https://image.tmdb.org/t/p/w500${bg || src}`}
               alt="thumbnail"
               onLoad={() => setLoaded(true)}
             />

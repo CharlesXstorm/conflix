@@ -85,7 +85,7 @@ const MovieDetail = ({ movieType, movieID, bg, genres, setAccountClick, setNavVi
                   <span>
                     <img
                       src="/images/add-icon.svg"
-                      alt="play"
+                      alt="add"
                       className="w-[1.5em]"
                     />
                   </span>

@@ -282,7 +282,6 @@ exports.deleteSubProfile = async (req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////
 exports.getAllWatchList = async (req, res) => {
   try {
-    // const subProfile = req.subProfile[0];
     res.status(200).json({
       status: "success",
       data: req.subProfile[0].watchList
@@ -314,23 +313,6 @@ exports.addWatchList = async (req, res, next) => {
     });
   }
 };
-
-// exports.deleteWatchList = async (req, res, next) => {
-//   try {
-//     const watchListData =  [...req.body] ;
-
-//     req.params.id = req.profileId;
-//     req.params.subId = req.subId;
-//     req.body = { watchList: watchListData };
-
-//     next();
-//   } catch (err) {
-//     res.status(404).json({
-//       status: "fail",
-//       message: err.message
-//     });
-//   }
-// };
 
 exports.getProfileIcons = async (req, res) => {
   try {

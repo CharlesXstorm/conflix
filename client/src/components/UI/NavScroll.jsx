@@ -143,9 +143,7 @@ export const ScrollItemPC = ({
   setAccountClick,
   setNavView
 }) => {
-  // const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  // const [modalContHeight, setModalContHeight] = useState("");
   const [expand, setExpand] = useState(false);
   const itemRef = useRef();
 
@@ -164,7 +162,6 @@ export const ScrollItemPC = ({
     <>
       {
         //display visible modal in portal div
-        // ready &&
         itemRef.current &&
           ReactDOM.createPortal(
             <ModalCont
@@ -221,7 +218,7 @@ export const ScrollItemPC = ({
                   style={{
                     display: `${loaded ? "block" : "none"}`
                   }}
-                  src={`https://image.tmdb.org/t/p/w300/${bg}`}
+                  src={`https://image.tmdb.org/t/p/w185${bg}`}
                   className=" w-[100%] top-0 left-0 origin-[50%_0%]"
                   alt="bgImage"
                   onLoad={() => setLoaded(true)}
@@ -232,7 +229,7 @@ export const ScrollItemPC = ({
                     style={{
                       display: `${loaded ? "block" : "none"}`
                     }}
-                    src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                    src={`https://image.tmdb.org/t/p/w185${bg_poster}`}
                     className=" w-[100%] top-0 left-0 origin-[50%_0%]"
                     alt="bgImage"
                     onLoad={() => setLoaded(true)}
@@ -280,7 +277,7 @@ export const ScrollItemPC = ({
                   style={{
                     display: `${loaded ? "block" : "none"}`
                   }}
-                  src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                  src={`https://image.tmdb.org/t/p/w185${bg_poster}`}
                   className="h-[100%] w[auto] top-0 right-0 origin-[50%_0%]"
                   alt="bgImage"
                   onLoad={() => setLoaded(true)}
@@ -368,7 +365,7 @@ export const ScrollItemMobile = ({
                 style={{
                   display: `${loaded ? "block" : "none"}`
                 }}
-                src={`https://image.tmdb.org/t/p/w300/${bg_poster}`}
+                src={`https://image.tmdb.org/t/p/w185/${bg_poster}`}
                 className=" w-[100%] top-0 left-0 origin-[50%_0%]"
                 alt="bgImage"
                 onLoad={() => setLoaded(true)}
