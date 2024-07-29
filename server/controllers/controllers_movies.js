@@ -24,25 +24,25 @@ isoCountries.forEach((item) => {
 });
 
 //get user's region using geolocation API
-const getRegion = async () => {
-  try {
-    //get country with geolocation
-    region = await axios.get(`${process.env.GEOLOCATION_URL}`);
-    if (region) {
-      region = region.data["country"];
-    } else {
-      region = "NG";
-    }
-  } catch (err) {
-    return;
-  }
-};
-getRegion();
+// const getRegion = async () => {
+//   try {
+//     region = await axios.get(`${process.env.GEOLOCATION_URL}`);
+//     if (region) {
+//       region = region.data["country"];
+//     } else {
+//       region = "NG";
+//     }
+//   } catch (err) {
+//     return;
+//   }
+// };
+// getRegion();
 
 //browse movie controller
 exports.getAllBrowse = async (req, res) => {
-  // let myList = req.body.myList;
-  // let myList = null;
+  let region = req.body.region;
+
+  console.log('regionBrowse', region);
 
   try {
     const nextWatch = await axios.get(
@@ -226,7 +226,7 @@ exports.getAllBrowse = async (req, res) => {
 };
 
 exports.getAllTvshows = async (req, res) => {
-  // let myList = req.body.myList;
+  let region = req.body.region;
   // let myList = null;
 
   try {
@@ -400,7 +400,7 @@ exports.getAllTvshows = async (req, res) => {
 };
 
 exports.getAllMovies = async (req, res) => {
-  // let myList = req.body.myList;
+  let region = req.body.region;
   // let myList = null;
 
   try {
@@ -571,7 +571,7 @@ exports.getAllMovies = async (req, res) => {
 };
 
 exports.getAllKids = async (req, res) => {
-  // let myList = req.body.myList;
+  let region = req.body.region;
   // let myList = null;
 
   try {
@@ -744,7 +744,7 @@ exports.getAllKids = async (req, res) => {
 };
 
 exports.getAllTvKids = async (req, res) => {
-  // let myList = req.body.myList;
+  let region = req.body.region;
   // let myList = null;
 
   try {
@@ -895,7 +895,7 @@ exports.getAllTvKids = async (req, res) => {
 };
 
 exports.getAllMoviesKids = async (req, res) => {
-  // let myList = req.body.myList;
+  let region = req.body.region;
   // let myList = null;
 
   try {

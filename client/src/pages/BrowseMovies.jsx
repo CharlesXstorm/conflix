@@ -74,6 +74,7 @@ const BrowseMovies = ({
 
   // get movie categories
   const getBrowseMovies = async () => {
+    let data
     const config = {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
@@ -82,8 +83,17 @@ const BrowseMovies = ({
     };
     try {
       //get all movies and watchList data
-      let res = await axios.get(
+      let region = await axios.get(`${import.meta.env.VITE_GEOLOCATION_URL}`)
+      if (region) {
+        region = region.data["country"];
+      } else {
+        region = "US";
+      }
+      data={region}
+
+      let res = await axios.post(
         `${import.meta.env.VITE_API_URL}/${route}`,
+        data,
         config
       );
 

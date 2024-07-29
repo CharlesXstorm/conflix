@@ -61,12 +61,12 @@ Router.route("/:id/subProfiles/:subId/watchlist")
 Router.route("/profileIcons").get(getProfileIcons);
 
 //movie routes
-Router.route("/browse").get(getAllBrowse);
+Router.route("/browse").post(getAllBrowse);
 
-Router.route("/browse/genre/tv_shows").get(getAllTvshows);
-Router.route("/browse/genre/movies").get(getAllMovies);
-Router.route("/browse/kids").get(getAllKids);
-Router.route("/browse/kids/tv").get(getAllTvKids);
-Router.route("/browse/kids/movies").get(getAllMoviesKids);
+Router.route("/browse/genre/tv_shows").post(getAllTvshows);
+Router.route("/browse/genre/movies").post(getAllMovies);
+Router.route("/browse/kids").post(getAllKids);
+Router.route("/browse/kids/tv").post(getAllTvKids);
+Router.route("/browse/kids/movies").post(getAllMoviesKids);
 
 module.exports = Router;
