@@ -40,7 +40,7 @@ const MobileHero = ({
   const [watchIcon, setWatchIcon] = useState("add-icon");
   const navigate = useNavigate();
   const data = {
-    movieType: "movie",
+    movieType,
     $data,
     genres: $data["genre_ids"].join("%2C")
   };

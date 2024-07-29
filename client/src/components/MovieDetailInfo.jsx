@@ -50,14 +50,12 @@ const MovieDetailInfo = ({$movieType,$id,$genres}) => {
             );
             result = { ...result, movieType: "tv" };
             moreMovies = [...moreRes.data.results]
-            // console.log('more like this', moreRes.data.results);
           }
     
           if (!res) {
             throw new Error("movie details not found");
           }
-    
-        // console.log('more like this: ' + moreMovies)
+
           result = {
             ...result,
             movieSrc: `${res.data["backdrop_path"] || res.data["poster_path"]}`,

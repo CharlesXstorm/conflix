@@ -29,15 +29,17 @@ const MovieDetail = ({
   const location = useLocation();
   const state = location.state;
 
-  const $movieType = state ? state.groupType || state.movieType : movieType;
-  const $genres = state ? state.genres : genres;
-  const $id = id ? id : movieID;
-  const $data = state.$data;
+  let $movieType = state ? state.groupType || state.movieType : movieType;
+  let $genres = state ? state.genres : genres;
+  let $id = id ? id : movieID;
+  let $data = state.$data;
 
   const { isPC } = useSelector((state) => state.dvWidth);
   const { data, profile } = useSelector((state) => state.account);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  console.log("movieDetails",'id',$id,'movieType',$movieType,'data',$data)
 
   const volumeHandler = () => {
     if (volume === 1) {

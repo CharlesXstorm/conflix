@@ -31,7 +31,7 @@ const getRegion = async () => {
     if (region) {
       region = region.data["country"];
     } else {
-      region = "US";
+      region = "NG";
     }
   } catch (err) {
     return;

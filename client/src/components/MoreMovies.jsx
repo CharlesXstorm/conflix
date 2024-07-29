@@ -2,15 +2,17 @@
 // import React from 'react'
 
 import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 //more item//////////////////////////////////////
-const MoreItem = ({ item }) => {
+const MoreItem = ({ item}) => {
   const { isMobile } = useSelector((state) => state.dvWidth);
 
   return (
-    <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em]">
+    <div 
+    className="flex flex-col w-[48%] lg:w-[30%] mt-[1em] bg-zinc-800 rounded">
       <div className="w-full relative flex justify-center items-center">
-        <span className="absolute p-4">{item.name}</span>
+        <span className="absolute p-4">{item.name||item.title}</span>
         <img
           className="w-full"
           src={`https://image.tmdb.org/t/p/w300${item["backdrop_path"]}`}
@@ -18,7 +20,7 @@ const MoreItem = ({ item }) => {
         />
       </div>
 
-      <div className="flex flex-col pt-2">
+      <div className="flex flex-col py-3 px-2">
         <div>
           <p className="text-sm mb-1 flex items-center gap-2 ">
             <span className="text-green-600 font-[500]">
@@ -37,7 +39,7 @@ const MoreItem = ({ item }) => {
           </p>
         </div>
 
-        <p className="text-[0.8em]">
+        <p className="text-[0.8em] font-[400]">
           {`${
             !isMobile && item["overview"].length > 300
               ? item["overview"].slice(0, 300) + "..."
@@ -52,8 +54,7 @@ const MoreItem = ({ item }) => {
 };
 
 //more movies component//////////////////////////////////////////////////////////////
-const MoreMovies = ({ moreMovies }) => {
-  console.log("moreMovies", moreMovies);
+const MoreMovies = ({ moreMovies}) => {
   return (
     <div className="flex flex-col gap-4 mt-4 font-bold">
       <p className="text-xl">More Like This</p>
