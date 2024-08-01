@@ -297,7 +297,7 @@ const ItemModal = ({
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
-      } absolute flex flex-col items-center z-[50] rounded-[6px] text-white `}
+      } absolute movieModal flex flex-col items-center z-[50] rounded-[6px] text-white `}
     >
       {
         <div
@@ -372,7 +372,7 @@ const ItemModal = ({
                     volumeHandler={volumeHandler}
                     movie={$data}
                     watchListHandler={watchListHandler}
-                    expandHandler={expandHandler}
+                    // expandHandler={expandHandler}
                     playHandler={playHandler}
                     cancelHandler={cancelHandler}
                     watchIcon={watchIcon}

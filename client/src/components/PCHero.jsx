@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import ReactDOM from "react-dom";
 import { useState, useRef, useEffect } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,7 +7,8 @@ import VideoPlayer from "./VideoPlayer";
 import { NavScroll } from "./UI/NavScroll";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setIntro } from "../utils/featureSlice";
+import { setIntro, setOverflow } from "../utils/featureSlice";
+import PCHeroInfo from "./PCHeroInfo";
 
 const PCHero = ({
   hover,
@@ -22,6 +24,7 @@ const PCHero = ({
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [delayPlay, setDelayPlay] = useState();
+  const [expand,setExpand] = useState(false)
   const navigate = useNavigate();
   const [initial] = useState({
     title: {
@@ -47,6 +50,8 @@ const PCHero = ({
       paddingTop: "0px"
     }
   });
+
+  const itemRef = useRef();
 
   let rated =
     movieType === "movie"
@@ -96,6 +101,11 @@ const PCHero = ({
     navigate("/browse");
   };
 
+  const moreInfoHandler = ()=> {
+    setPlaying(false);
+    setExpand(true)
+    dispatch(setOverflow("hidden"));
+  }
   useEffect(() => {
     if (playing) {
       const timeOut = setTimeout(() => {
@@ -113,6 +123,33 @@ const PCHero = ({
       style={{ fontFamily: "roboto" }}
       className="relative h-[50vh] md:h-[40vh] lg:h-[100vh] overflow-hidden"
     >
+      {itemRef.current &&
+        ReactDOM.createPortal(
+          <PCHeroInfo
+            // height={modalContHeight}
+            bg={$data["backdrop_path"]}
+            left={Math.floor(itemRef.current.getBoundingClientRect().left)}
+            // right={Math.floor(itemRef.current.getBoundingClientRect().right)}
+            top={Math.floor(
+              itemRef.current.getBoundingClientRect().top + window.scrollY
+            )}
+            itemHeight={Math.floor(
+              itemRef.current.getBoundingClientRect().height
+            )}
+            itemWidth={Math.floor(
+              itemRef.current.getBoundingClientRect().width
+            )}
+            playHandler={playHandler}
+            movieType={movieType}
+            $data={$data}
+            title={title}
+            expand={expand}
+            setExpand={setExpand}
+            rated={rated}
+          />,
+          document.getElementById("portal")
+        )}
+
       <AnimatePresence initial={false}>
         {!playing && (
           <motion.div
@@ -180,9 +217,14 @@ const PCHero = ({
                 </span>
                 Play
               </button>
-              <button className="p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
-                More Info
-              </button>
+
+              <div className="flex" ref={itemRef}>
+                <button
+                onClick={moreInfoHandler}
+                className="p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
+                  More Info
+                </button>
+              </div>
             </div>
 
             <div className="flex mt-2 ml-2 gap-2 ">

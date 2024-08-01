@@ -171,7 +171,11 @@ const BrowseMovies = ({
             />
           )}
 
-          <div className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] lg:mt-[3em] xl:mt-[4em]">
+          <div 
+          style={{
+            marginTop: `${isPC? "3em":'0px'}`
+          }}
+          className="flex flex-col gap-[1.5em] lg:gap-[3em] xl:gap-[4em] xl:mt-[4em]">
             {browseMovies.map((item, index) =>
               isPC && index === 0 ? null : (
                 <NavScroll

@@ -188,13 +188,13 @@ const EpisodeItem = ({ item, id }) => {
             </span>
           </span>
           <span>
-          {!isPC
-                ? item["overview"].length > 30
-                  ? `${item["overview"].slice(0, 30)}...`
-                  : item["overview"]
-                : item["overview"].length > 60
-                ? `${item["overview"].slice(0, 60)}...`
-                : item["overview"]}
+            {!isPC
+              ? item["overview"].length > 30
+                ? `${item["overview"].slice(0, 30)}...`
+                : item["overview"]
+              : item["overview"].length > 60
+              ? `${item["overview"].slice(0, 60)}...`
+              : item["overview"]}
           </span>
         </div>
       </div>
@@ -215,6 +215,41 @@ const Episodes = ({ $data, $movieType, $id }) => {
   const [click, setClick] = useState(true);
 
   const listRef = useRef();
+
+  let $genres = $data["genres"].map((item, index, array) =>
+    index < array.length - 1 ? item.name + ", " : item.name
+  );
+
+  let $genresID = $data["genres"].map((item) => item.id
+  );
+
+  // console.log("episodeData",$data)
+
+  let rated =
+  $movieType === "movie"
+    ? $genresID.includes(10749) ||
+      $genresID.includes(27) ||
+      $genresID.includes(80) ||
+      $genresID.includes(10752) ||
+      $genresID.includes(53)
+      ? "18+"
+      : $genresID.includes(10751) ||
+        $genresID.includes(16) ||
+        $genresID.includes(18) ||
+        $genresID.includes(35)
+      ? "All"
+      : "18+"
+    : $movieType === "tv"
+    ? $genresID.includes(80) || $data["genres"].includes(10768)
+      ? "18+"
+      : $genresID.includes(10762) ||
+        $genresID.includes(10751) ||
+        $genresID.includes(18) ||
+        $genresID.includes(35) ||
+        $genresID.includes(16)
+      ? "All"
+      : "18+"
+    : null;
 
   const btnClickHandler = (val) => {
     if (!val) {
@@ -247,8 +282,8 @@ const Episodes = ({ $data, $movieType, $id }) => {
 
           <p className="text-sm mb-1">
             {buttonTitle["title"]}:{" "}
-            <span className="border p-[0.5px] px-1 mx-1">18+</span>
-            sex, nudity, language, suicide
+            <span className="border p-[0.5px] px-1 mx-1">{rated}</span>
+            {$genres}
           </p>
 
           <EpisodeList

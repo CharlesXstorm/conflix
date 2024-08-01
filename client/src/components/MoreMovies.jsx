@@ -1,18 +1,14 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-
-import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 //more item//////////////////////////////////////
-const MoreItem = ({ item}) => {
-  const { isMobile } = useSelector((state) => state.dvWidth);
+const MoreItem = ({ item }) => {
 
   return (
-    <div 
-    className="flex flex-col w-[48%] lg:w-[30%] mt-[1em] bg-zinc-800 rounded">
+    <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em] bg-zinc-800 rounded">
       <div className="w-full relative flex justify-center items-center">
-        <span className="absolute p-4">{item.name||item.title}</span>
+        <span className="absolute p-4">{item.name || item.title}</span>
         <img
           className="w-full"
           src={`https://image.tmdb.org/t/p/w300${item["backdrop_path"]}`}
@@ -41,11 +37,9 @@ const MoreItem = ({ item}) => {
 
         <p className="text-[0.8em] font-[400]">
           {`${
-            !isMobile && item["overview"].length > 300
-              ? item["overview"].slice(0, 300) + "..."
-              : !isMobile && item["overview"].length < 300
-              ? item["overview"]
-              : item["overview"].slice(0, 150) + "..."
+            item["overview"].length > 150
+              ? item["overview"].slice(0, 150) + "..."
+              : item["overview"]
           }`}
         </p>
       </div>
@@ -54,9 +48,9 @@ const MoreItem = ({ item}) => {
 };
 
 //more movies component//////////////////////////////////////////////////////////////
-const MoreMovies = ({ moreMovies}) => {
+const MoreMovies = ({ moreMovies }) => {
   return (
-    <div className="flex flex-col gap-4 mt-4 font-bold">
+    <div className="flex flex-col gap-4 mt-4 font-bold overflow-hidden">
       <p className="text-xl">More Like This</p>
 
       <div className="w-full flex gap-2 md:gap-4 flex-wrap justify-center">

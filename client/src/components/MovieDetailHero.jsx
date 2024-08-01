@@ -21,7 +21,7 @@ const MovieDetailHero = ({
   bg
 }) => {
   const [loaded, setLoaded] = useState(false);
-  const [title, setTitle] = useState()
+  const [title, setTitle] = useState();
 
   return (
     <div className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden ">
@@ -41,12 +41,23 @@ const MovieDetailHero = ({
             className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden"
             onClick={() => setPlaying(true)}
           >
-            <img
+            <picture>
+              <source
+                media="(min-width: 650px)"
+                srcSet={`https://image.tmdb.org/t/p/original${bg || src}`}
+              />
+              <source
+                media="(min-width: 350px)"
+                srcSet={`https://image.tmdb.org/t/p/w500${bg || src}`}
+              />
+              <img
               className="scale-[1.4] md:scale-125 origin-[50%_20%]"
               src={`https://image.tmdb.org/t/p/w500${bg || src}`}
               alt="thumbnail"
               onLoad={() => setLoaded(true)}
             />
+            </picture>
+            
           </motion.div>
         )}
       </AnimatePresence>

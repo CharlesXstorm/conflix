@@ -53,23 +53,23 @@ const BrowseHome = ({
               transition={{ duration: 0.2, type: "spring" }}
               className="flex flex-col gap-2 rounded-[6px] p-6 w-[fit-content] bg-yellow-600 "
             >
-              <h1 className="font-bold lg:text-2xl">
+              <h1 className="font-bold text-lg lg:text-2xl">
                 You&apos;re signed in as a guest
               </h1>
               <p className=" lg:text-lg ">{guest.message}</p>
-              <p className=" lg:text-lg text-black mt-2">
+              <p className=" lg:text-lg text-black mt-2 mb-1 font-[500] ">
                 Do you want to signup?
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => navigate("/")}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold px-4 py-1 rounded"
                 >
                   Yes
                 </button>
                 <button
                   onClick={() => setGuest(false)}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold px-4 py-1 rounded"
                 >
                   Cancel
                 </button>
@@ -119,7 +119,7 @@ const BrowseHome = ({
           <button
             onClick={() => {
               if (data["email"] === "guest@conflix.com") {
-                setGuest({state:true,message:"Guest cannot manage profiles."});
+                setGuest({state:true,message:"Guest account cannot manage profiles."});
                 return;
               } else {
                 navigate("/ManageProfiles");
