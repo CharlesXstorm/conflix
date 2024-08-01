@@ -36,12 +36,6 @@ const PageLoader = ({ type, loaded }) => {
         </div>
       )}
 
-      {/* {type === "text" && (
-        <div className="relative h-[30vh] lg:h-[50vh] w-full md:h-[40vh] lg:h-[50vh] overflow-hidden">
-          <Loader />
-        </div>
-      )} */}
-
       {type === "text" && (
         <div className="flex flex-col gap-2 w-full mt-4">
           <div className="relative bg-zinc-800 w-[80%] h-[2em] overflow-hidden">

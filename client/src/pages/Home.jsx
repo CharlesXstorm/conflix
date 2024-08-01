@@ -134,11 +134,13 @@ const Home = () => {
     setEmail(secEmailRef.current.value)
   }
 
-  // console.log("email:",email)
-
   return (
     <>
-      <div className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] h-[content] lg:h-[90vh] margin-auto pb-[2em] ">
+      <div 
+      style={{
+        height:`${isTablet || isMobile ? 'fit-content' : '90vh'}`
+      }}
+      className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] margin-auto pb-[2em] ">
         <div className="w-full h-full absolute bg-[rgb(0,0,0,0.4)] top-0 left-0"></div>
         <HomeNav
           button="link"
@@ -171,9 +173,6 @@ const Home = () => {
         />
       </div>
 
-      {
-        //first div
-      }
       {details.map((item) => (
         <HomeDetail
           key={item.id}
@@ -184,7 +183,6 @@ const Home = () => {
           isOdd={isOdd(item)}
           isMobile={isMobile}
           isTablet={isTablet}
-          // isOdd={item.isOdd}
         />
       ))}
 

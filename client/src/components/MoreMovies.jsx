@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-// import { useNavigate } from "react-router-dom";
 
 //more item//////////////////////////////////////
 const MoreItem = ({ item }) => {
-
   return (
     <div className="flex flex-col w-[48%] lg:w-[30%] mt-[1em] bg-zinc-800 rounded">
       <div className="w-full relative flex justify-center items-center">

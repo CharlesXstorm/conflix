@@ -372,7 +372,6 @@ const ItemModal = ({
                     volumeHandler={volumeHandler}
                     movie={$data}
                     watchListHandler={watchListHandler}
-                    // expandHandler={expandHandler}
                     playHandler={playHandler}
                     cancelHandler={cancelHandler}
                     watchIcon={watchIcon}

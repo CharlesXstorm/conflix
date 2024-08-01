@@ -6,18 +6,14 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 import { setData, setProfile } from "../../utils/profileSlice";
-// import jsonData from "../../utils/user.json";
 
 const ProtectedRoute = ({
-  // auths,
   setLoaded,
   addProfile,
   editClick
 }) => {
   const [auth, setAuth] = useState();
   const [ready, setReady] = useState();
-
-  // const {profile} = useSelector((state)=> state.account)
 
   const dispatch = useDispatch();
 
@@ -51,7 +47,6 @@ const ProtectedRoute = ({
         setAuth(false);
         setReady(true);
       } else {
-        console.log("setting data");
         dispatch(setData(user));
         dispatch(setProfile(selectedProfile));
         setAuth(true);
@@ -60,8 +55,6 @@ const ProtectedRoute = ({
       }
     };
     fetchData();
-    // console.log('profile present',profile)
-    // if(!auths){fetchData();}
   }, [addProfile, editClick]);
 
   return <>{ready && <>{auth ? <Outlet /> : <Navigate to="/" />}</>}</>;

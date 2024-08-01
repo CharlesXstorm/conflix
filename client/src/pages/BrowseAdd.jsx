@@ -38,7 +38,6 @@ const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
       );
       setAddProfile(false);
     } catch (err) {
-      // console.log(err.response.data.message);
       console.log(err.response.data.message);
     }
   };
@@ -77,7 +76,6 @@ const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
     for (var any of jsonData) {
       if (!images.includes(any.src)) {
         setProfileIcon(any.src);
-        // setProfileIcons((prev)=> ({...prev,icon:any.src}));
         break;
       }
     }

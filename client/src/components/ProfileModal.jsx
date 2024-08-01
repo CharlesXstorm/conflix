@@ -3,11 +3,8 @@
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 
 import { setProfile } from "../utils/profileSlice";
-// import { AnimatePresence, motion } from "framer-motion";
-// import { useState } from "react";
 
 //Button component
 const Button = ({

@@ -16,33 +16,14 @@ const url = process.env.TMDB_URL;
 //create region object
 let countries = {};
 
-let region;
-
 isoCountries.forEach((item) => {
   let country = { [item["iso_3166_1"]]: item["english_name"] };
   countries = { ...countries, ...country };
 });
 
-//get user's region using geolocation API
-// const getRegion = async () => {
-//   try {
-//     region = await axios.get(`${process.env.GEOLOCATION_URL}`);
-//     if (region) {
-//       region = region.data["country"];
-//     } else {
-//       region = "NG";
-//     }
-//   } catch (err) {
-//     return;
-//   }
-// };
-// getRegion();
-
 //browse movie controller
 exports.getAllBrowse = async (req, res) => {
   let region = req.body.region;
-
-  console.log('regionBrowse', region);
 
   try {
     const nextWatch = await axios.get(
@@ -65,7 +46,7 @@ exports.getAllBrowse = async (req, res) => {
       `${url}/tv/airing_today?language=en-US&page=1`,
       config
     );
-    // const myList = req.body.myList || [];
+ 
     const myList = [];
 
     const anime = await axios.get(
@@ -227,7 +208,6 @@ exports.getAllBrowse = async (req, res) => {
 
 exports.getAllTvshows = async (req, res) => {
   let region = req.body.region;
-  // let myList = null;
 
   try {
     const nextWatch = await axios.get(
@@ -401,7 +381,6 @@ exports.getAllTvshows = async (req, res) => {
 
 exports.getAllMovies = async (req, res) => {
   let region = req.body.region;
-  // let myList = null;
 
   try {
     const nextWatch = await axios.get(
@@ -572,7 +551,6 @@ exports.getAllMovies = async (req, res) => {
 
 exports.getAllKids = async (req, res) => {
   let region = req.body.region;
-  // let myList = null;
 
   try {
     const nextWatch = await axios.get(
@@ -745,7 +723,6 @@ exports.getAllKids = async (req, res) => {
 
 exports.getAllTvKids = async (req, res) => {
   let region = req.body.region;
-  // let myList = null;
 
   try {
     const weThink = await axios.get(
@@ -896,7 +873,6 @@ exports.getAllTvKids = async (req, res) => {
 
 exports.getAllMoviesKids = async (req, res) => {
   let region = req.body.region;
-  // let myList = null;
 
   try {
     const nextWatch = await axios.get(

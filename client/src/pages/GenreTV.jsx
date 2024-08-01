@@ -1,20 +1,15 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect} from "react";
 import { useSelector } from "react-redux";
 const LazyBrowseMovies = lazy(() => import("./BrowseMovies"));
 
 const GenreTV = ({ 
   setNavView,
-  // setAccountLoaded,
   setAccountClick
 }) => {
   
   const { data, profile } = useSelector((state) => state.account);
-  //   const [hover,setHover]= useState(false)
-  // const [hero, setHero] = useState(null);
-  // const [title, setTitle] = useState(null);
-  // const [browseMovies, setBrowseMovies] = useState(null);
 
   let heroMovie =
   profile.name === "kids"
@@ -49,15 +44,6 @@ let linkFocus = { 'TV Shows': true, nav:"genre/tv_shows" };
             setNavView={setNavView}
             setAccountLoaded={()=>null}
             setAccountClick={setAccountClick}
-
-            // hover={hover}
-            // hero={hero}
-            // title={title}
-            // browseMovies={browseMovies}
-            // setHover={setHover}
-            // setHero={setHero}
-            // setTitle={setTitle}
-            // setBrowseMovies={setBrowseMovies}
           />
         </Suspense>
 

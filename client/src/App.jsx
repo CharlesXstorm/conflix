@@ -1,6 +1,5 @@
-// import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-// import "./App.css";
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDeviceInfo } from "./utils/dvWidthSlice.js";
@@ -10,7 +9,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Shared/Signup";
 import Registration from "./components/Registration";
 import Regform from "./components/Regform";
-// import Browse from "./pages/Shared/BrowseShared";
+
 import Browse from "./pages/Browse";
 import ManageProfiles from "./pages/ManageProfiles";
 import BrowseShared from "./pages/Shared/BrowseShared";
@@ -22,9 +21,6 @@ import GenreMovies from "./pages/GenreMovies.jsx";
 import GenreTV from "./pages/GenreTV.jsx";
 import Search from "./pages/Search.jsx";
 import Mylist from "./pages/Mylist.jsx";
-// import BrowseMovies from "./pages/BrowseMovies.jsx";
-
-// let auth = true
 
 function App() {
   const [editClick, setEditClick] = useState(false);
@@ -38,13 +34,6 @@ function App() {
   const dispatch = useDispatch();
 
   const handleEvent = () => {
-    // dispatch(getWidth(
-    //   Math.max(
-    //     window.innerWidth,
-    //     document.body.offsetWidth,
-    //     document.body.clientWidth)
-    // ));
-
     dispatch(
       setDeviceInfo({
         width: Math.max(

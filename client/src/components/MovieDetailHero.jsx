@@ -51,13 +51,12 @@ const MovieDetailHero = ({
                 srcSet={`https://image.tmdb.org/t/p/w500${bg || src}`}
               />
               <img
-              className="scale-[1.4] md:scale-125 origin-[50%_20%]"
-              src={`https://image.tmdb.org/t/p/w500${bg || src}`}
-              alt="thumbnail"
-              onLoad={() => setLoaded(true)}
-            />
+                className="scale-[1.4] md:scale-125 origin-[50%_20%]"
+                src={`https://image.tmdb.org/t/p/w500${bg || src}`}
+                alt="thumbnail"
+                onLoad={() => setLoaded(true)}
+              />
             </picture>
-            
           </motion.div>
         )}
       </AnimatePresence>

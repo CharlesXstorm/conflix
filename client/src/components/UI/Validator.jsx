@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
-// import React from 'react'
-// import { useSelector } from "react-redux";
 
 const Validator = ({ value }) => {
-//   const { email, password } = useSelector((state) => state.validator);
   return (
       
         <div className="flex p-4 bg-[orange] rounded w-[100%] items-center ">

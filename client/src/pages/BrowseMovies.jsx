@@ -24,7 +24,6 @@ const BrowseMovies = ({
 }) => {
   const [hover, setHover] = useState(false);
   const [hero, setHero] = useState(null);
-  // const [title, setTitle] = useState(null);
   const [browseMovies, setBrowseMovies] = useState(null);
   const [$bg, set$bg] = useState();
   const [timeOutID, setTimeoutID] = useState(null);

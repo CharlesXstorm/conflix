@@ -90,11 +90,19 @@ const MobileHero = ({
     >
       <div className="relative flex justify-center items-center  w-[90%] md:w-[80%] border-[2px] border-[rgb(120,120,120)] rounded-[12px] overflow-hidden">
         <div onClick={handleClick}>
-         
           <picture>
-            <source media="(min-width: 650px)" srcSet={`https://image.tmdb.org/t/p/w780${$data["poster_path"]}`} />
-            <source media="(min-width: 350px)" srcSet={`https://image.tmdb.org/t/p/w500${$data["poster_path"]}`} />
-            <img src={`https://image.tmdb.org/t/p/w500${$data["poster_path"]}`} alt="hero" />
+            <source
+              media="(min-width: 650px)"
+              srcSet={`https://image.tmdb.org/t/p/w780${$data["poster_path"]}`}
+            />
+            <source
+              media="(min-width: 350px)"
+              srcSet={`https://image.tmdb.org/t/p/w500${$data["poster_path"]}`}
+            />
+            <img
+              src={`https://image.tmdb.org/t/p/w500${$data["poster_path"]}`}
+              alt="hero"
+            />
           </picture>
         </div>
 
@@ -117,7 +125,6 @@ const MobileHero = ({
             )}
 
             <span className="text-[2em] md:text-[2.5em] font-[800] w-[100%] px-2 text-center">
-              {/* {$data.title} */}
               <img
                 src={`https://image.tmdb.org/t/p/w185${title}`}
                 className="w-[100%]"

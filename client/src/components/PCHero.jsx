@@ -29,7 +29,6 @@ const PCHero = ({
   const [initial] = useState({
     title: {
       transform: "scale(1)"
-      // paddingBottom:"20px"
     },
     overview: {
       transform: "scale(1)",
@@ -41,7 +40,6 @@ const PCHero = ({
   const [animate] = useState({
     title: {
       transform: "scale(0.5)"
-      // marginBottom:"0px"
     },
     overview: {
       transform: "scale(0)",
@@ -94,7 +92,6 @@ const PCHero = ({
   };
 
   const playHandler = () => {
-    // console.log('playBTN')
     dispatch(setIntro(true));
     setNavView(false);
     setAccountClick(false);
@@ -126,10 +123,8 @@ const PCHero = ({
       {itemRef.current &&
         ReactDOM.createPortal(
           <PCHeroInfo
-            // height={modalContHeight}
             bg={$data["backdrop_path"]}
             left={Math.floor(itemRef.current.getBoundingClientRect().left)}
-            // right={Math.floor(itemRef.current.getBoundingClientRect().right)}
             top={Math.floor(
               itemRef.current.getBoundingClientRect().top + window.scrollY
             )}

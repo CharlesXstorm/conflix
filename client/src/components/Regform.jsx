@@ -5,7 +5,6 @@ import Form from "./Form";
 
 const Regform = () => {
   const context = useOutletContext()
-  // console.log(context)
   return (
     <div className="pb-[6em] xl:pb-[8em] border border-b-0 border-x-0">
       <p className="w-[95%] md:w-[50%] lg:w-[30%] m-[auto] px-5 lg:px-10 mt-10">
@@ -19,7 +18,6 @@ const Regform = () => {
         buttonType="button"
         buttonSize="text-[1.4em] w-[100%] mt-6 py-4 lg:py-2 xl:py-4"
         context= {context}
-        // size=""
         style={{
           input:
             "bg-white border-[rgb(0,0,0,0.5)] text-black w-[100%] p-4 lg:p-2",

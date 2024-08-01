@@ -16,7 +16,6 @@ const Signup = () => {
     setEmail( Boolean(location.state) && location.state.email || "")
   },[])
 
-  // console.log(email)
   return (
     <div className="bg-white font-[roboto]">
       <HomeNav

@@ -7,10 +7,7 @@ import IconScrollNav from "../components/UI/IconScrollNav";
 
 const ManageProfilesIcons = ({profileIcons, setProfileIcons }) => {
   const [icons, setIcons] = useState(null);
-  const { profile } = useSelector((state) => state.account);
   const { isPC } = useSelector((state) => state.dvWidth);
-
-  console.log("profile", profile);
 
   //get available Icons
   const getIcons = async () => {
@@ -67,14 +64,10 @@ const ManageProfilesIcons = ({profileIcons, setProfileIcons }) => {
               {!isPC && profileIcons.name.length > 8
                   ? `${profileIcons.name.slice(0, 8)}...`
                   : profileIcons.name}
-                {/* {!isPC && profile.name.length > 8
-                  ? `${profile.name.slice(0, 8)}...`
-                  : profile.name} */}
               </p>
               <span>
                 <img
                 src={profileIcons.icon}
-                  // src={profile.img}
                   className="w-[2.5em] xl:w-[3em] rounded-[4px]"
                   alt="icon"
                 />

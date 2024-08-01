@@ -12,8 +12,6 @@ import {
   addWatchList,
   removeWatchList
 } from "../utils/reusableFunctions/watchList";
-// import { setIntro } from "../utils/featureSlice";
-// import { useNavigate } from "react-router-dom";
 
 const PCHeroInfo = ({
   bg,

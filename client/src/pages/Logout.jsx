@@ -16,8 +16,6 @@ const Logout = () => {
       setCount((prev) => {
         console.log("count: ", prev);
         if (prev <= 1) {
-          //   setLoaded(false);
-          //   console.log("loaded false");
           navigate("/");
           return;
         }

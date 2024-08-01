@@ -110,17 +110,17 @@ const IconScrollNav = ({ data, position, setProfileIcons }) => {
     //add first and last scroll children to variables
     var lastChild =
       scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
-    var firstChild =
-      scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
+    // var firstChild =
+    //   scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
 
     //make scroll continuous when scroll reaches last item
     if (lastChild < dvWidth * 1) {
       list.splice(list.length, 0, ...list.slice(0, listLength));
     }
     //make scroll continuous when scroll reaches first item
-    if (firstChild > 0) {
+    // if (firstChild > 0) {
       // console.log("first child");
-    }
+    // }
   };
 
   return (

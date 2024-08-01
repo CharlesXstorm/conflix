@@ -17,16 +17,13 @@ const Button = ({
   className,
   to
 }) => {
-  // const linkFunc = ()=>{
 
-  // }
   return (
     <>
       {button === "link" && (
         <Link
           to={to}
           className={`rounded ${className} ${bgColor} ${color} ${size} ${width} ${align} ${padding} px-3 item-center justify-center flex`}
-          // onClick={onClick}
         >
           {name}
           {span.have && (

@@ -223,8 +223,6 @@ const Episodes = ({ $data, $movieType, $id }) => {
   let $genresID = $data["genres"].map((item) => item.id
   );
 
-  // console.log("episodeData",$data)
-
   let rated =
   $movieType === "movie"
     ? $genresID.includes(10749) ||

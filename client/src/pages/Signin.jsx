@@ -22,7 +22,6 @@ const Signin = () => {
               inputId:"loginPass"
           }}
           desc={{detail:null}}
-          // setAccountClick={setAccountClick}
         />
       </div>
       <Footer border="border-t-[0.2em] " />

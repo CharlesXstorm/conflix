@@ -24,8 +24,7 @@ const Form = ({
   buttonName,
   buttonType,
   buttonSize,
-  context,
-  // setAccountClick
+  context
 }) => {
   const [email, setEmail] = useState(context || "");
   const [pass, setPass] = useState("");
@@ -98,7 +97,6 @@ const Form = ({
         navigate("/browse");
       }
     } catch (err) {
-      // console.log(err.response.data.message);
       const error = err.response.data.message;
 
       if (error.includes("characters")) {
@@ -111,7 +109,6 @@ const Form = ({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // setAccountClick(false)
     switch (type) {
       case "login":
         login();
@@ -166,7 +163,6 @@ const Form = ({
           button={buttonType || "button"}
           bgColor="bg-red-600"
           color="text-white"
-          // size={"text-[1em]"}
           padding="p-2"
           width={buttonSize || "w-[100%] text-[1em]"}
           align="self-center justify-center mt-3"

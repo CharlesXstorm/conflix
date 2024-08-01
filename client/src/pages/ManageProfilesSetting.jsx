@@ -76,7 +76,6 @@ const ManageProfilesSetting = ({ setEditClick, setProfileIcons }) => {
   //show available profile Icons
   const iconChange = () => {
     setProfileIcons({ state: true, icon: profile.img, name: userName });
-    // setProfileIcons(true)
   };
 
   return (
@@ -185,9 +184,6 @@ const ManageProfilesSetting = ({ setEditClick, setProfileIcons }) => {
               <InputField
                 type="text"
                 name="name"
-                // value="Create Game Handle"
-                // onChange={changeHandler}
-                // ref={inputRef}
               />
               <hr className=" bg-[rgb(60,60,60)] border-none h-[0.4px] w-[100%] mt-8" />
             </div>
