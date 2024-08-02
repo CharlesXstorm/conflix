@@ -14,7 +14,6 @@ const Logout = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prev) => {
-        console.log("count: ", prev);
         if (prev <= 1) {
           navigate("/");
           return;

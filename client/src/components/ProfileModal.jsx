@@ -122,7 +122,7 @@ const ProfileModal = ({
                 if (data["email"] === "guest@conflix.com") {
                   setGuest({
                     state: true,
-                    message: "Guest cannot manage profiles."
+                    message: "Guest account cannot manage profiles."
                   });
                   return;
                 } else {
@@ -139,7 +139,7 @@ const ProfileModal = ({
             </button>
             <button className="flex hover:underline py-1 flex-row gap-3 items-center">
               <span className="w-[1.5em]">
-                <img src="" />
+                <img src="/images/transfer.svg" />
               </span>
               <span className="text-[0.8em]">Transfer Profile</span>
             </button>

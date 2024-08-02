@@ -56,7 +56,6 @@ const BrowseMovies = ({
       logo = logo.data["logos"];
 
       if (res && logo) {
-        console.log("loading upcoming movies");
         for (var any of logo) {
           if (any["iso_639_1"] === "en") {
             setHero({ movie: res, title: any["file_path"] });

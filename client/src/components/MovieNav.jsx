@@ -193,19 +193,19 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
                 You&apos;re signed in as a guest
               </h1>
               <p className=" lg:text-lg">{guest.message}</p>
-              <p className=" lg:text-lg text-black mt-2">
+              <p className=" lg:text-lg text-black mt-2 mb-1 font-[500] text-black ">
                 Do you want to signup?
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => navigate("/")}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold text-black px-4 py-1 rounded"
                 >
                   Yes
                 </button>
                 <button
                   onClick={() => setGuest(false)}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold text-black px-4 py-1 rounded"
                 >
                   Cancel
                 </button>
