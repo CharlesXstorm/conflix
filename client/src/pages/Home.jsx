@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getWidth } from "../utils/slice.js";
+import { useState, useRef } from "react";
+import {useSelector } from "react-redux";
 
 import HomeDetail from "../components/HomeDetail";
 import HomeNav from "../components/HomeNav";
@@ -120,30 +118,37 @@ const accordion = [
 
 const Home = () => {
   const [clickedId, setClickedId] = useState(null);
+  const [email,setEmail] = useState('')
   const { isMobile, isTablet } = useSelector((state) => state.dvWidth);
-  const dispatch = useDispatch();
+  
 
-  const handleEvent = () => {
-    dispatch(getWidth(window.innerWidth));
-  };
+  const firstEmailRef = useRef()
+  const secEmailRef = useRef()
 
   const isOdd = (item) => !(item.id % 2 == 0);
 
-  useEffect(() => {
-    window.addEventListener("load", handleEvent);
-    window.addEventListener("resize", handleEvent);
-
-    return () => {
-      window.addEventListener("load", handleEvent);
-      window.addEventListener("resize", handleEvent);
-    };
-  }, []);
+  const onFirstChangeHandler = ()=>{
+    setEmail(firstEmailRef.current.value)
+  }
+  const onSecChangeHandler = ()=>{
+    setEmail(secEmailRef.current.value)
+  }
 
   return (
     <>
-      <div className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] h-[content] lg:h-[90vh] margin-auto pb-[2em] ">
+      <div 
+      style={{
+        height:`${isTablet || isMobile ? 'fit-content' : '90vh'}`
+      }}
+      className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] margin-auto pb-[2em] ">
         <div className="w-full h-full absolute bg-[rgb(0,0,0,0.4)] top-0 left-0"></div>
-        <HomeNav />
+        <HomeNav
+          button="link"
+          to="/login"
+          buttonColor="bg-red-600"
+          buttonText="text-white"
+          size="text-md xl:text-xl"
+        />
         <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] font-[roboto] w-[80%] m-[auto] z-1 relative">
           <p className="text-white font-bold text-[1.8em] xl:text-[3em] text-center tracking-normal">
             Unlimited movies, TV shows, and more{" "}
@@ -157,37 +162,34 @@ const Home = () => {
           </p>
         </div>
         <Input
+          ref={firstEmailRef}
+          onChange={onFirstChangeHandler}
           type="text"
-          button={true}
+          value= {email}
+          button="button"
           placeholder="Email address"
-          style={{
-            align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
-            width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
-            padding: "p-2 px-4 "
-          }}
+          style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"
+          align="justify-center gap-[1em] px-[4em] lg:gap-[0.2em]"
         />
       </div>
 
-      {
-        //first div
-      }
       {details.map((item) => (
         <HomeDetail
           key={item.id}
+          id={item.id}
           title={item.title}
           src={item.src}
           desc={item.desc}
           isOdd={isOdd(item)}
           isMobile={isMobile}
           isTablet={isTablet}
-          // isOdd={item.isOdd}
         />
       ))}
 
       {
         //frequently asked questions
         <div className="flex flex-col items-center justify-center mt-[2em] lg:mt-[4em]">
-          <p className="text-white text-[2em] xl:text-[3em] text-center font-bold py-3 pt-4 lg:pt-0">
+          <p className="text-white text-[2em] xl:text-[3em] text-center font-bold px-10 py-3 pt-4 lg:pt-0">
             Frequently Asked Questions
           </p>
           {
@@ -214,20 +216,20 @@ const Home = () => {
                 </p>
               </div>
               <Input
+                ref={secEmailRef}
+                onChange={onSecChangeHandler}
                 type="text"
-                button={true}
+                value= {email}
+                button="button"
                 placeholder="Email address"
-                style={{
-                  align: "justify-center gap-[1em] px-[4em] lg:gap-[0.2em]",
-                  width: "md:w-[50%] lg:w-[30%] xl:w-[20%]",
-                  padding: "p-2 px-4 "
-                }}
+                style="bg-[rgb(55,65,81,0.5)] border-[rgb(255,255,255,0.5)] text-white p-2 px-4 lg:p-2 md:w-[50%] lg:w-[30%] xl:w-[20%]"
+                align="justify-center gap-[1em] px-[4em] lg:gap-[0.2em]"
               />
             </div>
           }
           {
             //footer
-            <Footer border="border-t-[0.5em]"/>
+            <Footer border="border-t-[0.5em]" />
           }
         </div>
       }

@@ -8,7 +8,7 @@ export default {
       sans: ["ui-sans-serif", "system-ui"],
       serif: ["ui-serif", "Georgia"],
       mono: ["ui-monospace", "SFMono-Regular"],
-      netflix: ["bebas_neueregular"]
+      // netflix: ["bebas_neueregular"]
     },
     
     // colors: {
