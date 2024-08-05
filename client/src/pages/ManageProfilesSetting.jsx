@@ -79,7 +79,8 @@ const ManageProfilesSetting = ({ setEditClick, setProfileIcons }) => {
   };
 
   return (
-    <div className="relative text-white font-[roboto] md:m-[auto] p-10 flex flex-col md:justify-center">
+    <div 
+    className="relative text-white font-[roboto] md:m-[auto] p-10 flex flex-col md:justify-center">
       <AnimatePresence>
       {confirmDelete &&
         <motion.div 

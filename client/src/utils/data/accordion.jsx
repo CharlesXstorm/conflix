@@ -5,8 +5,16 @@ export const accordion = [
     body: (
       <>
         Conflix is an open source extremely responsive streaming service project
-        created with MERN stack. This is unlike other regular netflix clones you
-        find on the internet. It offers information about a wide variety of
+        created by{" "}
+        <a
+          className="text-blue-400 text-sm"
+          href="https://www.linkedin.com/in/charles-ukadike/"
+          target="_blank"
+        >
+          Charles Ukadike
+        </a>{" "}
+        using MERN stack. This is unlike other regular netflix clones you find
+        on the internet. It offers information about a wide variety of
         award-winning TV shows, movies, anime, documentaries, and more on
         thousands of internet-connected devices.
         <br />
@@ -49,16 +57,8 @@ export const accordion = [
     header: "How can I get the project files?",
     body: (
       <>
-        Conflix is a free to use, open-source react project created by{" "}
-        <a
-          className="text-blue-400 text-sm"
-          href="https://www.linkedin.com/in/charles-ukadike/"
-          target="_blank"
-        >
-          Charles Ukadike
-        </a>
-        . You may encounter some bugs, as the project is still a work in
-        progress.
+        Conflix is a free to use, open-source react project. You may encounter
+        some bugs, as the project is still a work in progress.
         <br />
         <br /> You can get the project from{" "}
         <a
@@ -99,8 +99,8 @@ export const accordion = [
     body: (
       <>
         Conflix has an extensive library of feature films, documentaries, TV
-        shows, anime, award-winning movie originals, and more. Watch as much
-        as you want, anytime you want.
+        shows, anime, award-winning movie originals, and more. Watch as much as
+        you want, anytime you want.
       </>
     )
   },
@@ -110,7 +110,7 @@ export const accordion = [
     body: (
       <>
         The Conflix Kids experience is included in this project. This is one of
-        the many features that other clones on the internet do not possess. It
+        the many features other clones on the internet do not possess. It
         give parents control while kids enjoy family-friendly TV shows and
         movies in their own space.
         <br />

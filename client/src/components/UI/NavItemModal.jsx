@@ -21,6 +21,7 @@ const ItemModal = ({
   setAccountClick,
   setNavView,
   $data,
+  dataTitle,
   bg,
   title,
   movieID,
@@ -43,12 +44,12 @@ const ItemModal = ({
   const [expandHeight, setExpandHeight] = useState("100%");
   const [itemHeight, setItemHeight] = useState();
   const [mouseLeave, setMouseLeave] = useState();
-  const [watchIcon, setWatchIcon] = useState("add-icon");
+  const [watchIcon, setWatchIcon] = useState("remove-icon");
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [volumeIcon, setVolumeIcon] = useState("max");
   const [timeoutID, setTimeoutID] = useState();
-  const [titleSrc, setTitleSrc] = useState()
+  const [titleSrc, setTitleSrc] = useState();
 
   const playerRef = useRef();
 
@@ -56,7 +57,7 @@ const ItemModal = ({
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   let genres = $data["genre_ids"].map((item) => {
     let genreType =
@@ -96,13 +97,12 @@ const ItemModal = ({
 
   const expandHandler = () => {
     setExpandTop(`${window.scrollY}px`);
-    // setExpandTop('0px')
     setExpandOpacity(1);
     setExpand(true);
 
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
-      setInitPosition({ right: 0});
+      setInitPosition({ right: 0 });
     } else {
       setInitPosition({ left: 0 });
     }
@@ -142,7 +142,7 @@ const ItemModal = ({
     setShrinkWidth("50%");
     setExpand(false);
     dispatch(setOverflow("auto"));
-  }
+  };
 
   //handle watchList////////////////////////////////////////////////
   //add watchList to database
@@ -209,21 +209,15 @@ const ItemModal = ({
       }
     });
     dispatch(setWatchList(watchListData));
-    setWatchIcon("add-icon");
     removeWatchListDB(watchListData, data["_id"], profile.id);
+    dataTitle != "My List" ? setWatchIcon("add-icon") : null;
   };
   //handle watchList logic
   const watchListHandler = () => {
     if (watchIcon === "add-icon") {
       addWatchList();
-      // onMouseLeave();
-      // setExpand(false);
-      // dispatch(setOverflow("auto"));
     } else {
       removeWatchList();
-      // onMouseLeave();
-      // setExpand(false);
-      // dispatch(setOverflow("auto"));
     }
   };
   /////////////////////////////////////////////////////////////////////
@@ -401,9 +395,10 @@ const ItemModal = ({
               >
                 <div className="flex justify-between">
                   <span className="flex gap-2">
-                    <button 
-                    onClick={playHandler}
-                    className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center">
+                    <button
+                      onClick={playHandler}
+                      className="w-[2em] border rounded-[50%] bg-white p-[6px] flex items-center justify-center"
+                    >
                       <img src="/images/play.svg" alt="buttons" />
                     </button>
                     <button
@@ -432,7 +427,11 @@ const ItemModal = ({
                     {"Rated: " + $data["vote_average"].toFixed(1) + "/10"}
                   </span>
                   <span className="border px-[0.5em]">{rated}</span>
-                  <span>{$data["release_date"]?$data["release_date"].slice(0, 4):null}</span>
+                  <span>
+                    {$data["release_date"]
+                      ? $data["release_date"].slice(0, 4)
+                      : null}
+                  </span>
                   <span className="border px-[0.5em]">HD</span>
                 </div>
 

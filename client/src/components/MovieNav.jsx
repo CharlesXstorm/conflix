@@ -93,9 +93,9 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
       }
 
       if (window.scrollY < initScrollY) {
-        setScrollUp((prev) => (prev > 4.4 ? 4.5 : prev + 0.1));
+        setScrollUp((prev) => (prev > 4.5 ? 5 : prev + 0.5));
       } else {
-        setScrollUp((prev) => (prev < 0.1 ? 0 : prev - 0.1));
+        setScrollUp((prev) => (prev < 0.5 ? 0 : prev - 0.5));
       }
       initScrollY = window.scrollY;
     };
@@ -219,7 +219,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           backgroundColor: bgColor,
           transition: "all 0.4s linear"
         }}
-        className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
+        className="text-white font-[roboto] fixed z-[80] top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
           <Link to="/browse">

@@ -98,7 +98,7 @@ const ScrollItem = ({ src, setProfileIcons }) => {
 
 //scroll Nav component /////////////////////////////////////////////////////////////////////////
 const IconScrollNav = ({ data, position, setProfileIcons }) => {
-  const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
+  const { dvSize, isPC } = useSelector((state) => state.deviceInfo);
   const [list] = useState([...data.src]);
   const [listLength] = useState([...data.src].length);
   const [count, setCount] = useState(`${isPC ? 7 : 3}` * 1);
@@ -110,17 +110,12 @@ const IconScrollNav = ({ data, position, setProfileIcons }) => {
     //add first and last scroll children to variables
     var lastChild =
       scrollRef.current.lastChild.getBoundingClientRect().right * 1 - 1;
-    // var firstChild =
-    //   scrollRef.current.firstChild.getBoundingClientRect().left * 1 + 1;
 
     //make scroll continuous when scroll reaches last item
-    if (lastChild < dvWidth * 1) {
+    if (lastChild < dvSize.width * 1) {
       list.splice(list.length, 0, ...list.slice(0, listLength));
     }
-    //make scroll continuous when scroll reaches first item
-    // if (firstChild > 0) {
-      // console.log("first child");
-    // }
+
   };
 
   return (
@@ -143,14 +138,14 @@ const IconScrollNav = ({ data, position, setProfileIcons }) => {
               setCount={setCount}
               scrollRef={scrollRef}
               isPC={isPC}
-              dvWidth={dvWidth}
+              dvWidth={dvSize.width}
             />
             <Prev
               count={count}
               setCount={setCount}
               scrollRef={scrollRef}
               isPC={isPC}
-              dvWidth={dvWidth}
+              dvWidth={dvSize.width}
             />
           </>
         }

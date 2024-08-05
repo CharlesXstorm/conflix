@@ -12,7 +12,7 @@ const AccountLoader = ({ accountLoaded }) => {
         background: `${accountLoaded ? "transparent" : "black"}`,
         transition: "all 0.5s linear"
       }}
-      className="fixed z-[60] flex justify-center top-0 left-0 h-[100vh] w-[100%] text-white overflow-hidden "
+      className="fixed z-[90] flex justify-center top-0 left-0 h-[100vh] w-[100vw] text-white overflow-hidden "
     >
       <div className="relative flex items-center justify-center w-full ">
         {!accountLoaded && (

@@ -14,7 +14,7 @@ import { accordion } from "../utils/data/accordion.jsx";
 const Home = () => {
   const [clickedId, setClickedId] = useState(null);
   const [email,setEmail] = useState('')
-  const { isMobile, isTablet } = useSelector((state) => state.dvWidth);
+  const { isMobile, isTablet } = useSelector((state) => state.deviceInfo);
   
 
   const firstEmailRef = useRef()

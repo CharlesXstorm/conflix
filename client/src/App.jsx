@@ -37,8 +37,7 @@ function App() {
     dispatch(
       setDeviceInfo({
         width:
-        //  window.innerWidth,
-        document.body.clientWidth,
+         window.innerWidth,
         height: Math.max(
           window.innerHeight,
           document.body.offsetHeight,

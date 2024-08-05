@@ -7,7 +7,7 @@ import IconScrollNav from "../components/UI/IconScrollNav";
 
 const ManageProfilesIcons = ({profileIcons, setProfileIcons }) => {
   const [icons, setIcons] = useState(null);
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
 
   //get available Icons
   const getIcons = async () => {
@@ -37,7 +37,6 @@ const ManageProfilesIcons = ({profileIcons, setProfileIcons }) => {
     fetch();
   }, []);
 
-  console.log("icons ", icons, "isPC", isPC);
   return (
     <div className="fixed text-white md:text-2xl xl:text-3xl font-[roboto] font-[500] top-0 left-0  bg-[#121212] z-[60] w-[100%] h-[100vh] overflow-hidden">
       <div className="relative flex flex-col justify-between items-center w-[inherit] mt-[20vh] h-[80%]">
