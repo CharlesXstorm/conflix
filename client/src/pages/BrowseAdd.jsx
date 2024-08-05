@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import jsonData from "../utils/DefaultProfiles.json";
+import jsonData from "../utils/data/DefaultProfiles.json";
 
 import InputField from "../components/UI/InputField";
 import Button from "../components/UI/Button";

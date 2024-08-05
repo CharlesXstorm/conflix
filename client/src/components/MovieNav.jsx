@@ -69,7 +69,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
     arrow: "rotate-90"
   });
 
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
   const { focus, search } = useSelector((state) => state.feature);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -297,7 +297,6 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           <button
             className="py-1 flex gap-[0.5em] items-center"
             onClick={() => {
-              console.log("clicked");
               setStyle((prev) => ({ ...prev, arrow: "rotate-[270deg]" }));
               setModal(true);
             }}

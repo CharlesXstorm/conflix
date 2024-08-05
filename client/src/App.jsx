@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setDeviceInfo } from "./utils/dvWidthSlice.js";
+import { setDeviceInfo } from "./utils/deviceInfoSlice.js";
 
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
@@ -36,11 +36,9 @@ function App() {
   const handleEvent = () => {
     dispatch(
       setDeviceInfo({
-        width: Math.max(
-          window.innerWidth,
-          document.body.offsetWidth,
-          document.body.clientWidth
-        ),
+        width:
+        //  window.innerWidth,
+        document.body.clientWidth,
         height: Math.max(
           window.innerHeight,
           document.body.offsetHeight,

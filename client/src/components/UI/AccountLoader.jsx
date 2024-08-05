@@ -3,8 +3,9 @@
 
 import { useSelector } from "react-redux";
 
-const AccountLoader = ({ accountLoaded}) => {
-  const {profile} = useSelector((state)=> state.account)
+const AccountLoader = ({ accountLoaded }) => {
+  const { profile } = useSelector((state) => state.account);
+
   return (
     <div
       style={{

@@ -95,15 +95,16 @@ const ItemModal = ({
       : null;
 
   const expandHandler = () => {
-    setExpandTop(`calc(${window.scrollY}px)`);
+    setExpandTop(`${window.scrollY}px`);
+    // setExpandTop('0px')
     setExpandOpacity(1);
     setExpand(true);
 
     setMouseLeave(null);
     if (right >= dvWidth - 50) {
-      setInitPosition({ right: "0%" });
+      setInitPosition({ right: 0});
     } else {
-      setInitPosition({ left: "0%" });
+      setInitPosition({ left: 0 });
     }
 
     const newTimeoutID = setTimeout(() => {
@@ -208,20 +209,21 @@ const ItemModal = ({
       }
     });
     dispatch(setWatchList(watchListData));
+    setWatchIcon("add-icon");
     removeWatchListDB(watchListData, data["_id"], profile.id);
   };
   //handle watchList logic
   const watchListHandler = () => {
     if (watchIcon === "add-icon") {
       addWatchList();
-      onMouseLeave();
-      setExpand(false);
-      dispatch(setOverflow("auto"));
+      // onMouseLeave();
+      // setExpand(false);
+      // dispatch(setOverflow("auto"));
     } else {
       removeWatchList();
-      onMouseLeave();
-      setExpand(false);
-      dispatch(setOverflow("auto"));
+      // onMouseLeave();
+      // setExpand(false);
+      // dispatch(setOverflow("auto"));
     }
   };
   /////////////////////////////////////////////////////////////////////
@@ -277,16 +279,18 @@ const ItemModal = ({
       ? setInitPosition({ left: `${left - (200 - width / 2)}px` })
       : setInitPosition({ left: `${left}px` });
     return;
-  }, [show, dvWidth, left, right]);
+  }, [show]);
 
   return (
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={mouseLeave}
       style={{
+        // position:`${!show ? "absolute" : show && !expand ? "absolute" : "fixed"}`,
         top: `${!show ? top + "px" : show && !expand ? itemTop : expandTop}`,
         transition: "all 0.2s linear",
         paddingTop: `${!show ? "0em" : show && !expand ? "0px" : "4em"}`,
+        // paddingLeft: `${!show ? "0px" : show && !expand ? "0px" : "25%"}`,
         overflow: `${!show ? "hidden" : show && !expand ? "hidden" : "auto"}`,
         opacity: `${show ? 1 : expandOpacity}`,
         width: `${!show ? width + "px" : show && !expand ? itemWidth : "100%"}`,
@@ -297,7 +301,7 @@ const ItemModal = ({
       }}
       className={`${
         show ? "pointer-events-auto" : "pointer-events-none"
-      } absolute movieModal flex flex-col items-center z-[50] rounded-[6px] text-white `}
+      } absolute movieModal items-center flex flex-col z-[50] rounded-[6px] text-white `}
     >
       {
         <div

@@ -6,7 +6,7 @@ import { setFocus } from "../utils/featureSlice";
 import { ScrollItemMobile, ScrollItemPC } from "../components/UI/NavScroll";
 
 const Mylist = ({ setNavView, setAccountClick }) => {
-  const { isPC, dvWidth } = useSelector((state) => state.dvWidth);
+  const { isPC, dvSize } = useSelector((state) => state.deviceInfo);
   const [hover, setHover] = useState(false);
 
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Mylist = ({ setNavView, setAccountClick }) => {
                     bg={item["backdrop_path"]}
                     bg_poster={item["poster_path"]}
                     row={null}
-                    dvWidth={dvWidth}
+                    dvWidth={dvSize.width}
                     hover={hover}
                     setHover={setHover}
                     id={index}
@@ -58,7 +58,7 @@ const Mylist = ({ setNavView, setAccountClick }) => {
                     bg={item["backdrop_path"] || item["poster_path"]}
                     bg_poster={item["poster_path"]}
                     $data={item}
-                    dvWidth={dvWidth}
+                    dvWidth={dvSize.width}
                     setHover={setHover}
                     hover={hover}
                     groupType={null}

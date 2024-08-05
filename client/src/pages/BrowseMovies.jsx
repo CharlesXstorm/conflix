@@ -28,7 +28,7 @@ const BrowseMovies = ({
   const [$bg, set$bg] = useState();
   const [timeOutID, setTimeoutID] = useState(null);
 
-  const { isPC, isTablet } = useSelector((state) => state.dvWidth);
+  const { isPC, isTablet } = useSelector((state) => state.deviceInfo);
   const dispatch = useDispatch();
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];

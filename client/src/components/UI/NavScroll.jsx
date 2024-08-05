@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 //next button component /////////////////////////////////////////////////////////
 const Next = ({ setNext, scrollRef, finalScrollPos, scrollWidth }) => {
   const nextHandler = () => {
+    console.log("scrollWidth", scrollWidth);
     setNext(true);
     scrollRef.current.scrollTo({
       behavior: "smooth",
@@ -17,7 +18,7 @@ const Next = ({ setNext, scrollRef, finalScrollPos, scrollWidth }) => {
   };
 
   return (
-    <div className="absolute z-10 top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
+    <div className="absolute z-[40] top-0 right-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]">
       <button
         className="w-[3em] h-[100%] flex justify-center items-center"
         onClick={nextHandler}
@@ -45,7 +46,7 @@ const Prev = ({ setPrev, scrollRef, finalScrollPos, scrollWidth, prevBtn }) => {
         opacity: `${prevBtn ? 1 : 0}`,
         transition: "all 0.2s linear"
       }}
-      className="absolute z-10 top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]"
+      className="absolute z-[40] top-0 left-0 bg-[rgb(0,0,0,0.5)] rounded h-[100%]"
     >
       <button
         className="w-[3em] h-[100%] flex justify-center items-center"
@@ -82,47 +83,47 @@ export const ModalCont = ({
   top
 }) => {
   return (
+    // <div
+    //   style={{
+    //     height: `${height}`,
+    //     pointerEvents: `${expand ? "auto" : "none"}`
+    //   }}
+    //   className={`absolute top-0 left-0 z-[40] w-[100%]`}
+    // >
     <div
       style={{
+        backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
+        overscrollBehavior: "contain",
+        // overflowY: `${expand ? "auto" : "hidden"}`,
+        transition: "all 0.2s linear",
         height: `${height}`,
         pointerEvents: `${expand ? "auto" : "none"}`
       }}
-      className={`absolute top-0 left-0 z-[40] w-[100%]`}
+      className="absolute z-[40] top-0 left-0 w-[100%] overflow-hidden"
     >
-      <div
-        style={{
-          backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
-          overscrollBehavior: "contain",
-          overflowY: `${expand ? "auto" : "hidden"}`,
-          transition: "all 0.2s linear",
-          height: `${height}`,
-          pointerEvents: `${expand ? "auto" : "none"}`
-        }}
-        className="relative  top-0 left-0 w-[100%]"
-      >
-        <ItemModal
-          key={id}
-          onMouseEnter={() => setHover(id)}
-          onMouseLeave={onMouseOut}
-          height={itemHeight}
-          width={itemWidth}
-          show={show}
-          expand={expand}
-          dvWidth={dvWidth}
-          $data={data}
-          bg={bg}
-          title={title}
-          movieID={movieID}
-          top={top}
-          left={left}
-          right={right}
-          setExpand={setExpand}
-          movieType={movieType}
-          setAccountClick={setAccountClick}
-          setNavView={setNavView}
-        />
-      </div>
+      <ItemModal
+        key={id}
+        onMouseEnter={() => setHover(id)}
+        onMouseLeave={onMouseOut}
+        height={itemHeight}
+        width={itemWidth}
+        show={show}
+        expand={expand}
+        dvWidth={dvWidth}
+        $data={data}
+        bg={bg}
+        title={title}
+        movieID={movieID}
+        top={top}
+        left={left}
+        right={right}
+        setExpand={setExpand}
+        movieType={movieType}
+        setAccountClick={setAccountClick}
+        setNavView={setNavView}
+      />
     </div>
+    //  </div>
   );
 };
 
@@ -147,7 +148,7 @@ export const ScrollItemPC = ({
   const [expand, setExpand] = useState(false);
   const itemRef = useRef();
 
-  let modalContHeight = `${document.body.scrollHeight}px`;
+  // let modalContHeight = `${document.body.scrollHeight}px`;
 
   const mouseOverHandler = () => {
     setHover(id);
@@ -162,38 +163,38 @@ export const ScrollItemPC = ({
     <>
       {
         //display visible modal in portal div
-        itemRef.current &&
-          ReactDOM.createPortal(
-            <ModalCont
-              height={modalContHeight}
-              onMouseOut={mouseOutHandler}
-              movieType={movieType}
-              setHover={setHover}
-              expand={expand}
-              setExpand={setExpand}
-              setAccountClick={setAccountClick}
-              setNavView={setNavView}
-              data={$data}
-              id={id}
-              bg={bg || bg_poster}
-              title={$data.title || $data.name}
-              movieID={$data.id}
-              dvWidth={dvWidth}
-              show={hover === id}
-              left={Math.floor(itemRef.current.getBoundingClientRect().left)}
-              right={Math.floor(itemRef.current.getBoundingClientRect().right)}
-              top={Math.floor(
-                itemRef.current.getBoundingClientRect().top + window.scrollY
-              )}
-              itemHeight={Math.floor(
-                itemRef.current.getBoundingClientRect().height
-              )}
-              itemWidth={Math.floor(
-                itemRef.current.getBoundingClientRect().width
-              )}
-            />,
-            document.getElementById("portal")
-          )
+        // itemRef.current &&
+        //   ReactDOM.createPortal(
+        //     <ModalCont
+        //       height={modalContHeight}
+        //       onMouseOut={mouseOutHandler}
+        //       movieType={movieType}
+        //       setHover={setHover}
+        //       expand={expand}
+        //       setExpand={setExpand}
+        //       setAccountClick={setAccountClick}
+        //       setNavView={setNavView}
+        //       data={$data}
+        //       id={id}
+        //       bg={bg || bg_poster}
+        //       title={$data.title || $data.name}
+        //       movieID={$data.id}
+        //       dvWidth={dvWidth}
+        //       show={hover === id}
+        //       left={Math.floor(itemRef.current.getBoundingClientRect().left)}
+        //       right={Math.floor(itemRef.current.getBoundingClientRect().right)}
+        //       top={Math.floor(
+        //         itemRef.current.getBoundingClientRect().top + window.scrollY
+        //       )}
+        //       itemHeight={Math.floor(
+        //         itemRef.current.getBoundingClientRect().height
+        //       )}
+        //       itemWidth={Math.floor(
+        //         itemRef.current.getBoundingClientRect().width
+        //       )}
+        //     />,
+        //     document.getElementById("portal")
+        //   )
       }
 
       <div
@@ -208,7 +209,7 @@ export const ScrollItemPC = ({
         }}
         className={`${row === 2 ? "w-[calc((100%/5))]" : "w-[calc((100%/6))]"}
           ${mb || ""}
-          flex-none p-1 flex-none`}
+          flex-none`}
       >
         <div className={`relative rounded-[3px] w-full h-full overflow-hidden`}>
           {row != 2 && (
@@ -479,7 +480,7 @@ export const NavScroll = ({
   let $data =
     data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC, dvSize } = useSelector((state) => state.deviceInfo);
   const [list, setList] = useState([...$data]);
   const [page, setPage] = useState(0);
 
@@ -488,11 +489,13 @@ export const NavScroll = ({
   const [next, setNext] = useState(false);
   const [prev, setPrev] = useState(false);
   const [prevBtn, setPrevBtn] = useState(false);
-  const [scrollWidth, setScrollWidth] = useState(null);
+  // const [scrollWidth, setScrollWidth] = useState(null);
 
   const [scrollTimeOut, setScrollTimeOut] = useState(null);
   const scrollRef = useRef(null);
   let bgSpan = { [page]: "bg-[rgb(120,120,120)]" };
+
+  let scrollWidth = dvSize.width
 
   let scrollID = [...Array(list.length).fill(`scrollID_${$id}`)].map(
     (item, ind) => `${item}_${ind}`
@@ -510,11 +513,12 @@ export const NavScroll = ({
     }
   }, [profile.watchList]);
 
-  useEffect(() => {
-    if (scrollRef.current && scrollWidth === null) {
-      setScrollWidth(scrollRef.current.getBoundingClientRect().width);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (scrollRef.current && scrollWidth === null) {
+  //     setScrollWidth(document.getElementById($scrollContID).clientWidth);
+  //     // setScrollWidth(scrollRef.current.getBoundingClientRect().width);
+  //   }
+  // }, []);
 
   //scroll handler begins/////////////////////////////////////////////////////////////////////////////////////////////////
   const scrollHandler = () => {
@@ -570,6 +574,14 @@ export const NavScroll = ({
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //detect when scrolling ends////////////////////////////////////////////////////////////////////////
+    console.log(
+      "scrollWidth",
+      scrollWidth,
+      "scrollLeft",
+      scrollRef.current.scrollLeft,
+      "finalPosition",
+      finalScrollPos + scrollWidth
+    );
     if (
       scrollRef.current.scrollLeft === finalScrollPos ||
       scrollRef.current.scrollLeft === finalScrollPos + scrollWidth ||
@@ -589,6 +601,7 @@ export const NavScroll = ({
         setPrevBtn(true);
       }
       if (scrollRef.current.scrollLeft === finalScrollPos + scrollWidth) {
+        console.log("reached final position");
         if (page === children.length - 1) {
           setPage(0);
           resetBtn();
@@ -682,7 +695,7 @@ export const NavScroll = ({
                 ref={scrollRef}
                 onScroll={scrollHandler}
                 id={$scrollContID}
-                className="flex relative scrollNav flex-row h-[100%] w-[auto] w-[100%] overflow-scroll"
+                className="flex relative scrollNav flex-row h-[100%] w-[100%] overflow-scroll"
               >
                 {list.map((item, index) =>
                   isPC ? (
