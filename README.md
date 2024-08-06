@@ -1,10 +1,12 @@
 <a href="https://conflixtv.vercel.app/">
-  <img alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/57a6e289-5bd9-4e9e-a2c2-36eeeb04ecd5">
+  <p align="center">
+  <img width="20%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/30c982af-ed39-4048-9d44-f850c5d50202">
+  </p>
   <h1 align="center">Conflix</h1>
 </a>
 
 <p align="center">
-  Different from any other clone you will find on the internet.
+  A responsive Netflix clone different from any other clone you will find on the internet.
 </p>
 
 <p align="center">
@@ -25,7 +27,6 @@
   <a href="#-run-locally"><strong>Run Locally</strong></a> ·
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
   <a href="#-license"><strong>License</strong></a> ·
-  <a href="#-star-history"><strong>Star history</strong></a>
 </p>
 <br/>
 
@@ -33,7 +34,7 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## 🎯 About
+## 📝 About
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 
@@ -47,10 +48,10 @@ Here you can find the demo link:
 
 ### Guest Account
 
-I've added a "signin as guest" button for lazy users. You don't need to signup to test the features of Conflix.
+I've added a "signin as a guest" button for lazy users like me 😊. You don't need to signup to test the features of Conflix.
 <br/>
 There are a few restrictions attached to the guest account.
-- Guest account cannot add new profile.
+- Guest account cannot add a new profile.
 - Guest account cannot manage profile.
 
 <br/>
@@ -74,6 +75,7 @@ There are a few restrictions attached to the guest account.
 :heavy_check_mark: &nbsp;&nbsp;Route animations and micro-interactions (handled with Framer Motion)<br />
 
 <br/>
+
 
 
 
