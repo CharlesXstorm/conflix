@@ -33,5 +33,48 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
+## 🎯 About
+
+Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
+
+<br/>
+
+## ▶️ Demo
+
+Here you can find the demo link:
+
+- [Demo](https://conflixtv.vercel.app/)
+
+### Guest Account
+
+I've added a "signin as guest" button for lazy users. You don't need to signup to test the features of Conflix.
+<br/>
+There are a few restrictions attached to the guest account.
+- Guest account cannot add new profile.
+- Guest account cannot manage profile.
+
+<br/>
+
+## :sparkles: Features
+
+:heavy_check_mark: &nbsp;&nbsp;Display movies and series, old and upcoming, also from the real Netflix<br />
+:heavy_check_mark: &nbsp;&nbsp;Category related page with infinite scroll<br />
+:heavy_check_mark: &nbsp;&nbsp;Search by title, actor, movie director<br />
+:heavy_check_mark: &nbsp;&nbsp;Add/Remove to/from "My list" functionality<br />
+:heavy_check_mark: &nbsp;&nbsp;Detail modal with extra informations about the selected movie/series<br />
+:heavy_check_mark: &nbsp;&nbsp;Customized splash animation (credits: [Claudio Bonfati's pen](https://codepen.io/claudio_bonfati/pen/mdryxPv)) with characteristic Netflix sound<br />
+:heavy_check_mark: &nbsp;&nbsp;Play animation with characteristic Netflix sound<br />
+:heavy_check_mark: &nbsp;&nbsp;Google login<br />
+:heavy_check_mark: &nbsp;&nbsp;User Sign In & User Sign Up<br />
+:heavy_check_mark: &nbsp;&nbsp;Use of React hooks and custom hooks<br />
+:heavy_check_mark: &nbsp;&nbsp;Favourites list persistence (session storage)<br />
+:heavy_check_mark: &nbsp;&nbsp;Responsive layout<br />
+:heavy_check_mark: &nbsp;&nbsp;Swipeable movies list<br />
+:heavy_check_mark: &nbsp;&nbsp;Loading skeletons<br />
+:heavy_check_mark: &nbsp;&nbsp;Route animations and micro-interactions (handled with Framer Motion)<br />
+
+<br/>
+
+
 
 
