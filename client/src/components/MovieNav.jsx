@@ -55,7 +55,7 @@ const NavLink = ({ nav, name, focus, setStyle, setClick }) => {
   );
 };
 
-const MovieNav = ({ setAccountLoader, setAccountClick }) => {
+const MovieNav = ({ setAccountLoader, setAccountClick, setNavView }) => {
   const [click, setClick] = useState(false);
   const [modal, setModal] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
@@ -279,6 +279,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
               {profile.name === "kids" && (
                 <button
                   onClick={() => {
+                    setNavView(false)
                     setAccountClick(false);
                     navigate("/browse");
                   }}

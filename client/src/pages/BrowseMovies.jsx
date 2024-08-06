@@ -46,7 +46,8 @@ const BrowseMovies = ({
         config
       );
       res = res.data.results;
-      res = res[Math.floor(Math.random() * res.length)];
+      let resList = [res[3],res[6],res[15]]
+      res = resList[Math.floor(Math.random() * resList.length)];
 
       let logo = await axios.get(
         `${import.meta.env.VITE_TMDB_URL}/${movieType}/${res.id}/images`,

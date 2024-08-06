@@ -92,7 +92,7 @@ export const ModalCont = ({
         height: `${height}`,
         pointerEvents: `${expand ? "auto" : "none"}`
       }}
-      className="absolute z-[40] top-0 left-0 w-[100%] overflow-hidden"
+      className="absolute z-[90] top-0 left-0 w-[100%] overflow-hidden"
     >
       <ItemModal
         key={id}

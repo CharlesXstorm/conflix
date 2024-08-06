@@ -82,6 +82,7 @@ function App() {
           element={
             <BrowseShared
               navView={navView}
+              setNavView={setNavView}
               setAccountLoader={setAccountLoader}
               setAccountClick={setAccountClick}
               accountClick={accountClick}

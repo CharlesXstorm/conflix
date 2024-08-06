@@ -42,6 +42,7 @@ const Mylist = ({ setNavView, setAccountClick }) => {
                     id={index}
                     mb={"mb-[2em]"}
                     $data={item}
+                    dataTitle={"My List"}
                     movieType={item["type"]}
                     svgNum={null}
                     setAccountClick={setAccountClick}

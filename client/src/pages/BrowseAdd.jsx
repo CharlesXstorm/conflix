@@ -85,7 +85,7 @@ const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
   console.log("icon", profileIcons);
 
   return (
-    <div className="absolute z-[60] top-0 left-0 w-[100%] h-[100vh] text-white bg-[#121212]">
+    <div className="absolute z-[80] top-0 left-0 w-[100%] h-[100vh] text-white bg-[#121212]">
       <div className="relative w-full h-full flex justify-center items-center">
         <div className="w-[100%] lg:w-[60%] xl:w-[40%] m-[auto] px-[6%] md:px-[12%] lg:px-0 flex flex-col">
           <div className="w-full flex flex-col gap-4 lg:gap-2">

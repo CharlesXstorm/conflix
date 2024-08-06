@@ -227,18 +227,24 @@ const ItemModal = ({
     if (timeoutID) {
       clearTimeout(timeoutID);
     }
-    //reset default values on show change
-    for (var any of profile.watchList) {
-      if (any.name && any.name === $data.name) {
-        setWatchIcon("remove-icon");
-        break;
-      } else if (any.title && any.title === $data.title) {
-        setWatchIcon("remove-icon");
-        break;
-      } else {
-        setWatchIcon("add-icon");
+
+    if (profile.watchList.length > 0) {
+      //reset default values on show change
+      for (var any of profile.watchList) {
+        if (any.name && any.name === $data.name) {
+          setWatchIcon("remove-icon");
+          break;
+        } else if (any.title && any.title === $data.title) {
+          setWatchIcon("remove-icon");
+          break;
+        } else {
+          setWatchIcon("add-icon");
+        }
       }
+    } else {
+      setWatchIcon("add-icon");
     }
+
     setItemWidth("400px");
     setItemHeight("400px");
     setItemTop(`${top - Math.floor(400 / 6)}px`);

@@ -8,7 +8,8 @@ import {useSelector } from "react-redux";
 const BrowseShared = ({
   setAccountLoader,
   setAccountClick,
-  navView
+  navView,
+  setNavView
 }) => {
   const { overflowValue } = useSelector((state) => state.feature);
 
@@ -24,6 +25,7 @@ const BrowseShared = ({
         <MovieNav
           setAccountLoader={setAccountLoader}
           setAccountClick={setAccountClick}
+          setNavView={setNavView}
         />
       )}
       <Outlet />
