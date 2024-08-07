@@ -34,8 +34,6 @@ const BrowseMovies = ({
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
 
-  // console.log('browseMovies', profile)
-
   const getUpcomingMovies = async () => {
     const config = {
       headers: {
@@ -106,7 +104,6 @@ const BrowseMovies = ({
   };
 
   useEffect(() => {
-    console.log('browse Movies Loading', profile.watchList)
     if (timeOutID) {
       clearTimeout(timeOutID);
       setTimeoutID(null);

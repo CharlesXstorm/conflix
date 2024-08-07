@@ -12,8 +12,6 @@ const Mylist = ({ setNavView, setAccountClick }) => {
   const { profile } = useSelector((state) => state.account);
     const dispatch = useDispatch();
 
-      console.log('MyList profile: ' , profile.watchList)
-
   let myList = [...profile.watchList];
 
   useEffect(() => {
