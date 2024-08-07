@@ -19,9 +19,20 @@ const IconButton = ({
   const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
+  let currentProfile = JSON.parse(localStorage.getItem("Profile"));
+
   const clickHandler = () => {
-    localStorage.setItem("Profile", JSON.stringify(profile));
-    dispatch(setProfile(profile));
+    if (!currentProfile) {
+      localStorage.setItem("Profile", JSON.stringify(profile));
+      dispatch(setProfile(profile));
+    } else {
+      if (currentProfile.id == profile.id) {
+        dispatch(setProfile(currentProfile));
+      } else {
+        localStorage.setItem("Profile", JSON.stringify(profile));
+        dispatch(setProfile(profile));
+      }
+    }
 
     if (edit) {
       setEditClick((prev) => !prev);
@@ -31,7 +42,7 @@ const IconButton = ({
 
     if (!profile.isProfile) {
       if (data["email"] === "guest@conflix.com") {
-        setGuest({state:true,message:"Guest account cannot add profile."})
+        setGuest({ state: true, message: "Guest account cannot add profile." });
         return;
       } else {
         setAccountClick(false);

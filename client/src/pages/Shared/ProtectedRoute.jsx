@@ -40,6 +40,7 @@ const ProtectedRoute = ({
 
   //getUser ////////////////////////
   useEffect(() => {
+    console.log('protected route loading')
     const fetchData = async () => {
       const user = await getUser();
 

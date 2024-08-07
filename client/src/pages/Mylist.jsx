@@ -9,10 +9,12 @@ const Mylist = ({ setNavView, setAccountClick }) => {
   const { isPC, dvSize } = useSelector((state) => state.deviceInfo);
   const [hover, setHover] = useState(false);
 
-  const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.account);
+    const dispatch = useDispatch();
 
-  let myList = profile.watchList;
+      console.log('MyList profile: ' , profile.watchList)
+
+  let myList = [...profile.watchList];
 
   useEffect(() => {
     window.scrollTo(0, 0);

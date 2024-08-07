@@ -25,6 +25,7 @@ const Button = ({
     if (id != profile.id) {
       dispatch(setProfile(item));
       localStorage.setItem("Profile", JSON.stringify(item));
+      
       setAccountLoader(true);
       setAccountClick(true);
       navigate("/browse");

@@ -35,6 +35,8 @@ const Browse = ({
   let route = profile.name === "kids" ? "browse/kids" : "browse";
   let linkFocus = { Home: true, nav: "/browse" };
 
+  console.log('browseHome',profile.watchList)
+
   useEffect(() => {
     if (timeOutID) {
       clearTimeout(timeOutID);
