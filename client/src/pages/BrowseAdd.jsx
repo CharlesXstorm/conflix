@@ -79,10 +79,7 @@ const BrowseAdd = ({ setAddProfile, setProfileIcons, profileIcons }) => {
         break;
       }
     }
-    console.log("rendering");
   }, []);
-
-  console.log("icon", profileIcons);
 
   return (
     <div className="absolute z-[80] top-0 left-0 w-[100%] h-[100vh] text-white bg-[#121212]">

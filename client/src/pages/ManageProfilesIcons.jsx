@@ -38,7 +38,7 @@ const ManageProfilesIcons = ({profileIcons, setProfileIcons }) => {
   }, []);
 
   return (
-    <div className="fixed text-white md:text-2xl xl:text-3xl font-[roboto] font-[500] top-0 left-0  bg-[#121212] z-[60] w-[100%] h-[100vh] overflow-hidden">
+    <div className="fixed text-white md:text-2xl xl:text-3xl font-[roboto] font-[500] top-0 left-0  bg-[#121212] z-[90] w-[100%] h-[100vh] overflow-hidden">
       <div className="relative flex flex-col justify-between items-center w-[inherit] mt-[20vh] h-[80%]">
         {
           //header
