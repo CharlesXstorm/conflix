@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Loader from "./Loader";
 
 const PageLoader = ({ type, loaded }) => {
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
 
   return (
     <div

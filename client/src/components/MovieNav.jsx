@@ -55,7 +55,7 @@ const NavLink = ({ nav, name, focus, setStyle, setClick }) => {
   );
 };
 
-const MovieNav = ({ setAccountLoader, setAccountClick }) => {
+const MovieNav = ({ setAccountLoader, setAccountClick, setNavView }) => {
   const [click, setClick] = useState(false);
   const [modal, setModal] = useState(false);
   const [timeoutId, setTimeoutId] = useState(null);
@@ -69,7 +69,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
     arrow: "rotate-90"
   });
 
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
   const { focus, search } = useSelector((state) => state.feature);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -93,9 +93,9 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
       }
 
       if (window.scrollY < initScrollY) {
-        setScrollUp((prev) => (prev > 4.4 ? 4.5 : prev + 0.1));
+        setScrollUp((prev) => (prev > 4.5 ? 5 : prev + 0.5));
       } else {
-        setScrollUp((prev) => (prev < 0.1 ? 0 : prev - 0.1));
+        setScrollUp((prev) => (prev < 0.5 ? 0 : prev - 0.5));
       }
       initScrollY = window.scrollY;
     };
@@ -193,19 +193,19 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
                 You&apos;re signed in as a guest
               </h1>
               <p className=" lg:text-lg">{guest.message}</p>
-              <p className=" lg:text-lg text-black mt-2">
+              <p className=" lg:text-lg text-black mt-2 mb-1 font-[500] text-black ">
                 Do you want to signup?
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => navigate("/")}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold text-black px-4 py-1 rounded"
                 >
                   Yes
                 </button>
                 <button
                   onClick={() => setGuest(false)}
-                  className="bg-white text-black px-4 py-1 rounded"
+                  className="bg-white text-black font-bold text-black px-4 py-1 rounded"
                 >
                   Cancel
                 </button>
@@ -219,7 +219,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           backgroundColor: bgColor,
           transition: "all 0.4s linear"
         }}
-        className="text-white font-[roboto] fixed z-20 top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
+        className="text-white font-[roboto] fixed z-[80] top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
           <Link to="/browse">
@@ -279,6 +279,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
               {profile.name === "kids" && (
                 <button
                   onClick={() => {
+                    setNavView(false)
                     setAccountClick(false);
                     navigate("/browse");
                   }}
@@ -297,7 +298,6 @@ const MovieNav = ({ setAccountLoader, setAccountClick }) => {
           <button
             className="py-1 flex gap-[0.5em] items-center"
             onClick={() => {
-              console.log("clicked");
               setStyle((prev) => ({ ...prev, arrow: "rotate-[270deg]" }));
               setModal(true);
             }}

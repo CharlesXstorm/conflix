@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 import { createSlice } from "@reduxjs/toolkit";
 
-export const dvWidthSlice = createSlice({
-  name: "dvWidth",
+export const deviceInfoSlice = createSlice({
+  name: "deviceInfo",
   initialState: {
     isMobile: false,
     isTablet: false,
     isPC: false,
-    dvWidth: 0,
+    dvSize: 0,
     // dvHeight:0,
     bodyHeight: 0
   },
@@ -31,7 +31,7 @@ export const dvWidthSlice = createSlice({
             isMobile: true,
             isTablet: false,
             isPC: false,
-            dvWidth: action.payload
+            dvSize: action.payload
           };
         case (action.payload.width > 500 && action.payload.width < 1024) ||
           (action.payload.width >= 1024 && action.payload.height > 1360):
@@ -39,7 +39,7 @@ export const dvWidthSlice = createSlice({
             isMobile: false,
             isTablet: true,
             isPC: false,
-            dvWidth: action.payload
+            dvSize: action.payload
           };
 
         case action.payload.width >= 1024:
@@ -47,7 +47,7 @@ export const dvWidthSlice = createSlice({
             isMobile: false,
             isTablet: false,
             isPC: true,
-            dvWidth: action.payload
+            dvSize: action.payload
           };
         default:
           return;
@@ -64,6 +64,6 @@ export const dvWidthSlice = createSlice({
 });
 
 //Action creators are generated for each case reducer function
-export const { setDeviceInfo, setBodyHeight } = dvWidthSlice.actions;
+export const { setDeviceInfo, setBodyHeight } = deviceInfoSlice.actions;
 
-export default dvWidthSlice.reducer;
+export default deviceInfoSlice.reducer;

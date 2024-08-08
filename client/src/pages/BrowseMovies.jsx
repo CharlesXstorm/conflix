@@ -28,7 +28,7 @@ const BrowseMovies = ({
   const [$bg, set$bg] = useState();
   const [timeOutID, setTimeoutID] = useState(null);
 
-  const { isPC, isTablet } = useSelector((state) => state.dvWidth);
+  const { isPC, isTablet } = useSelector((state) => state.deviceInfo);
   const dispatch = useDispatch();
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
@@ -46,7 +46,8 @@ const BrowseMovies = ({
         config
       );
       res = res.data.results;
-      res = res[Math.floor(Math.random() * res.length)];
+      let resList = [res[3],res[6],res[15]]
+      res = resList[Math.floor(Math.random() * resList.length)];
 
       let logo = await axios.get(
         `${import.meta.env.VITE_TMDB_URL}/${movieType}/${res.id}/images`,
@@ -56,7 +57,6 @@ const BrowseMovies = ({
       logo = logo.data["logos"];
 
       if (res && logo) {
-        console.log("loading upcoming movies");
         for (var any of logo) {
           if (any["iso_639_1"] === "en") {
             setHero({ movie: res, title: any["file_path"] });

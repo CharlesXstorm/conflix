@@ -79,7 +79,7 @@ const BrowseHome = ({
         )}
       </AnimatePresence>
 
-      <div className="absolute z-[60] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden">
+      <div className="absolute z-[70] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden">
         <motion.div
           variants={pageVariants}
           initial="hidden"

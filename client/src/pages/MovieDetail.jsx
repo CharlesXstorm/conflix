@@ -34,7 +34,7 @@ const MovieDetail = ({
   let $id = id ? id : movieID;
   let $data = state.$data;
 
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
   const { data, profile } = useSelector((state) => state.account);
   const navigate = useNavigate();
   const dispatch = useDispatch();

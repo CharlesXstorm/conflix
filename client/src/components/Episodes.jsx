@@ -147,7 +147,7 @@ const EpisodeList = React.forwardRef(
 //Episode Item//////////////////////////////////////////////////////////////
 const EpisodeItem = ({ item, id }) => {
   const [loaded, setLoaded] = useState(false);
-  const { isPC } = useSelector((state) => state.dvWidth);
+  const { isPC } = useSelector((state) => state.deviceInfo);
   return (
     <div className="flex flex-col">
       <div className="flex justify-between w-full  p-4">
