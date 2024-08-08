@@ -9,7 +9,7 @@ export const profileSlice = createSlice({
       state.profile = { ...action.payload };
     },
     setWatchList: (state, action) => {
-      state.profile = {...state.profile, watchList: action.payload};
+      state.profile = {...state.profile, watchList: [...action.payload]};
     },
     setData: (state, action) => {
       state.data = action.payload;

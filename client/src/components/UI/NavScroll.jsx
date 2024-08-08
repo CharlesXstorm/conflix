@@ -82,10 +82,11 @@ export const ModalCont = ({
   right,
   top
 }) => {
+  const [expandOpacity, setExpandOpacity] = useState(0);
   return (
     <div
       style={{
-        opacity: `${show ? 1 : 0}`,
+        opacity: `${show ? 1 : expandOpacity}`,
         backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
         overscrollBehavior: "contain",
         transition: "all 0.2s linear",
@@ -112,6 +113,7 @@ export const ModalCont = ({
         left={left}
         right={right}
         setExpand={setExpand}
+        setExpandOpacity={setExpandOpacity}
         movieType={movieType}
         setAccountClick={setAccountClick}
         setNavView={setNavView}
@@ -475,7 +477,7 @@ export const NavScroll = ({
   let $data =
     data.title != "My List" ? [...data.movies] : [...profile.watchList];
 
-  const { isPC } = useSelector((state) => state.deviceInfo);
+  const { isPC, dvSize } = useSelector((state) => state.deviceInfo);
   const [list, setList] = useState([...$data]);
   const [page, setPage] = useState(0);
 
@@ -699,7 +701,7 @@ export const NavScroll = ({
                       bg_poster={item["poster_path"]}
                       $data={item}
                       dataTitle={data.title}
-                      dvWidth={scrollWidth}
+                      dvWidth={dvSize.width}
                       setHover={setHover}
                       hover={hover}
                       movieType={

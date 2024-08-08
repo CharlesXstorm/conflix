@@ -15,7 +15,7 @@ const BrowseMovies = ({
   movieType,
   route,
   linkFocus,
-  profile,
+  // profile,
   data,
   setNavView,
   setAccountLoaded,
@@ -29,6 +29,7 @@ const BrowseMovies = ({
   const [timeOutID, setTimeoutID] = useState(null);
 
   const { isPC, isTablet } = useSelector((state) => state.deviceInfo);
+  const { profile } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   const colorSet = ["25,189,255", "255,165,0", "255,0,0", "160,32,240"];
@@ -46,8 +47,8 @@ const BrowseMovies = ({
         config
       );
       res = res.data.results;
-      let resList = [res[3],res[6],res[15]]
-      res = resList[Math.floor(Math.random() * resList.length)];
+      // let resList = [res[3],res[6],res[15]]
+      res = res[Math.floor(Math.random() * res.length)];
 
       let logo = await axios.get(
         `${import.meta.env.VITE_TMDB_URL}/${movieType}/${res.id}/images`,

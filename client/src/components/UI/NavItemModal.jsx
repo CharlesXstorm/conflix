@@ -1,16 +1,16 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setOverflow } from "../../utils/featureSlice";
-import { setWatchList } from "../../utils/profileSlice";
 import movieGenre from "../../utils/TMDBconfig/Genres/movieList.json";
 import tvGenre from "../../utils/TMDBconfig/Genres/tvList.json";
 import axios from "axios";
 import HeroInfo from "../HeroInfo";
 import VideoPlayer from "../VideoPlayer";
-import { AnimatePresence, motion } from "framer-motion";
 import MovieDetailInfo from "../MovieDetailInfo";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setOverflow } from "../../utils/featureSlice";
+import { setWatchList } from "../../utils/profileSlice";
+import { AnimatePresence, motion } from "framer-motion";
 import { setIntro } from "../../utils/featureSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,7 @@ const ItemModal = ({
   onMouseEnter,
   onMouseLeave,
   setExpand,
+  setExpandOpacity,
   setAccountClick,
   setNavView,
   $data,
@@ -38,7 +39,7 @@ const ItemModal = ({
   const [initPosition, setInitPosition] = useState();
   const [itemTop, setItemTop] = useState();
   const [expandTop, setExpandTop] = useState(0);
-  const [expandOpacity, setExpandOpacity] = useState();
+
   const [itemWidth, setItemWidth] = useState();
   const [shrinkWidth, setShrinkWidth] = useState("100%");
   const [expandHeight, setExpandHeight] = useState("100%");
@@ -192,25 +193,27 @@ const ItemModal = ({
   //add watchList client/server side
   const addWatchList = () => {
     let watchListData = { ...$data, type: movieType };
-    dispatch(setWatchList([watchListData, ...profile.watchList]));
     setWatchIcon("remove-icon");
+    dispatch(setWatchList([watchListData, ...profile.watchList]));
+    localStorage.setItem('Profile', JSON.stringify({...profile,watchList:[watchListData, ...profile.watchList]}));
     addWatchListDB(watchListData, data["_id"], profile.id);
   };
   //remove watchList client/server side
   const removeWatchList = () => {
     let watchListData = [...profile.watchList];
 
-    watchListData.forEach((item, index) => {
+    for(var item of watchListData){
       if (item.name) {
-        item.name === $data.name ? watchListData.splice(index, 1) : null;
+        item.name === $data.name ? watchListData.splice(watchListData.indexOf(item), 1) : null;
       }
       if (item.title) {
-        item.title === $data.title ? watchListData.splice(index, 1) : null;
+        item.title === $data.title ? watchListData.splice(watchListData.indexOf(item), 1) : null;
       }
-    });
-    dispatch(setWatchList(watchListData));
-    removeWatchListDB(watchListData, data["_id"], profile.id);
+    }
     dataTitle != "My List" ? setWatchIcon("add-icon") : null;
+    dispatch(setWatchList([...watchListData]));
+    localStorage.setItem('Profile', JSON.stringify({...profile,watchList:[...watchListData]}));
+    removeWatchListDB(watchListData, data["_id"], profile.id);
   };
   //handle watchList logic
   const watchListHandler = () => {
@@ -218,6 +221,11 @@ const ItemModal = ({
       addWatchList();
     } else {
       removeWatchList();
+      if (dataTitle === "My List") {
+        onMouseLeave();
+        setExpand(false);
+        dispatch(setOverflow("auto"));
+      }
     }
   };
   /////////////////////////////////////////////////////////////////////
@@ -292,7 +300,7 @@ const ItemModal = ({
         paddingTop: `${!show ? "0em" : show && !expand ? "0px" : "4em"}`,
         // paddingLeft: `${!show ? "0px" : show && !expand ? "0px" : "25%"}`,
         overflow: `${!show ? "hidden" : show && !expand ? "hidden" : "auto"}`,
-        opacity: `${show ? 1 : expandOpacity}`,
+        // opacity: `${show ? 1 : expandOpacity}`,
         width: `${!show ? width + "px" : show && !expand ? itemWidth : "100%"}`,
         height: `${
           !show ? height + "px" : show && !expand ? itemHeight : "100vh"
