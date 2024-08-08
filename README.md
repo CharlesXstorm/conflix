@@ -36,13 +36,13 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 ## 📝 About
 
-Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
+Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 <br/><br/>
 I added the ability to play some trailers at least, to give it the feel of a proper streaming service. I've also made improvements by adding micro-interactions and minimal page route transitions.
 Most of the animations in this project were created using pure CSS, with a few exceptions that were made using Framer-motion.
 <br/><br/>
 I've put a great deal of work into this project, over the course of 3 months and 2 weeks and I hope you'll like it as much as I do.<br/>
-You can give this project a star, as your sign of encouragement. It will mean everything to know someone out there finds this project useful 😇.
+You can give this project a star, as a sign of encouragement. It will mean everything to know someone out there finds this project useful 😇.
 
 
 <br/>
