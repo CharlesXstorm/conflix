@@ -1,6 +1,6 @@
 <a href="https://conflixtv.vercel.app/">
   <div align="center">
-  <img width="20%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/6ae7a068-61d2-4ab7-bf63-e019bd31f0d7">
+  <img width="60%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/6ae7a068-61d2-4ab7-bf63-e019bd31f0d7">
   </div>
   <h1 align="center">Conflix</h1>
 </a>
