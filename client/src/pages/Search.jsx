@@ -16,7 +16,7 @@ const Search = ({ setNavView, setAccountClick }) => {
   const [hover, setHover] = useState(false);
   const [timeoutID, setTimeoutID] = useState();
   const { search } = useSelector((state) => state.feature);
-  const { dvWidth, isPC } = useSelector((state) => state.dvWidth);
+  const { dvSize, isPC } = useSelector((state) => state.deviceInfo);
   const [storage] = useLocalStorage("Nav");
   const navigate = useNavigate();
 
@@ -99,7 +99,6 @@ const Search = ({ setNavView, setAccountClick }) => {
       <div className="flex flex-col md:text-lg xl:text-xl gap-4 w-full min-h-[80vh] bg-black px-[1em] pt-[5em] md:px-[3em] md:pt-[6em] xl:px-[4em] xl:pt-[8em]">
         <div className="flex gap-2">
           <p className="flex-none">More to explore:</p>
-          
         </div>
 
         <div className="flex flex-wrap w-full h-[auto]">
@@ -121,7 +120,7 @@ const Search = ({ setNavView, setAccountClick }) => {
                   bg={item["backdrop_path"]}
                   bg_poster={item["poster_path"]}
                   row={null}
-                  dvWidth={dvWidth}
+                  dvWidth={dvSize.width}
                   hover={hover}
                   setHover={setHover}
                   id={index}
@@ -143,7 +142,7 @@ const Search = ({ setNavView, setAccountClick }) => {
                   bg={item["backdrop_path"] || item["poster_path"]}
                   bg_poster={item["poster_path"]}
                   $data={item}
-                  dvWidth={dvWidth}
+                  dvWidth={dvSize.width}
                   setHover={setHover}
                   hover={hover}
                   groupType={null}
