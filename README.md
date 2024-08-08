@@ -22,7 +22,7 @@
   <a href="#-about"><strong>About</strong></a> ·
   <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-   <a href="#%EF%B8%8F-challenges"><strong>Challenges</strong></a> ·
+   <a href="#-challenges"><strong>Challenges</strong></a> ·
   <a href="#rocket-built-with"><strong>Built With</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
@@ -48,7 +48,7 @@ You can give this project a star, as a sign of encouragement. It will mean every
 
 <br/>
 
-## ▶️ Demo
+## 🎬🍿 Demo
 
 Here you can find the demo link:
 
@@ -95,6 +95,22 @@ There are a few restrictions attached to the guest account.
 
 <br/>
 
+## 🛠️ Challenges
+
+The biggest challenge I had was surprisingly the task I initially thought would be the easiest, which was the infinite scroll with the movie detail modal.<br/>
+When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
+<br/><br/>
+These features include:
+<br/>
+🟥 Infinite scroll that moves by a particular scroll amount.<br/>
+🟥 Special modal that centrally overlays the element it highlights.<br/>
+🟥 Play the available trailer video when hovering over the modal.<br/>
+🟥 Detect if a scroll element is in the extreme right or left position.<br/>
+🟥 Expand the modal with micro-interactions (depending on the scroll element's position).<br/>
+🟥 Detect if a movie is favourited, and dynamically render the appropriate add or remove button.<br/>
+🟥 Collapse the modal with micro-interactions.
+
+<br/>
 
 
 
