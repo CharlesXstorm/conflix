@@ -28,7 +28,6 @@
   <a href="#rocket-built-with"><strong>Built With</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
-
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
   <a href="#-license"><strong>License</strong></a> ·
 </p>
@@ -41,7 +40,6 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 ## 📝 About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
-
 <br/><br/>
 I added the ability to play some trailers at least, to give it the feel of a proper streaming service. I've also made improvements by adding micro-interactions and minimal page route transitions.
 Most of the animations in this project were created using pure CSS, with a few exceptions that were made using Framer-motion.
