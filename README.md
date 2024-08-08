@@ -1,7 +1,7 @@
 <a href="https://conflixtv.vercel.app/">
-  <p align="center">
-  <img width="20%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/30c982af-ed39-4048-9d44-f850c5d50202">
-  </p>
+  <div align="center">
+  <img width="20%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/6ae7a068-61d2-4ab7-bf63-e019bd31f0d7">
+  </div>
   <h1 align="center">Conflix</h1>
 </a>
 
@@ -11,10 +11,10 @@
 
 <p align="center">
   <a href="https://twitter.com/charlesxstorm" target="_blank">
-    <img width="20px" src="https://github.com/user-attachments/assets/5d2bbb89-6c05-4e1e-bd61-4e3736a9f0e0" alt="Twitter" />
+    <img width="20px" src="https://github.com/user-attachments/assets/52eff4e7-0bb6-40db-a8ab-8ddb416fd539" alt="Twitter" />
   </a>.
   <a href="https://instagram.com/charlesxstorm" target="_blank">
-    <img width="20px" src="https://github.com/user-attachments/assets/42ed4e22-a367-4cf9-a0ba-2cbfde8e86ed" alt="Instagram" />
+    <img width="20px" src="https://github.com/user-attachments/assets/4aae05f0-76f5-4605-a2c8-456b531ae599" alt="Instagram" />
   </a>
 </p>
 
@@ -34,7 +34,7 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## 📝 About
+## 📝 About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 <br/><br/>
