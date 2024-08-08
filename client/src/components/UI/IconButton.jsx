@@ -21,25 +21,25 @@ const IconButton = ({
 
   let currentProfile = JSON.parse(localStorage.getItem("Profile"));
 
-  const clickHandler = () => {
+  const checkStorage = () => {
     if (!currentProfile) {
       localStorage.setItem("Profile", JSON.stringify(profile));
       dispatch(setProfile(profile));
     } else {
-      if (currentProfile.id == profile.id) {
+      if (
+        currentProfile.id == profile.id &&
+        currentProfile.img == profile.img &&
+        currentProfile.name == profile.name
+      ) {
         dispatch(setProfile(currentProfile));
       } else {
         localStorage.setItem("Profile", JSON.stringify(profile));
         dispatch(setProfile(profile));
       }
     }
+  };
 
-    if (edit) {
-      setEditClick((prev) => !prev);
-      setAccountClick(false);
-      return;
-    }
-
+  const clickHandler = () => {
     if (!profile.isProfile) {
       if (data["email"] === "guest@conflix.com") {
         setGuest({ state: true, message: "Guest account cannot add profile." });
@@ -50,11 +50,18 @@ const IconButton = ({
         return;
       }
     }
-    if (profile.isProfile) {
-      setAccountLoader(true);
-      setAccountClick(true);
-      setAddProfile(false);
-      return;
+    if (profile.isProfile || edit) {
+      checkStorage()
+       if(edit) {
+        setEditClick((prev) => !prev);
+        setAccountClick(false);
+        return
+      }
+        setAccountLoader(true);
+        setAccountClick(true);
+        setAddProfile(false);
+        return;
+      
     }
   };
 
