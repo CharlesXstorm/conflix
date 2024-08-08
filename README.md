@@ -11,10 +11,10 @@
 
 <p align="center">
   <a href="https://twitter.com/charlesxstorm" target="_blank">
-    <img width="20px" src="https://github.com/user-attachments/assets/52eff4e7-0bb6-40db-a8ab-8ddb416fd539" alt="Twitter" />
+    <img width="30px" src="https://github.com/user-attachments/assets/52eff4e7-0bb6-40db-a8ab-8ddb416fd539" alt="Twitter" />
   </a>.
   <a href="https://instagram.com/charlesxstorm" target="_blank">
-    <img width="20px" src="https://github.com/user-attachments/assets/4aae05f0-76f5-4605-a2c8-456b531ae599" alt="Instagram" />
+    <img width="30px" src="https://github.com/user-attachments/assets/4aae05f0-76f5-4605-a2c8-456b531ae599" alt="Instagram" />
   </a>
 </p>
 
@@ -22,9 +22,10 @@
   <a href="#-about"><strong>About</strong></a> ·
   <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-  <a href="#rocket-technologies"><strong>Technologies</strong></a> ·
+   <a href="#%EF%B8%8F-challenges"><strong>Challenges</strong></a> ·
+  <a href="#rocket-built-with"><strong>Built With</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
-  <a href="#-run-locally"><strong>Run Locally</strong></a> ·
+  <a href="#-getting-started"><strong>Getting Started</strong></a> ·
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
   <a href="#-license"><strong>License</strong></a> ·
 </p>
@@ -65,21 +66,32 @@ There are a few restrictions attached to the guest account.
 
 ## :sparkles: Features
 
-:heavy_check_mark: &nbsp;&nbsp;Display movies and series, old and upcoming, also from the real Netflix<br />
-:heavy_check_mark: &nbsp;&nbsp;Category related page with infinite scroll<br />
-:heavy_check_mark: &nbsp;&nbsp;Search by title, actor, movie director<br />
-:heavy_check_mark: &nbsp;&nbsp;Add/Remove to/from "My list" functionality<br />
-:heavy_check_mark: &nbsp;&nbsp;Detail modal with extra informations about the selected movie/series<br />
-:heavy_check_mark: &nbsp;&nbsp;Customized splash animation (credits: [Claudio Bonfati's pen](https://codepen.io/claudio_bonfati/pen/mdryxPv)) with characteristic Netflix sound<br />
-:heavy_check_mark: &nbsp;&nbsp;Play animation with characteristic Netflix sound<br />
-:heavy_check_mark: &nbsp;&nbsp;Google login<br />
-:heavy_check_mark: &nbsp;&nbsp;User Sign In & User Sign Up<br />
-:heavy_check_mark: &nbsp;&nbsp;Use of React hooks and custom hooks<br />
-:heavy_check_mark: &nbsp;&nbsp;Favourites list persistence (session storage)<br />
-:heavy_check_mark: &nbsp;&nbsp;Responsive layout<br />
-:heavy_check_mark: &nbsp;&nbsp;Swipeable movies list<br />
-:heavy_check_mark: &nbsp;&nbsp;Loading skeletons<br />
-:heavy_check_mark: &nbsp;&nbsp;Route animations and micro-interactions (handled with Framer Motion)<br />
+:heavy_check_mark: &nbsp;&nbsp;Responsive layout.<br />
+:heavy_check_mark: &nbsp;&nbsp;Guest sign-in.<br />
+:heavy_check_mark: &nbsp;&nbsp;Restriction on guest account.<br />
+:heavy_check_mark: &nbsp;&nbsp;User signup, sign-in, and logout.<br />
+:heavy_check_mark: &nbsp;&nbsp;Create up to 5 sub-profile accounts.<br />
+:heavy_check_mark: &nbsp;&nbsp;Edit and delete sub-profile accounts<br />
+:heavy_check_mark: &nbsp;&nbsp;New Users have a kid sub-profile included by default.<br />
+:heavy_check_mark: &nbsp;&nbsp;Select profile pictures from up to 3 specialized categories of profile icons.<br />
+:heavy_check_mark: &nbsp;&nbsp;Browse movies by categories.<br />
+:heavy_check_mark: &nbsp;&nbsp;Navigate pages by movie type (Movies, TV shows).<br />
+:heavy_check_mark: &nbsp;&nbsp;Kids-only content when you switch to the kids sub-profile.<br />
+:heavy_check_mark: &nbsp;&nbsp;Top 10 movies or TV shows in your country using Geolocation API.<br />
+:heavy_check_mark: &nbsp;&nbsp;Micro-interactions and minimal page transitions (pure CSS and Framer-motion).<br />
+:heavy_check_mark: &nbsp;&nbsp;Ability to play movie trailers.<br />
+:heavy_check_mark: &nbsp;&nbsp;Pause/mute movie trailers.<br />
+:heavy_check_mark: &nbsp;&nbsp;Play customized Conflix "C" intro animation (credits: [Claudio Bonfati's pen](https://codepen.io/claudio_bonfati/pen/mdryxPv)) with characteristic Netflix sound.<br />
+:heavy_check_mark: &nbsp;&nbsp;Autoplay hero movie trailers on-load when on PC.<br />
+:heavy_check_mark: &nbsp;&nbsp;Movie trailers autoplay when hovering over the movie scroll element.<br />
+:heavy_check_mark: &nbsp;&nbsp;Infinite scroll implementation with scroll location indicator.<br />
+:heavy_check_mark: &nbsp;&nbsp;Swipeable scroll on mobile.<br />
+:heavy_check_mark: &nbsp;&nbsp;Special modal to show movie or series details.<br />
+:heavy_check_mark: &nbsp;&nbsp;Movies have dynamic ratings to determine if it's 18+ or for kids.<br />
+:heavy_check_mark: &nbsp;&nbsp;Add/remove movies from the Mylist category.<br />
+:heavy_check_mark: &nbsp;&nbsp;Favourite list persistence (session storage)<br />
+:heavy_check_mark: &nbsp;&nbsp;Search movies by title, actors or genres.<br />
+:heavy_check_mark: &nbsp;&nbsp;Loading skeleton.<br />
 
 <br/>
 
