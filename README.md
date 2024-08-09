@@ -140,6 +140,10 @@ These features include:
 
   <br/>
 
+## 📸 Screenshots
+
+
+
 ## 👨🏻‍💻 Getting Started
 
 - Clone the project
@@ -241,4 +245,9 @@ Before starting, you need to have [Git](https://git-scm.com) and [Node](https://
 
 <br/>
 
+## 📝 License
+
+[MIT](https://github.com/charlesxstorm/conflix/blob/main/LICENSE)
+
+<br/>
 
