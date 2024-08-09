@@ -19,10 +19,10 @@
 </p>
 
 <p align="center">
-  <a href="#pencil-about"><strong>About</strong></a> ·
+  <a href="#-about-the-project"><strong>About</strong></a> ·
   <a href="#clapper-popcorn-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-   <a href="#hammer_and_wrench-challenges"><strong>Challenges</strong></a> ·
+   <a href="#hammer_and_wrench-jigsaw-challenges"><strong>Challenges</strong></a> ·
   <a href="#rocket-tools-heavy_plus_sign-technologies"><strong>Tools & Technologies</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
@@ -35,7 +35,7 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## :pencil: About The Project
+## 📜✍ About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 <br/><br/>
@@ -94,7 +94,7 @@ There are a few restrictions attached to the guest account.
 
 <br/>
 
-## :hammer_and_wrench: Challenges
+## :hammer_and_wrench: :jigsaw: Challenges
 
 I'm a professional Designer/Animator who found his way into web development. This creative side of me tends to ensure that every design detail in development is represented accurately and properly.
 <br/>
