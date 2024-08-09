@@ -227,6 +227,18 @@ TMDB_AUTH = **TMDB_API_KEY**
 TMDB_URL = https://api.themoviedb.org/3
 ```
 
+- In the server directory, run the application.
+
+```bash
+  npm run dev
+```
+
+<br/>
+
+## :white_check_mark: Requirements
+
+Before starting, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
+
 <br/>
 
 
