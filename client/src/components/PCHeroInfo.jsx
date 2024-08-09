@@ -120,7 +120,7 @@ const PCHeroInfo = ({
         style={{
           display: `${expand ? "flex" : "none"}`
         }}
-        className="relative flex-col text-white rounded-[6px] bg-[rgb(25,25,25)] w-[50%] h-[fit-content] pb-[4em]"
+        className="relative flex-col text-white rounded-[6px] bg-[rgb(25,25,25)] w-[50%] h-[fit-content] pb-[4em] overflow-clip"
       >
         <div className="relative overflow-clip h-[50vh]">
           {

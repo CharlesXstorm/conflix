@@ -8,6 +8,7 @@ import {useSelector } from "react-redux";
 const BrowseShared = ({
   setAccountLoader,
   setAccountClick,
+  accountClick,
   navView,
   setNavView
 }) => {
@@ -18,10 +19,9 @@ const BrowseShared = ({
     moviePage.overflow = overflowValue;
   }, [overflowValue]);
 
-
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
-      {navView && (
+      {navView && accountClick && (
         <MovieNav
           setAccountLoader={setAccountLoader}
           setAccountClick={setAccountClick}
