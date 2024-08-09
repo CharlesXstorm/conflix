@@ -19,11 +19,11 @@
 </p>
 
 <p align="center">
-  <a href="#-about"><strong>About</strong></a> ·
-  <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
+  <a href="#-about-the-project"><strong>About</strong></a> ·
+  <a href="#clapper-popcorn-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-   <a href="#hammer_and_wrench-challenges"><strong>Challenges</strong></a> ·
-  <a href="#rocket-tools-&-technologies"><strong>Tools & Technologies</strong></a> ·
+   <a href="#hammer_and_wrench-jigsaw-challenges"><strong>Challenges</strong></a> ·
+  <a href="#rocket-tools-heavy_plus_sign-technologies"><strong>Tools & Technologies</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
@@ -35,7 +35,7 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## 📝 About The Project
+## 📜✍ About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 <br/><br/>
@@ -47,7 +47,7 @@ You can give this project a star, as a sign of encouragement. It will mean every
 
 <br/>
 
-## 🎬🍿 Demo
+## :clapper: :popcorn: Demo
 
 Here you can find the demo link:
 
@@ -94,7 +94,7 @@ There are a few restrictions attached to the guest account.
 
 <br/>
 
-## :hammer_and_wrench: Challenges
+## :hammer_and_wrench: :jigsaw: Challenges
 
 I'm a professional Designer/Animator who found his way into web development. This creative side of me tends to ensure that every design detail in development is represented accurately and properly.
 <br/>
@@ -114,7 +114,7 @@ These features include:
 
 <br/>
 
-## :rocket: Tools & Technologies
+## :rocket: Tools :heavy_plus_sign: Technologies
 
 - [TMDb API's](https://www.themoviedb.org/)
 - [Geolocation API](https://api.country.is/)
@@ -140,7 +140,66 @@ These features include:
 
   <br/>
 
-## 👨🏻‍💻 Getting Started
+## 📸 Screenshots
+
+**Landing Page_Desktop_View**
+
+![landingPage_Desktop_view](https://github.com/user-attachments/assets/bc5e70a7-892b-45cd-971e-7c9211e6419b)
+<br/>
+
+**SignUp Page_Desktop_View**
+
+![SignUp_page2_Desktop_view](https://github.com/user-attachments/assets/5fb5b3ba-3e0e-4d53-a5dc-06c75005e28a)
+<br/>
+
+**SignIn Page_Desktop_View**
+
+![SignIn_Desktop_view](https://github.com/user-attachments/assets/12a46c27-58c1-4fc7-926c-a44cc0ec28ce)
+<br/>
+
+**Profile Page_Desktop_View**
+
+![SubAccount_Menu_Desktop_view](https://github.com/user-attachments/assets/e08aee70-bc7a-4ec8-be86-c82d61767388)
+<br/>
+
+**Add Profile_Desktop_View**
+
+![Add Profile](https://github.com/user-attachments/assets/7b1c5283-c62d-40c1-a628-4b8426a9d6fb)
+<br/>
+
+**Manage Profile_Desktop_View**
+
+![Manageprofile](https://github.com/user-attachments/assets/9091db80-627c-44c4-8672-c65fe93fb71f)
+<br/>
+
+**Select Profile Icon_Desktop_View**
+
+![select_Icon](https://github.com/user-attachments/assets/aefdbef4-a002-4cc4-aa5b-fcff1b3edbbb)
+<br/>
+
+**Home Page_Desktop_View**
+
+![DeskView1](https://github.com/user-attachments/assets/12df88d4-07e0-460a-ad20-eff0d590b64d)
+<br/>
+
+**Top 10 Category in your country_Desktop_View**
+
+![Top10_Shows](https://github.com/user-attachments/assets/2d97eff6-bc95-4415-84e8-3556a973fa7a)
+<br/>
+
+**Movie Detail_Desktop_View**
+
+![movieDetail](https://github.com/user-attachments/assets/df3d4eec-0176-4acc-b6d3-cabd329e0643)
+<br/>
+
+**Kids Only_Desktop_View**
+
+![kidsOnly](https://github.com/user-attachments/assets/2b00e716-d800-4a02-a412-b0b719fb9fed)
+
+<br/>
+
+
+## 🐾 Getting Started
 
 - Clone the project
 
@@ -241,4 +300,9 @@ Before starting, you need to have [Git](https://git-scm.com) and [Node](https://
 
 <br/>
 
+## 📝 License
+
+[MIT](https://github.com/charlesxstorm/conflix/blob/main/LICENSE)
+
+<br/>
 
