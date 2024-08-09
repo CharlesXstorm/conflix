@@ -19,11 +19,11 @@
 </p>
 
 <p align="center">
-  <a href="#-about"><strong>About</strong></a> ·
-  <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
+  <a href="#pencil-about"><strong>About</strong></a> ·
+  <a href="#clapper-popcorn-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
    <a href="#hammer_and_wrench-challenges"><strong>Challenges</strong></a> ·
-  <a href="#rocket-tools-&-technologies"><strong>Tools & Technologies</strong></a> ·
+  <a href="#rocket-tools-heavy_plus_sign-technologies"><strong>Tools & Technologies</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
@@ -35,7 +35,7 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## 📝 About The Project
+## :pencil: About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
 <br/><br/>
@@ -47,7 +47,7 @@ You can give this project a star, as a sign of encouragement. It will mean every
 
 <br/>
 
-## 🎬🍿 Demo
+## :clapper: :popcorn: Demo
 
 Here you can find the demo link:
 
@@ -114,7 +114,7 @@ These features include:
 
 <br/>
 
-## :rocket: Tools & Technologies
+## :rocket: Tools :heavy_plus_sign: Technologies
 
 - [TMDb API's](https://www.themoviedb.org/)
 - [Geolocation API](https://api.country.is/)
@@ -195,10 +195,11 @@ These features include:
 **Kids Only_Desktop_View**
 
 ![kidsOnly](https://github.com/user-attachments/assets/2b00e716-d800-4a02-a412-b0b719fb9fed)
+
 <br/>
 
 
-## 👨🏻‍💻 Getting Started
+## 🐾 Getting Started
 
 - Clone the project
 
