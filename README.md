@@ -96,8 +96,11 @@ There are a few restrictions attached to the guest account.
 
 ## :hammer_and_wrench: Challenges
 
-The biggest challenge I had was surprisingly the task I initially thought would be the easiest, which was the infinite scroll with the movie detail modal.<br/>
-When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
+I'm a professional Designer/Animator who found his way into web development. This creative side of me tends to ensure that every design detail in development is represented accurately and properly.
+<br/>
+
+My biggest challenge was the task I initially thought would be the easiest: the infinite scroll with the movie detail modal.<br/>
+When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes, but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
 <br/><br/>
 These features include:
 <br/>
@@ -132,11 +135,98 @@ These features include:
 - [SVG Repo](https://www.svgrepo.com/)
 - [Adobe Illustrator](https://www.adobe.com/ng/products/illustrator/) for creating custom SVG files.
 - [Adobe Photoshop](https://www.adobe.com/photoshop) for the movie strip background on the landing page.
-- [Netlify](https://www.netlify.com) and [Vercel](https://vercel.com/) for the deployment and CI of the frontend.
-- [Koyeb](https://app.koyeb.com/) for the deployment and CI of the backend.
+- [Netlify](https://www.netlify.com) and [Vercel](https://vercel.com/) for the deployment and CI of the client-side.
+- [Koyeb](https://app.koyeb.com/) for the deployment and CI of the server side.
+
   <br/>
 
+## 👨🏻‍💻 Getting Started
 
+- Clone the project
 
+```bash
+  git clone https://github.com/Charlesxstorm/Conflix
+```
+
+- Go to the project client directory
+
+```bash
+  cd conflix/client
+```
+
+- Install dependencies
+
+```bash
+  npm install
+```
+
+- Create a .env file at the root of the client directory.
+
+- Request an API key from [TMDB](https://www.themoviedb.org/) and add the following to the .env file
+
+```
+VITE_TMDB_AUTH = **TMDB_API_KEY**
+VITE_TMDB_URL = https://api.themoviedb.org/3
+```
+
+- Go to the [JWT website](https://jwt.io/)
+- In the "payload" section, add the following JSON.
+
+```
+{"domain":"/api/v1/conflix"}
+```
+
+- In the "verify signature" section, add a 256-bit secret. A generated token should now be in the "encoded" field. (you can use [this tool](https://randomkeygen.com/) to generate a random 256-bit secret).
+- Copy the generated token in the "encoded" section.
+- Paste this token in your .env file as follows.
+
+```
+VITE_API_KEY = **generated token**
+VITE_API_URL = /proxy/api/v1/conflix/users
+VITE_PROXY_URL = http://localhost:5000/
+VITE_GEOLOCATION_URL = https://api.country.is/
+```
+
+- Your completed .env file should now look like this.
+
+```
+VITE_TMDB_AUTH = **TMDB_API_KEY**
+VITE_TMDB_URL = https://api.themoviedb.org/3
+VITE_API_KEY = **generated token**
+VITE_API_URL = /proxy/api/v1/conflix/users
+VITE_PROXY_URL = http://localhost:5000/
+VITE_GEOLOCATION_URL = https://api.country.is/
+```
+
+- Go to the project server directory
+
+```bash
+  cd conflix/server
+```
+
+- Install dependencies
+
+```bash
+  npm install
+```
+
+- Create a .env file at the root of the server directory.
+
+- Go to the [mongoDB website](https://www.mongodb.com/) and create an account.
+- Create a database and add a database user and password.
+- Add the following to your .env file.
+
+```
+NODE_ENV = development
+PORT = 5000
+DATABASE= **the database URL**
+USER= **database user**
+DATABASE_PASSWORD = **database password**
+JWT_SECRET = **the 256-bit secret generated earlier**
+TMDB_AUTH = **TMDB_API_KEY**
+TMDB_URL = https://api.themoviedb.org/3
+```
+
+<br/>
 
 
