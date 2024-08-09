@@ -142,6 +142,60 @@ These features include:
 
 ## 📸 Screenshots
 
+**Landing Page_Desktop_View**
+
+![landingPage_Desktop_view](https://github.com/user-attachments/assets/bc5e70a7-892b-45cd-971e-7c9211e6419b)
+<br/>
+
+**SignUp Page_Desktop_View**
+
+![SignUp_page2_Desktop_view](https://github.com/user-attachments/assets/5fb5b3ba-3e0e-4d53-a5dc-06c75005e28a)
+<br/>
+
+**SignIn Page_Desktop_View**
+
+![SignIn_Desktop_view](https://github.com/user-attachments/assets/12a46c27-58c1-4fc7-926c-a44cc0ec28ce)
+<br/>
+
+**Profile Page_Desktop_View**
+
+![SubAccount_Menu_Desktop_view](https://github.com/user-attachments/assets/e08aee70-bc7a-4ec8-be86-c82d61767388)
+<br/>
+
+**Add Profile_Desktop_View**
+
+![Add Profile](https://github.com/user-attachments/assets/7b1c5283-c62d-40c1-a628-4b8426a9d6fb)
+<br/>
+
+**Manage Profile_Desktop_View**
+
+![Manageprofile](https://github.com/user-attachments/assets/9091db80-627c-44c4-8672-c65fe93fb71f)
+<br/>
+
+**Select Profile Icon_Desktop_View**
+
+![select_Icon](https://github.com/user-attachments/assets/aefdbef4-a002-4cc4-aa5b-fcff1b3edbbb)
+<br/>
+
+**Home Page_Desktop_View**
+
+![DeskView1](https://github.com/user-attachments/assets/12df88d4-07e0-460a-ad20-eff0d590b64d)
+<br/>
+
+**Top 10 Category in your country_Desktop_View**
+
+![Top10_Shows](https://github.com/user-attachments/assets/2d97eff6-bc95-4415-84e8-3556a973fa7a)
+<br/>
+
+**Movie Detail_Desktop_View**
+
+![movieDetail](https://github.com/user-attachments/assets/df3d4eec-0176-4acc-b6d3-cabd329e0643)
+<br/>
+
+**Kids Only_Desktop_View**
+
+![kidsOnly](https://github.com/user-attachments/assets/2b00e716-d800-4a02-a412-b0b719fb9fed)
+<br/>
 
 
 ## 👨🏻‍💻 Getting Started
