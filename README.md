@@ -1,11 +1,9 @@
-<a href="https://conflixtv.vercel.app/">
-  <div align="center">
-  <img width="60%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/6ae7a068-61d2-4ab7-bf63-e019bd31f0d7">
-  </div>
-  
-  <h1 align="center">Conflix</h1>
-</a>
-
+<div align="center">
+  <a href="https://conflixtv.vercel.app/">
+    <img width="60%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/50056d5e-0654-4922-b752-feb18ca1eca6">
+  </a>
+</div>
+  <br/>
 <p align="center">
   A responsive Netflix clone different from any other clone you will find on the internet.
 </p>
@@ -24,8 +22,8 @@
   <a href="#-about"><strong>About</strong></a> ·
   <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-   <a href="#-challenges"><strong>Challenges</strong></a> ·
-  <a href="#rocket-built-with"><strong>Built With</strong></a> ·
+   <a href="#hammer_and_wrench-challenges"><strong>Challenges</strong></a> ·
+  <a href="#rocket-tools-&-technologies"><strong>Tools & Technologies</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
@@ -96,7 +94,7 @@ There are a few restrictions attached to the guest account.
 
 <br/>
 
-## 🛠️ Challenges
+## :hammer_and_wrench: Challenges
 
 The biggest challenge I had was surprisingly the task I initially thought would be the easiest, which was the infinite scroll with the movie detail modal.<br/>
 When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
@@ -107,11 +105,36 @@ These features include:
 🟥 Special modal that centrally overlays the element it highlights.<br/>
 🟥 Play the available trailer video when hovering over the modal.<br/>
 🟥 Detect if a scroll element is in the extreme right or left position.<br/>
-🟥 Expand the modal with micro-interactions (depending on the scroll element's position).<br/>
+🟥 Expand the modal from the right or left with micro-interactions (depending on the scroll element's position).<br/>
 🟥 Detect if a movie is favourited, and dynamically render the appropriate add or remove button.<br/>
-🟥 Collapse the modal with micro-interactions.
+🟥 Collapse the modal from the right or left with micro-interactions (depending on the scroll element's position).
 
 <br/>
+
+## :rocket: Tools & Technologies
+
+- [TMDb API's](https://www.themoviedb.org/)
+- [Geolocation API](https://api.country.is/)
+- [React](https://reactjs.org/)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Router](https://reactrouter.com/web/guides/quick-start)
+- [React Player](https://www.npmjs.com/package/react-player)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [JsonWebToken](https://jwt.io/)
+- [Axios](https://axios-http.com/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Tailwind](https://tailwindcss.com/)
+- [SCSS](https://sass-lang.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Vite](https://vitejs.dev/)
+- [SVG Repo](https://www.svgrepo.com/)
+- [Adobe Illustrator](https://www.adobe.com/ng/products/illustrator/) for creating custom SVG files.
+- [Adobe Photoshop](https://www.adobe.com/photoshop) for the movie strip background on the landing page.
+- [Netlify](https://www.netlify.com) and [Vercel](https://vercel.com/) for the deployment and CI of the frontend.
+- [Koyeb](https://app.koyeb.com/) for the deployment and CI of the backend.
+  <br/>
 
 
 
