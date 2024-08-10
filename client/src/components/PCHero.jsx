@@ -197,7 +197,7 @@ const PCHero = ({
               style={delayPlay ? animate.overview : initial.overview}
               className="transition-all duration-1000 ease-in-out w-[40%] text-[0.6em] xl:text-[1em] origin-[0%_100%]"
             >
-              <span>{$data.overview}</span>
+              <span>{$data.overview.length>280?$data.overview.slice(0,280)+"...":$data.overview}</span>
             </div>
           </div>
 
@@ -216,8 +216,8 @@ const PCHero = ({
               <div className="flex" ref={itemRef}>
                 <button
                 onClick={moreInfoHandler}
-                className="p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
-                  More Info
+                className="flex items-center gap-1 p-2 px-4 rounded bg-[rgb(90,90,90,0.8)]">
+                 <span><img className="w-[2em] rotate-180 " src="/images/exclam-circle.svg" alt="info" /></span> More Info
                 </button>
               </div>
             </div>

@@ -18,7 +18,6 @@ const BrowseShared = ({
     moviePage.overflow = overflowValue;
   }, [overflowValue]);
 
-
   return (
     <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
       {navView && (

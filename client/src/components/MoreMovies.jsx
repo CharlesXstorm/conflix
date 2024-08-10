@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
+import { motion } from "framer-motion";
 
 //more item//////////////////////////////////////
 const MoreItem = ({ item }) => {
@@ -46,9 +47,11 @@ const MoreItem = ({ item }) => {
 };
 
 //more movies component//////////////////////////////////////////////////////////////
-const MoreMovies = ({ moreMovies }) => {
+const MoreMovies = ({ moreMovies, variants }) => {
   return (
-    <div className="flex flex-col gap-4 mt-4 font-bold overflow-hidden">
+    <motion.div 
+    variants={variants}
+    className="flex flex-col gap-4 mt-4 font-bold overflow-hidden">
       <p className="text-xl">More Like This</p>
 
       <div className="w-full flex gap-2 md:gap-4 flex-wrap justify-center">
@@ -56,7 +59,7 @@ const MoreMovies = ({ moreMovies }) => {
           <MoreItem key={index} item={item} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

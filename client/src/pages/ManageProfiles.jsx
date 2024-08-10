@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import ManageProfilesHome from "./ManageProfilesHome";
 import ManageProfilesSetting from "./ManageProfilesSetting";
 import ManageProfilesIcons from "./ManageProfilesIcons";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ManageProfiles = ({
   editClick,
@@ -12,10 +14,14 @@ const ManageProfiles = ({
   loaded
 }) => {
   const [profileIcons, setProfileIcons] = useState({state:false});
+  const {data}= useSelector((state)=> state.account)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setProfileIcons(false);
-    
+    if(data.email==='guest@conflix.com'){
+      navigate('error_404')
+    }
   }, []);
 
   return (

@@ -44,7 +44,7 @@ const BrowseHome = ({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2, type: "linear" }}
             onClick={() => setGuest(false)}
-            className="text-white flex justify-center items-center absolute z-[80] left-0 top-0 w-full h-[100vh] bg-[rgb(0,0,0,0.8)] "
+            className="absolute text-white flex justify-center items-center z-[95] left-0 top-0 w-full h-[100vh] bg-[rgb(0,0,0,0.8)] "
           >
             <motion.div
               initial={{ scale: 0.2 }}
@@ -79,7 +79,7 @@ const BrowseHome = ({
         )}
       </AnimatePresence>
 
-      <div className="absolute z-[70] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden">
+      <div className="absolute z-[90] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden">
         <motion.div
           variants={pageVariants}
           initial="hidden"

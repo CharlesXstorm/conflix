@@ -110,17 +110,18 @@ const PCHeroInfo = ({
         overflowY: `${expand && delay ? "scroll" : "hidden"}`,
         opacity: `${expand ? 1 : 0}`,
         paddingTop: `${expand ? "4em" : "0px"}`,
-        transition: "all 0.2s linear"
+        backgroundColor: `${expand ? "rgb(0,0,0,0.6)" : "transparent"}`,
+        transition: "all 0.2s linear, background-color 0.2s linear 0.2s"
       }}
       className={`${
-        expand ? "pointer-events-auto bg-[rgb(0,0,0,0.6)]" : "pointer-events-none bg-[tranparent]"
+        expand ? "pointer-events-auto" : "pointer-events-none"
       } movieModal z-[80] flex justify-center overflow-x-hidden`}
     >
       <div
         style={{
           display: `${expand ? "flex" : "none"}`
         }}
-        className="relative flex-col text-white rounded-[6px] bg-[rgb(25,25,25)] w-[50%] h-[fit-content] pb-[4em]"
+        className="relative flex-col text-white rounded-[6px] bg-[rgb(25,25,25)] w-[50%] h-[fit-content] pb-[4em] overflow-clip"
       >
         <div className="relative overflow-clip h-[50vh]">
           {

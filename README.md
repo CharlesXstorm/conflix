@@ -1,11 +1,9 @@
-<a href="https://conflixtv.vercel.app/">
-  <div align="center">
-  <img width="60%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/6ae7a068-61d2-4ab7-bf63-e019bd31f0d7">
-  </div>
-  
-  <h1 align="center">Conflix</h1>
-</a>
-
+<div align="center">
+  <a href="https://conflixtv.vercel.app/">
+    <img width="60%" alt="Conflix – a responsive netflixclone different from any other clone you will find on the internet" src="https://github.com/user-attachments/assets/50056d5e-0654-4922-b752-feb18ca1eca6">
+  </a>
+</div>
+  <br/>
 <p align="center">
   A responsive Netflix clone different from any other clone you will find on the internet.
 </p>
@@ -21,14 +19,13 @@
 </p>
 
 <p align="center">
-  <a href="#-about"><strong>About</strong></a> ·
-  <a href="#%EF%B8%8F-demo"><strong>Demo</strong></a> ·
+  <a href="#-about-the-project"><strong>About</strong></a> ·
+  <a href="#clapper-popcorn-demo"><strong>Demo</strong></a> ·
   <a href="#sparkles-features"><strong>Features</strong></a> ·
-   <a href="#-challenges"><strong>Challenges</strong></a> ·
-  <a href="#rocket-built-with"><strong>Built With</strong></a> ·
+   <a href="#hammer_and_wrench-jigsaw-challenges"><strong>Challenges</strong></a> ·
+  <a href="#rocket-tools-heavy_plus_sign-technologies"><strong>Tools & Technologies</strong></a> ·
   <a href="#-screenshots"><strong>Screenshots</strong></a> ·
   <a href="#-getting-started"><strong>Getting Started</strong></a> ·
-
   <a href="#white_check_mark-requirements"><strong>Requirements</strong></a> ·
   <a href="#-license"><strong>License</strong></a> ·
 </p>
@@ -38,10 +35,9 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 <br/>
 
-## 📝 About The Project
+## 📜✍ About The Project
 
 Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
-
 <br/><br/>
 I added the ability to play some trailers at least, to give it the feel of a proper streaming service. I've also made improvements by adding micro-interactions and minimal page route transitions.
 Most of the animations in this project were created using pure CSS, with a few exceptions that were made using Framer-motion.
@@ -51,7 +47,7 @@ You can give this project a star, as a sign of encouragement. It will mean every
 
 <br/>
 
-## 🎬🍿 Demo
+## :clapper: :popcorn: Demo
 
 Here you can find the demo link:
 
@@ -98,10 +94,13 @@ There are a few restrictions attached to the guest account.
 
 <br/>
 
-## 🛠️ Challenges
+## :hammer_and_wrench: :jigsaw: Challenges
 
-The biggest challenge I had was surprisingly the task I initially thought would be the easiest, which was the infinite scroll with the movie detail modal.<br/>
-When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
+I'm a professional Designer/Animator who found his way into web development. This creative side of me tends to ensure that every design detail in development is represented accurately and properly.
+<br/>
+
+My biggest challenge was the task I initially thought would be the easiest: the infinite scroll with the movie detail modal.<br/>
+When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes, but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
 <br/><br/>
 These features include:
 <br/>
@@ -109,13 +108,201 @@ These features include:
 🟥 Special modal that centrally overlays the element it highlights.<br/>
 🟥 Play the available trailer video when hovering over the modal.<br/>
 🟥 Detect if a scroll element is in the extreme right or left position.<br/>
-🟥 Expand the modal with micro-interactions (depending on the scroll element's position).<br/>
+🟥 Expand the modal from the right or left with micro-interactions (depending on the scroll element's position).<br/>
 🟥 Detect if a movie is favourited, and dynamically render the appropriate add or remove button.<br/>
-🟥 Collapse the modal with micro-interactions.
+🟥 Collapse the modal from the right or left with micro-interactions (depending on the scroll element's position).
+
+<br/>
+
+## :rocket: Tools :heavy_plus_sign: Technologies
+
+- [TMDb API's](https://www.themoviedb.org/)
+- [Geolocation API](https://api.country.is/)
+- [React](https://reactjs.org/)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Router](https://reactrouter.com/web/guides/quick-start)
+- [React Player](https://www.npmjs.com/package/react-player)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [JsonWebToken](https://jwt.io/)
+- [Axios](https://axios-http.com/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Tailwind](https://tailwindcss.com/)
+- [SCSS](https://sass-lang.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Vite](https://vitejs.dev/)
+- [SVG Repo](https://www.svgrepo.com/)
+- [Adobe Illustrator](https://www.adobe.com/ng/products/illustrator/) for creating custom SVG files.
+- [Adobe Photoshop](https://www.adobe.com/photoshop) for the movie strip background on the landing page.
+- [Netlify](https://www.netlify.com) and [Vercel](https://vercel.com/) for the deployment and CI of the client-side.
+- [Koyeb](https://app.koyeb.com/) for the deployment and CI of the server side.
+
+  <br/>
+
+## 📸 Screenshots
+
+**Landing Page_Desktop_View**
+
+![landingPage_Desktop_view](https://github.com/user-attachments/assets/bc5e70a7-892b-45cd-971e-7c9211e6419b)
+<br/>
+
+**SignUp Page_Desktop_View**
+
+![SignUp_page2_Desktop_view](https://github.com/user-attachments/assets/5fb5b3ba-3e0e-4d53-a5dc-06c75005e28a)
+<br/>
+
+**SignIn Page_Desktop_View**
+
+![SignIn_Desktop_view](https://github.com/user-attachments/assets/12a46c27-58c1-4fc7-926c-a44cc0ec28ce)
+<br/>
+
+**Profile Page_Desktop_View**
+
+![SubAccount_Menu_Desktop_view](https://github.com/user-attachments/assets/e08aee70-bc7a-4ec8-be86-c82d61767388)
+<br/>
+
+**Add Profile_Desktop_View**
+
+![Add Profile](https://github.com/user-attachments/assets/7b1c5283-c62d-40c1-a628-4b8426a9d6fb)
+<br/>
+
+**Manage Profile_Desktop_View**
+
+![Manageprofile](https://github.com/user-attachments/assets/9091db80-627c-44c4-8672-c65fe93fb71f)
+<br/>
+
+**Select Profile Icon_Desktop_View**
+
+![select_Icon](https://github.com/user-attachments/assets/aefdbef4-a002-4cc4-aa5b-fcff1b3edbbb)
+<br/>
+
+**Home Page_Desktop_View**
+
+![DeskView1](https://github.com/user-attachments/assets/12df88d4-07e0-460a-ad20-eff0d590b64d)
+<br/>
+
+**Top 10 Category in your country_Desktop_View**
+
+![Top10_Shows](https://github.com/user-attachments/assets/2d97eff6-bc95-4415-84e8-3556a973fa7a)
+<br/>
+
+**Movie Detail_Desktop_View**
+
+![movieDetail](https://github.com/user-attachments/assets/df3d4eec-0176-4acc-b6d3-cabd329e0643)
+<br/>
+
+**Kids Only_Desktop_View**
+
+![kidsOnly](https://github.com/user-attachments/assets/2b00e716-d800-4a02-a412-b0b719fb9fed)
 
 <br/>
 
 
+## 🐾 Getting Started
 
+- Clone the project
 
+```bash
+  git clone https://github.com/Charlesxstorm/Conflix
+```
+
+- Go to the project client directory
+
+```bash
+  cd conflix/client
+```
+
+- Install dependencies
+
+```bash
+  npm install
+```
+
+- Create a .env file at the root of the client directory.
+
+- Request an API key from [TMDB](https://www.themoviedb.org/) and add the following to the .env file
+
+```
+VITE_TMDB_AUTH = **TMDB_API_KEY**
+VITE_TMDB_URL = https://api.themoviedb.org/3
+```
+
+- Go to the [JWT website](https://jwt.io/)
+- In the "payload" section, add the following JSON.
+
+```
+{"domain":"/api/v1/conflix"}
+```
+
+- In the "verify signature" section, add a 256-bit secret. A generated token should now be in the "encoded" field. (you can use [this tool](https://randomkeygen.com/) to generate a random 256-bit secret).
+- Copy the generated token in the "encoded" section.
+- Paste this token in your .env file as follows.
+
+```
+VITE_API_KEY = **generated token**
+VITE_API_URL = /proxy/api/v1/conflix/users
+VITE_PROXY_URL = http://localhost:5000/
+VITE_GEOLOCATION_URL = https://api.country.is/
+```
+
+- Your completed .env file should now look like this.
+
+```
+VITE_TMDB_AUTH = **TMDB_API_KEY**
+VITE_TMDB_URL = https://api.themoviedb.org/3
+VITE_API_KEY = **generated token**
+VITE_API_URL = /proxy/api/v1/conflix/users
+VITE_PROXY_URL = http://localhost:5000/
+VITE_GEOLOCATION_URL = https://api.country.is/
+```
+
+- Go to the project server directory
+
+```bash
+  cd conflix/server
+```
+
+- Install dependencies
+
+```bash
+  npm install
+```
+
+- Create a .env file at the root of the server directory.
+
+- Go to the [mongoDB website](https://www.mongodb.com/) and create an account.
+- Create a database and add a database user and password.
+- Add the following to your .env file.
+
+```
+NODE_ENV = development
+PORT = 5000
+DATABASE= **the database URL**
+USER= **database user**
+DATABASE_PASSWORD = **database password**
+JWT_SECRET = **the 256-bit secret generated earlier**
+TMDB_AUTH = **TMDB_API_KEY**
+TMDB_URL = https://api.themoviedb.org/3
+```
+
+- In the server directory, run the application.
+
+```bash
+  npm run dev
+```
+
+<br/>
+
+## :white_check_mark: Requirements
+
+Before starting, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
+
+<br/>
+
+## 📝 License
+
+[MIT](https://github.com/charlesxstorm/conflix/blob/main/LICENSE)
+
+<br/>
 

@@ -7,6 +7,19 @@ import Episodes from "./Episodes";
 import MoreMovies from "./MoreMovies";
 import AboutMovie from "./AboutMovie";
 import PageLoader from "./UI/PageLoader";
+import { AnimatePresence, motion } from "framer-motion";
+
+const movieContainerVariants = {
+  initial: { opacity: 0, y: 100 },
+  animate: { opacity: 1, y: 0, transition: { ease:"linear", staggerChildren: 0.2 } },
+  exit: { opacity: 0, y: 100 }
+};
+
+const movieItemVariants = {
+  initial: { opacity: 0, y: 100 },
+  animate: { opacity: 1, y: 0, transition: { ease:"linear"} },
+  exit: { opacity: 0, y: 100 }
+};
 
 const MovieDetailInfo = ({ $movieType, $id, $genres }) => {
   const [$data, set$Data] = useState(null);
@@ -89,48 +102,58 @@ const MovieDetailInfo = ({ $movieType, $id, $genres }) => {
           <PageLoader type="text" loaded={$data} />
         </div>
       }
-      {$data && (
-        <div className="flex flex-col gap-[1em] px-[4%] lg:mt-4">
-          <div className="w-[100%]">
-            <p>
-              <span className="text-green-500">
-                Rated: {$data.movie["vote_average"].toFixed(1)}/10
-              </span>{" "}
-              {(
-                $data.movie["first_air_date"] || $data.movie["release_date"]
-              ).slice(0, 4)}{" "}
-              {$data.movie["number_of_seasons"] && (
-                <>
-                  {" "}
-                  {`${
-                    $data.movie["number_of_seasons"] < 2
-                      ? `${$data.movie["number_of_seasons"]} Season`
-                      : `${$data.movie["number_of_seasons"]} Seasons`
-                  }`}{" "}
-                </>
-              )}
-              <span className="border px-[0.5em] text-sm">HD</span>
-            </p>
-          </div>
+      <AnimatePresence>
+        {$data && (
+          <motion.div 
+          variants={movieContainerVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="flex flex-col gap-[1em] px-[4%] lg:mt-4">
+            <motion.div className="w-[100%]">
+              <p>
+                <span className="text-green-500">
+                  Rated: {$data.movie["vote_average"].toFixed(1)}/10
+                </span>{" "}
+                {(
+                  $data.movie["first_air_date"] || $data.movie["release_date"]
+                ).slice(0, 4)}{" "}
+                {$data.movie["number_of_seasons"] && (
+                  <>
+                    {" "}
+                    {`${
+                      $data.movie["number_of_seasons"] < 2
+                        ? `${$data.movie["number_of_seasons"]} Season`
+                        : `${$data.movie["number_of_seasons"]} Seasons`
+                    }`}{" "}
+                  </>
+                )}
+                <span className="border px-[0.5em] text-sm">HD</span>
+              </p>
+            </motion.div>
 
-          <div className="w-[100%] ">
-            <p>
-              {$data.movie["overview"].length > 350
-                ? `${$data.movie["overview"].slice(0, 350)}...`
-                : $data.movie["overview"]}
-            </p>
-          </div>
+            <motion.div 
+            variants={movieItemVariants}
+            className="w-[100%] ">
+              <p>
+                {$data.movie["overview"].length > 350
+                  ? `${$data.movie["overview"].slice(0, 350)}...`
+                  : $data.movie["overview"]}
+              </p>
+            </motion.div>
 
-          {$movieType === "tv" && (
-            <Episodes $movieType={$movieType} $id={$id} $data={$data.movie} />
-          )}
+               
+            {$movieType === "tv" && (
+              <Episodes $movieType={$movieType} $id={$id} $data={$data.movie} variants={movieItemVariants} />
+            )}
 
-          <MoreMovies moreMovies={$data.moreMovies.slice(0, 6)} />
-          <AboutMovie $data={$data.movie} $movieType={$movieType} />
+            <MoreMovies moreMovies={$data.moreMovies.slice(0, 6)} variants={movieItemVariants} />
+            <AboutMovie $data={$data.movie} $movieType={$movieType} />
+           </motion.div>
 
-          <div></div>
-        </div>
-      )}
+          // </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
