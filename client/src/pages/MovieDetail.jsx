@@ -27,19 +27,19 @@ const MovieDetail = ({
 
   const { id } = useParams();
   const location = useLocation();
+
   const state = location.state;
 
   let $movieType = state ? state.groupType || state.movieType : movieType;
   let $genres = state ? state.genres : genres;
   let $id = id ? id : movieID;
-  let $data = state.$data;
+
+  let $data = state ? state.$data : null;
 
   const { isPC } = useSelector((state) => state.deviceInfo);
-  const { data, profile } = useSelector((state) => state.account);
   const navigate = useNavigate();
+  const { data, profile } = useSelector((state) => state.account);
   const dispatch = useDispatch();
-
-  console.log("movieDetails",'id',$id,'movieType',$movieType,'data',$data)
 
   const volumeHandler = () => {
     if (volume === 1) {
@@ -76,6 +76,12 @@ const MovieDetail = ({
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (!$data) {
+      console.log("navigating");
+      navigate("error_404");
+    }
+    setNavView(true);
     //reset default values on show change
     for (var any of profile.watchList) {
       if (any.name && any.name === $data.name) {
@@ -92,63 +98,65 @@ const MovieDetail = ({
 
   return (
     <>
-      <div className="w-[100%] flex flex-col justify-center gap-[1em]">
-        {
-          <>
-            <MovieDetailHero
-              playerRef={playerRef}
-              playing={playing}
-              setPlaying={setPlaying}
-              volume={volume}
-              volumeHandler={volumeHandler}
-              volumeIcon={volumeIcon}
-              movie={$data}
-              id={$id}
-              movieType={$movieType}
-              src={$data["backdrop_path"]}
-              bg={bg}
-            />
+      {$data && (
+        <div className="w-[100%] flex flex-col justify-center gap-[1em]">
+          {
+            <>
+              <MovieDetailHero
+                playerRef={playerRef}
+                playing={playing}
+                setPlaying={setPlaying}
+                volume={volume}
+                volumeHandler={volumeHandler}
+                volumeIcon={volumeIcon}
+                movie={$data}
+                id={$id}
+                movieType={$movieType}
+                src={$data["backdrop_path"]}
+                bg={bg}
+              />
 
-            {!isPC && (
-              <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
-                <button
-                  onClick={playHandler}
-                  className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 "
-                >
-                  <span>
-                    <img
-                      src="/images/play.svg"
-                      alt="play"
-                      className="w-[1em]"
-                    />
-                  </span>
-                  <span>Play</span>
-                </button>
+              {!isPC && (
+                <div className="flex justify-center items-center w-[100%] px-[4%] gap-[5%]">
+                  <button
+                    onClick={playHandler}
+                    className="rounded-[4px] p-2 bg-white text-[1em] md:text-[1.5em] text-black font-[500] w-[50%] flex justify-center items-center gap-1 "
+                  >
+                    <span>
+                      <img
+                        src="/images/play.svg"
+                        alt="play"
+                        className="w-[1em]"
+                      />
+                    </span>
+                    <span>Play</span>
+                  </button>
 
-                <button
-                  onClick={watchListHandler}
-                  className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 "
-                >
-                  <span>
-                    <img
-                      src={`/images/${watchIcon}.svg`}
-                      alt="add"
-                      className="w-[1.5em]"
-                    />
-                  </span>
-                  <span>My List</span>
-                </button>
-              </div>
-            )}
+                  <button
+                    onClick={watchListHandler}
+                    className="rounded-[4px] p-2 bg-[rgb(55,55,55,0.9)] text-[1em] md:text-[1.5em] text-white font-[500] w-[50%] flex justify-center items-center gap-1 "
+                  >
+                    <span>
+                      <img
+                        src={`/images/${watchIcon}.svg`}
+                        alt="add"
+                        className="w-[1.5em]"
+                      />
+                    </span>
+                    <span>My List</span>
+                  </button>
+                </div>
+              )}
 
-            <MovieDetailInfo
-              $movieType={$movieType}
-              $id={id}
-              $genres={$genres}
-            />
-          </>
-        }
-      </div>
+              <MovieDetailInfo
+                $movieType={$movieType}
+                $id={id}
+                $genres={$genres}
+              />
+            </>
+          }
+        </div>
+      )}
     </>
   );
 };

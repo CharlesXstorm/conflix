@@ -21,6 +21,7 @@ import GenreMovies from "./pages/GenreMovies.jsx";
 import GenreTV from "./pages/GenreTV.jsx";
 import Search from "./pages/Search.jsx";
 import Mylist from "./pages/Mylist.jsx";
+import Error from "./pages/Error.jsx";
 
 function App() {
   const [editClick, setEditClick] = useState(false);
@@ -85,7 +86,6 @@ function App() {
               setNavView={setNavView}
               setAccountLoader={setAccountLoader}
               setAccountClick={setAccountClick}
-              accountClick={accountClick}
             />
           }
         >
@@ -163,6 +163,8 @@ function App() {
           }
         />
       </Route>
+
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }

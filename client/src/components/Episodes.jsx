@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React from "react";
-
+import { motion } from "framer-motion";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -206,7 +206,7 @@ const EpisodeItem = ({ item, id }) => {
 
 //Episode Component//////////////////////////////////////////////////////////////
 
-const Episodes = ({ $data, $movieType, $id }) => {
+const Episodes = ({ $data, $movieType, $id, variants }) => {
   const [buttonTitle, setButtonTitle] = useState({
     title: $data["seasons"][0]["name"],
     season_number: $data["seasons"][0]["season_number"]
@@ -220,34 +220,33 @@ const Episodes = ({ $data, $movieType, $id }) => {
     index < array.length - 1 ? item.name + ", " : item.name
   );
 
-  let $genresID = $data["genres"].map((item) => item.id
-  );
+  let $genresID = $data["genres"].map((item) => item.id);
 
   let rated =
-  $movieType === "movie"
-    ? $genresID.includes(10749) ||
-      $genresID.includes(27) ||
-      $genresID.includes(80) ||
-      $genresID.includes(10752) ||
-      $genresID.includes(53)
-      ? "18+"
-      : $genresID.includes(10751) ||
-        $genresID.includes(16) ||
-        $genresID.includes(18) ||
-        $genresID.includes(35)
-      ? "All"
-      : "18+"
-    : $movieType === "tv"
-    ? $genresID.includes(80) || $data["genres"].includes(10768)
-      ? "18+"
-      : $genresID.includes(10762) ||
-        $genresID.includes(10751) ||
-        $genresID.includes(18) ||
-        $genresID.includes(35) ||
-        $genresID.includes(16)
-      ? "All"
-      : "18+"
-    : null;
+    $movieType === "movie"
+      ? $genresID.includes(10749) ||
+        $genresID.includes(27) ||
+        $genresID.includes(80) ||
+        $genresID.includes(10752) ||
+        $genresID.includes(53)
+        ? "18+"
+        : $genresID.includes(10751) ||
+          $genresID.includes(16) ||
+          $genresID.includes(18) ||
+          $genresID.includes(35)
+        ? "All"
+        : "18+"
+      : $movieType === "tv"
+      ? $genresID.includes(80) || $data["genres"].includes(10768)
+        ? "18+"
+        : $genresID.includes(10762) ||
+          $genresID.includes(10751) ||
+          $genresID.includes(18) ||
+          $genresID.includes(35) ||
+          $genresID.includes(16)
+        ? "All"
+        : "18+"
+      : null;
 
   const btnClickHandler = (val) => {
     if (!val) {
@@ -267,7 +266,10 @@ const Episodes = ({ $data, $movieType, $id }) => {
   return (
     <>
       {
-        <div className="flex flex-col w-full gap-2 mt-4">
+        <motion.div
+          variants={variants}
+          className="flex flex-col w-full gap-2 mt-4"
+        >
           <div className="flex justify-between items-center w-full">
             <p className="text-xl font-bold">Episodes</p>
             <EpisodeButton
@@ -292,7 +294,7 @@ const Episodes = ({ $data, $movieType, $id }) => {
             btnClickHandler={btnClickHandler}
             ref={listRef}
           />
-        </div>
+        </motion.div>
       }
     </>
   );
