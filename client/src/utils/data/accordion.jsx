@@ -34,13 +34,13 @@ export const accordion = [
         includes: <br />
         <br />
         - User signup and signin with validator, user logout. <br />
-        - Add up to 5 accounts, manage account, change profile icon and name,
-        kid account.
+        - Add up to 5 accounts, manage account, change profile icon and name.<br/>
+        - Kid account is added by default.
         <br />
         - Movie categories with infinite scroll implementation.
         <br />
         - Watch movie trailers. <br />
-        - Search for movies by title,actor or movie director.
+        - Search for movies by title,actor or genre.
         <br />
         - Add/remove from watchList.
         <br />
