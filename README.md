@@ -37,13 +37,16 @@ https://github.com/user-attachments/assets/eec79bb7-aff0-46d3-9349-9d03d06a3d39
 
 ## 📜✍ About The Project
 
-Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices. This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
+Conflix is an extremely responsive Netflix clone built using MERN. I created this project to learn more about the MERN stack technology and to solidify my knowledge of best design and development practices.<br/>
+I'm a professional designer/animator who has found his way into web development and this creative side of me tends to ensure that every design detail in development is represented accurately and properly.
 <br/><br/>
+This project is completely built from scratch without following any tutorial or copying any code abstraction from a similar base. It is 100% original, with the exception of the Conflix intro animation which is a modification of a Codepen by <a href="https://codepen.io/claudio_bonfati/pen/mdryxPv" target="_blank">Claudio Bonfati</a>.
+<br/>
 I added the ability to play some trailers at least, to give it the feel of a proper streaming service. I've also made improvements by adding micro-interactions and minimal page route transitions.
 Most of the animations in this project were created using pure CSS, with a few exceptions that were made using Framer-motion.
 <br/><br/>
-I've put a great deal of work into this project, over the course of 3 months and 2 weeks and I hope you'll like it as much as I do.<br/>
-You can give this project a star, as a sign of encouragement. It will mean everything to know someone out there finds this project useful 😇.
+I've put a great deal of work into this project, over 3 months and 2 weeks and I hope you'll like it as much as I do.<br/>
+I would appreciate it if you could give this project a star, as a sign of encouragement. It will mean everything to know someone finds this project useful 😇.
 
 <br/>
 
@@ -51,7 +54,7 @@ You can give this project a star, as a sign of encouragement. It will mean every
 
 Here you can find the demo link:
 
-- [Demo](https://conflixtv.vercel.app/)
+- [Conflix demo](https://conflixtv.vercel.app/)
 
 ### Guest Account
 
@@ -95,9 +98,6 @@ There are a few restrictions attached to the guest account.
 <br/>
 
 ## :hammer_and_wrench: :jigsaw: Challenges
-
-I'm a professional Designer/Animator who found his way into web development. This creative side of me tends to ensure that every design detail in development is represented accurately and properly.
-<br/>
 
 My biggest challenge was the task I initially thought would be the easiest: the infinite scroll with the movie detail modal.<br/>
 When I was mapping out tasks for the project, I brushed off the scroll task as something that would take a few minutes, but I was so wrong. This scroll feature isn't just any regular scroll implementation, it had to have some specialized features.
