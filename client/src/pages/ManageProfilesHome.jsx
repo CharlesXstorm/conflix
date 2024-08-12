@@ -29,7 +29,7 @@ const ManageProfilesHome = ({ setEditClick, setAccountClick }) => {
   return (
     <div
       
-      className="absolute z-[60] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] font-[roboto] text-white overflow-hidden"
+      className="absolute z-[60] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] text-white overflow-hidden"
     >
       <motion.div 
       variants={pageVariants}
