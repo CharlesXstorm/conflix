@@ -35,7 +35,7 @@ const Home = () => {
       style={{
         height:`${isTablet || isMobile ? 'fit-content' : '90vh'}`
       }}
-      className="font-[roboto] bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] margin-auto pb-[2em] ">
+      className="bg-[url('/images/bkimgMB.jpg')] relative border-[rgb(25,25,25)] border-x-0 border-t-0 border-b-[0.5em] lg:bg-[url('/images/bkimgPC.jpg')] bg-cover w-[100%] margin-auto pb-[2em] ">
         <div className="w-full h-full absolute bg-[rgb(0,0,0,0.4)] top-0 left-0"></div>
         <HomeNav
           button="link"

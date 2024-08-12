@@ -19,7 +19,7 @@ const BrowseShared = ({
   }, [overflowValue]);
 
   return (
-    <div className="bg-[rgb(10,10,10)] font-[roboto] text-white w-[100%]">
+    <div className="bg-[rgb(10,10,10)] text-white w-[100%]">
       {navView && (
         <MovieNav
           setAccountLoader={setAccountLoader}

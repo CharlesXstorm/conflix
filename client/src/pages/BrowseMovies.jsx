@@ -144,7 +144,7 @@ const BrowseMovies = ({
         </div>
       }
       {hero && browseMovies && (
-        <div className="relative font-[roboto] pb-[1em]">
+        <div className="relative pb-[1em]">
           {isPC ? (
             <PCHero
               hover={hover}

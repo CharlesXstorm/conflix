@@ -219,7 +219,7 @@ const MovieNav = ({ setAccountLoader, setAccountClick, setNavView }) => {
           backgroundColor: bgColor,
           transition: "all 0.4s linear"
         }}
-        className="text-white font-[roboto] fixed z-[70] top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
+        className="text-white fixed z-[70] top-0 right-0 left-0 flex flex-row justify-between py-2 md:py-4 px-5 md:px-10 xl:px-[4em] bg-[linear-gradient(rgb(0,0,0,0.8),rgb(0,0,0,0.4),rgb(0,0,0,0))] "
       >
         <div className="px-[1em] flex flex-row justify-between items-center gap-10 w-[auto] py-2 ">
           <Link to="/browse">

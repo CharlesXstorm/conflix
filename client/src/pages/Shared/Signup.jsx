@@ -17,7 +17,7 @@ const Signup = () => {
   },[])
 
   return (
-    <div className="bg-white font-[roboto]">
+    <div className="bg-white">
       <HomeNav
         button="link"
         to="/login"
