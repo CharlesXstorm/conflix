@@ -44,14 +44,14 @@ const Home = () => {
           buttonText="text-white"
           size="text-md xl:text-xl"
         />
-        <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] font-[roboto] w-[80%] m-[auto] z-1 relative">
+        <div className="mt-[2.5em] md:mt-[6em] xl:mt-[10em] w-[80%] m-[auto] z-1 relative">
           <p className="text-white font-bold text-[1.8em] xl:text-[3em] text-center tracking-normal">
             Unlimited movies, TV shows, and more{" "}
           </p>
-          <p className="text-white xl:text-[1.5em] text-center  tracking-normal p-[1em]">
+          <p className="text-white xl:text-[1.5em] text-center tracking-normal p-[1em]">
             Watch anywhere. Cancel anytime{" "}
           </p>
-          <p className="text-white xl:text-[1.5em] text-center  tracking-normal p-[1em]">
+          <p className="text-white xl:text-[1.5em] text-center tracking-normal p-[1em]">
             Ready to watch? Enter your email to create or restart your
             membership{" "}
           </p>
