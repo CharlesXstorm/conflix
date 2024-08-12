@@ -202,14 +202,14 @@ const ItemModal = ({
   const removeWatchList = () => {
     let watchListData = [...profile.watchList];
 
-    for(var item of watchListData){
+    watchListData.forEach((item, index) => {
       if (item.name) {
-        item.name === $data.name ? watchListData.splice(watchListData.indexOf(item), 1) : null;
+        item.name === $data.name ? watchListData.splice(index, 1) : null;
       }
       if (item.title) {
-        item.title === $data.title ? watchListData.splice(watchListData.indexOf(item), 1) : null;
+        item.title === $data.title ? watchListData.splice(index, 1) : null;
       }
-    }
+    })
     dataTitle != "My List" ? setWatchIcon("add-icon") : null;
     dispatch(setWatchList([...watchListData]));
     localStorage.setItem('Profile', JSON.stringify({...profile,watchList:[...watchListData]}));
