@@ -47,14 +47,34 @@ const removeWatchListDB = async (watchData, userID, subID) => {
 };
 
 //add watchList client/server side
-export const addWatchList = (movieType,dispatch,setWatchIcon,profile,$data,dataID) => {
+export const addWatchList = (
+  movieType,
+  dispatch,
+  setWatchIcon,
+  profile,
+  $data,
+  dataID
+) => {
   let watchListData = { ...$data, type: movieType };
-  dispatch(setWatchList([watchListData, ...profile.watchList]));
   setWatchIcon("remove-icon");
+  dispatch(setWatchList([watchListData, ...profile.watchList]));
+  localStorage.setItem(
+    "Profile",
+    JSON.stringify({
+      ...profile,
+      watchList: [watchListData, ...profile.watchList]
+    })
+  );
   addWatchListDB(watchListData, dataID, profile.id);
 };
 //remove watchList client/server side
-export const removeWatchList = (dispatch,setWatchIcon,profile,$data,dataID) => {
+export const removeWatchList = (
+  dispatch,
+  setWatchIcon,
+  profile,
+  $data,
+  dataID
+) => {
   let watchListData = [...profile.watchList];
 
   watchListData.forEach((item, index) => {
@@ -65,7 +85,12 @@ export const removeWatchList = (dispatch,setWatchIcon,profile,$data,dataID) => {
       item.title === $data.title ? watchListData.splice(index, 1) : null;
     }
   });
-  dispatch(setWatchList(watchListData));
+
   setWatchIcon("add-icon");
+  dispatch(setWatchList(watchListData));
+  localStorage.setItem(
+    "Profile",
+    JSON.stringify({ ...profile, watchList: [...watchListData] })
+  );
   removeWatchListDB(watchListData, dataID, profile.id);
 };

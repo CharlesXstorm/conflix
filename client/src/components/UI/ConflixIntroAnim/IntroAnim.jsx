@@ -32,7 +32,7 @@ const IntroAnim = ({ timeOutID, setTimeoutID }) => {
     }
   }, []);
   return (
-    <div className="absolute bg-black z-[95] top-0 left-0 h-[100vh] w-full">
+    <div className="absolute bg-black z-[99] top-0 left-0 h-[100vh] w-full">
       <audio autoPlay src="/audio/introAudio.mp3"></audio>
       {readyIntro && (
         <>

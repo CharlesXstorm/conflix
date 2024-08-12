@@ -40,6 +40,7 @@ const IconButton = ({
   };
 
   const clickHandler = () => {
+    checkStorage()
     if (!profile.isProfile) {
       if (data["email"] === "guest@conflix.com") {
         setGuest({ state: true, message: "Guest account cannot add profile." });
@@ -51,7 +52,6 @@ const IconButton = ({
       }
     }
     if (profile.isProfile || edit) {
-      checkStorage()
        if(edit) {
         setEditClick((prev) => !prev);
         setAccountClick(false);

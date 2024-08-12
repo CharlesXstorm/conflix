@@ -69,6 +69,7 @@ const Prev = ({ count, setCount, scrollRef, isPC, dvWidth }) => {
 //scroll items component ///////////////////////////////////////////////////////////////////
 const ScrollItem = ({ src, setProfileIcons }) => {
   const { profile } = useSelector((state) => state.account);
+  // console.log('profile in profileIcon', profile)
   const dispatch = useDispatch();
 
   const updateIcon = () => {
