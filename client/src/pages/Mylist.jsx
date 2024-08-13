@@ -63,7 +63,7 @@ const Mylist = ({ setNavView, setAccountClick }) => {
                     setHover={setHover}
                     hover={hover}
                     groupType={null}
-                    movieType={item["type"]}
+                    movieType={item["media_type"] || item["type"]}
                   />
                 )
               )}
