@@ -3,6 +3,11 @@ from = "/*"
 to = "index.html"
 status = 200
 
+[[redirects]]
+from = "/api/*"
+to = "https://following-claude-charlesxstorm-c20ba5bb.koyeb.app/:splat"
+status = 200
+
 [build]
   command = "CI= npm run build"
   publish = "/dist"
