@@ -54,7 +54,6 @@ const ProfileModal = ({
   setModal,
   setStyle,
   setAccountClick,
-  setGuest
 }) => {
   const { data } = useSelector((state) => state.account);
   const navigate = useNavigate();
@@ -119,18 +118,7 @@ const ProfileModal = ({
                 )
             )}
             <button
-              onClick={() => {
-                if (data["email"] === "guest@conflix.com") {
-                  setGuest({
-                    state: true,
-                    message: "Guest account cannot manage profiles."
-                  });
-                  return;
-                } else {
-                  navigate("/ManageProfiles");
-                  return;
-                }
-              }}
+              onClick={() => navigate("/ManageProfiles")}
               className="flex hover:underline py-1 flex-row gap-3 items-center"
             >
               <span className="w-[1.2em]">

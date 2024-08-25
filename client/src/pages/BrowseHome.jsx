@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-// import { useState } from "react";
 import { useSelector } from "react-redux";
 import IconButton from "../components/UI/IconButton";
-import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { Link} from "react-router-dom";
+import {motion } from "framer-motion";
 
 //motion variant
 const pageVariants = {
@@ -28,56 +26,12 @@ const BrowseHome = ({
   setAddProfile,
   setAccountLoader
 }) => {
-  const [guest, setGuest] = useState(false);
   const { data } = useSelector((state) => state.account);
-  const navigate = useNavigate();
 
   let count = data.subProfile.length;
 
   return (
     <>
-      <AnimatePresence>
-        {guest.state && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2, type: "linear" }}
-            onClick={() => setGuest(false)}
-            className="absolute text-white flex justify-center items-center z-[95] left-0 top-0 w-full h-[100vh] bg-[rgb(0,0,0,0.8)] "
-          >
-            <motion.div
-              initial={{ scale: 0.2 }}
-              exit={{ scale: 0.2 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.2, type: "spring" }}
-              className="flex flex-col gap-2 rounded-[6px] p-6 w-[fit-content] bg-yellow-600 "
-            >
-              <h1 className="font-bold text-lg lg:text-2xl">
-                You&apos;re signed in as a guest
-              </h1>
-              <p className=" lg:text-lg ">{guest.message}</p>
-              <p className=" lg:text-lg text-black mt-2 mb-1 font-[500] ">
-                Do you want to signup?
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => navigate("/")}
-                  className="bg-white text-black font-bold px-4 py-1 rounded"
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={() => setGuest(false)}
-                  className="bg-white text-black font-bold px-4 py-1 rounded"
-                >
-                  Cancel
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div className="absolute z-[90] flex justify-center item-center w-[100%] h-[100vh] bg-[rgb(10,10,10)] text-white overflow-hidden">
         <motion.div
@@ -110,26 +64,16 @@ const BrowseHome = ({
                     setEditClick={setEditClick}
                     setAddProfile={setAddProfile}
                     setAccountLoader={setAccountLoader}
-                    setGuest={setGuest}
                   />
                 );
               })}
             </div>
           }
-          <button
-            onClick={() => {
-              if (data["email"] === "guest@conflix.com") {
-                setGuest({state:true,message:"Guest account cannot manage profiles."});
-                return;
-              } else {
-                navigate("/ManageProfiles");
-                return;
-              }
-            }}
+          <Link to="/ManageProfiles"
             className="border border-[rgb(120,120,120)] p-2 w-fit align-center m-[auto] px-6 mt-6 text-sm text-[rgb(120,120,120)]"
           >
             Manage Profiles
-          </button>
+          </Link>
         </motion.div>
       </div>
     </>
