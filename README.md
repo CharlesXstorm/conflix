@@ -64,8 +64,8 @@ Here you can find the demo link:
 I've added a "signin as a guest" button for lazy users like me 😊. You don't need to signup to test the features of Conflix.
 <br/>
 There are a few restrictions attached to the guest account.
-- Guest account cannot add a new profile.
-- Guest account cannot manage profile.
+- It cannot delete the guest & kids sub-profile.
+- It can add and edit other sub-profiles but cannot edit the guest & kids sub-profile.
 
 <br/>
 
