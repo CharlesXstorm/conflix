@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { setProfile } from "../../utils/profileSlice";
 import { useState } from "react";
 
@@ -12,11 +12,9 @@ const IconButton = ({
   setAccountClick,
   setEditClick,
   setAddProfile,
-  setAccountLoader,
-  setGuest
+  setAccountLoader
 }) => {
   const [iconLoaded, setIconLoaded] = useState(false);
-  const { data } = useSelector((state) => state.account);
   const dispatch = useDispatch();
 
   let currentProfile = JSON.parse(localStorage.getItem("Profile"));
@@ -40,28 +38,22 @@ const IconButton = ({
   };
 
   const clickHandler = () => {
-    checkStorage()
+    checkStorage();
     if (!profile.isProfile) {
-      if (data["email"] === "guest@conflix.com") {
-        setGuest({ state: true, message: "Guest account cannot add profile." });
-        return;
-      } else {
-        setAccountClick(false);
-        setAddProfile(true);
-        return;
-      }
+      setAccountClick(false);
+      setAddProfile(true);
+      return;
     }
     if (profile.isProfile || edit) {
-       if(edit) {
+      if (edit) {
         setEditClick((prev) => !prev);
         setAccountClick(false);
-        return
-      }
-        setAccountLoader(true);
-        setAccountClick(true);
-        setAddProfile(false);
         return;
-      
+      }
+      setAccountLoader(true);
+      setAccountClick(true);
+      setAddProfile(false);
+      return;
     }
   };
 
